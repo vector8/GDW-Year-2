@@ -1,19 +1,8 @@
 syntax: glob
-GDW2/GDW2/Debug/GDW2.tlog/CL.read.1.tlog
-GDW2/GDW2/Debug/GDW2.tlog/CL.write.1.tlog
-GDW2/GDW2/Debug/GDW2.tlog/GDW2.lastbuildstate
 GDW2/Debug/GDW2.exe
 GDW2/Debug/GDW2.ilk
 GDW2/Debug/GDW2.pdb
 GDW2/GDW2.opensdf
 GDW2/GDW2.sdf
 GDW2/GDW2.v12.suo
-GDW2/GDW2/Debug/GDW2.log
-GDW2/GDW2/Debug/GDW2.tlog/cl.command.1.tlog
-GDW2/GDW2/Debug/GDW2.tlog/link.command.1.tlog
-GDW2/GDW2/Debug/GDW2.tlog/link.read.1.tlog
-GDW2/GDW2/Debug/GDW2.tlog/link.write.1.tlog
-GDW2/GDW2/Debug/Main.obj
-GDW2/GDW2/Debug/vc120.idb
-GDW2/GDW2/Debug/vc120.pdb
-GDW2/GDW2/GDW2.vcxproj.filters
+GDW2/GDW2/Debug/*
