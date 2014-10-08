@@ -9,7 +9,7 @@
 class Model
 {
 private:
-	GLuint VBO, EBO;
+	GLuint VBO;
 
 	//glm::vec3 position, direction, scale, defaultDirection;
 
@@ -18,18 +18,15 @@ private:
 	GLfloat *vertexData;
 	int numVertices;
 
-	bool useEBO;
-
-	std::vector<GLfloat> vertices;
-	std::vector<GLfloat> uvs;
-	std::vector<GLfloat> normals;
-	std::vector<GLuint> vertexIndices, uvIndices, normalIndices;
+	std::vector<GLfloat> objData;
 
 	void loadOBJ(std::string fileName);
 
 public:
 	Model(GLfloat *vertexData, int numVertices, Shader *s);
 	Model(std::string objFileName, Shader *s);
+
+	void initArrays(GLfloat *vertexData, int numVertices);
 
 	Shader *shader;
 	GLuint VAO;
@@ -41,7 +38,6 @@ public:
 	void setDefaultDirection(glm::vec3 axis);*/
 	void scale(glm::vec3 s);
 
-	bool usingEBO() const;
 	int getNumberOfVertices() const;
 
 	glm::mat4 getTransform() const;

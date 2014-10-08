@@ -64,7 +64,7 @@ int main()
 		0.5f, 0.5f, -0.5f, 0.0f, 0.0f, 1.0f,	// 7
 	};*/
 
-	GLfloat vertices[] =
+	GLfloat rubiksCube[] =
 	{
 		-0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 1.0f,	// 0
 		-0.5f, -0.5f, 0.5f, 1.0f, 1.0f, 1.0f,	// 1
@@ -104,6 +104,51 @@ int main()
 		0.5f, 0.5f, -0.5f, 1.0f, 1.0f, 0.0f		// 7
 	};
 
+	GLfloat vertices3[] = {
+		// vertex					uv			normal
+		-0.5f, -0.5f, -0.5f,	0.0f, 0.0f,		0.0f, 0.0f, -1.0f,
+		0.5f, -0.5f, -0.5f,		0.0f, 0.0f,		0.0f, 0.0f, -1.0f,
+		0.5f, 0.5f, -0.5f,		0.0f, 0.0f,		0.0f, 0.0f, -1.0f,
+		0.5f, 0.5f, -0.5f,		0.0f, 0.0f,		0.0f, 0.0f, -1.0f,
+		-0.5f, 0.5f, -0.5f,		0.0f, 0.0f,		0.0f, 0.0f, -1.0f,
+		-0.5f, -0.5f, -0.5f,	0.0f, 0.0f,		0.0f, 0.0f, -1.0f,
+
+		-0.5f, -0.5f, 0.5f,		0.0f, 0.0f,		0.0f, 0.0f, 1.0f,
+		0.5f, -0.5f, 0.5f,		0.0f, 0.0f,		0.0f, 0.0f, 1.0f,
+		0.5f, 0.5f, 0.5f,		0.0f, 0.0f,		0.0f, 0.0f, 1.0f,
+		0.5f, 0.5f, 0.5f,		0.0f, 0.0f,		0.0f, 0.0f, 1.0f,
+		-0.5f, 0.5f, 0.5f,		0.0f, 0.0f,		0.0f, 0.0f, 1.0f,
+		-0.5f, -0.5f, 0.5f,		0.0f, 0.0f,		0.0f, 0.0f, 1.0f,
+										
+		-0.5f, 0.5f, 0.5f,		0.0f, 0.0f,		-1.0f, 0.0f, 0.0f,
+		-0.5f, 0.5f, -0.5f,		0.0f, 0.0f,		-1.0f, 0.0f, 0.0f,
+		-0.5f, -0.5f, -0.5f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f,
+		-0.5f, -0.5f, -0.5f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f,
+		-0.5f, -0.5f, 0.5f,		0.0f, 0.0f,		-1.0f, 0.0f, 0.0f,
+		-0.5f, 0.5f, 0.5f,		0.0f, 0.0f,		-1.0f, 0.0f, 0.0f,
+										
+		0.5f, 0.5f, 0.5f,		0.0f, 0.0f,		1.0f, 0.0f, 0.0f,
+		0.5f, 0.5f, -0.5f,		0.0f, 0.0f,		1.0f, 0.0f, 0.0f,
+		0.5f, -0.5f, -0.5f,		0.0f, 0.0f,		1.0f, 0.0f, 0.0f,
+		0.5f, -0.5f, -0.5f,		0.0f, 0.0f,		1.0f, 0.0f, 0.0f,
+		0.5f, -0.5f, 0.5f,		0.0f, 0.0f,		1.0f, 0.0f, 0.0f,
+		0.5f, 0.5f, 0.5f,		0.0f, 0.0f,		1.0f, 0.0f, 0.0f,
+										
+		-0.5f, -0.5f, -0.5f,	0.0f, 0.0f,		0.0f, -1.0f, 0.0f,
+		0.5f, -0.5f, -0.5f,		0.0f, 0.0f,		0.0f, -1.0f, 0.0f,
+		0.5f, -0.5f, 0.5f,		0.0f, 0.0f,		0.0f, -1.0f, 0.0f,
+		0.5f, -0.5f, 0.5f,		0.0f, 0.0f,		0.0f, -1.0f, 0.0f,
+		-0.5f, -0.5f, 0.5f,		0.0f, 0.0f,		0.0f, -1.0f, 0.0f,
+		-0.5f, -0.5f, -0.5f,	0.0f, 0.0f,		0.0f, -1.0f, 0.0f,
+										
+		-0.5f, 0.5f, -0.5f,		0.0f, 0.0f,		0.0f, 1.0f, 0.0f,
+		0.5f, 0.5f, -0.5f,		0.0f, 0.0f,		0.0f, 1.0f, 0.0f,
+		0.5f, 0.5f, 0.5f,		0.0f, 0.0f,		0.0f, 1.0f, 0.0f,
+		0.5f, 0.5f, 0.5f,		0.0f, 0.0f,		0.0f, 1.0f, 0.0f,
+		-0.5f, 0.5f, 0.5f,		0.0f, 0.0f,		0.0f, 1.0f, 0.0f,
+		-0.5f, 0.5f, -0.5f,		0.0f, 0.0f,		0.0f, 1.0f, 0.0f
+	};
+
 	GLfloat vertices2[] = 
 	{
 		-0.5f, -0.5f, 0.0f,		1.0f, 0.73f, 0.0f,
@@ -137,9 +182,11 @@ int main()
 	Shader *grayShader = new Shader("shaders/posvshader.vs", "shaders/grayshader.frag");
 
 	std::vector<Model*> models;
-	Model *o = new Model(vertices, 36, shader);
+	Model *o = new Model(vertices3, 36, grayShader);
+	o->scale(glm::vec3(3.f, 3.f, 3.f));
 	//Model *o1 = new Model(vertices2, 9, shader);
 	Model *tieFighter = new Model("obj/tiefighter_merged.obj", grayShader);
+	tieFighter->setPosition(glm::vec3(0.f, 0.f, 5.f));
 
 	//tieFighter->rotate(90, glm::vec3(0.f, 1.f, 0.f));
 	//tieFighter->setDefaultDirection(glm::vec3(1.f, 0.f, 0.f));
@@ -153,9 +200,6 @@ int main()
 
 	//o1->translateLocal(glm::vec3(-0.75f, 0.75f, 0.0f));
 	//o1->scaleLocal(glm::vec3(0.2, 0.2, 0.2));
-
-	o->scale(glm::vec3(0.5f, 0.5f, 0.5f));
-	o->setPosition(glm::vec3(-5.f, 0.0f, -5.0f));
 
 	ThirdPersonCamera tpcam(tieFighter, 10.f);
 
@@ -258,17 +302,27 @@ int main()
 				GLint modelLoc = glGetUniformLocation((*it)->shader->program, "model");
 				glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr((*it)->getTransform()));
 
+				GLint normalMatrixLoc = glGetUniformLocation((*it)->shader->program, "normalMatrix");
+				glUniformMatrix4fv(normalMatrixLoc, 1, GL_FALSE, glm::value_ptr(glm::transpose(glm::inverse((*it)->getTransform()))));
+
 				GLint viewLoc = glGetUniformLocation((*it)->shader->program, "view");
 				glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(currentCam->view));
 
 				GLint projectionLoc = glGetUniformLocation((*it)->shader->program, "projection");
 				glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
 
+				GLint objectColorLoc = glGetUniformLocation((*it)->shader->program, "objectColor");
+				glUniform3f(objectColorLoc, 1.f, 1.f, 1.f);
+
+				GLint lightPosLoc = glGetUniformLocation((*it)->shader->program, "lightPos");
+				glUniform3f(lightPosLoc, 110.f, 90.f, 100.f);
+
+				GLint viewPosLoc = glGetUniformLocation((*it)->shader->program, "viewPos");
+				glm::vec3 camPos = currentCam->getPosition();
+				glUniform3f(viewPosLoc, camPos.x, camPos.y, camPos.z);
+
 				glBindVertexArray((*it)->VAO);
-				if ((*it)->usingEBO())
-					glDrawElements(GL_TRIANGLES, (*it)->getNumberOfVertices(), GL_UNSIGNED_INT, 0);
-				else
-					glDrawArrays(GL_TRIANGLES, 0, (*it)->getNumberOfVertices());
+				glDrawArrays(GL_TRIANGLES, 0, (*it)->getNumberOfVertices());
 				glBindVertexArray(0);
 			}
 

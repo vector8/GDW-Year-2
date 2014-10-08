@@ -11,53 +11,40 @@
 #include <math.h>
 #include "Utilities.h"
 
-#ifndef M_PI
-#define M_PI 3.14159265359
-#endif
-
-Model::Model(GLfloat *vertexData, int numVertices, Shader *s) : vertexData(vertexData), numVertices(numVertices), shader(s), useEBO(false), translationMatrix(), rotationMatrix(), scaleMatrix()
+Model::Model(GLfloat *vertexData, int numVertices, Shader *s) : vertexData(vertexData), numVertices(numVertices), shader(s), translationMatrix(), rotationMatrix(), scaleMatrix()
 {
-	glGenVertexArrays(1, &VAO);
-	glBindVertexArray(VAO);
-
-	glGenBuffers(1, &VBO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, 6 * numVertices * sizeof(GLfloat), NULL, GL_STATIC_DRAW);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, 6 * numVertices * sizeof(GLfloat), vertexData);
-
-	// position
-	GLuint loc = glGetAttribLocation(shader->program, "position");
-	glVertexAttribPointer(loc, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)0);
-	glEnableVertexAttribArray(loc);
-
-	// colour
-	loc = glGetAttribLocation(shader->program, "color");
-	glVertexAttribPointer(loc, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
-	glEnableVertexAttribArray(loc);
-
-	glBindVertexArray(0);
+	this->initArrays(vertexData, numVertices);
 }
 
-Model::Model(std::string objFileName, Shader *s) : shader(s), useEBO(true), translationMatrix(), rotationMatrix(), scaleMatrix()
+Model::Model(std::string objFileName, Shader *s) : shader(s), translationMatrix(), rotationMatrix(), scaleMatrix()
 {
 	this->loadOBJ(objFileName);
 
+	this->initArrays(&objData[0], objData.size() / 8);
+}
+
+void Model::initArrays(GLfloat *vertexData, int numVertices)
+{
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
 
 	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(GLfloat), &vertices[0], GL_STATIC_DRAW);
-	//glBufferSubData(GL_ARRAY_BUFFER, 0, 3 * vertices.size() * sizeof(GLfloat), &vertices[0]);
-
-	glGenBuffers(1, &EBO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, vertexIndices.size() * sizeof(GLuint), &vertexIndices[0], GL_STATIC_DRAW);
-	//glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, vertexIndices.size() * sizeof(GLuint), &vertexIndices[0]);
+	glBufferData(GL_ARRAY_BUFFER, 8 * numVertices * sizeof(GLfloat), vertexData, GL_STATIC_DRAW);
 
 	// position
 	GLuint loc = glGetAttribLocation(shader->program, "position");
-	glVertexAttribPointer(loc, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
+	glVertexAttribPointer(loc, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
+	glEnableVertexAttribArray(loc);
+
+	// uv
+	/*loc = glGetAttribLocation(shader->program, "uv");
+	glVertexAttribPointer(loc, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+	glEnableVertexAttribArray(loc);*/
+
+	// normal
+	loc = glGetAttribLocation(shader->program, "normal");
+	glVertexAttribPointer(loc, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(5 * sizeof(GLfloat)));
 	glEnableVertexAttribArray(loc);
 
 	glBindVertexArray(0);
@@ -94,6 +81,9 @@ void Model::scale(glm::vec3 s)
 void Model::loadOBJ(std::string fileName)
 {
 	std::ifstream in(fileName, std::ios::in);
+	std::vector<GLfloat> vertices;
+	std::vector<GLfloat> uvs;
+	std::vector<GLfloat> normals;
 
 	if (!in)
 	{
@@ -141,10 +131,10 @@ void Model::loadOBJ(std::string fileName)
 					s.clear();
 					assert(s >> temp);
 					temp--;
-					vertexIndices.push_back(temp);
+					objData.push_back(vertices[temp * 3]);
+					objData.push_back(vertices[(temp * 3) + 1]);
+					objData.push_back(vertices[(temp * 3) + 2]);
 				}
-				//else
-					//vertexIndices.push_back(-1);
 
 				if (tokens[i + 1].length() > 0)
 				{
@@ -152,10 +142,9 @@ void Model::loadOBJ(std::string fileName)
 					s.clear();
 					assert(s >> temp);
 					temp--;
-					uvIndices.push_back(temp);
+					objData.push_back(uvs[temp * 2]);
+					objData.push_back(uvs[(temp * 2) + 1]);
 				}
-				//else
-					//uvIndices.push_back(-1);
 
 				if (tokens[i + 2].length() > 0)
 				{
@@ -163,10 +152,10 @@ void Model::loadOBJ(std::string fileName)
 					s.clear();
 					assert(s >> temp);
 					temp--;
-					normalIndices.push_back(temp);
+					objData.push_back(normals[temp * 3]);
+					objData.push_back(normals[(temp * 3) + 1]);
+					objData.push_back(normals[(temp * 3) + 2]);
 				}
-				//else
-					//normalIndices.push_back(-1);
 			}
 		}
 		else
@@ -176,15 +165,10 @@ void Model::loadOBJ(std::string fileName)
 	}
 }
 
-bool Model::usingEBO() const
-{
-	return useEBO;
-}
-
 int Model::getNumberOfVertices() const
 {
-	if (useEBO)
-		return vertexIndices.size();
+	if (objData.size() > 0)
+		return objData.size() / 8;
 	else
 		return numVertices;
 }

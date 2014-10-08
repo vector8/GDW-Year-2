@@ -2,6 +2,10 @@
 #include <string>
 #include <vector>
 
+#ifndef M_PI
+#define M_PI 3.14159265359
+#endif
+
 template <class T>
 T lerp(float u, const T &p0, const T &p1)
 {
