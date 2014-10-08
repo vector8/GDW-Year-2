@@ -18,6 +18,11 @@ Camera::Camera(glm::vec3 pos, glm::vec3 target)
 	view = glm::lookAt(cameraPos, cameraPos + cameraFront, glm::vec3(0.f, 1.f, 0.f));
 }
 
+glm::vec3 Camera::getPosition() const
+{
+	return this->cameraPos;
+}
+
 void Camera::setPosition(glm::vec3 pos)
 {
 	cameraPos = pos;

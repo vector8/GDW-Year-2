@@ -16,6 +16,8 @@ public:
 
 	glm::mat4 view;
 
+	glm::vec3 getPosition() const;
+
 	void setPosition(glm::vec3 pos);
 	void lookAt(glm::vec3 target);
 
