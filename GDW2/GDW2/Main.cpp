@@ -106,47 +106,47 @@ int main()
 
 	GLfloat vertices3[] = {
 		// vertex					uv			normal
-		-0.5f, -0.5f, -0.5f,	0.0f, 0.0f,		0.0f, 0.0f, -1.0f,
+		-0.5f, -0.5f, -0.5f,	1.0f, 0.0f,		0.0f, 0.0f, -1.0f,
 		0.5f, -0.5f, -0.5f,		0.0f, 0.0f,		0.0f, 0.0f, -1.0f,
-		0.5f, 0.5f, -0.5f,		0.0f, 0.0f,		0.0f, 0.0f, -1.0f,
-		0.5f, 0.5f, -0.5f,		0.0f, 0.0f,		0.0f, 0.0f, -1.0f,
-		-0.5f, 0.5f, -0.5f,		0.0f, 0.0f,		0.0f, 0.0f, -1.0f,
-		-0.5f, -0.5f, -0.5f,	0.0f, 0.0f,		0.0f, 0.0f, -1.0f,
+		0.5f, 0.5f, -0.5f,		0.0f, 1.0f,		0.0f, 0.0f, -1.0f,
+		0.5f, 0.5f, -0.5f,		0.0f, 1.0f,		0.0f, 0.0f, -1.0f,
+		-0.5f, 0.5f, -0.5f,		1.0f, 1.0f,		0.0f, 0.0f, -1.0f,
+		-0.5f, -0.5f, -0.5f,	1.0f, 0.0f,		0.0f, 0.0f, -1.0f,
 
 		-0.5f, -0.5f, 0.5f,		0.0f, 0.0f,		0.0f, 0.0f, 1.0f,
-		0.5f, -0.5f, 0.5f,		0.0f, 0.0f,		0.0f, 0.0f, 1.0f,
-		0.5f, 0.5f, 0.5f,		0.0f, 0.0f,		0.0f, 0.0f, 1.0f,
-		0.5f, 0.5f, 0.5f,		0.0f, 0.0f,		0.0f, 0.0f, 1.0f,
-		-0.5f, 0.5f, 0.5f,		0.0f, 0.0f,		0.0f, 0.0f, 1.0f,
+		0.5f, -0.5f, 0.5f,		1.0f, 0.0f,		0.0f, 0.0f, 1.0f,
+		0.5f, 0.5f, 0.5f,		1.0f, 1.0f,		0.0f, 0.0f, 1.0f,
+		0.5f, 0.5f, 0.5f,		1.0f, 1.0f,		0.0f, 0.0f, 1.0f,
+		-0.5f, 0.5f, 0.5f,		0.0f, 1.0f,		0.0f, 0.0f, 1.0f,
 		-0.5f, -0.5f, 0.5f,		0.0f, 0.0f,		0.0f, 0.0f, 1.0f,
 										
-		-0.5f, 0.5f, 0.5f,		0.0f, 0.0f,		-1.0f, 0.0f, 0.0f,
-		-0.5f, 0.5f, -0.5f,		0.0f, 0.0f,		-1.0f, 0.0f, 0.0f,
+		-0.5f, 0.5f, 0.5f,		1.0f, 1.0f,		-1.0f, 0.0f, 0.0f,
+		-0.5f, 0.5f, -0.5f,		0.0f, 1.0f,		-1.0f, 0.0f, 0.0f,
 		-0.5f, -0.5f, -0.5f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f,
 		-0.5f, -0.5f, -0.5f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f,
-		-0.5f, -0.5f, 0.5f,		0.0f, 0.0f,		-1.0f, 0.0f, 0.0f,
-		-0.5f, 0.5f, 0.5f,		0.0f, 0.0f,		-1.0f, 0.0f, 0.0f,
+		-0.5f, -0.5f, 0.5f,		1.0f, 0.0f,		-1.0f, 0.0f, 0.0f,
+		-0.5f, 0.5f, 0.5f,		1.0f, 1.0f,		-1.0f, 0.0f, 0.0f,
 										
-		0.5f, 0.5f, 0.5f,		0.0f, 0.0f,		1.0f, 0.0f, 0.0f,
-		0.5f, 0.5f, -0.5f,		0.0f, 0.0f,		1.0f, 0.0f, 0.0f,
-		0.5f, -0.5f, -0.5f,		0.0f, 0.0f,		1.0f, 0.0f, 0.0f,
-		0.5f, -0.5f, -0.5f,		0.0f, 0.0f,		1.0f, 0.0f, 0.0f,
+		0.5f, 0.5f, 0.5f,		0.0f, 1.0f,		1.0f, 0.0f, 0.0f,
+		0.5f, 0.5f, -0.5f,		1.0f, 1.0f,		1.0f, 0.0f, 0.0f,
+		0.5f, -0.5f, -0.5f,		1.0f, 0.0f,		1.0f, 0.0f, 0.0f,
+		0.5f, -0.5f, -0.5f,		1.0f, 0.0f,		1.0f, 0.0f, 0.0f,
 		0.5f, -0.5f, 0.5f,		0.0f, 0.0f,		1.0f, 0.0f, 0.0f,
-		0.5f, 0.5f, 0.5f,		0.0f, 0.0f,		1.0f, 0.0f, 0.0f,
+		0.5f, 0.5f, 0.5f,		0.0f, 1.0f,		1.0f, 0.0f, 0.0f,
 										
 		-0.5f, -0.5f, -0.5f,	0.0f, 0.0f,		0.0f, -1.0f, 0.0f,
-		0.5f, -0.5f, -0.5f,		0.0f, 0.0f,		0.0f, -1.0f, 0.0f,
-		0.5f, -0.5f, 0.5f,		0.0f, 0.0f,		0.0f, -1.0f, 0.0f,
-		0.5f, -0.5f, 0.5f,		0.0f, 0.0f,		0.0f, -1.0f, 0.0f,
-		-0.5f, -0.5f, 0.5f,		0.0f, 0.0f,		0.0f, -1.0f, 0.0f,
+		0.5f, -0.5f, -0.5f,		1.0f, 0.0f,		0.0f, -1.0f, 0.0f,
+		0.5f, -0.5f, 0.5f,		1.0f, 1.0f,		0.0f, -1.0f, 0.0f,
+		0.5f, -0.5f, 0.5f,		1.0f, 1.0f,		0.0f, -1.0f, 0.0f,
+		-0.5f, -0.5f, 0.5f,		0.0f, 1.0f,		0.0f, -1.0f, 0.0f,
 		-0.5f, -0.5f, -0.5f,	0.0f, 0.0f,		0.0f, -1.0f, 0.0f,
 										
-		-0.5f, 0.5f, -0.5f,		0.0f, 0.0f,		0.0f, 1.0f, 0.0f,
-		0.5f, 0.5f, -0.5f,		0.0f, 0.0f,		0.0f, 1.0f, 0.0f,
-		0.5f, 0.5f, 0.5f,		0.0f, 0.0f,		0.0f, 1.0f, 0.0f,
-		0.5f, 0.5f, 0.5f,		0.0f, 0.0f,		0.0f, 1.0f, 0.0f,
+		-0.5f, 0.5f, -0.5f,		0.0f, 1.0f,		0.0f, 1.0f, 0.0f,
+		0.5f, 0.5f, -0.5f,		1.0f, 1.0f,		0.0f, 1.0f, 0.0f,
+		0.5f, 0.5f, 0.5f,		1.0f, 0.0f,		0.0f, 1.0f, 0.0f,
+		0.5f, 0.5f, 0.5f,		1.0f, 0.0f,		0.0f, 1.0f, 0.0f,
 		-0.5f, 0.5f, 0.5f,		0.0f, 0.0f,		0.0f, 1.0f, 0.0f,
-		-0.5f, 0.5f, -0.5f,		0.0f, 0.0f,		0.0f, 1.0f, 0.0f
+		-0.5f, 0.5f, -0.5f,		0.0f, 1.0f,		0.0f, 1.0f, 0.0f
 	};
 
 	GLfloat vertices2[] = 
@@ -182,11 +182,16 @@ int main()
 	Shader *grayShader = new Shader("shaders/posvshader.vs", "shaders/grayshader.frag");
 
 	std::vector<Model*> models;
-	Model *o = new Model(vertices3, 36, grayShader);
+	Model *o = new Model(vertices3, 36, new Shader("shaders/texshader.vs", "shaders/texshader.frag"));
 	o->scale(glm::vec3(3.f, 3.f, 3.f));
 	//Model *o1 = new Model(vertices2, 9, shader);
+	o->setTexture("textures/container.jpg");
+	o->translate(glm::vec3(0.f, o->getHeight() / 2, 0.f));
 	Model *tieFighter = new Model("obj/tiefighter_merged.obj", grayShader);
 	tieFighter->setPosition(glm::vec3(0.f, 0.f, 5.f));
+	tieFighter->translate(glm::vec3(0.f, tieFighter->getHeight() / 2, 0.f));
+
+	Model *terrain = new Model("obj/terrain.obj", grayShader);
 
 	//tieFighter->rotate(90, glm::vec3(0.f, 1.f, 0.f));
 	//tieFighter->setDefaultDirection(glm::vec3(1.f, 0.f, 0.f));
@@ -197,6 +202,7 @@ int main()
 	//tieFighter->translateGlobal(glm::vec3(0.0f, 0.0f, -0.2f));
 	models.push_back(tieFighter);
 	models.push_back(o);
+	models.push_back(terrain);
 
 	//o1->translateLocal(glm::vec3(-0.75f, 0.75f, 0.0f));
 	//o1->scaleLocal(glm::vec3(0.2, 0.2, 0.2));
@@ -321,9 +327,14 @@ int main()
 				glm::vec3 camPos = currentCam->getPosition();
 				glUniform3f(viewPosLoc, camPos.x, camPos.y, camPos.z);
 
+				sf::Texture* t = (*it)->getTexture();
+				sf::Texture::bind(t);
+
 				glBindVertexArray((*it)->VAO);
 				glDrawArrays(GL_TRIANGLES, 0, (*it)->getNumberOfVertices());
 				glBindVertexArray(0);
+
+				sf::Texture::bind(NULL);
 			}
 
 			// calculate current fps

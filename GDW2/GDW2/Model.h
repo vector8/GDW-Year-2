@@ -5,6 +5,7 @@
 #include "Shader.h"
 #include <string>
 #include <vector>
+#include <SFML\Graphics.hpp>
 
 class Model
 {
@@ -18,15 +19,20 @@ private:
 	GLfloat *vertexData;
 	int numVertices;
 
+	float width, height, depth;
+
 	std::vector<GLfloat> objData;
 
 	void loadOBJ(std::string fileName);
+
+	sf::Texture* texture;
 
 public:
 	Model(GLfloat *vertexData, int numVertices, Shader *s);
 	Model(std::string objFileName, Shader *s);
 
 	void initArrays(GLfloat *vertexData, int numVertices);
+	void calculateDimensions(GLfloat *vertexData, int numVertices);
 
 	Shader *shader;
 	GLuint VAO;
@@ -37,6 +43,9 @@ public:
 	/*void setDirection(glm::vec3 axis);
 	void setDefaultDirection(glm::vec3 axis);*/
 	void scale(glm::vec3 s);
+
+	void setTexture(std::string filename);
+	void setTexture(sf::Texture *t);
 
 	int getNumberOfVertices() const;
 
@@ -49,6 +58,12 @@ public:
 	glm::vec3 getFront() const;
 	glm::vec3 getUp() const;
 	glm::vec3 getPosition() const;
+
+	sf::Texture* getTexture() const;
+
+	float getWidth() const;
+	float getHeight() const;
+	float getDepth() const;
 	
 	/*glm::vec3 getDirection() const;
 	glm::vec3 getScale() const;*/

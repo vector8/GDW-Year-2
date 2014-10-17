@@ -29,6 +29,6 @@ void main()
 	float specular = pow(max(dot(viewDir, reflectDir), 0.0), 32);
 	specularComponent = specular * specularComponent;
 
-	vec3 result = (ambientComponent + diffuseComponent + specularComponent) * objectColor;
+	vec3 result = (ambientComponent + diffuseComponent + specularComponent) * vec3(texture(tex, UV));
 	color = vec4(result, 1.0f);
 }

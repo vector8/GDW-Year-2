@@ -11,16 +11,22 @@
 #include <math.h>
 #include "Utilities.h"
 
-Model::Model(GLfloat *vertexData, int numVertices, Shader *s) : vertexData(vertexData), numVertices(numVertices), shader(s), translationMatrix(), rotationMatrix(), scaleMatrix()
+Model::Model(GLfloat *vertexData, int numVertices, Shader *s) : vertexData(vertexData), numVertices(numVertices), shader(s), 
+translationMatrix(), rotationMatrix(), scaleMatrix(), texture(NULL)
 {
 	this->initArrays(vertexData, numVertices);
+
+	calculateDimensions(vertexData, numVertices);
 }
 
-Model::Model(std::string objFileName, Shader *s) : shader(s), translationMatrix(), rotationMatrix(), scaleMatrix()
+Model::Model(std::string objFileName, Shader *s) : shader(s), translationMatrix(), rotationMatrix(), scaleMatrix(), texture(NULL), 
+width(0.f), height(0.f), depth(0.f)
 {
 	this->loadOBJ(objFileName);
 
 	this->initArrays(&objData[0], objData.size() / 8);
+
+	calculateDimensions(&objData[0], objData.size() / 8);
 }
 
 void Model::initArrays(GLfloat *vertexData, int numVertices)
@@ -38,9 +44,9 @@ void Model::initArrays(GLfloat *vertexData, int numVertices)
 	glEnableVertexAttribArray(loc);
 
 	// uv
-	/*loc = glGetAttribLocation(shader->program, "uv");
+	loc = glGetAttribLocation(shader->program, "uv");
 	glVertexAttribPointer(loc, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
-	glEnableVertexAttribArray(loc);*/
+	glEnableVertexAttribArray(loc);
 
 	// normal
 	loc = glGetAttribLocation(shader->program, "normal");
@@ -50,32 +56,33 @@ void Model::initArrays(GLfloat *vertexData, int numVertices)
 	glBindVertexArray(0);
 }
 
-void Model::setPosition(glm::vec3 pos)
+void Model::calculateDimensions(GLfloat *vertexData, int numVertices)
 {
-	glm::mat4 temp;
-	temp = glm::translate(temp, pos);
-	translationMatrix = temp;
-}
+	float maxY = 0.f, minY = 0.f, maxX = 0.f, minX = 0.f, maxZ = 0.f, minZ = 0.f;
 
-void Model::translate(glm::vec3 t)
-{
-	glm::mat4 temp;
-	temp = glm::translate(temp, t);
-	translationMatrix = temp * translationMatrix;
-}
+	for (int i = 0; i < numVertices; i++)
+	{
+		int index = i * 8;
 
-void Model::rotate(float degrees, glm::vec3 axis)
-{
-	glm::mat4 temp;
-	temp = glm::rotate(temp, degrees, axis);
-	rotationMatrix = temp * rotationMatrix;
-}
+		if (vertexData[index] > maxX)
+			maxX = vertexData[index];
+		else if (vertexData[index] < minX)
+			minX = vertexData[index];
 
-void Model::scale(glm::vec3 s)
-{
-	glm::mat4 temp;
-	temp = glm::scale(temp, s);
-	scaleMatrix = temp * scaleMatrix;
+		if (vertexData[index + 1] > maxY)
+			maxY = vertexData[index + 1];
+		else if (vertexData[index + 1] < minY)
+			minY = vertexData[index + 1];
+
+		if (vertexData[index + 2] > maxZ)
+			maxZ = vertexData[index + 2];
+		else if (vertexData[index + 2] < minZ)
+			minZ = vertexData[index + 2];
+	}
+
+	width = maxX - minX;
+	height = maxY - minY;
+	depth = maxZ - minZ;
 }
 
 void Model::loadOBJ(std::string fileName)
@@ -98,7 +105,7 @@ void Model::loadOBJ(std::string fileName)
 		{
 			std::istringstream s(line.substr(2));
 			GLfloat v;
-			while(s >> v)
+			while (s >> v)
 				vertices.push_back(v);
 		}
 		else if (line.substr(0, 3) == "vt ")
@@ -165,6 +172,48 @@ void Model::loadOBJ(std::string fileName)
 	}
 }
 
+void Model::setPosition(glm::vec3 pos)
+{
+	glm::mat4 temp;
+	temp = glm::translate(temp, pos);
+	translationMatrix = temp;
+}
+
+void Model::translate(glm::vec3 t)
+{
+	glm::mat4 temp;
+	temp = glm::translate(temp, t);
+	translationMatrix = temp * translationMatrix;
+}
+
+void Model::rotate(float degrees, glm::vec3 axis)
+{
+	glm::mat4 temp;
+	temp = glm::rotate(temp, degrees, axis);
+	rotationMatrix = temp * rotationMatrix;
+}
+
+void Model::scale(glm::vec3 s)
+{
+	glm::mat4 temp;
+	temp = glm::scale(temp, s);
+	scaleMatrix = temp * scaleMatrix;
+}
+
+void Model::setTexture(std::string filename)
+{
+	this->texture = new sf::Texture();
+	if (!this->texture->loadFromFile(filename))
+	{
+		std::cout << "!!!!ERROR LOADING TEXTURE!!!!" << std::endl;
+	}
+}
+
+void Model::setTexture(sf::Texture* t)
+{
+	this->texture = t;
+}
+
 int Model::getNumberOfVertices() const
 {
 	if (objData.size() > 0)
@@ -216,4 +265,24 @@ glm::vec3 Model::getUp() const
 glm::vec3 Model::getPosition() const
 {
 	return glm::vec3(translationMatrix[3][0], translationMatrix[3][1], translationMatrix[3][2]);
+}
+
+sf::Texture* Model::getTexture() const
+{
+	return this->texture;
+}
+
+float Model::getWidth() const
+{
+	return width * scaleMatrix[0][0];
+}
+
+float Model::getHeight() const
+{
+	return height * scaleMatrix[1][1];
+}
+
+float Model::getDepth() const
+{
+	return depth * scaleMatrix[2][2];
 }
