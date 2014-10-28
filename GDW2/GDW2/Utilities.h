@@ -21,6 +21,15 @@ T catmull(float u, const T &p0, const T &p1, const T &p2, const T &p3)
 		(2.f * p1));
 }
 
+template <class T>
+T bezier(float u, const T &p0, const T &c0, const T &c1, const T &p1)
+{
+	return (u * u * u) * (-p0 + 3.f * c0 - 3.f * c1 + p1) +
+		(u * u) * (3.f * p0 - 6.f * c0 + 3.f * c1) +
+		(u)* (-3.f * p0 + 3.f * c0) +
+		p0;
+}
+
 std::string ltrim(std::string s)
 {
 	size_t startIndex;

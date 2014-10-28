@@ -7,7 +7,7 @@ class ThirdPersonCamera : public Camera
 {
 private:
 	ThirdPersonCamera();
-	ThirdPersonCamera(glm::vec3 pos, glm::vec3 target);
+	ThirdPersonCamera(const glm::vec3 &pos, const glm::vec3 &target);
 
 	Model* target;
 	float distance;
@@ -15,5 +15,5 @@ private:
 public:
 	ThirdPersonCamera(Model* target, float distance);
 
-	void update(const sf::RenderWindow &window);
+	void update(const sf::RenderWindow &window, const sf::Time &dt);
 };

@@ -7,26 +7,28 @@ FirstPersonCamera::FirstPersonCamera() : Camera()
 {
 }
 
-FirstPersonCamera::FirstPersonCamera(glm::vec3 pos, glm::vec3 target) : Camera(pos, target)
+FirstPersonCamera::FirstPersonCamera(const glm::vec3 &pos, const glm::vec3 &target) : Camera(pos, target)
 {
 }
 
-void FirstPersonCamera::update(const sf::RenderWindow &window)
+void FirstPersonCamera::update(const sf::RenderWindow &window, const sf::Time &dt)
 {
-	GLfloat camSpeed = 0.005f;
+	GLfloat camSpeed = 10.f;
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-		cameraPos += camSpeed * glm::cross(glm::vec3(0.f, 1.f, 0.f), glm::cross(cameraFront, glm::vec3(0.f, 1.f, 0.f)));
+		cameraPos += dt.asSeconds() * camSpeed * glm::normalize(glm::cross(glm::vec3(0.f, 1.f, 0.f), glm::cross(cameraFront, glm::vec3(0.f, 1.f, 0.f))));
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-		cameraPos -= camSpeed * glm::cross(glm::vec3(0.f, 1.f, 0.f), glm::cross(cameraFront, glm::vec3(0.f, 1.f, 0.f)));
+		cameraPos -= dt.asSeconds() * camSpeed * glm::normalize(glm::cross(glm::vec3(0.f, 1.f, 0.f), glm::cross(cameraFront, glm::vec3(0.f, 1.f, 0.f))));
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-		cameraPos -= glm::cross(cameraFront, glm::vec3(0.f, 1.f, 0.f)) * camSpeed;
+		cameraPos -= dt.asSeconds() * camSpeed * glm::normalize(glm::cross(cameraFront, glm::vec3(0.f, 1.f, 0.f)));
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-		cameraPos += glm::cross(cameraFront, glm::vec3(0.f, 1.f, 0.f)) * camSpeed;
+		cameraPos += dt.asSeconds() * camSpeed * glm::normalize(glm::cross(cameraFront, glm::vec3(0.f, 1.f, 0.f)));
 
 	sf::Vector2i mouse = sf::Mouse::getPosition(window);
-	GLfloat xoffset = mouse.x - 400;
-	GLfloat yoffset = 300 - mouse.y;
+	int halfwidth = window.getSize().x / 2;
+	GLfloat xoffset = mouse.x - halfwidth;
+	int halfheight = window.getSize().y / 2;
+	GLfloat yoffset = halfheight - mouse.y;
 
 	GLfloat sensitivity = 0.1;
 	xoffset *= sensitivity;
@@ -40,10 +42,22 @@ void FirstPersonCamera::update(const sf::RenderWindow &window)
 	if (pitch < -89.0f)
 		pitch = -89.0f;
 
+	while (yaw > 360.f)
+		yaw -= 360.f;
+
+	while (yaw < -360.f)
+		yaw += 360.f;
+
 	glm::vec3 front;
-	front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+	// yaw - 90.f to account for the fact that we use -z as front instead of +x
+	front.x = cos(glm::radians(yaw - 90.f)) * cos(glm::radians(pitch));
 	front.y = sin(glm::radians(pitch));
-	front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+	front.z = sin(glm::radians(yaw - 90.f)) * cos(glm::radians(pitch));
+
+	// inverted camera:
+	/*front.x = -sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+	front.y = sin(glm::radians(pitch));
+	front.z = -cos(glm::radians(yaw)) * cos(glm::radians(pitch));*/
 	cameraFront = glm::normalize(front);
 
 	view = glm::lookAt(cameraPos, cameraPos + cameraFront, glm::vec3(0.f, 1.f, 0.f));

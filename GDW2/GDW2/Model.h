@@ -20,7 +20,7 @@ private:
 	int numVertices;
 
 	float width, height, depth;
-
+	
 	std::vector<GLfloat> objData;
 
 	void loadOBJ(std::string fileName);
@@ -30,6 +30,8 @@ private:
 public:
 	Model(GLfloat *vertexData, int numVertices, Shader *s);
 	Model(std::string objFileName, Shader *s);
+
+	GLfloat pitch, yaw;
 
 	void initArrays(GLfloat *vertexData, int numVertices);
 	void calculateDimensions(GLfloat *vertexData, int numVertices);

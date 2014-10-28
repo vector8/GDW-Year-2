@@ -7,7 +7,7 @@ ThirdPersonCamera::ThirdPersonCamera() : Camera()
 {
 }
 
-ThirdPersonCamera::ThirdPersonCamera(glm::vec3 pos, glm::vec3 target) : Camera(pos, target)
+ThirdPersonCamera::ThirdPersonCamera(const glm::vec3 &pos, const glm::vec3 &target) : Camera(pos, target)
 {
 }
 
@@ -16,7 +16,7 @@ ThirdPersonCamera::ThirdPersonCamera(Model* target, float distance) : target(tar
 
 }
 
-void ThirdPersonCamera::update(const sf::RenderWindow &window)
+void ThirdPersonCamera::update(const sf::RenderWindow &window, const sf::Time &dt)
 {
 	setPosition(target->getPosition() + glm::vec3(-1.f * distance * target->getFront()));
 	lookAt(target->getPosition());
