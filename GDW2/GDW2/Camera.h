@@ -12,14 +12,14 @@ protected:
 
 public:
 	Camera();
-	Camera(glm::vec3 pos, glm::vec3 target);
+	Camera(const glm::vec3 &pos, const glm::vec3 &target);
 
 	glm::mat4 view;
 
 	glm::vec3 getPosition() const;
 
-	void setPosition(glm::vec3 pos);
-	void lookAt(glm::vec3 target);
+	void setPosition(const glm::vec3 &pos);
+	void lookAt(const glm::vec3 &target);
 
-	virtual void update(const sf::RenderWindow &window);
+	virtual void update(const sf::RenderWindow &window, const sf::Time &dt);
 };

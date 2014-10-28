@@ -6,7 +6,7 @@ class FirstPersonCamera : public Camera
 {
 public:
 	FirstPersonCamera();
-	FirstPersonCamera(glm::vec3 pos, glm::vec3 target);
+	FirstPersonCamera(const glm::vec3 &pos, const glm::vec3 &target);
 
-	void update(const sf::RenderWindow &window);
+	void update(const sf::RenderWindow &window, const sf::Time &dt);
 };

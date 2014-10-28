@@ -12,7 +12,7 @@
 #include "Utilities.h"
 
 Model::Model(GLfloat *vertexData, int numVertices, Shader *s) : vertexData(vertexData), numVertices(numVertices), shader(s), 
-translationMatrix(), rotationMatrix(), scaleMatrix(), texture(NULL)
+translationMatrix(), rotationMatrix(), scaleMatrix(), texture(NULL), pitch(0.f), yaw(0.f)
 {
 	this->initArrays(vertexData, numVertices);
 
@@ -20,7 +20,7 @@ translationMatrix(), rotationMatrix(), scaleMatrix(), texture(NULL)
 }
 
 Model::Model(std::string objFileName, Shader *s) : shader(s), translationMatrix(), rotationMatrix(), scaleMatrix(), texture(NULL), 
-width(0.f), height(0.f), depth(0.f)
+width(0.f), height(0.f), depth(0.f), pitch(0.f), yaw(0.f)
 {
 	this->loadOBJ(objFileName);
 
