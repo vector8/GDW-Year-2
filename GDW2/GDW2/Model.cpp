@@ -65,19 +65,31 @@ void Model::calculateDimensions(GLfloat *vertexData, int numVertices)
 		int index = i * 8;
 
 		if (vertexData[index] > maxX)
+		{
 			maxX = vertexData[index];
+		}
 		else if (vertexData[index] < minX)
+		{
 			minX = vertexData[index];
+		}
 
 		if (vertexData[index + 1] > maxY)
+		{
 			maxY = vertexData[index + 1];
+		}
 		else if (vertexData[index + 1] < minY)
+		{
 			minY = vertexData[index + 1];
+		}
 
 		if (vertexData[index + 2] > maxZ)
+		{
 			maxZ = vertexData[index + 2];
+		}
 		else if (vertexData[index + 2] < minZ)
+		{
 			minZ = vertexData[index + 2];
+		}
 	}
 
 	width = maxX - minX;
@@ -106,21 +118,27 @@ void Model::loadOBJ(std::string fileName)
 			std::istringstream s(line.substr(2));
 			GLfloat v;
 			while (s >> v)
+			{
 				vertices.push_back(v);
+			}
 		}
 		else if (line.substr(0, 3) == "vt ")
 		{
 			std::istringstream s(line.substr(3));
 			GLfloat uv;
 			while (s >> uv)
+			{
 				uvs.push_back(uv);
+			}
 		}
 		else if (line.substr(0, 3) == "vn ")
 		{
 			std::istringstream s(line.substr(3));
 			GLfloat n;
 			while (s >> n)
+			{
 				normals.push_back(n);
+			}
 		}
 		else if (line.substr(0, 2) == "f ")
 		{
@@ -217,9 +235,13 @@ void Model::setTexture(sf::Texture* t)
 int Model::getNumberOfVertices() const
 {
 	if (objData.size() > 0)
+	{
 		return objData.size() / 8;
+	}
 	else
+	{
 		return numVertices;
+	}
 }
 
 glm::mat4 Model::getTransform() const
