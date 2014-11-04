@@ -27,7 +27,7 @@ void Player::update(const sf::Window &window, const sf::Time &dt)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 		newPos += speed * dt.asSeconds() * glm::normalize(glm::cross(model->getFront(), model->getUp()));
 
-	newPos.y += dy * dt.asSeconds();
+	newPos.y += dy * dt.asSeconds() - 15.f * dt.asSeconds() * dt.asSeconds();
 
 	Game* g = Game::getGame();
 	// check for collision

@@ -244,7 +244,7 @@ glm::mat4 Model::getScaleMatrix() const
 
 glm::vec3 Model::getFront() const
 {
-	glm::vec4 front(1.f, 0.f, 0.f, 1.f);
+	glm::vec4 front(0.f, 0.f, 1.f, 1.f);
 
 	front = rotationMatrix * front;
 
