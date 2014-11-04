@@ -11,7 +11,9 @@ void Player::update(const sf::Window &window, const sf::Time &dt)
 	dy -= 30.f * dt.asSeconds();
 
 	if (dy < -20.f)
+	{
 		dy = -20.f;
+	}
 
 	GLfloat speed = 10.f;
 
@@ -19,13 +21,21 @@ void Player::update(const sf::Window &window, const sf::Time &dt)
 
 	// update position
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+	{
 		newPos += speed * dt.asSeconds() * glm::normalize(glm::cross(model->getUp(), glm::cross(model->getFront(), model->getUp())));
+	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+	{
 		newPos -= speed * dt.asSeconds() * glm::normalize(glm::cross(model->getUp(), glm::cross(model->getFront(), model->getUp())));
+	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+	{
 		newPos -= speed * dt.asSeconds() * glm::normalize(glm::cross(model->getFront(), model->getUp()));
+	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	{
 		newPos += speed * dt.asSeconds() * glm::normalize(glm::cross(model->getFront(), model->getUp()));
+	}
 
 	newPos.y += dy * dt.asSeconds() - 15.f * dt.asSeconds() * dt.asSeconds();
 
@@ -58,12 +68,18 @@ void Player::update(const sf::Window &window, const sf::Time &dt)
 	}
 
 	if (collidedX)
+	{
 		newPos.x = pos.x;
+	}
 	if (collidedY)
+	{
 		newPos.y = pos.y;
+	}
 	if (collidedZ)
+	{
 		newPos.z = pos.z;
-	
+	}
+
 	pos = glm::vec3(newPos);
 	box->setPosition(newPos);
 	model->setPosition(newPos);
