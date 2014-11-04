@@ -5,6 +5,8 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include <iostream>
+#include <chrono>
+#include <thread>
 
 #include "Model.h"
 #include "ThirdPersonCamera.h"
@@ -37,10 +39,12 @@ void Game::initializeEntities()
 	crateModel.translate(glm::vec3(0.f, crateModel.getHeight() / 2, 0.f));
 	Entity *crate = new Entity(crateModel.getPosition(), crateModel);
 
-	Model tieFighter("obj/tiefighter_merged.obj", grayShader);
-	tieFighter.setPosition(glm::vec3(0.f, 0.f, 5.f));
-	tieFighter.translate(glm::vec3(0.f, tieFighter.getHeight() / 2, 0.f));
-	player = new Player(tieFighter.getPosition(), tieFighter);
+	Model playerModel("obj/Gobbie.obj", grayShader);
+	playerModel.scale(glm::vec3(0.05f, 0.05f, 0.05f));
+	playerModel.setPosition(glm::vec3(0.f, 0.f, 5.f));
+	playerModel.translate(glm::vec3(0.f, playerModel.getHeight() / 2, 0.f));
+	playerModel.rotate(90.f, glm::vec3(0.f, 1.f, 0.f));
+	player = new Player(playerModel.getPosition(), playerModel);
 
 	Model terrainModel("obj/terrain.obj", grayShader);
 	Entity *terrain = new Entity(terrainModel.getPosition(), terrainModel);
@@ -159,6 +163,12 @@ void Game::run()
 
 			// Swap the buffers
 			window.display();
+
+			// Sleep if less than 1/60 second
+			/*if (elapsed.asSeconds() < (1.f / 60.f))
+			{
+				std::this_thread::sleep_for(std::chrono::milliseconds((long)(((1.f/60.f) - elapsed.asSeconds()) * 1000.f)));
+			}*/
 		}
 	}
 }
