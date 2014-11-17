@@ -1,99 +1,103 @@
 #include "Utilities.h"
 #include <string>
 #include <vector>
+#include <time.h>
 
-template <class T>
-T lerp(float u, const T &p0, const T &p1)
+namespace flopse
 {
-	return p0 * (1.f - u) + p1 * u;
-}
-
-template <class T>
-T catmull(float u, const T &p0, const T &p1, const T &p2, const T &p3)
-{
-	return 0.5f * ((u * u * u) * (-p0 + 3.f * p1 - 3.f * p2 + p3) +
-		(u * u) * (2.f * p0 - 5.f * p1 + 4.f * p2 - p3) +
-		(u)* (-p0 + p2) +
-		(2.f * p1));
-}
-
-template <class T>
-T bezier(float u, const T &p0, const T &c0, const T &c1, const T &p1)
-{
-	return (u * u * u) * (-p0 + 3.f * c0 - 3.f * c1 + p1) +
-		(u * u) * (3.f * p0 - 6.f * c0 + 3.f * c1) +
-		(u)* (-3.f * p0 + 3.f * c0) +
-		p0;
-}
-
-std::string ltrim(std::string s)
-{
-	size_t startIndex;
-	std::string result;
-
-	if (s.size() == 0)
+	sf::Color lerp(float u, const sf::Color &p0, const sf::Color &p1)
 	{
-		result = s;
+		return sf::Color(p0.r * (1.f - u) + p1.r * u,
+			p0.g * (1.f - u) + p1.g * u,
+			p0.b * (1.f - u) + p1.b * u,
+			p0.a * (1.f - u) + p1.a * u);
 	}
-	else
-	{
-		startIndex = s.find_first_not_of(" \n\r\t");
 
-		if (startIndex == std::string::npos)
+	std::string ltrim(std::string s)
+	{
+		size_t startIndex;
+		std::string result;
+
+		if (s.size() == 0)
 		{
-			result = "";
+			result = s;
 		}
 		else
 		{
-			result = s.substr(startIndex);
+			startIndex = s.find_first_not_of(" \n\r\t");
+
+			if (startIndex == std::string::npos)
+			{
+				result = "";
+			}
+			else
+			{
+				result = s.substr(startIndex);
+			}
 		}
+
+		return result;
 	}
 
-	return result;
-}
-
-std::string rtrim(std::string s)
-{
-	size_t endIndex;
-	std::string result;
-
-	if (s.size() == 0)
+	std::string rtrim(std::string s)
 	{
-		result = s;
-	}
-	else
-	{
-		endIndex = s.find_last_not_of(" \n\r\t");
+		size_t endIndex;
+		std::string result;
 
-		if (endIndex == std::string::npos)
+		if (s.size() == 0)
 		{
-			result = "";
+			result = s;
 		}
 		else
 		{
-			result = s.substr(0, endIndex + 1);
+			endIndex = s.find_last_not_of(" \n\r\t");
+
+			if (endIndex == std::string::npos)
+			{
+				result = "";
+			}
+			else
+			{
+				result = s.substr(0, endIndex + 1);
+			}
 		}
+
+		return result;
 	}
 
-	return result;
-}
-
-std::string trim(std::string s)
-{
-	return ltrim(rtrim(s));
-}
-
-std::vector<std::string> split(std::string s, std::string delimiters, bool shouldTrim)
-{
-	std::vector<std::string> result;
-	std::string temp;
-
-	size_t start = 0;
-	size_t end = s.find_first_of(delimiters);
-
-	while (end != std::string::npos)
+	std::string trim(std::string s)
 	{
-		temp = s.substr(start, end - start);
+		return ltrim(rtrim(s));
+	}
+
+	std::vector<std::string> split(std::string s, std::string delimiters, bool shouldTrim)
+	{
+		std::vector<std::string> result;
+		std::string temp;
+
+		size_t start = 0;
+		size_t end = s.find_first_of(delimiters);
+
+		while (end != std::string::npos)
+		{
+			temp = s.substr(start, end - start);
+
+			if (shouldTrim)
+			{
+				temp = trim(temp);
+			}
+
+			if (temp.size() > 0)
+			{
+				result.push_back(temp);
+			}
+
+			start = end + 1;
+			end = s.find_first_of(delimiters, start);
+		}
+
+		// get the last token...
+		temp = s.substr(start);
 
 		if (shouldTrim)
 		{
@@ -105,22 +109,26 @@ std::vector<std::string> split(std::string s, std::string delimiters, bool shoul
 			result.push_back(temp);
 		}
 
-		start = end + 1;
-		end = s.find_first_of(delimiters, start);
+		return result;
 	}
 
-	// get the last token...
-	temp = s.substr(start);
-
-	if (shouldTrim)
+	void seedRandomNumberGenerator()
 	{
-		temp = trim(temp);
+		srand(static_cast<unsigned int>(time(NULL)));
 	}
 
-	if (temp.size() > 0)
+	void seedRandomNumberGenerator(unsigned int seed)
 	{
-		result.push_back(temp);
+		srand(seed);
 	}
 
-	return result;
+	float randomRangef(float min, float max)
+	{
+		return min + ((max - min) * rand()) / (RAND_MAX + 1.0f);
+	}
+
+	int randomRangei(int min, int max)
+	{
+		return rand() % (max + 1 - min) + min;
+	}
 }

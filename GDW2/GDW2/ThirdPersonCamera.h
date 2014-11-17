@@ -1,19 +1,22 @@
 #pragma once
 
 #include "Camera.h"
-#include "Model.h"
+#include "Entity.h"
 
-class ThirdPersonCamera : public Camera
+namespace flopse
 {
-private:
-	ThirdPersonCamera();
-	ThirdPersonCamera(const glm::vec3 &pos, const glm::vec3 &target);
+	class ThirdPersonCamera : public Camera
+	{
+	private:
+		ThirdPersonCamera();
+		ThirdPersonCamera(const glm::vec3 &pos, const glm::vec3 &target);
 
-	Model* target;
-	float distance;
+		Entity* target;
+		float distance;
 
-public:
-	ThirdPersonCamera(Model* target, float distance);
+	public:
+		ThirdPersonCamera(Entity* target, float distance);
 
-	void update(const sf::RenderWindow &window, const sf::Time &dt);
-};
+		void update(const sf::RenderWindow &window, const sf::Time &dt);
+	};
+}

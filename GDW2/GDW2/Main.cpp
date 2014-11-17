@@ -2,7 +2,7 @@
 
 int main()
 {
-	Game* g = Game::getGame();
+	flopse::Game* g = flopse::Game::getGame();
 
 	g->run();
 

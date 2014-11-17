@@ -1,123 +1,126 @@
 #include "Player.h"
 #include "Game.h"
 
-Player::Player(const glm::vec3 &pos, const Model &model) : Entity(pos, model), jumping(false), dy(0.f)
+namespace flopse
 {
-
-}
-
-void Player::update(const sf::Window &window, const sf::Time &dt)
-{
-	dy -= 30.f * dt.asSeconds();
-
-	if (dy < -20.f)
+	Player::Player(Model* model) : Entity(model), jumping(false), dy(0.f)
 	{
-		dy = -20.f;
+
 	}
 
-	GLfloat speed = 10.f;
-
-	glm::vec3 newPos(pos);
-
-	// update position
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+	void Player::updateLocalTransform(const sf::RenderWindow &window, const sf::Time &dt)
 	{
-		newPos += speed * dt.asSeconds() * glm::normalize(glm::cross(model->getUp(), glm::cross(model->getFront(), model->getUp())));
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-	{
-		newPos -= speed * dt.asSeconds() * glm::normalize(glm::cross(model->getUp(), glm::cross(model->getFront(), model->getUp())));
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-	{
-		newPos -= speed * dt.asSeconds() * glm::normalize(glm::cross(model->getFront(), model->getUp()));
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-	{
-		newPos += speed * dt.asSeconds() * glm::normalize(glm::cross(model->getFront(), model->getUp()));
-	}
+		dy -= 30.f * dt.asSeconds();
 
-	newPos.y += dy * dt.asSeconds() - 15.f * dt.asSeconds() * dt.asSeconds();
-
-	Game* g = Game::getGame();
-	// check for collision
-	bool collidedX = false, collidedY = false, collidedZ = false;
-	for (std::vector<BoundingBox*>::iterator it = g->colliders.begin(); it != g->colliders.end(); it++)
-	{
-		box->setPosition(glm::vec3(newPos.x, pos.y, pos.z));
-
-		if (box->hasCollided(*(*it)))
+		if (dy < -20.f)
 		{
-			collidedX = true;
+			dy = -20.f;
 		}
 
-		box->setPosition(glm::vec3(pos.x, newPos.y, pos.z));
+		GLfloat speed = 10.f;
 
-		if (box->hasCollided(*(*it)))
+		glm::vec3 position = localTransform.getPosition();
+		glm::vec3 newPos(position);
+
+		// update position
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 		{
-			collidedY = true;
-			jumping = false;
+			newPos += speed * dt.asSeconds() * glm::normalize(glm::cross(localTransform.getUp(), glm::cross(localTransform.getFront(), localTransform.getUp())));
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+		{
+			newPos -= speed * dt.asSeconds() * glm::normalize(glm::cross(localTransform.getUp(), glm::cross(localTransform.getFront(), localTransform.getUp())));
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+		{
+			newPos -= speed * dt.asSeconds() * glm::normalize(glm::cross(localTransform.getFront(), localTransform.getUp()));
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+		{
+			newPos += speed * dt.asSeconds() * glm::normalize(glm::cross(localTransform.getFront(), localTransform.getUp()));
 		}
 
-		box->setPosition(glm::vec3(pos.x, pos.y, newPos.z));
+		newPos.y += dy * dt.asSeconds() - 15.f * dt.asSeconds() * dt.asSeconds();
 
-		if (box->hasCollided(*(*it)))
+		Game* g = Game::getGame();
+		// check for collision
+		bool collidedX = false, collidedY = false, collidedZ = false;
+		for (std::vector<BoundingBox*>::iterator it = g->colliders.begin(); it != g->colliders.end(); it++)
 		{
-			collidedZ = true;
+			boundingBox->position = glm::vec3(newPos.x, position.y, position.z);
+
+			if (boundingBox->hasCollided(*(*it)))
+			{
+				collidedX = true;
+			}
+
+			boundingBox->position = glm::vec3(position.x, newPos.y, position.z);
+
+			if (boundingBox->hasCollided(*(*it)))
+			{
+				collidedY = true;
+				jumping = false;
+			}
+
+			boundingBox->position = glm::vec3(position.x, position.y, newPos.z);
+
+			if (boundingBox->hasCollided(*(*it)))
+			{
+				collidedZ = true;
+			}
 		}
+
+		if (collidedX)
+		{
+			newPos.x = position.x;
+		}
+		if (collidedY)
+		{
+			newPos.y = position.y;
+		}
+		if (collidedZ)
+		{
+			newPos.z = position.z;
+		}
+
+		boundingBox->position = newPos;
+		localTransform.setPosition(newPos);
+
+		sf::Vector2i mouse = sf::Mouse::getPosition(window);
+		GLfloat xoffset = mouse.x - (int)(window.getSize().x) / 2;
+		GLfloat yoffset = (int)(window.getSize().y) / 2 - mouse.y;
+
+		GLfloat sensitivity = 0.1;
+		xoffset *= sensitivity;
+		yoffset *= sensitivity;
+
+		localTransform.yaw += xoffset;
+
+		if (std::abs(localTransform.pitch + yoffset) <= 89.f)
+		{
+			localTransform.pitch += yoffset;
+		}
+		else if (yoffset > 0)
+		{
+			yoffset = 89.f - localTransform.pitch;
+			localTransform.pitch = 89.f;
+		}
+		else
+		{
+			yoffset = -89.f - localTransform.pitch;
+			localTransform.pitch = -89.f;
+		}
+
+		localTransform.rotate(-xoffset, localTransform.getUp());
+		localTransform.rotate(yoffset, glm::cross(localTransform.getFront(), localTransform.getUp()));
 	}
 
-	if (collidedX)
+	void Player::jump()
 	{
-		newPos.x = pos.x;
-	}
-	if (collidedY)
-	{
-		newPos.y = pos.y;
-	}
-	if (collidedZ)
-	{
-		newPos.z = pos.z;
-	}
-
-	pos = glm::vec3(newPos);
-	box->setPosition(newPos);
-	model->setPosition(newPos);
-
-	sf::Vector2i mouse = sf::Mouse::getPosition(window);
-	GLfloat xoffset = mouse.x - 400;
-	GLfloat yoffset = 300 - mouse.y;
-
-	GLfloat sensitivity = 0.1;
-	xoffset *= sensitivity;
-	yoffset *= sensitivity;
-
-	model->yaw += xoffset;
-
-	if (std::abs(model->pitch + yoffset) <= 89.f)
-	{
-		model->pitch += yoffset;
-	}
-	else if (yoffset > 0)
-	{
-		yoffset = 89.f - model->pitch;
-		model->pitch = 89.f;
-	}
-	else
-	{
-		yoffset = -89.f - model->pitch;
-		model->pitch = -89.f;
-	}
-
-	model->rotate(-xoffset, model->getUp());
-	model->rotate(yoffset, glm::cross(model->getFront(), model->getUp()));
-}
-
-void Player::jump()
-{
-	if (!jumping)
-	{
-		dy = 15.f;
-		jumping = true;
+		if (!jumping)
+		{
+			dy = 15.f;
+			jumping = true;
+		}
 	}
 }
