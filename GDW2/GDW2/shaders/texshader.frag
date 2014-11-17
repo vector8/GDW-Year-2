@@ -6,7 +6,7 @@ in vec3 Normal;
 
 out vec4 color;
 
-uniform vec3 objectColor;
+uniform vec4 objectColor;
 uniform vec3 lightPos;
 uniform vec3 viewPos;
 uniform sampler2D tex;
@@ -29,6 +29,6 @@ void main()
 	float specular = pow(max(dot(viewDir, reflectDir), 0.0), 32);
 	specularComponent = specular * specularComponent;
 
-	vec3 result = (ambientComponent + diffuseComponent + specularComponent) * vec3(texture(tex, UV));
-	color = vec4(result, 1.0f);
+	vec3 result = (ambientComponent + diffuseComponent + specularComponent);
+	color = vec4(result, 1.0f) * texture(tex, UV) * objectColor;
 }
