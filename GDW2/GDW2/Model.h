@@ -1,72 +1,56 @@
 #pragma once
 
 #include <GL/glew.h>
-#include <glm/glm.hpp>
 #include "Shader.h"
 #include <string>
 #include <vector>
 #include <SFML\Graphics.hpp>
+#include "Colour.h"
 
-class Model
+namespace flopse
 {
-private:
-	GLuint VBO;
+	class Model
+	{
+	private:
+		GLuint VBO;
 
-	//glm::vec3 position, direction, scale, defaultDirection;
+		GLfloat *vertexData;
+		int numVertices;
 
-	glm::mat4 rotationMatrix, translationMatrix, scaleMatrix;
+		float width, height, depth;
 
-	GLfloat *vertexData;
-	int numVertices;
+		std::vector<GLfloat> objData;
 
-	float width, height, depth;
-	
-	std::vector<GLfloat> objData;
+		void loadOBJ(const std::string &fileName);
 
-	void loadOBJ(std::string fileName);
+		sf::Texture* texture;
 
-	sf::Texture* texture;
+		bool useUVs;
+		bool useNormals;
+		bool useColour;
 
-public:
-	Model(GLfloat *vertexData, int numVertices, Shader *s);
-	Model(std::string objFileName, Shader *s);
+	public:
+		Model(GLfloat *vertexData, int numVertices, Shader *s, bool useUVs = true, bool useNormals = true, bool useColour = false);
+		Model(const std::string &objFileName, Shader *s);
 
-	GLfloat pitch, yaw;
+		void initArrays(GLfloat *vertexData, int numVertices, bool useUVs = true, bool useNormals = true, bool useColour = false);
+		void calculateDimensions(GLfloat *vertexData, int numVertices);
 
-	void initArrays(GLfloat *vertexData, int numVertices);
-	void calculateDimensions(GLfloat *vertexData, int numVertices);
+		Shader *shader;
+		GLuint VAO;
+		Colour overlayColour;
 
-	Shader *shader;
-	GLuint VAO;
+		void setTexture(const std::string &filename);
+		void setTexture(sf::Texture *t);
 
-	void setPosition(glm::vec3 pos);
-	void translate(glm::vec3 t);
-	void rotate(float degrees, glm::vec3 axis);
-	/*void setDirection(glm::vec3 axis);
-	void setDefaultDirection(glm::vec3 axis);*/
-	void scale(glm::vec3 s);
+		void setPointColour(const Colour &c);
 
-	void setTexture(std::string filename);
-	void setTexture(sf::Texture *t);
+		int getNumberOfVertices() const;
 
-	int getNumberOfVertices() const;
+		sf::Texture* getTexture() const;
 
-	glm::mat4 getTransform() const;
-
-	glm::mat4 getRotationMatrix() const;
-	glm::mat4 getTranslationMatrix() const;
-	glm::mat4 getScaleMatrix() const;
-
-	glm::vec3 getFront() const;
-	glm::vec3 getUp() const;
-	glm::vec3 getPosition() const;
-
-	sf::Texture* getTexture() const;
-
-	float getWidth() const;
-	float getHeight() const;
-	float getDepth() const;
-	
-	/*glm::vec3 getDirection() const;
-	glm::vec3 getScale() const;*/
-};
+		float getWidth() const;
+		float getHeight() const;
+		float getDepth() const;
+	};
+}

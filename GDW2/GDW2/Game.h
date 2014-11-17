@@ -1,7 +1,4 @@
 #pragma once
-#define GLEW_STATIC
-#include <GL/glew.h>
-
 #include <SFML\Graphics.hpp>
 #include <glm\glm.hpp>
 
@@ -10,35 +7,42 @@
 #include "Entity.h"
 #include "Player.h"
 #include "Camera.h"
+#include "ParticleManager.h"
 
-class Game
+namespace flopse
 {
-private:
-	Game();
-
-	sf::RenderWindow window;
-	sf::Clock clock;
-	sf::Time elapsed, fpsTimer;
-	glm::mat4 projection;
-
-	int frames;
-	bool running;
-
-	Camera* cam;
-	Player* player;
-
-	void initializeEntities();
-
-public:
-	std::vector<Entity*> entities;
-	std::vector<BoundingBox*> colliders;
-
-	static Game* getGame()
+	class Game
 	{
-		static Game* g = new Game();
+	private:
+		Game();
 
-		return g;
-	}
+		sf::RenderWindow window;
+		sf::Clock clock;
+		sf::Time elapsed, fpsTimer;
+		glm::mat4 projection;
+		glm::vec3 lightPos;
 
-	void run();
-};
+		int frames;
+		bool running;
+
+		void initializeEntities();
+
+	public:
+		std::vector<Entity*> entities;
+		std::vector<BoundingBox*> colliders;
+
+		Camera* cam;
+		Player* player;
+		ParticleManager* particleManager;
+		SceneNode* root;
+
+		static Game* getGame()
+		{
+			static Game* g = new Game();
+
+			return g;
+		}
+
+		void run();
+	};
+}
