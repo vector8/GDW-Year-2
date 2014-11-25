@@ -7,7 +7,9 @@
 #include "Entity.h"
 #include "Player.h"
 #include "Camera.h"
-#include "ParticleManager.h"
+#include "Enemy.h"
+#include "GameplayState.h"
+#include "MainMenuState.h"
 
 namespace flopse
 {
@@ -16,25 +18,18 @@ namespace flopse
 	private:
 		Game();
 
-		sf::RenderWindow window;
 		sf::Clock clock;
 		sf::Time elapsed, fpsTimer;
-		glm::mat4 projection;
-		glm::vec3 lightPos;
+
+		State* currentState;
+		GameplayState* gameplayState;
+		MainMenuState* mainMenuState;
 
 		int frames;
 		bool running;
-
-		void initializeEntities();
+		bool fullscreen;
 
 	public:
-		std::vector<Entity*> entities;
-		std::vector<BoundingBox*> colliders;
-
-		Camera* cam;
-		Player* player;
-		ParticleManager* particleManager;
-		SceneNode* root;
 
 		static Game* getGame()
 		{
@@ -43,6 +38,20 @@ namespace flopse
 			return g;
 		}
 
+		sf::RenderWindow* window;
+
+		Player* getPlayer() const;
+		Level* getCurrentLevel() const;
+		Camera* getCamera() const;
+		std::vector<Entity*> getEntities() const;
+		std::vector<BoundingBox*> getColliders() const;
+		std::vector<Enemy*> getEnemies() const;
+
 		void run();
+
+		void newGame();
+		void setGameplayState();
+		void setMainMenuState();
+		void exit();
 	};
 }

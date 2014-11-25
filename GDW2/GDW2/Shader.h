@@ -10,10 +10,19 @@ namespace flopse
 		// Our program ID
 		GLuint program;
 
+		// Various uniform locations
+		GLint modelLoc;
+		GLint normalMatrixLoc;
+		GLint viewLoc;
+		GLint projectionLoc;
+		GLint objectColorLoc;
+		GLint lightPosLoc;
+		GLint viewPosLoc;
+
 		// Constructor reads and builds our shader
 		Shader(const GLchar* vertexSourcePath, const GLchar* fragmentSourcePath);
 
 		// Use our program
-		void use();
+		void use() const;
 	};
 }

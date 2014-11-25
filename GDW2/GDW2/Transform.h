@@ -10,14 +10,14 @@ namespace flopse
 		Transform();
 		Transform(const glm::vec3 &position);
 
-		glm::mat4 rotationMatrix, translationMatrix, scaleMatrix;
+		glm::mat4 rotationMatrix, translationMatrix;// , scaleMatrix;
 
 		GLfloat pitch, yaw;
 
 		void setPosition(const glm::vec3 &pos);
 		void translate(const glm::vec3 &t);
 		void rotate(float degrees, const glm::vec3 &axis);
-		void scale(const glm::vec3 &s);
+		//void scale(const glm::vec3 &s);
 
 		glm::mat4 getTransformMatrix() const;
 
@@ -25,6 +25,4 @@ namespace flopse
 		glm::vec3 getUp() const;
 		glm::vec3 getPosition() const;
 	};
-
-	Transform operator*(const Transform &lhs, const Transform &rhs);
 }

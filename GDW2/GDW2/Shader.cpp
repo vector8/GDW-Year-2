@@ -91,10 +91,19 @@ namespace flopse
 		// Delete the shaders as they're linked into our program now and no longer necessary
 		glDeleteShader(vertex);
 		glDeleteShader(fragment);
+
+		// Cache uniform locs
+		modelLoc = glGetUniformLocation(program, "model");
+		normalMatrixLoc = glGetUniformLocation(program, "normalMatrix");
+		viewLoc = glGetUniformLocation(program, "view");
+		projectionLoc = glGetUniformLocation(program, "projection");
+		objectColorLoc = glGetUniformLocation(program, "objectColor");
+		lightPosLoc = glGetUniformLocation(program, "lightPos");
+		viewPosLoc = glGetUniformLocation(program, "viewPos");
 	}
 
 	// Use our program
-	void Shader::use()
+	void Shader::use() const
 	{
 		glUseProgram(this->program);
 	}

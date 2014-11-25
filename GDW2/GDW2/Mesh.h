@@ -9,7 +9,7 @@
 
 namespace flopse
 {
-	class Model
+	class Mesh
 	{
 	private:
 		GLuint VBO;
@@ -30,8 +30,8 @@ namespace flopse
 		bool useColour;
 
 	public:
-		Model(GLfloat *vertexData, int numVertices, Shader *s, bool useUVs = true, bool useNormals = true, bool useColour = false);
-		Model(const std::string &objFileName, Shader *s);
+		Mesh(GLfloat *vertexData, int numVertices, Shader *s, const std::string &filename = "", bool useUVs = true, bool useNormals = true, bool useColour = false);
+		Mesh(const std::string &objFileName, Shader *s, const std::string &filename = "");
 
 		void initArrays(GLfloat *vertexData, int numVertices, bool useUVs = true, bool useNormals = true, bool useColour = false);
 		void calculateDimensions(GLfloat *vertexData, int numVertices);

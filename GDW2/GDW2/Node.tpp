@@ -7,5 +7,6 @@ Node<T>::Node(const T &item, Node<T> *prev, Node<T> *next) : data(item), prev(pr
 template <class T>
 Node<T>::~Node()
 {
-	delete data;
+	//delete data;
+	//data = nullptr;
 }

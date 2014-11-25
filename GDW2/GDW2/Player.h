@@ -10,7 +10,7 @@ namespace flopse
 		float dy;
 
 	public:
-		Player(Model* model);
+		Player(Mesh *m);
 
 		void updateLocalTransform(const sf::RenderWindow &window, const sf::Time &dt);
 

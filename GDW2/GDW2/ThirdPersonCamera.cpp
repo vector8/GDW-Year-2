@@ -1,7 +1,5 @@
 #include "ThirdPersonCamera.h"
-#include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include <SFML/Graphics.hpp>
 
 namespace flopse
 {
@@ -9,14 +7,8 @@ namespace flopse
 	{
 	}
 
-	ThirdPersonCamera::ThirdPersonCamera(Entity* target, float distance) : target(target), distance(distance)
+	void ThirdPersonCamera::updateLocalTransform(const sf::RenderWindow &window, const sf::Time &dt)
 	{
-
-	}
-
-	void ThirdPersonCamera::update(const sf::RenderWindow &window, const sf::Time &dt)
-	{
-		setPosition(target->getGlobalPosition() + glm::vec3(-1.f * distance * target->getGlobalFront()));
-		lookAt(target->getGlobalPosition());
+		recalculateView();
 	}
 }

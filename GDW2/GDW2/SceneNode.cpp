@@ -8,7 +8,7 @@ namespace flopse
 
 	}
 
-	SceneNode::SceneNode(Model* model, SceneNode* parent) : model(model), parent(parent)
+	SceneNode::SceneNode(Mesh *m, SceneNode* parent) : mesh(m), parent(parent)
 	{
 
 	}
@@ -26,7 +26,7 @@ namespace flopse
 
 	void SceneNode::detach(SceneNode* n)
 	{
-		n->parent = NULL;
+		n->parent = nullptr;
 		children.remove(n);
 	}
 
@@ -39,46 +39,43 @@ namespace flopse
 		
 		Node<SceneNode*>* current = children.head;
 
-		for (int i = 0; i < children.size(); i++)
+		while (current)
 		{
 			current->data->update(window, dt, globalTransform);
-			current = current->next;
+
+			if (current->data->toBeDeleted)
+			{
+				Node<SceneNode*>* nodeToDelete = current;
+				current = current->next;
+				this->detach(nodeToDelete->data); 
+			}
+			else
+			{
+				current = current->next;
+			}
 		}
 	}
 
 	void SceneNode::draw(const glm::vec3 &camPos, const glm::mat4 &view, const glm::mat4 &projection, const glm::vec3 &lightPos)
 	{
-		if (model)
+		if (mesh)
 		{
 			// Set the shader
-			model->shader->use();
+			mesh->shader->use();
 
-			GLint modelLoc = glGetUniformLocation(model->shader->program, "model");
-			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(globalTransform));
+			glUniformMatrix4fv(mesh->shader->modelLoc, 1, GL_FALSE, glm::value_ptr(globalTransform));
+			glUniformMatrix4fv(mesh->shader->normalMatrixLoc, 1, GL_FALSE, glm::value_ptr(glm::transpose(glm::inverse(globalTransform))));
+			glUniformMatrix4fv(mesh->shader->viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+			glUniformMatrix4fv(mesh->shader->projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
+			glUniform4f(mesh->shader->objectColorLoc, mesh->overlayColour.getR(), mesh->overlayColour.getG(), mesh->overlayColour.getB(), mesh->overlayColour.getA());
+			glUniform3f(mesh->shader->lightPosLoc, lightPos.x, lightPos.y, lightPos.z);
+			glUniform3f(mesh->shader->viewPosLoc, camPos.x, camPos.y, camPos.z);
 
-			GLint normalMatrixLoc = glGetUniformLocation(model->shader->program, "normalMatrix");
-			glUniformMatrix4fv(normalMatrixLoc, 1, GL_FALSE, glm::value_ptr(glm::transpose(glm::inverse(globalTransform))));
-
-			GLint viewLoc = glGetUniformLocation(model->shader->program, "view");
-			glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-
-			GLint projectionLoc = glGetUniformLocation(model->shader->program, "projection");
-			glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
-
-			GLint objectColorLoc = glGetUniformLocation(model->shader->program, "objectColor");
-			glUniform4f(objectColorLoc, model->overlayColour.getR(), model->overlayColour.getG(), model->overlayColour.getB(), model->overlayColour.getA());
-
-			GLint lightPosLoc = glGetUniformLocation(model->shader->program, "lightPos");
-			glUniform3f(lightPosLoc, lightPos.x, lightPos.y, lightPos.z);
-
-			GLint viewPosLoc = glGetUniformLocation(model->shader->program, "viewPos");
-			glUniform3f(viewPosLoc, camPos.x, camPos.y, camPos.z);
-
-			sf::Texture* t = model->getTexture();
+			sf::Texture* t = mesh->getTexture();
 			sf::Texture::bind(t);
 
-			glBindVertexArray(model->VAO);
-			glDrawArrays(GL_TRIANGLES, 0, model->getNumberOfVertices());
+			glBindVertexArray(mesh->VAO);
+			glDrawArrays(GL_TRIANGLES, 0, mesh->getNumberOfVertices());
 			glBindVertexArray(0);
 
 			sf::Texture::bind(NULL);
