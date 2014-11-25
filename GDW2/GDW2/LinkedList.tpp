@@ -1,8 +1,8 @@
 template <class T>
 LinkedList<T>::LinkedList()
 {
-	head = NULL;
-	tail = NULL;
+	head = nullptr;
+	tail = nullptr;
 	count = 0;
 }
 
@@ -23,7 +23,7 @@ void LinkedList<T>::add(const T &item)
 {
 	Node<T> *n = new Node<T>(item, tail);
 
-	if (head == NULL)	// list is empty
+	if (head == nullptr)	// list is empty
 	{
 		head = n;
 		tail = n;
@@ -42,7 +42,7 @@ void LinkedList<T>::add(int index, const T &item)
 {
 	Node<T> *n = new Node<T>(item);
 
-	if (head == NULL)	// list is empty
+	if (head == nullptr)	// list is empty
 	{
 		head = n;
 		tail = n;
@@ -53,7 +53,7 @@ void LinkedList<T>::add(int index, const T &item)
 
 		for (int i = 0; i < index; i++)
 		{
-			if (current->next != NULL)
+			if (current->next != nullptr)
 			{
 				current = current->next;
 			}
@@ -66,7 +66,7 @@ void LinkedList<T>::add(int index, const T &item)
 			}
 		}
 
-		if (n->prev == NULL)
+		if (n->prev == nullptr)
 		{
 			// reached index before reaching end - insert node here
 			n->next = current;
@@ -81,13 +81,13 @@ void LinkedList<T>::add(int index, const T &item)
 template <class T>
 bool LinkedList<T>::remove(int index)
 {
-	if (head != NULL)
+	if (head != nullptr)
 	{
 		Node<T> *current = head;
 
 		for (int i = 0; i < index; i++)
 		{
-			if (current->next != NULL)
+			if (current->next != nullptr)
 			{
 				current = current->next;
 			}
@@ -100,12 +100,12 @@ bool LinkedList<T>::remove(int index)
 		Node<T>* prev = current->prev;
 		Node<T>* next = current->next;
 
-		if (next != NULL)
+		if (next != nullptr)
 		{
 			next->prev = prev;
 		}
 
-		if (prev != NULL)
+		if (prev != nullptr)
 		{
 			prev->next = next;
 		}
@@ -138,21 +138,21 @@ bool LinkedList<T>::remove(const T &item)
 
 	for (int i = 0; i < count; i++)
 	{
-		if (current == NULL)
+		if (current == nullptr)
 		{
 			return false;
 		}
-		else if (&(current->data) == &item)
+		else if (current->data == item)
 		{
 			Node<T>* prev = current->prev;
 			Node<T>* next = current->next;
 
-			if (next != NULL)
+			if (next != nullptr)
 			{
 				next->prev = prev;
 			}
 
-			if (prev != NULL)
+			if (prev != nullptr)
 			{
 				prev->next = next;
 			}
@@ -167,6 +167,9 @@ bool LinkedList<T>::remove(const T &item)
 			}
 
 			delete current;
+			current = nullptr;
+
+			count--;
 
 			return true;
 		}
@@ -184,9 +187,9 @@ void LinkedList<T>::clear()
 {
 	Node<T>* current = head;
 
-	while (current != NULL)
+	while (current != nullptr)
 	{
-		current->prev = NULL;
+		current->prev = nullptr;
 		Node<T>* next = current->next;
 		delete current;
 		current = next;

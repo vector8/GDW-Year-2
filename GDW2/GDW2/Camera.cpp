@@ -6,53 +6,46 @@
 
 namespace flopse
 {
-	Camera::Camera() : yaw(0.f), pitch(0.f)
+	Camera::Camera()
 	{
-		cameraPos = glm::vec3(0.f, 0.f, 2.f);
-		cameraFront = glm::vec3(0.f, 0.f, -1.f);
-		view = glm::lookAt(cameraPos, cameraPos + cameraFront, glm::vec3(0.f, 1.f, 0.f));
+		recalculateView();
 	}
 
-	Camera::Camera(const glm::vec3 &pos, const glm::vec3 &target) : cameraPos(pos)
+	glm::vec3 Camera::getLocalPosition() const
 	{
-		cameraFront = glm::normalize(target - cameraPos);
-		view = glm::lookAt(cameraPos, cameraPos + cameraFront, glm::vec3(0.f, 1.f, 0.f));
-
-		glm::vec3 oldFront(0.f, 0.f, -1.f), newFront(cameraFront.x, 0.f, cameraFront.z);
-		yaw = glm::degrees(acosf(glm::dot(oldFront, newFront) / (glm::length(oldFront) * glm::length(newFront))));
-		pitch = glm::degrees(acosf(glm::dot(newFront, cameraFront) / (glm::length(newFront) * glm::length(cameraFront))));
-
-		// yaw and pitch are absolute angle - find direction (sign)
-		if (cameraFront.x < 0.f)
-		{
-			yaw = -yaw;
-		}
-
-		if (cameraFront.y < 0.f)
-		{
-			pitch = -pitch;
-		}
+		return localTransform.getPosition();
 	}
 
-	glm::vec3 Camera::getPosition() const
+	glm::vec3 Camera::getGlobalPosition() const
 	{
-		return this->cameraPos;
+		glm::vec4 tpos4(0.f, 0.f, 0.f, 1.f);
+
+		tpos4 = globalTransform * tpos4;
+
+		return glm::vec3(tpos4[0], tpos4[1], tpos4[2]);
 	}
 
 	void Camera::setPosition(const glm::vec3 &pos)
 	{
-		cameraPos = glm::vec3(pos);
-		view = glm::lookAt(cameraPos, cameraPos + cameraFront, glm::vec3(0.f, 1.f, 0.f));
+		localTransform.setPosition(pos);
 	}
 
 	void Camera::lookAt(const glm::vec3 &target)
 	{
-		cameraFront = glm::normalize(target - cameraPos);
-		view = glm::lookAt(cameraPos, cameraPos + cameraFront, glm::vec3(0.f, 1.f, 0.f));
+		//glm::vec3 newFront = glm::normalize(target - globalTransform.getPosition());
+		// TODO: figure out how to calculate rotation based on target..
 	}
 
-	void Camera::update(const sf::RenderWindow &window, const sf::Time &dt)
+	void Camera::recalculateView()
 	{
+		glm::vec4 tpos4(0.f, 0.f, 0.f, 1.f), tfront4(0.f, 0.f, -1.f, 0.f);
 
+		tpos4 = globalTransform * tpos4;
+		tfront4 = globalTransform * tfront4;
+
+		glm::vec3 tpos3(tpos4[0], tpos4[1], tpos4[2]);
+		glm::vec3 tfront3(tfront4[0], tfront4[1], tfront4[2]);
+
+		view = glm::lookAt(tpos3, tpos3 + tfront3, glm::vec3(0.f, 1.f, 0.f));
 	}
 }

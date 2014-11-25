@@ -6,7 +6,7 @@ namespace flopse
 	class Node
 	{
 	public:
-		Node(const T &item, Node<T> *prev = NULL, Node<T> *next = NULL);
+		Node(const T &item, Node<T> *prev = nullptr, Node<T> *next = nullptr);
 		~Node();
 
 		T data;

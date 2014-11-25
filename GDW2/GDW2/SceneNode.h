@@ -1,6 +1,6 @@
 #pragma once
 #include <glm\glm.hpp>
-#include "Model.h"
+#include "Mesh.h"
 #include "LinkedList.h"
 #include "Transform.h"
 
@@ -10,14 +10,16 @@ namespace flopse
 	{
 	public:
 		SceneNode();
-		SceneNode(Model* model, SceneNode* parent = NULL);
+		SceneNode(Mesh *m, SceneNode* parent = nullptr);
 		~SceneNode();
 
 		Transform localTransform;
 		glm::mat4 globalTransform;
 		LinkedList<SceneNode*> children;
 		SceneNode* parent;
-		Model *model;
+		Mesh *mesh;
+
+		bool toBeDeleted = false;
 		
 		void attach(SceneNode* n);
 		void detach(SceneNode* n);

@@ -9,7 +9,7 @@ namespace flopse
 	{
 		this->s = new Shader("shaders/colorShader.vs", "shaders/colorShader.frag");
 		GLfloat point[] = { 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f };
-		this->model = new Model(point, 1, s, false, false, true);
+		this->mesh = new Mesh(point, 1, s, false, false, true);
 	}
 
 	PointParticleSystem::~PointParticleSystem()
@@ -26,24 +26,19 @@ namespace flopse
 	{
 		for (std::vector<Particle*>::iterator it = particles.begin(); it != particles.end(); it++)
 		{
-			// Translate and set colour of the model for each particle.
+			// Translate and set colour of the mesh for each particle.
 			transform.setPosition((*it)->position);
-			//model->setPointColour(lerp((*it)->lifetime / (*it)->lifespan, (*it)->colourStart, (*it)->colourEnd)); // Uncomment to set colour.
+			//mesh->setPointColour(lerp((*it)->lifetime / (*it)->lifespan, (*it)->colourStart, (*it)->colourEnd)); // Uncomment to set colour.
 
 			// Draw the point.
-			model->shader->use();
+			mesh->shader->use();
 
-			GLint modelLoc = glGetUniformLocation(model->shader->program, "model");
-			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(transform.getTransformMatrix()));
+			glUniformMatrix4fv(mesh->shader->modelLoc, 1, GL_FALSE, glm::value_ptr(transform.getTransformMatrix()));
+			glUniformMatrix4fv(mesh->shader->viewLoc, 1, GL_FALSE, glm::value_ptr(cam->view));
+			glUniformMatrix4fv(mesh->shader->projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
 
-			GLint viewLoc = glGetUniformLocation(model->shader->program, "view");
-			glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(cam->view));
-
-			GLint projectionLoc = glGetUniformLocation(model->shader->program, "projection");
-			glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
-
-			glBindVertexArray(model->VAO);
-			glDrawArrays(GL_POINTS, 0, model->getNumberOfVertices());
+			glBindVertexArray(mesh->VAO);
+			glDrawArrays(GL_POINTS, 0, mesh->getNumberOfVertices());
 			glBindVertexArray(0);
 		}
 	}

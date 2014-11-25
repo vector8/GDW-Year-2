@@ -1,7 +1,7 @@
 #pragma once
 #include "ParticleSystem.h"
 #include "Shader.h"
-#include "Model.h"
+#include "Mesh.h"
 #include "Transform.h"
 
 namespace flopse
@@ -10,7 +10,7 @@ namespace flopse
 	{
 	private:
 		Shader* s;
-		Model* model;
+		Mesh* mesh;
 		Transform transform;
 
 	public:

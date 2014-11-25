@@ -1,23 +1,25 @@
 #include "Player.h"
 #include "Game.h"
+#include <iostream>
+#include "SoundManager.h"
 
 namespace flopse
 {
-	Player::Player(Model* model) : Entity(model), jumping(false), dy(0.f)
+	Player::Player(Mesh *m) : Entity(m), jumping(false), dy(0.f)
 	{
 
 	}
 
 	void Player::updateLocalTransform(const sf::RenderWindow &window, const sf::Time &dt)
 	{
-		dy -= 30.f * dt.asSeconds();
+		dy -= 600.f * dt.asSeconds();
 
-		if (dy < -20.f)
+		if (dy < -400.f)
 		{
-			dy = -20.f;
+			dy = -400.f;
 		}
 
-		GLfloat speed = 10.f;
+		GLfloat speed = 400.f;
 
 		glm::vec3 position = localTransform.getPosition();
 		glm::vec3 newPos(position);
@@ -26,6 +28,11 @@ namespace flopse
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 		{
 			newPos += speed * dt.asSeconds() * glm::normalize(glm::cross(localTransform.getUp(), glm::cross(localTransform.getFront(), localTransform.getUp())));
+			SoundManager::getSoundManager()->startFootSteps();
+		}
+		else
+		{
+			SoundManager::getSoundManager()->stopFootSteps();
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 		{
@@ -40,12 +47,16 @@ namespace flopse
 			newPos += speed * dt.asSeconds() * glm::normalize(glm::cross(localTransform.getFront(), localTransform.getUp()));
 		}
 
-		newPos.y += dy * dt.asSeconds() - 15.f * dt.asSeconds() * dt.asSeconds();
+		if (abs(dy) > 0.1f)
+		{
+			newPos.y += dy * dt.asSeconds() - 15.f * dt.asSeconds() * dt.asSeconds();
+		}
 
 		Game* g = Game::getGame();
 		// check for collision
 		bool collidedX = false, collidedY = false, collidedZ = false;
-		for (std::vector<BoundingBox*>::iterator it = g->colliders.begin(); it != g->colliders.end(); it++)
+		std::vector<BoundingBox*> colliders = g->getColliders();
+		for (std::vector<BoundingBox*>::iterator it = colliders.begin(); it != colliders.end(); it++)
 		{
 			boundingBox->position = glm::vec3(newPos.x, position.y, position.z);
 
@@ -113,13 +124,15 @@ namespace flopse
 
 		localTransform.rotate(-xoffset, localTransform.getUp());
 		localTransform.rotate(yoffset, glm::cross(localTransform.getFront(), localTransform.getUp()));
+
+		//std::cout << position.x << ", " << position.y << ", " << position.z << std::endl;
 	}
 
 	void Player::jump()
 	{
 		if (!jumping)
 		{
-			dy = 15.f;
+			dy = 600.f;
 			jumping = true;
 		}
 	}

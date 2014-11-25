@@ -1,28 +1,24 @@
 #pragma once
-
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 #include <SFML/Graphics.hpp>
+#include "SceneNode.h"
 
 namespace flopse
 {
-	class Camera
+	class Camera : public SceneNode
 	{
-	protected:
-		glm::vec3 cameraPos, cameraFront;
-		GLfloat yaw, pitch;
-
 	public:
 		Camera();
-		Camera(const glm::vec3 &pos, const glm::vec3 &target);
 
 		glm::mat4 view;
 
-		glm::vec3 getPosition() const;
+		glm::vec3 getLocalPosition() const;
+		glm::vec3 getGlobalPosition() const;
 
 		void setPosition(const glm::vec3 &pos);
 		void lookAt(const glm::vec3 &target);
 
-		virtual void update(const sf::RenderWindow &window, const sf::Time &dt);
+		void recalculateView();
 	};
 }

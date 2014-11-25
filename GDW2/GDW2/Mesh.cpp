@@ -1,4 +1,4 @@
-#include "Model.h"
+#include "Mesh.h"
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -8,24 +8,34 @@
 
 namespace flopse
 {
-	Model::Model(GLfloat *vertexData, int numVertices, Shader *s, bool useUVs, bool useNormals, bool useColour) : vertexData(vertexData), numVertices(numVertices), shader(s),
+	Mesh::Mesh(GLfloat *vertexData, int numVertices, Shader *s, const std::string &filename, bool useUVs, bool useNormals, bool useColour) : vertexData(vertexData), numVertices(numVertices), shader(s),
 		texture(NULL), useUVs(useUVs), useNormals(useNormals), useColour(useColour)
 	{
 		this->initArrays(vertexData, numVertices, useUVs, useNormals);
 
 		calculateDimensions(vertexData, numVertices);
+
+		if (filename.size() > 0)
+		{
+			setTexture(filename);
+		}
 	}
 
-	Model::Model(const std::string &objFileName, Shader *s) : shader(s), texture(NULL),	width(0.f), height(0.f), depth(0.f), useUVs(true), useNormals(true), useColour(false)
+	Mesh::Mesh(const std::string &objFileName, Shader *s, const std::string &filename) : shader(s), texture(NULL), width(0.f), height(0.f), depth(0.f), useUVs(true), useNormals(true), useColour(false)
 	{
 		this->loadOBJ(objFileName);
 
 		this->initArrays(&objData[0], objData.size() / 8);
 
 		calculateDimensions(&objData[0], objData.size() / 8);
+
+		if (filename.size() > 0)
+		{
+			setTexture(filename);
+		}
 	}
 
-	void Model::initArrays(GLfloat *vertexData, int numVertices, bool useUVs, bool useNormals, bool useColour)
+	void Mesh::initArrays(GLfloat *vertexData, int numVertices, bool useUVs, bool useNormals, bool useColour)
 	{
 		int numberElements = 3;
 		int position = 3;
@@ -85,7 +95,7 @@ namespace flopse
 		glBindVertexArray(0);
 	}
 
-	void Model::calculateDimensions(GLfloat *vertexData, int numVertices)
+	void Mesh::calculateDimensions(GLfloat *vertexData, int numVertices)
 	{
 		float maxY = 0.f, minY = 0.f, maxX = 0.f, minX = 0.f, maxZ = 0.f, minZ = 0.f;
 
@@ -126,7 +136,7 @@ namespace flopse
 		depth = maxZ - minZ;
 	}
 
-	void Model::loadOBJ(const std::string &fileName)
+	void Mesh::loadOBJ(const std::string &fileName)
 	{
 		std::ifstream in(fileName, std::ios::in);
 		std::vector<GLfloat> vertices;
@@ -175,42 +185,77 @@ namespace flopse
 
 				assert(tokens.size() == 9);
 
-				std::istringstream s;
-				GLuint temp;
-				for (int i = 0; i < 9; i += 3)
+				if (tokens.size() == 9)
 				{
-					if (tokens[i].length() > 0)
+					std::istringstream s;
+					GLuint temp;
+					for (int i = 0; i < 9; i += 3)
 					{
-						s.str(tokens[i]);
-						s.clear();
-						assert(s >> temp);
-						temp--;
-						objData.push_back(vertices[temp * 3]);
-						objData.push_back(vertices[(temp * 3) + 1]);
-						objData.push_back(vertices[(temp * 3) + 2]);
-					}
+						if (tokens[i].length() > 0)
+						{
+							s.str(tokens[i]);
+							s.clear();
+							assert(s >> temp);
+							temp--;
+							objData.push_back(vertices[temp * 3]);
+							objData.push_back(vertices[(temp * 3) + 1]);
+							objData.push_back(vertices[(temp * 3) + 2]);
+						}
 
-					if (tokens[i + 1].length() > 0)
-					{
-						s.str(tokens[i + 1]);
-						s.clear();
-						assert(s >> temp);
-						temp--;
-						objData.push_back(uvs[temp * 2]);
-						objData.push_back(uvs[(temp * 2) + 1]);
-					}
+						if (tokens[i + 1].length() > 0)
+						{
+							s.str(tokens[i + 1]);
+							s.clear();
+							assert(s >> temp);
+							temp--;
+							objData.push_back(uvs[temp * 2]);
+							objData.push_back(uvs[(temp * 2) + 1]);
+						}
 
-					if (tokens[i + 2].length() > 0)
-					{
-						s.str(tokens[i + 2]);
-						s.clear();
-						assert(s >> temp);
-						temp--;
-						objData.push_back(normals[temp * 3]);
-						objData.push_back(normals[(temp * 3) + 1]);
-						objData.push_back(normals[(temp * 3) + 2]);
+						if (tokens[i + 2].length() > 0)
+						{
+							s.str(tokens[i + 2]);
+							s.clear();
+							assert(s >> temp);
+							temp--;
+							objData.push_back(normals[temp * 3]);
+							objData.push_back(normals[(temp * 3) + 1]);
+							objData.push_back(normals[(temp * 3) + 2]);
+						}
 					}
-				}
+				}/*
+				else if (tokens.size() == 6)
+				{
+					std::istringstream s;
+					GLuint temp;
+					for (int i = 0; i < 6; i += 2)
+					{
+						if (tokens[i].length() > 0)
+						{
+							s.str(tokens[i]);
+							s.clear();
+							assert(s >> temp);
+							temp--;
+							objData.push_back(vertices[temp * 3]);
+							objData.push_back(vertices[(temp * 3) + 1]);
+							objData.push_back(vertices[(temp * 3) + 2]);
+						}
+
+						objData.push_back(0.f);
+						objData.push_back(0.f);
+
+						if (tokens[i + 1].length() > 0)
+						{
+							s.str(tokens[i + 1]);
+							s.clear();
+							assert(s >> temp);
+							temp--;
+							objData.push_back(normals[temp * 3]);
+							objData.push_back(normals[(temp * 3) + 1]);
+							objData.push_back(normals[(temp * 3) + 2]);
+						}
+					}
+				}*/
 			}
 			else
 			{
@@ -219,7 +264,7 @@ namespace flopse
 		}
 	}
 
-	void Model::setTexture(const std::string &filename)
+	void Mesh::setTexture(const std::string &filename)
 	{
 		this->texture = new sf::Texture();
 		if (!this->texture->loadFromFile(filename))
@@ -228,12 +273,12 @@ namespace flopse
 		}
 	}
 
-	void Model::setTexture(sf::Texture* t)
+	void Mesh::setTexture(sf::Texture* t)
 	{
 		this->texture = t;
 	}
 
-	void Model::setPointColour(const Colour &c)
+	void Mesh::setPointColour(const Colour &c)
 	{
 		if (useColour)
 		{
@@ -261,7 +306,7 @@ namespace flopse
 		}
 	}
 
-	int Model::getNumberOfVertices() const
+	int Mesh::getNumberOfVertices() const
 	{
 		if (objData.size() > 0)
 		{
@@ -273,22 +318,22 @@ namespace flopse
 		}
 	}
 
-	sf::Texture* Model::getTexture() const
+	sf::Texture* Mesh::getTexture() const
 	{
 		return this->texture;
 	}
 
-	float Model::getWidth() const
+	float Mesh::getWidth() const
 	{
 		return width;
 	}
 
-	float Model::getHeight() const
+	float Mesh::getHeight() const
 	{
 		return height;
 	}
 
-	float Model::getDepth() const
+	float Mesh::getDepth() const
 	{
 		return depth;
 	}
