@@ -22,6 +22,8 @@ namespace flopse
 		float speed = 0.f;
 
 		sf::Time lifeTime;
+		sf::Time attackTimer;
+		sf::Time attackDelay;
 		Path* path;
 
 	public:
@@ -35,6 +37,8 @@ namespace flopse
 			{
 			case EnemyType::Goblin:
 				e = new Enemy(pos, GOBLIN_MESH, 30, 5, 400.f, path);
+				e->value = 10;
+				e->attackDelay = sf::seconds(1.f);
 				break;
 			case EnemyType::TreasureGoblin:
 				break;
@@ -50,6 +54,8 @@ namespace flopse
 		}
 
 		int health = 0;
+		int maxHealth = 0;
+		int value = 0;
 		
 		virtual void updateLocalTransform(const sf::RenderWindow &window, const sf::Time &dt);
 	};

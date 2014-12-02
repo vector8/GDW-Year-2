@@ -48,18 +48,15 @@ namespace flopse
 
 		tpos = globalTransform * tpos;
 
-		return glm::vec3(tpos[0], tpos[1], tpos[2]);
-		//return localTransform.getPosition();
+		return glm::vec3(tpos.x, tpos.y, tpos.z);
 	}
 
 	glm::vec3 Entity::getGlobalFront() const
 	{
 		glm::vec4 tfront(0.f, 0.f, -1.f, 0.f);
 
-		//tfront = localTransform.getTransformMatrix() * tfront;
 		tfront = globalTransform * tfront;
 
-		return glm::normalize(glm::vec3(tfront[0], tfront[1], tfront[2]));
-		//return localTransform.getFront();
+		return glm::normalize(glm::vec3(tfront.x, tfront.y, tfront.z));
 	}
 }

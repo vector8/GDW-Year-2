@@ -22,7 +22,7 @@ namespace flopse
 
 		tpos4 = globalTransform * tpos4;
 
-		return glm::vec3(tpos4[0], tpos4[1], tpos4[2]);
+		return glm::vec3(tpos4.x, tpos4.y, tpos4.z);
 	}
 
 	void Camera::setPosition(const glm::vec3 &pos)
@@ -43,8 +43,8 @@ namespace flopse
 		tpos4 = globalTransform * tpos4;
 		tfront4 = globalTransform * tfront4;
 
-		glm::vec3 tpos3(tpos4[0], tpos4[1], tpos4[2]);
-		glm::vec3 tfront3(tfront4[0], tfront4[1], tfront4[2]);
+		glm::vec3 tpos3(tpos4.x, tpos4.y, tpos4.z);
+		glm::vec3 tfront3(tfront4.x, tfront4.y, tfront4.z);
 
 		view = glm::lookAt(tpos3, tpos3 + tfront3, glm::vec3(0.f, 1.f, 0.f));
 	}

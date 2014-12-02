@@ -8,14 +8,22 @@
 
 namespace flopse
 {
+	struct EnemySpawn
+	{
+		Enemy* enemy;
+		sf::Time spawnTime;
+	};
+
 	class Level : public Entity
 	{
 	private:
-		sf::Time spawnTimer;
+		sf::Time elapsed;
+		int spawnCounter = 0;
 
 		void initializeEntities();
 		void createPath();
 		void createColliders();
+		void createEnemies();
 
 	public:
 		Level(Player* p);
@@ -27,9 +35,12 @@ namespace flopse
 
 		Path* path;
 
+		int gateHealth = 200;
+
 		std::vector<Entity*> entities;
 		std::vector<BoundingBox*> colliders;
 		std::vector<Enemy*> enemies;
+		std::vector<EnemySpawn> enemySpawns;
 
 		virtual void updateLocalTransform(const sf::RenderWindow &window, const sf::Time &dt);
 	};
