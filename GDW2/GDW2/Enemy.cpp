@@ -1,9 +1,10 @@
 #include "Enemy.h"
 #include <glm\gtx\vector_angle.hpp>
+#include "Game.h"
 
 namespace flopse
 {
-	Enemy::Enemy(const glm::vec3 &pos, Mesh *m, int hp, int dmg, float spd, Path* path) : Entity(pos, m), health(hp), damage(dmg), speed(spd),
+	Enemy::Enemy(const glm::vec3 &pos, Mesh *m, int hp, int dmg, float spd, Path* path) : Entity(pos, m), health(hp), maxHealth(hp), damage(dmg), speed(spd),
 		path(path), lifeTime(sf::Time::Zero)
 	{
 
@@ -14,18 +15,35 @@ namespace flopse
 		if (health > 0)
 		{
 			lifeTime += dt;
+			float distance = lifeTime.asSeconds() * speed;
 
+			
 			if (path)
 			{
-				float distance = lifeTime.asSeconds() * speed;
-				this->localTransform.setPosition(path->getPoint(distance));
-				this->boundingBox->position = this->getGlobalPosition();
+				if (distance > path->getMaxDistance())
+				{
+					this->localTransform.setPosition(path->getPoint(path->getMaxDistance()));
+					this->boundingBox->position = this->getGlobalPosition();
 
-				glm::vec3 nextFront = path->getPoint(distance + 10.f) - this->localTransform.getPosition();
-				glm::vec3 up(0.f, 1.f, 0.f);
-				float angle = glm::orientedAngle(glm::normalize(this->localTransform.getFront()), glm::normalize(nextFront), up);
+					attackTimer += dt;
+					if (attackTimer >= attackDelay)
+					{
+						attackTimer = sf::Time::Zero;
+						Game::getGame()->getCurrentLevel()->gateHealth -= this->damage;
+						Game::getGame()->checkGameOver();
+					}
+				}
+				else
+				{
+					this->localTransform.setPosition(path->getPoint(distance));
+					this->boundingBox->position = this->getGlobalPosition();
 
-				this->localTransform.rotate(angle, up);
+					glm::vec3 nextFront = path->getPoint(distance + 10.f) - this->localTransform.getPosition();
+					glm::vec3 up(0.f, 1.f, 0.f);
+					float angle = glm::orientedAngle(glm::normalize(this->localTransform.getFront()), glm::normalize(nextFront), up);
+
+					this->localTransform.rotate(angle, up);
+				}
 			}
 		}
 	}

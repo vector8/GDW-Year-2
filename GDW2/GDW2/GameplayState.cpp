@@ -7,10 +7,8 @@
 
 namespace flopse
 {
-	GameplayState::GameplayState(sf::RenderWindow* window) : window(window)
+	GameplayState::GameplayState(sf::RenderWindow* window) : window(window), projection(glm::perspective(45.0f, 800.0f / 600.0f, 0.1f, 100000.0f))
 	{
-		projection = glm::perspective(45.0f, (float)(window->getSize().x) / (float)(window->getSize().y), 0.1f, 100000.0f);
-
 		Mesh *playerMesh = new Mesh("obj/Goblin.obj", new Shader("shaders/texShader.vs", "shaders/texShader.frag"));
 		playerMesh->setTexture("textures/GoblinTexture.png");
 		player = new Player(playerMesh);
@@ -48,10 +46,19 @@ namespace flopse
 			break;
 		case sf::Keyboard::E:
 		{
-			glm::vec3 front = player->getGlobalFront();
-			Tower* t = Tower::createTower(TowerType::Arrow, player->getGlobalPosition() + glm::vec3(front.x, 0.f, front.z)  * -30.f);
-			this->currentLevel->attach(t);
-			SoundManager::getSoundManager()->clank();
+			if (player->gold >= 50)
+			{
+				player->gold -= 50;
+
+				glm::vec3 front = player->getGlobalFront();
+				Tower* t = Tower::createTower(TowerType::Arrow, player->getGlobalPosition() + glm::vec3(front.x, 0.f, front.z)  * -30.f);
+				this->currentLevel->attach(t);
+				SoundManager::getSoundManager()->clank();
+			}
+			else
+			{
+				// play error sound, flash gold on ui
+			}
 		}
 			break;
 		default:

@@ -41,6 +41,7 @@ namespace flopse
 						if (enemies[i]->health <= 0)
 						{
 							enemies[i]->toBeDeleted = true;
+							Game::getGame()->getPlayer()->gold += enemies[i]->value;
 						}
 
 						this->toBeDeleted = true;
@@ -48,7 +49,7 @@ namespace flopse
 				}
 			}
 		}
-		else // target != nullptr
+		else if (!target->toBeDeleted)
 		{
 			if (interpParam >= 1.f)
 			{
@@ -57,6 +58,7 @@ namespace flopse
 				if (target->health <= 0)
 				{
 					target->toBeDeleted = true;
+					Game::getGame()->getPlayer()->gold += target->value;
 				}
 
 				this->toBeDeleted = true;
@@ -65,6 +67,10 @@ namespace flopse
 			{
 				this->localTransform.setPosition(lerp(interpParam, sourcePos, target->getGlobalPosition() + glm::vec3(0.f, target->mesh->getHeight() / 2.f, 0.f)));
 			}
+		}
+		else
+		{
+			this->toBeDeleted = true;
 		}
 	}
 }

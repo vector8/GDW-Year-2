@@ -8,14 +8,16 @@
 
 namespace flopse
 {
-	Level::Level(Player* p) : Entity(new Mesh("obj/Level1.obj", new Shader("shaders/texShader.vs", "shaders/grayShader.frag"))), player(p)
+	Level::Level(Player* p) : Entity(new Mesh("obj/Level1.obj", new Shader("shaders/texShader.vs", "shaders/texShader.frag"))), player(p)
 	{
+		this->mesh->setTexture("textures/Level1.png");
 		lightPos = glm::vec3(11000.f, 9000.f, 10000.f);
 
 		particleManager = ParticleManager::getInstance();
 
 		createPath();
 		createColliders();
+		createEnemies();
 
 		initializeEntities();
 
@@ -24,6 +26,8 @@ namespace flopse
 		cam->localTransform.rotate(180.f, glm::vec3(0.f, 1.f, 0.f));
 		//cam->localTransform.rotate(10.f, glm::vec3(0.f, 1.f, 0.f));
 		player->attach(cam);
+		//ParticleSystem* s = particleManager->createParticleSystem(ParticleSystemBehaviour::Emit, 4, 1000, glm::vec3(0.f, player->mesh->getHeight(), 0.f));
+		//player->attach(s);
 
 		this->mesh->overlayColour = Colour(0.2f, 0.2f, 0.2f, 1.f);
 	}
@@ -34,20 +38,35 @@ namespace flopse
 		//crateMesh->setTexture("textures/container.jpg");
 		//Entity *crate = new Entity(crateMesh);
 		//crate->scale(glm::vec3(60.f, 60.f, 60.f));
+		Shader *texShader = new Shader("shaders/texShader.vs", "shaders/texShader.frag");
 
-		/*Mesh *gobMesh = new Mesh("obj/Goblin.obj", texShader);
-		gobMesh->setTexture("textures/GoblinTexture.png");
-		Entity *goblin = new Entity(gobMesh);*/
+		Mesh *gobMesh = new Mesh("obj/TreasureGoblin.obj", texShader);
+		gobMesh->setTexture("textures/TreasureGoblin.png");
+		Entity *goblin = new Entity(gobMesh);
+		goblin->setPosition(glm::vec3(0.f, 145.f, 0.f));
+
+		Mesh* bossMesh = new Mesh("obj/FinalBoss.obj", texShader);
+		bossMesh->setTexture("textures/BossModelTexture.png");
+		Entity *boss = new Entity(bossMesh);
+		boss->setPosition(glm::vec3(0.f, 145.f, -200.f));
+
+		Mesh* p2mesh = new Mesh("obj/Player.obj", texShader);
+		p2mesh->setTexture("textures/PlayerTexture.png");
+		Entity *p2 = new Entity(p2mesh);
+		p2->setPosition(glm::vec3(0.f, 145.f, -400.f));
+
+		Mesh* knifeHandsMesh = new Mesh("obj/KnifeHands.obj", texShader);
+		knifeHandsMesh->setTexture("textures/KnifeHands.png");
+		Entity *knifeHands = new Entity(knifeHandsMesh);
+		knifeHands->setPosition(glm::vec3(0.f, 145.f, -600.f));
 
 		player->setPosition(glm::vec3(0.f, 145.f, 100.f));
-		//player->scale(glm::vec3(0.05f, 0.05f, 0.05f));
-
-		Enemy* gob1 = Enemy::createEnemy(EnemyType::Goblin, path->getPoint(0.f), path);
-		this->enemies.push_back(gob1);
 
 		this->attach(player);
-		this->attach(gob1);
-		//this->attach(crate);
+		this->attach(goblin);
+		this->attach(boss);
+		this->attach(p2);
+		this->attach(knifeHands);
 	}
 
 	void Level::createPath()
@@ -147,16 +166,57 @@ namespace flopse
 		}
 	}
 
+	void Level::createEnemies()
+	{
+		sf::Time spawnTime = sf::seconds(7.f);
+
+		for (int i = 0; i < 5; i++)
+		{
+			spawnTime += sf::seconds(3.f);
+
+			EnemySpawn es;
+			es.enemy = Enemy::createEnemy(EnemyType::Goblin, path->getPoint(0.f), path);
+			es.spawnTime = spawnTime;
+			enemySpawns.push_back(es);
+		}
+
+		spawnTime += sf::seconds(7.f);
+
+		for (int i = 0; i < 7; i++)
+		{
+			spawnTime += sf::seconds(2.f);
+
+			EnemySpawn es;
+			es.enemy = Enemy::createEnemy(EnemyType::Goblin, path->getPoint(0.f), path);
+			es.spawnTime = spawnTime;
+			enemySpawns.push_back(es);
+		}
+
+		spawnTime += sf::seconds(5.f);
+
+		for (int i = 0; i < 8; i++)
+		{
+			spawnTime += sf::seconds(1.5f);
+
+			EnemySpawn es;
+			es.enemy = Enemy::createEnemy(EnemyType::Goblin, path->getPoint(0.f), path);
+			es.spawnTime = spawnTime;
+			enemySpawns.push_back(es);
+		}
+	}
+
 	void Level::updateLocalTransform(const sf::RenderWindow &window, const sf::Time &dt)
 	{
-		spawnTimer += dt;
-
-		if (spawnTimer.asSeconds() > 2.f)
+		if (spawnCounter < enemySpawns.size())
 		{
-			spawnTimer = sf::Time::Zero;
-			Enemy* gob = Enemy::createEnemy(EnemyType::Goblin, path->getPoint(0.f), path);
-			this->enemies.push_back(gob);
-			this->attach(gob);
+			elapsed += dt;
+
+			if (elapsed >= enemySpawns[spawnCounter].spawnTime)
+			{
+				this->attach(enemySpawns[spawnCounter].enemy);
+				this->enemies.push_back(enemySpawns[spawnCounter].enemy);
+				spawnCounter++;
+			}
 		}
 	}
 }

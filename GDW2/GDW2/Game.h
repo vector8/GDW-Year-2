@@ -53,5 +53,6 @@ namespace flopse
 		void setGameplayState();
 		void setMainMenuState();
 		void exit();
+		void checkGameOver();
 	};
 }

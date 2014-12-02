@@ -184,4 +184,12 @@ namespace flopse
 		window->close();
 		running = false;
 	}
+
+	void Game::checkGameOver()
+	{
+		if (gameplayState->currentLevel->gateHealth <= 0)
+		{
+			this->currentState = this->mainMenuState;	// TODO set gameover screen
+		}
+	}
 }
