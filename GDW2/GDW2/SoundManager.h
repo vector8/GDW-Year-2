@@ -11,6 +11,7 @@ namespace flopse
 		sf::Sound footSteps;
 		sf::Sound pewPew;
 		sf::Sound clankSound;
+		sf::Sound gateSmackSound;
 
 	public:
 		static SoundManager* getSoundManager()
@@ -26,5 +27,7 @@ namespace flopse
 		void pew();
 
 		void clank();
+
+		void gateSmack();
 	};
 }

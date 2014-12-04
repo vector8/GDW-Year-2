@@ -6,3 +6,7 @@ GDW2/GDW2.opensdf
 GDW2/GDW2.sdf
 GDW2/GDW2.v12.suo
 GDW2/GDW2/Debug/*
+GDW2/Garrison/Release/*
+GDW2/GDW2/Release/*
+GDW2/Release/GDW2.exe
+GDW2/Release/GDW2.pdb

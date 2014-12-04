@@ -2,12 +2,39 @@
 #include "Game.h"
 #include <iostream>
 #include "SoundManager.h"
+#include <vector>
+#include <sstream>
 
 namespace flopse
 {
 	Player::Player(Mesh *m) : Entity(m), jumping(false), dy(0.f)
 	{
+		idleMesh = new Mesh(*m);
+		std::vector<Keyframe> runFrames;
+		Shader* s = new Shader("shaders/texShader.vs", "shaders/texShader.frag");
 
+		for (int i = 1; i < 9; i++)
+		{
+			std::stringstream ss;
+			ss << "obj/GoblinRun" << i << ".obj";
+			std::string filename = ss.str();
+			Keyframe frame;
+			frame.mesh = new Mesh(filename, s);
+			frame.mesh->setTexture("textures/GoblinTexture.png");
+
+			if (i == 8)
+			{
+				frame.duration = sf::seconds(0.033);
+			}
+			else
+			{
+				frame.duration = sf::seconds(0.1);
+			}
+
+			runFrames.push_back(frame);
+		}
+
+		runAnimation = new Animation(runFrames);
 	}
 
 	void Player::updateLocalTransform(const sf::RenderWindow &window, const sf::Time &dt)
@@ -29,11 +56,16 @@ namespace flopse
 		{
 			newPos += speed * dt.asSeconds() * glm::normalize(glm::cross(localTransform.getUp(), glm::cross(localTransform.getFront(), localTransform.getUp())));
 			SoundManager::getSoundManager()->startFootSteps();
+
+			runAnimation->update(dt);
+			mesh = runAnimation->getCurrentMesh();
 		}
 		else
 		{
 			SoundManager::getSoundManager()->stopFootSteps();
+			mesh = idleMesh;
 		}
+
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 		{
 			newPos -= speed * dt.asSeconds() * glm::normalize(glm::cross(localTransform.getUp(), glm::cross(localTransform.getFront(), localTransform.getUp())));

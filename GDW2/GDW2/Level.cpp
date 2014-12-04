@@ -38,7 +38,7 @@ namespace flopse
 		//crateMesh->setTexture("textures/container.jpg");
 		//Entity *crate = new Entity(crateMesh);
 		//crate->scale(glm::vec3(60.f, 60.f, 60.f));
-		Shader *texShader = new Shader("shaders/texShader.vs", "shaders/texShader.frag");
+		/*Shader *texShader = new Shader("shaders/texShader.vs", "shaders/texShader.frag");
 
 		Mesh *gobMesh = new Mesh("obj/TreasureGoblin.obj", texShader);
 		gobMesh->setTexture("textures/TreasureGoblin.png");
@@ -58,15 +58,15 @@ namespace flopse
 		Mesh* knifeHandsMesh = new Mesh("obj/KnifeHands.obj", texShader);
 		knifeHandsMesh->setTexture("textures/KnifeHands.png");
 		Entity *knifeHands = new Entity(knifeHandsMesh);
-		knifeHands->setPosition(glm::vec3(0.f, 145.f, -600.f));
+		knifeHands->setPosition(glm::vec3(0.f, 145.f, -600.f));*/
 
 		player->setPosition(glm::vec3(0.f, 145.f, 100.f));
 
 		this->attach(player);
-		this->attach(goblin);
+		/*this->attach(goblin);
 		this->attach(boss);
 		this->attach(p2);
-		this->attach(knifeHands);
+		this->attach(knifeHands);*/
 	}
 
 	void Level::createPath()
@@ -184,7 +184,7 @@ namespace flopse
 
 		for (int i = 0; i < 7; i++)
 		{
-			spawnTime += sf::seconds(2.f);
+			spawnTime += sf::seconds(1.8f);
 
 			EnemySpawn es;
 			es.enemy = Enemy::createEnemy(EnemyType::Goblin, path->getPoint(0.f), path);
@@ -196,13 +196,27 @@ namespace flopse
 
 		for (int i = 0; i < 8; i++)
 		{
-			spawnTime += sf::seconds(1.5f);
+			spawnTime += sf::seconds(1.2f);
 
 			EnemySpawn es;
 			es.enemy = Enemy::createEnemy(EnemyType::Goblin, path->getPoint(0.f), path);
 			es.spawnTime = spawnTime;
 			enemySpawns.push_back(es);
 		}
+
+		spawnTime += sf::seconds(5.f);
+
+		for (int i = 0; i < 12; i++)
+		{
+			spawnTime += sf::seconds(0.8f);
+
+			EnemySpawn es;
+			es.enemy = Enemy::createEnemy(EnemyType::Goblin, path->getPoint(0.f), path);
+			es.spawnTime = spawnTime;
+			enemySpawns.push_back(es);
+		}
+
+		enemyCount = 32;
 	}
 
 	void Level::updateLocalTransform(const sf::RenderWindow &window, const sf::Time &dt)

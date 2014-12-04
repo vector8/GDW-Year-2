@@ -42,9 +42,11 @@ namespace flopse
 						{
 							enemies[i]->toBeDeleted = true;
 							Game::getGame()->getPlayer()->gold += enemies[i]->value;
+							Game::getGame()->getCurrentLevel()->enemyCount--;
 						}
 
 						this->toBeDeleted = true;
+						break;
 					}
 				}
 			}
@@ -59,6 +61,7 @@ namespace flopse
 				{
 					target->toBeDeleted = true;
 					Game::getGame()->getPlayer()->gold += target->value;
+					Game::getGame()->getCurrentLevel()->enemyCount--;
 				}
 
 				this->toBeDeleted = true;

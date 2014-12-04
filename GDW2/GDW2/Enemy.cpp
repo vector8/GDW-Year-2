@@ -1,6 +1,7 @@
 #include "Enemy.h"
 #include <glm\gtx\vector_angle.hpp>
 #include "Game.h"
+#include "SoundManager.h"
 
 namespace flopse
 {
@@ -30,6 +31,7 @@ namespace flopse
 					{
 						attackTimer = sf::Time::Zero;
 						Game::getGame()->getCurrentLevel()->gateHealth -= this->damage;
+						SoundManager::getSoundManager()->gateSmack();
 						Game::getGame()->checkGameOver();
 					}
 				}

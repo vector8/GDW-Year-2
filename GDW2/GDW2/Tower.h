@@ -31,7 +31,7 @@ namespace flopse
 			switch (t)
 			{
 			case TowerType::Arrow:
-				tow = new Tower(pos, ARROW_TOWER_MESH, 500.f, 2.5f, 12);
+				tow = new Tower(pos, ARROW_TOWER_MESH, 500.f, 2.f, 12);
 				break;
 			case TowerType::Mage:
 				break;

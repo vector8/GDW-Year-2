@@ -19,8 +19,6 @@ namespace flopse
 
 		float width, height, depth;
 
-		std::vector<GLfloat> objData;
-
 		void loadOBJ(const std::string &fileName);
 
 		sf::Texture* texture;
@@ -30,15 +28,17 @@ namespace flopse
 		bool useColour;
 
 	public:
-		Mesh(GLfloat *vertexData, int numVertices, Shader *s, const std::string &filename = "", bool useUVs = true, bool useNormals = true, bool useColour = false);
-		Mesh(const std::string &objFileName, Shader *s, const std::string &filename = "");
+		Mesh(GLfloat *vertexData, int numVertices, Shader *s, const std::string &textureFilename = "", bool useUVs = true, bool useNormals = true, bool useColour = false);
+		Mesh(const std::string &objFileName, Shader *s, const std::string &textureFilename = "");
 
+		void refreshArrays();
 		void initArrays(GLfloat *vertexData, int numVertices, bool useUVs = true, bool useNormals = true, bool useColour = false);
 		void calculateDimensions(GLfloat *vertexData, int numVertices);
 
 		Shader *shader;
 		GLuint VAO;
 		Colour overlayColour;
+		std::vector<GLfloat> objData;
 
 		void setTexture(const std::string &filename);
 		void setTexture(sf::Texture *t);

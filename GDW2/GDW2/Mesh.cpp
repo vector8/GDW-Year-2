@@ -8,20 +8,20 @@
 
 namespace flopse
 {
-	Mesh::Mesh(GLfloat *vertexData, int numVertices, Shader *s, const std::string &filename, bool useUVs, bool useNormals, bool useColour) : vertexData(vertexData), numVertices(numVertices), shader(s),
+	Mesh::Mesh(GLfloat *vertexData, int numVertices, Shader *s, const std::string &textureFilename, bool useUVs, bool useNormals, bool useColour) : vertexData(vertexData), numVertices(numVertices), shader(s),
 		texture(NULL), useUVs(useUVs), useNormals(useNormals), useColour(useColour)
 	{
 		this->initArrays(vertexData, numVertices, useUVs, useNormals);
 
 		calculateDimensions(vertexData, numVertices);
 
-		if (filename.size() > 0)
+		if (textureFilename.size() > 0)
 		{
-			setTexture(filename);
+			setTexture(textureFilename);
 		}
 	}
 
-	Mesh::Mesh(const std::string &objFileName, Shader *s, const std::string &filename) : shader(s), texture(NULL), width(0.f), height(0.f), depth(0.f), useUVs(true), useNormals(true), useColour(false)
+	Mesh::Mesh(const std::string &objFileName, Shader *s, const std::string &textureFilename) : shader(s), texture(NULL), width(0.f), height(0.f), depth(0.f), useUVs(true), useNormals(true), useColour(false)
 	{
 		this->loadOBJ(objFileName);
 
@@ -29,10 +29,17 @@ namespace flopse
 
 		calculateDimensions(&objData[0], objData.size() / 8);
 
-		if (filename.size() > 0)
+		if (textureFilename.size() > 0)
 		{
-			setTexture(filename);
+			setTexture(textureFilename);
 		}
+	}
+
+	void Mesh::refreshArrays()
+	{
+		this->initArrays(&objData[0], objData.size() / 8);
+
+		calculateDimensions(&objData[0], objData.size() / 8);
 	}
 
 	void Mesh::initArrays(GLfloat *vertexData, int numVertices, bool useUVs, bool useNormals, bool useColour)
