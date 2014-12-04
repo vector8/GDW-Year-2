@@ -10,6 +10,7 @@
 #include "Enemy.h"
 #include "GameplayState.h"
 #include "MainMenuState.h"
+#include "GameOverState.h"
 
 namespace flopse
 {
@@ -24,6 +25,7 @@ namespace flopse
 		State* currentState;
 		GameplayState* gameplayState;
 		MainMenuState* mainMenuState;
+		GameOverState* gameOverState;
 
 		int frames;
 		bool running;
@@ -52,6 +54,7 @@ namespace flopse
 		void newGame();
 		void setGameplayState();
 		void setMainMenuState();
+		void setGameOverState();
 		void exit();
 		void checkGameOver();
 	};

@@ -26,6 +26,13 @@ namespace flopse
 			std::cout << "ERROR loading sound sounds/clank.wav" << std::endl;
 		}
 		clankSound.setBuffer(*clankBuffer);
+
+		sf::SoundBuffer* gateSmackBuffer = new sf::SoundBuffer();
+		if (!gateSmackBuffer->loadFromFile("sounds/gateSmack.flac"))
+		{
+			std::cout << "ERROR loading sound sounds/gateSmack.flac" << std::endl;
+		}
+		gateSmackSound.setBuffer(*gateSmackBuffer);
 	}
 
 	void SoundManager::startFootSteps()
@@ -49,5 +56,10 @@ namespace flopse
 	void SoundManager::clank()
 	{
 		clankSound.play();
+	}
+
+	void SoundManager::gateSmack()
+	{
+		gateSmackSound.play();
 	}
 }

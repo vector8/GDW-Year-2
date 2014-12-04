@@ -36,6 +36,8 @@ namespace flopse
 		Path* path;
 
 		int gateHealth = 200;
+		int maxGateHealth = 200;
+		int enemyCount = 0;
 
 		std::vector<Entity*> entities;
 		std::vector<BoundingBox*> colliders;

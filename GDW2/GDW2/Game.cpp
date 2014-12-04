@@ -11,10 +11,10 @@
 
 namespace flopse
 {
-	Game::Game() : window(new sf::RenderWindow(sf::VideoMode(1024, 768), "Garrison")), running(true), frames(0), fullscreen(false)
+	Game::Game() : window(new sf::RenderWindow(sf::VideoMode(1024, 768), "Garrison", sf::Style::Close)), running(true), frames(0), fullscreen(false)
 	{
-		//window->setVerticalSyncEnabled(true);
-		//window->setFramerateLimit(60);
+		window->setVerticalSyncEnabled(true);
+		window->setFramerateLimit(60);
 
 		glewExperimental = GL_TRUE;
 		glewInit();
@@ -23,6 +23,7 @@ namespace flopse
 
 		gameplayState = new GameplayState(window);
 		mainMenuState = new MainMenuState(window);
+		gameOverState = new GameOverState(window);
 		currentState = mainMenuState;
 	}
 
@@ -171,12 +172,23 @@ namespace flopse
 
 	void Game::setGameplayState()
 	{
+		if (this->gameplayState == nullptr)
+		{
+			this->gameplayState = new GameplayState(window);
+		}
+
 		this->currentState = this->gameplayState;
+		clock.restart();
 	}
 
 	void Game::setMainMenuState()
 	{
 		this->currentState = this->mainMenuState;
+	}
+
+	void Game::setGameOverState()
+	{
+		this->currentState = this->gameOverState;
 	}
 
 	void Game::exit()
@@ -189,7 +201,8 @@ namespace flopse
 	{
 		if (gameplayState->currentLevel->gateHealth <= 0)
 		{
-			this->currentState = this->mainMenuState;	// TODO set gameover screen
+			this->currentState = this->gameOverState;
+			this->gameplayState = nullptr;
 		}
 	}
 }

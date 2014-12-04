@@ -1,24 +1,17 @@
 #pragma once
 #include "State.h"
-#include <glm\glm.hpp>
-#include "Level.h"
-#include "HUD.h"
 
 namespace flopse
 {
-	class GameplayState : public State
+	class GameOverState : public State
 	{
 	private:
-		glm::mat4 projection;
 		sf::RenderWindow* window;
+		sf::Texture bgTexture;
+		sf::Sprite* bgSprite;
 
 	public:
-		SceneNode* root;
-		Player* player;
-		Level* currentLevel;
-		HUD hud;
-
-		GameplayState(sf::RenderWindow* window);
+		GameOverState(sf::RenderWindow* window);
 
 		void update(const sf::Time &dt);
 		void draw();

@@ -7,7 +7,7 @@
 
 namespace flopse
 {
-	GameplayState::GameplayState(sf::RenderWindow* window) : window(window), projection(glm::perspective(45.0f, 800.0f / 600.0f, 0.1f, 100000.0f))
+	GameplayState::GameplayState(sf::RenderWindow* window) : window(window), projection(glm::perspective(45.0f, 800.0f / 600.0f, 0.1f, 100000.0f)), hud(window)
 	{
 		Mesh *playerMesh = new Mesh("obj/Goblin.obj", new Shader("shaders/texShader.vs", "shaders/texShader.frag"));
 		playerMesh->setTexture("textures/GoblinTexture.png");
@@ -23,6 +23,8 @@ namespace flopse
 	{
 		root->update(*window, dt, glm::mat4());
 
+		hud.update(dt);
+
 		window->setMouseCursorVisible(false);
 		// Reset mouse to middle of screen
 		sf::Mouse::setPosition(sf::Vector2i((int)(window->getSize().x) / 2, (int)(window->getSize().y) / 2), *window);
@@ -35,6 +37,8 @@ namespace flopse
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		root->draw(currentLevel->cam->getGlobalPosition(), currentLevel->cam->view, projection, currentLevel->lightPos);
+
+		hud.draw();
 	}
 
 	void GameplayState::keyPressed(sf::Event::KeyEvent e)
@@ -46,7 +50,7 @@ namespace flopse
 			break;
 		case sf::Keyboard::E:
 		{
-			if (player->gold >= 50)
+			if (!player->jumping && player->gold >= 50)
 			{
 				player->gold -= 50;
 
@@ -57,13 +61,15 @@ namespace flopse
 			}
 			else
 			{
-				// play error sound, flash gold on ui
+				// TODO play error sound, flash gold on ui
 			}
 		}
 			break;
 		default:
 			break;
 		}
+
+		hud.keyPressed(e);
 	}
 
 	void GameplayState::mouseButtonPressed(sf::Event::MouseButtonEvent e)
@@ -81,6 +87,8 @@ namespace flopse
 		default:
 			break;
 		}
+
+		hud.mouseButtonPressed(e);
 	}
 
 	void GameplayState::mouseButtonReleased(sf::Event::MouseButtonEvent e)
