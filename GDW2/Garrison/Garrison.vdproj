@@ -379,6 +379,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
         "Release"
         {
@@ -395,6 +403,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
     }
     "Deployable"
@@ -1707,12 +1723,12 @@
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
         "ProductVersion" = "8:1.0.0"
-        "Manufacturer" = "8:Default Company Name"
+        "Manufacturer" = "8:Flapdoodle Entertainment"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
         "Title" = "8:Garrison"
         "Subject" = "8:"
-        "ARPCONTACT" = "8:Default Company Name"
+        "ARPCONTACT" = "8:Flapdoodle Entertainment"
         "Keywords" = "8:"
         "ARPCOMMENTS" = "8:"
         "ARPURLINFOABOUT" = "8:"
