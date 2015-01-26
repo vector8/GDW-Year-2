@@ -21,9 +21,10 @@ namespace flopse
 		glViewport(0, 0, window->getSize().x, window->getSize().y);
 		glEnable(GL_DEPTH_TEST);
 
-		gameplayState = new GameplayState(window);
+		gameplayState = nullptr;
 		mainMenuState = new MainMenuState(window);
-		gameOverState = new GameOverState(window);
+		optionsMenuState = nullptr;
+		gameOverState = nullptr;
 		currentState = mainMenuState;
 	}
 
@@ -60,11 +61,15 @@ namespace flopse
 					case sf::Keyboard::Escape:
 						if (currentState == gameplayState)
 						{
-							currentState = mainMenuState;
+							setMainMenuState();
 						}
 						else if (currentState == mainMenuState)
 						{
-							currentState = gameplayState;
+							setGameplayState();
+						}
+						else if (currentState == optionsMenuState)
+						{
+							setMainMenuState();
 						}
 						break;
 					case sf::Keyboard::F4:
@@ -183,11 +188,31 @@ namespace flopse
 
 	void Game::setMainMenuState()
 	{
+		if (this->mainMenuState == nullptr)
+		{
+			this->mainMenuState = new MainMenuState(window);
+		}
+
 		this->currentState = this->mainMenuState;
+	}
+
+	void Game::setOptionsMenuState()
+	{
+		if (this->optionsMenuState == nullptr)
+		{
+			this->optionsMenuState = new OptionsMenuState(window);
+		}
+
+		this->currentState = this->optionsMenuState;
 	}
 
 	void Game::setGameOverState()
 	{
+		if (this->gameOverState == nullptr)
+		{
+			this->gameOverState = new GameOverState(window);
+		}
+
 		this->currentState = this->gameOverState;
 	}
 
@@ -204,5 +229,52 @@ namespace flopse
 			this->currentState = this->gameOverState;
 			this->gameplayState = nullptr;
 		}
+	}
+
+	void Game::toggleFullscreen()
+	{
+		if (fullscreen)
+		{
+			window->create(sf::VideoMode(1024, 768), "Garrison");
+			window->setVerticalSyncEnabled(true);
+			window->setFramerateLimit(60);
+
+			glewExperimental = GL_TRUE;
+			glewInit();
+			glViewport(0, 0, window->getSize().x, window->getSize().y);
+			glEnable(GL_DEPTH_TEST);
+			fullscreen = false;
+		}
+		else
+		{
+			window->create(sf::VideoMode::getDesktopMode(), "Garrison", sf::Style::Fullscreen);
+			window->setVerticalSyncEnabled(true);
+			window->setFramerateLimit(60);
+
+			glewExperimental = GL_TRUE;
+			glewInit();
+			glViewport(0, 0, window->getSize().x, window->getSize().y);
+			glEnable(GL_DEPTH_TEST);
+			fullscreen = true;
+		}
+	}
+
+	bool Game::isFullscreen()
+	{
+		return fullscreen;
+	}
+
+	void Game::setFieldOfView(float degrees)
+	{
+		this->fov = degrees;
+		if (this->gameplayState != nullptr)
+		{
+			this->gameplayState->setFieldOfView(fov);
+		}
+	}
+
+	float Game::getFieldOfView()
+	{
+		return fov;
 	}
 }

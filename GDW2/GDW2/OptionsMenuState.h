@@ -3,24 +3,37 @@
 #include <vector>
 #include <string>
 #include "Button.h"
+#include "SpriteWithAtlas.h"
 
 namespace flopse
 {
-	class MainMenuState : public State
+	struct Slider
+	{
+		sf::Vector2i pos;
+		sf::IntRect rect;
+		std::string name;
+	};
+
+	class OptionsMenuState : public State
 	{
 	private:
 		sf::RenderWindow* window;
-		sf::Texture buttonTexture;
 		sf::Texture bgTexture;
 		sf::Sprite* bgSprite;
-		sf::Sprite* buttonSprite;
+		SpriteWithAtlas buttonSprite;
 		std::vector<Button> buttons;
+
+		Slider volumeSlider;
+		Button volumeSliderTab;
+
+		Slider fovSlider;
+		Button fovSliderTab;
 
 		void createButtons();
 		void buttonClicked(std::string name);
 
 	public:
-		MainMenuState(sf::RenderWindow* window);
+		OptionsMenuState(sf::RenderWindow* window);
 
 		void update(const sf::Time &dt);
 		void draw();

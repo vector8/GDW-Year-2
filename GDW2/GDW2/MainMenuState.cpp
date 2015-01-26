@@ -95,6 +95,10 @@ namespace flopse
 		{
 			Game::getGame()->newGame();
 		}
+		else if (name == "options")
+		{
+			Game::getGame()->setOptionsMenuState();
+		}
 		else if (name == "exit")
 		{
 			Game::getGame()->exit();

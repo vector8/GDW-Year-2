@@ -1,7 +1,7 @@
 #include "Player.h"
 #include "Game.h"
 #include <iostream>
-#include "SoundManager.h"
+#include "FSoundManager.h"
 #include <vector>
 #include <sstream>
 
@@ -11,12 +11,12 @@ namespace flopse
 	{
 		idleMesh = new Mesh(*m);
 		std::vector<Keyframe> runFrames;
-		Shader* s = new Shader("shaders/texShader.vs", "shaders/texShader.frag");
+		Shader* s = new Shader("shaders/texShader.vert", "shaders/texShader.frag");
 
 		for (int i = 1; i < 9; i++)
 		{
 			std::stringstream ss;
-			ss << "obj/GoblinRun" << i << ".obj";
+			ss << "meshes/GoblinRun" << i << ".bmf";
 			std::string filename = ss.str();
 			Keyframe frame;
 			frame.mesh = new Mesh(filename, s);
@@ -55,14 +55,14 @@ namespace flopse
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 		{
 			newPos += speed * dt.asSeconds() * glm::normalize(glm::cross(localTransform.getUp(), glm::cross(localTransform.getFront(), localTransform.getUp())));
-			SoundManager::getSoundManager()->startFootSteps();
+			FSoundManager::getSoundManager()->startFootSteps();
 
 			runAnimation->update(dt);
 			mesh = runAnimation->getCurrentMesh();
 		}
 		else
 		{
-			SoundManager::getSoundManager()->stopFootSteps();
+			FSoundManager::getSoundManager()->stopFootSteps();
 			mesh = idleMesh;
 		}
 

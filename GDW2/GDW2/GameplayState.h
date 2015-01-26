@@ -27,5 +27,7 @@ namespace flopse
 		void mouseButtonPressed(sf::Event::MouseButtonEvent e);
 		void mouseButtonReleased(sf::Event::MouseButtonEvent e);
 		void mouseMoved(sf::Event::MouseMoveEvent e);
+
+		void setFieldOfView(float degrees);
 	};
 }

@@ -21,17 +21,18 @@ namespace flopse
 		}
 	}
 
-	Mesh::Mesh(const std::string &objFileName, Shader *s, const std::string &textureFilename) : shader(s), texture(NULL), width(0.f), height(0.f), depth(0.f), useUVs(true), useNormals(true), useColour(false)
+	Mesh::Mesh(const std::string &fileName, Shader *s, const std::string &textureFilename) : shader(s), texture(NULL), width(0.f), height(0.f), depth(0.f), useUVs(true), useNormals(true), useColour(false)
 	{
-		this->loadOBJ(objFileName);
-
-		this->initArrays(&objData[0], objData.size() / 8);
-
-		calculateDimensions(&objData[0], objData.size() / 8);
-
-		if (textureFilename.size() > 0)
+		if (this->loadFromFile(fileName))
 		{
-			setTexture(textureFilename);
+			this->initArrays(&objData[0], objData.size() / 8);
+
+			calculateDimensions(&objData[0], objData.size() / 8);
+
+			if (textureFilename.size() > 0)
+			{
+				setTexture(textureFilename);
+			}
 		}
 	}
 
@@ -143,134 +144,6 @@ namespace flopse
 		depth = maxZ - minZ;
 	}
 
-	void Mesh::loadOBJ(const std::string &fileName)
-	{
-		std::ifstream in(fileName, std::ios::in);
-		std::vector<GLfloat> vertices;
-		std::vector<GLfloat> uvs;
-		std::vector<GLfloat> normals;
-
-		if (!in)
-		{
-			std::cout << "Cannot open " << fileName << std::endl;
-			assert(false);
-		}
-
-		std::string line;
-		while (std::getline(in, line))
-		{
-			if (line.substr(0, 2) == "v ")
-			{
-				std::istringstream s(line.substr(2));
-				GLfloat v;
-				while (s >> v)
-				{
-					vertices.push_back(v);
-				}
-			}
-			else if (line.substr(0, 3) == "vt ")
-			{
-				std::istringstream s(line.substr(3));
-				GLfloat uv;
-				while (s >> uv)
-				{
-					uvs.push_back(uv);
-				}
-			}
-			else if (line.substr(0, 3) == "vn ")
-			{
-				std::istringstream s(line.substr(3));
-				GLfloat n;
-				while (s >> n)
-				{
-					normals.push_back(n);
-				}
-			}
-			else if (line.substr(0, 2) == "f ")
-			{
-				std::vector<std::string> tokens = split(line.substr(2), " /");
-
-				assert(tokens.size() == 9);
-
-				if (tokens.size() == 9)
-				{
-					std::istringstream s;
-					GLuint temp;
-					for (int i = 0; i < 9; i += 3)
-					{
-						if (tokens[i].length() > 0)
-						{
-							s.str(tokens[i]);
-							s.clear();
-							assert(s >> temp);
-							temp--;
-							objData.push_back(vertices[temp * 3]);
-							objData.push_back(vertices[(temp * 3) + 1]);
-							objData.push_back(vertices[(temp * 3) + 2]);
-						}
-
-						if (tokens[i + 1].length() > 0)
-						{
-							s.str(tokens[i + 1]);
-							s.clear();
-							assert(s >> temp);
-							temp--;
-							objData.push_back(uvs[temp * 2]);
-							objData.push_back(uvs[(temp * 2) + 1]);
-						}
-
-						if (tokens[i + 2].length() > 0)
-						{
-							s.str(tokens[i + 2]);
-							s.clear();
-							assert(s >> temp);
-							temp--;
-							objData.push_back(normals[temp * 3]);
-							objData.push_back(normals[(temp * 3) + 1]);
-							objData.push_back(normals[(temp * 3) + 2]);
-						}
-					}
-				}/*
-				else if (tokens.size() == 6)
-				{
-					std::istringstream s;
-					GLuint temp;
-					for (int i = 0; i < 6; i += 2)
-					{
-						if (tokens[i].length() > 0)
-						{
-							s.str(tokens[i]);
-							s.clear();
-							assert(s >> temp);
-							temp--;
-							objData.push_back(vertices[temp * 3]);
-							objData.push_back(vertices[(temp * 3) + 1]);
-							objData.push_back(vertices[(temp * 3) + 2]);
-						}
-
-						objData.push_back(0.f);
-						objData.push_back(0.f);
-
-						if (tokens[i + 1].length() > 0)
-						{
-							s.str(tokens[i + 1]);
-							s.clear();
-							assert(s >> temp);
-							temp--;
-							objData.push_back(normals[temp * 3]);
-							objData.push_back(normals[(temp * 3) + 1]);
-							objData.push_back(normals[(temp * 3) + 2]);
-						}
-					}
-				}*/
-			}
-			else
-			{
-				// ignore the line
-			}
-		}
-	}
-
 	void Mesh::setTexture(const std::string &filename)
 	{
 		this->texture = new sf::Texture();
@@ -343,5 +216,25 @@ namespace flopse
 	float Mesh::getDepth() const
 	{
 		return depth;
+	}
+
+	bool Mesh::loadFromFile(const std::string &fileName)
+	{
+		FILE *binaryFile = nullptr;
+		fopen_s(&binaryFile, fileName.c_str(), "rb");
+
+		if (binaryFile == nullptr)
+		{
+			std::cout << "Could not open file for reading: " << fileName << std::endl;
+
+			return false;
+		}
+
+		unsigned int size = 0;
+		fread(&size, sizeof(unsigned int), 1, binaryFile);
+
+		objData.resize(size);
+
+		fread(&objData[0], sizeof(GLfloat), size, binaryFile);
 	}
 }

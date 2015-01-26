@@ -1,7 +1,7 @@
 #include "Tower.h"
 #include "Projectile.h"
 #include "Game.h"
-#include "SoundManager.h"
+#include "FSoundManager.h"
 
 namespace flopse
 {
@@ -33,7 +33,7 @@ namespace flopse
 					{
 						Projectile *p = new Projectile(this->getGlobalPosition() + glm::vec3(0.f, this->mesh->getHeight(), 0.f), enemies[i], this->damage);
 						Game::getGame()->getCurrentLevel()->attach(p);
-						SoundManager::getSoundManager()->pew();
+						FSoundManager::getSoundManager()->pew();
 						return;
 					}
 				}

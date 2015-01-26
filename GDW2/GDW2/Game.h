@@ -11,6 +11,7 @@
 #include "GameplayState.h"
 #include "MainMenuState.h"
 #include "GameOverState.h"
+#include "OptionsMenuState.h"
 
 namespace flopse
 {
@@ -25,11 +26,13 @@ namespace flopse
 		State* currentState;
 		GameplayState* gameplayState;
 		MainMenuState* mainMenuState;
+		OptionsMenuState* optionsMenuState;
 		GameOverState* gameOverState;
 
 		int frames;
 		bool running;
 		bool fullscreen;
+		float fov = 45.f;
 
 	public:
 
@@ -54,8 +57,15 @@ namespace flopse
 		void newGame();
 		void setGameplayState();
 		void setMainMenuState();
+		void setOptionsMenuState();
 		void setGameOverState();
 		void exit();
 		void checkGameOver();
+
+		void toggleFullscreen();
+		bool isFullscreen();
+
+		void setFieldOfView(float degrees);
+		float getFieldOfView();
 	};
 }
