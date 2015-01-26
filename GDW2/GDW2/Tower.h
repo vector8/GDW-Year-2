@@ -24,7 +24,7 @@ namespace flopse
 	public:
 		static Tower* createTower(const TowerType &t, const glm::vec3 &pos)
 		{
-			static Mesh* ARROW_TOWER_MESH = new Mesh("obj/pyramid.obj", new Shader("shaders/texShader.vs", "shaders/grayShader.frag"));
+			static Mesh* ARROW_TOWER_MESH = new Mesh("meshes/pyramid.bmf", new Shader("shaders/texShader.vert", "shaders/grayShader.frag"));
 
 			Tower* tow = nullptr;
 

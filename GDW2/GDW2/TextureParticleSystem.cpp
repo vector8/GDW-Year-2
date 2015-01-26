@@ -11,7 +11,7 @@ namespace flopse
 			std::cout << "Error loading image file" << std::endl;
 		}
 
-		this->s = new Shader("shaders/ambientTexShader.vs", "shaders/ambientTexShader.frag");
+		this->s = new Shader("shaders/ambientTexShader.vert", "shaders/ambientTexShader.frag");
 	}
 
 	TextureParticleSystem::~TextureParticleSystem()

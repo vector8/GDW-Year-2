@@ -29,7 +29,7 @@ namespace flopse
 	public:
 		static Enemy* createEnemy(const EnemyType &t, const glm::vec3 &pos, Path* path = nullptr)
 		{
-			static Mesh* GOBLIN_MESH = new Mesh("obj/Goblin.obj", new Shader("shaders/texShader.vs", "shaders/texShader.frag"), "textures/GoblinTexture.png");
+			static Mesh* GOBLIN_MESH = new Mesh("meshes/Goblin.bmf", new Shader("shaders/texShader.vert", "shaders/texShader.frag"), "textures/GoblinTexture.png");
 
 			Enemy* e = nullptr;
 

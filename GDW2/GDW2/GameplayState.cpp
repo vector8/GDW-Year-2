@@ -3,18 +3,21 @@
 
 #include "Tower.h"
 #include "Projectile.h"
-#include "SoundManager.h"
+#include "FSoundManager.h"
+#include "Game.h"
 
 namespace flopse
 {
-	GameplayState::GameplayState(sf::RenderWindow* window) : window(window), projection(glm::perspective(45.0f, 800.0f / 600.0f, 0.1f, 100000.0f)), hud(window)
+	GameplayState::GameplayState(sf::RenderWindow* window) : window(window), hud(window)
 	{
-		Mesh *playerMesh = new Mesh("obj/Goblin.obj", new Shader("shaders/texShader.vs", "shaders/texShader.frag"));
+		Mesh *playerMesh = new Mesh("meshes/Goblin.bmf", new Shader("shaders/texShader.vert", "shaders/texShader.frag"));
 		playerMesh->setTexture("textures/GoblinTexture.png");
 		player = new Player(playerMesh);
 
 		currentLevel = new Level(player);
 		root = currentLevel;
+
+		projection = glm::perspective(Game::getGame()->getFieldOfView(), 1024.0f / 768.0f, 0.1f, 100000.0f);
 
 		//ParticleSystem *s = particleManager->createParticleSystem(ParticleSystemBehaviour::Swarm, 4, 1000, glm::vec3(5.f, 5.f, 5.f));
 	}
@@ -57,7 +60,7 @@ namespace flopse
 				glm::vec3 front = player->getGlobalFront();
 				Tower* t = Tower::createTower(TowerType::Arrow, player->getGlobalPosition() + glm::vec3(front.x, 0.f, front.z)  * -30.f);
 				this->currentLevel->attach(t);
-				SoundManager::getSoundManager()->clank();
+				FSoundManager::getSoundManager()->clank();
 			}
 			else
 			{
@@ -81,7 +84,7 @@ namespace flopse
 			glm::vec3 pos = player->getGlobalPosition() + glm::vec3(0.f, 3.f * player->mesh->getHeight() / 4.f, 0.f);
 			Projectile* p = new Projectile(pos, pos + player->getGlobalFront() * -1500.f, 5);
 			this->currentLevel->attach(p);
-			SoundManager::getSoundManager()->pew();
+			FSoundManager::getSoundManager()->pew();
 		}
 			break;
 		default:
@@ -102,5 +105,10 @@ namespace flopse
 
 	void GameplayState::mouseMoved(sf::Event::MouseMoveEvent e)
 	{
+	}
+
+	void GameplayState::setFieldOfView(float degrees)
+	{
+		projection = glm::perspective(degrees, 1024.f / 768.f, 0.1f, 100000.0f);
 	}
 }

@@ -41,42 +41,41 @@ namespace flopse
 		const GLchar* fShaderCode = fragmentCode.c_str();
 
 		// 2. Compile shaders
-		GLuint vertex, fragment;
 		GLint success;
 		GLchar infoLog[512];
 
 		// Vertex shader
-		vertex = glCreateShader(GL_VERTEX_SHADER);
-		glShaderSource(vertex, 1, &vShaderCode, NULL);
-		glCompileShader(vertex);
+		vertexShader = glCreateShader(GL_VERTEX_SHADER);
+		glShaderSource(vertexShader, 1, &vShaderCode, NULL);
+		glCompileShader(vertexShader);
 
 		// Print compile errors if any
-		glGetShaderiv(vertex, GL_COMPILE_STATUS, &success);
+		glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
 
 		if (!success)
 		{
-			glGetShaderInfoLog(vertex, 512, NULL, infoLog);
+			glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
 			std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
 		}
 
 		// Repeat for fragment shader
-		fragment = glCreateShader(GL_FRAGMENT_SHADER);
-		glShaderSource(fragment, 1, &fShaderCode, NULL);
-		glCompileShader(fragment);
+		fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+		glShaderSource(fragmentShader, 1, &fShaderCode, NULL);
+		glCompileShader(fragmentShader);
 
 		// Print compile errors if any
-		glGetShaderiv(fragment, GL_COMPILE_STATUS, &success);
+		glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
 
 		if (!success)
 		{
-			glGetShaderInfoLog(fragment, 512, NULL, infoLog);
+			glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
 			std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
 		}
 
 		// Shader program
 		this->program = glCreateProgram();
-		glAttachShader(this->program, vertex);
-		glAttachShader(this->program, fragment);
+		glAttachShader(this->program, vertexShader);
+		glAttachShader(this->program, fragmentShader);
 		glLinkProgram(this->program);
 
 		// Print linking errors if any
@@ -88,10 +87,6 @@ namespace flopse
 			std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
 		}
 
-		// Delete the shaders as they're linked into our program now and no longer necessary
-		glDeleteShader(vertex);
-		glDeleteShader(fragment);
-
 		// Cache uniform locs
 		modelLoc = glGetUniformLocation(program, "model");
 		normalMatrixLoc = glGetUniformLocation(program, "normalMatrix");
@@ -100,6 +95,21 @@ namespace flopse
 		objectColorLoc = glGetUniformLocation(program, "objectColor");
 		lightPosLoc = glGetUniformLocation(program, "lightPos");
 		viewPosLoc = glGetUniformLocation(program, "viewPos");
+	}
+
+	Shader::~Shader()
+	{
+		glDetachShader(program, vertexShader);
+		glDetachShader(program, fragmentShader);
+
+		glDeleteShader(vertexShader);
+		glDeleteShader(fragmentShader);
+
+		vertexShader = 0;
+		fragmentShader = 0;
+
+		glDeleteProgram(program);
+		program = 0;
 	}
 
 	// Use our program

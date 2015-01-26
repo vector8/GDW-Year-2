@@ -16,7 +16,7 @@ namespace flopse
 
 		static Mesh* getProjectileMesh()
 		{
-			static Mesh* projectileMesh = new Mesh("obj/projectile.obj", new Shader("shaders/texShader.vs", "shaders/grayShader.frag"));
+			static Mesh* projectileMesh = new Mesh("meshes/projectile.bmf", new Shader("shaders/texShader.vert", "shaders/grayShader.frag"));
 
 			projectileMesh->overlayColour = Colour(0.5f, 0.f, 0.5f, 1.f);
 

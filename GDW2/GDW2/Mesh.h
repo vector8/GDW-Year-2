@@ -19,7 +19,7 @@ namespace flopse
 
 		float width, height, depth;
 
-		void loadOBJ(const std::string &fileName);
+		bool loadFromFile(const std::string &fileName);
 
 		sf::Texture* texture;
 

@@ -8,7 +8,7 @@
 
 namespace flopse
 {
-	Level::Level(Player* p) : Entity(new Mesh("obj/Level1.obj", new Shader("shaders/texShader.vs", "shaders/texShader.frag"))), player(p)
+	Level::Level(Player* p) : Entity(new Mesh("meshes/Level1.bmf", new Shader("shaders/texShader.vert", "shaders/texShader.frag"))), player(p)
 	{
 		this->mesh->setTexture("textures/Level1.png");
 		lightPos = glm::vec3(11000.f, 9000.f, 10000.f);
@@ -34,28 +34,28 @@ namespace flopse
 
 	void Level::initializeEntities()
 	{
-		//Mesh *crateMesh = new Mesh(vertices3, 36, new Shader("shaders/texShader.vs", "shaders/texShader.frag"));
+		//Mesh *crateMesh = new Mesh(vertices3, 36, new Shader("shaders/texShader.vert", "shaders/texShader.frag"));
 		//crateMesh->setTexture("textures/container.jpg");
 		//Entity *crate = new Entity(crateMesh);
 		//crate->scale(glm::vec3(60.f, 60.f, 60.f));
-		/*Shader *texShader = new Shader("shaders/texShader.vs", "shaders/texShader.frag");
+		/*Shader *texShader = new Shader("shaders/texShader.vert", "shaders/texShader.frag");
 
-		Mesh *gobMesh = new Mesh("obj/TreasureGoblin.obj", texShader);
+		Mesh *gobMesh = new Mesh("meshes/TreasureGoblin.bmf", texShader);
 		gobMesh->setTexture("textures/TreasureGoblin.png");
 		Entity *goblin = new Entity(gobMesh);
 		goblin->setPosition(glm::vec3(0.f, 145.f, 0.f));
 
-		Mesh* bossMesh = new Mesh("obj/FinalBoss.obj", texShader);
+		Mesh* bossMesh = new Mesh("meshes/FinalBoss.bmf", texShader);
 		bossMesh->setTexture("textures/BossModelTexture.png");
 		Entity *boss = new Entity(bossMesh);
 		boss->setPosition(glm::vec3(0.f, 145.f, -200.f));
 
-		Mesh* p2mesh = new Mesh("obj/Player.obj", texShader);
+		Mesh* p2mesh = new Mesh("meshes/Player.bmf", texShader);
 		p2mesh->setTexture("textures/PlayerTexture.png");
 		Entity *p2 = new Entity(p2mesh);
 		p2->setPosition(glm::vec3(0.f, 145.f, -400.f));
 
-		Mesh* knifeHandsMesh = new Mesh("obj/KnifeHands.obj", texShader);
+		Mesh* knifeHandsMesh = new Mesh("meshes/KnifeHands.bmf", texShader);
 		knifeHandsMesh->setTexture("textures/KnifeHands.png");
 		Entity *knifeHands = new Entity(knifeHandsMesh);
 		knifeHands->setPosition(glm::vec3(0.f, 145.f, -600.f));*/
