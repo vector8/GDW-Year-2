@@ -1,25 +1,23 @@
 #pragma once
-#include "Model.h"
+#include "Mesh.h"
+#include "ICollidable.h"
+#include "SceneNode.h"
 #include <glm\glm.hpp>
-#include "BoundingBox.h"
 
-class Entity
+namespace flopse
 {
-protected:
-	Model *model;
-	BoundingBox* box;
-	glm::vec3 pos;
-	bool collidable;
+	class Entity : public ICollidable, public SceneNode
+	{
+	public:
+		Entity(Mesh *m);
+		Entity(const glm::vec3 &pos, Mesh *m);
 
-public:
-	Entity(const glm::vec3 &pos, const Model &model);
+		void setPosition(const glm::vec3 &pos);
+		void translate(const glm::vec3 &t);
+		void rotate(float degrees, const glm::vec3 &axis);
+		//void scale(const glm::vec3 &s);
 
-	BoundingBox* getBoundingBox() const;
-	glm::vec3 getPosition() const;
-	Model* getModel() const;
-	bool isCollidable() const;
-
-	void setCollidable(bool c);
-
-	virtual void update(const sf::Window &window, const sf::Time &dt);
-};
+		glm::vec3 getGlobalPosition() const;
+		glm::vec3 Entity::getGlobalFront() const;
+	};
+}

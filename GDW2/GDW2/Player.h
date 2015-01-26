@@ -1,16 +1,26 @@
 #pragma once
 #include "Entity.h"
+#include "Animation.h"
 
-class Player : public Entity
+namespace flopse
 {
-private:
-	bool jumping;
-	float dy;
+	class Player : public Entity
+	{
+	private:
+		float dy = 0.f;
+		Animation* runAnimation;
+		Mesh* idleMesh;
 
-public:
-	Player(const glm::vec3 &pos, const Model &model);
+	public:
+		Player(Mesh *m);
 
-	void update(const sf::Window &window, const sf::Time &dt);
+		bool jumping = false;
+		int gold = 150;
+		int health = 100;
+		int maxHealth = 100;
 
-	void jump();
-};
+		void updateLocalTransform(const sf::RenderWindow &window, const sf::Time &dt);
+
+		void jump();
+	};
+}

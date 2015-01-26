@@ -2,11 +2,13 @@
 
 #include "Camera.h"
 
-class FirstPersonCamera : public Camera
+namespace flopse
 {
-public:
-	FirstPersonCamera();
-	FirstPersonCamera(const glm::vec3 &pos, const glm::vec3 &target);
+	class FirstPersonCamera : public Camera
+	{
+	public:
+		FirstPersonCamera();
 
-	void update(const sf::RenderWindow &window, const sf::Time &dt);
-};
+		void updateLocalTransform(const sf::RenderWindow &window, const sf::Time &dt);
+	};
+}
