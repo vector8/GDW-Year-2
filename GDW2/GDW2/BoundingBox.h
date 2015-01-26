@@ -1,24 +1,17 @@
 #pragma once
 #include <glm\glm.hpp>
 
-class BoundingBox
+namespace flopse
 {
-private:
-	glm::vec3 pos;
-	float width, height, depth;
+	class BoundingBox
+	{
+	public:
+		BoundingBox(const glm::vec3 &pos, float width, float height, float depth);
 
-public:
-	BoundingBox(const glm::vec3 &pos, float width, float height, float depth);
+		glm::vec3 position;
 
-	glm::vec3 getPosition() const;
-	float getWidth() const;
-	float getHeight() const;
-	float getDepth() const;
+		float width, height, depth;
 
-	void setPosition(const glm::vec3 &pos);
-	void setWidth(float width);
-	void setHeight(float height);
-	void setDepth(float depth);
-
-	bool hasCollided(const BoundingBox &other);
-};
+		bool hasCollided(const BoundingBox &other);
+	};
+}

@@ -84,15 +84,15 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_MBCS;GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>.\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>.\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glu32.lib;sfml-graphics-d.lib;sfml-window-d.lib;sfml-system-d.lib;sfml-audio-d.lib;sfml-main-d.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>.\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;sfml-graphics-d.lib;sfml-window-d.lib;sfml-system-d.lib;sfml-audio-d.lib;sfml-main-d.lib;glew32s.lib;fmodex_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Static|Win32'">
@@ -157,29 +157,86 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Animation.cpp" />
     <ClCompile Include="BoundingBox.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Colour.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="FirstPersonCamera.cpp" />
+    <ClCompile Include="FSoundManager.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameOverState.cpp" />
+    <ClCompile Include="GameplayState.cpp" />
+    <ClCompile Include="HUD.cpp" />
+    <ClCompile Include="ICollidable.cpp" />
+    <ClCompile Include="Level.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Model.cpp" />
+    <ClCompile Include="MainMenuState.cpp" />
+    <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="OptionsMenuState.cpp" />
+    <ClCompile Include="Particle.cpp" />
+    <ClCompile Include="ParticleManager.cpp" />
+    <ClCompile Include="ParticleSystem.cpp" />
+    <ClCompile Include="Path.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PointParticleSystem.cpp" />
+    <ClCompile Include="Projectile.cpp" />
+    <ClCompile Include="SceneNode.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="SoundManager.cpp" />
+    <ClCompile Include="SpriteWithAtlas.cpp" />
+    <ClCompile Include="State.cpp" />
+    <ClCompile Include="TextureParticleSystem.cpp" />
     <ClCompile Include="ThirdPersonCamera.cpp" />
+    <ClCompile Include="Tower.cpp" />
+    <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="Utilities.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Animation.h" />
     <ClInclude Include="BoundingBox.h" />
+    <ClInclude Include="Button.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Colour.h" />
     <ClInclude Include="Constants.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="FirstPersonCamera.h" />
+    <ClInclude Include="FSoundManager.h" />
     <ClInclude Include="Game.h" />
-    <ClInclude Include="Model.h" />
+    <ClInclude Include="GameOverState.h" />
+    <ClInclude Include="GameplayState.h" />
+    <ClInclude Include="HUD.h" />
+    <ClInclude Include="ICollidable.h" />
+    <ClInclude Include="Level.h" />
+    <ClInclude Include="LinkedList.h" />
+    <ClInclude Include="MainMenuState.h" />
+    <ClInclude Include="Mesh.h" />
+    <ClInclude Include="Node.h" />
+    <ClInclude Include="OptionsMenuState.h" />
+    <ClInclude Include="Particle.h" />
+    <ClInclude Include="ParticleManager.h" />
+    <ClInclude Include="ParticleSystem.h" />
+    <ClInclude Include="Path.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PointParticleSystem.h" />
+    <ClInclude Include="Projectile.h" />
+    <ClInclude Include="SceneNode.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="SoundManager.h" />
+    <ClInclude Include="SpriteWithAtlas.h" />
+    <ClInclude Include="State.h" />
+    <ClInclude Include="TextureParticleSystem.h" />
     <ClInclude Include="ThirdPersonCamera.h" />
+    <ClInclude Include="Tower.h" />
+    <ClInclude Include="Transform.h" />
     <ClInclude Include="Utilities.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="LinkedList.tpp" />
+    <None Include="Node.tpp" />
+    <None Include="Utilities.tpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

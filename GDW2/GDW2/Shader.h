@@ -2,15 +2,31 @@
 
 #include <GL/glew.h>
 
-class Shader
+namespace flopse
 {
-public:
-	// Our program ID
-	GLuint program;
+	class Shader
+	{
+	public:
+		// Our program ID
+		GLuint program;
 
-	// Constructor reads and builds our shader
-	Shader(const GLchar* vertexSourcePath, const GLchar* fragmentSourcePath);
+		// Shader IDs
+		GLuint vertexShader, fragmentShader;
 
-	// Use our program
-	void use();
-};
+		// Various uniform locations
+		GLint modelLoc;
+		GLint normalMatrixLoc;
+		GLint viewLoc;
+		GLint projectionLoc;
+		GLint objectColorLoc;
+		GLint lightPosLoc;
+		GLint viewPosLoc;
+
+		// Constructor reads and builds our shader
+		Shader(const GLchar* vertexSourcePath, const GLchar* fragmentSourcePath);
+		~Shader();
+
+		// Use our program
+		void use() const;
+	};
+}
