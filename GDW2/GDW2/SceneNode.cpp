@@ -64,7 +64,6 @@ namespace flopse
 			mesh->shader->use();
 
 			glUniformMatrix4fv(mesh->shader->modelLoc, 1, GL_FALSE, glm::value_ptr(globalTransform));
-			glUniformMatrix4fv(mesh->shader->normalMatrixLoc, 1, GL_FALSE, glm::value_ptr(glm::transpose(glm::inverse(globalTransform))));
 			glUniformMatrix4fv(mesh->shader->viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 			glUniformMatrix4fv(mesh->shader->projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
 			glUniform4f(mesh->shader->objectColorLoc, mesh->overlayColour.getR(), mesh->overlayColour.getG(), mesh->overlayColour.getB(), mesh->overlayColour.getA());

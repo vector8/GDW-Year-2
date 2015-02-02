@@ -15,7 +15,6 @@ namespace flopse
 
 		// Various uniform locations
 		GLint modelLoc;
-		GLint normalMatrixLoc;
 		GLint viewLoc;
 		GLint projectionLoc;
 		GLint objectColorLoc;

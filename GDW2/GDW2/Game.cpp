@@ -8,6 +8,7 @@
 
 #include "Tower.h"
 #include "Projectile.h"
+#include "FSoundManager.h"
 
 namespace flopse
 {
@@ -111,6 +112,8 @@ namespace flopse
 
 				// Update
 				currentState->update(elapsed);
+
+				FSoundManager::getSoundManager()->update();
 
 				// Draw
 				currentState->draw();

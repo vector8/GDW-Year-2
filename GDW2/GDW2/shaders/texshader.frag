@@ -1,4 +1,4 @@
-#version 330 core
+#version 420
 
 in vec3 Position;
 in vec2 UV;
@@ -15,7 +15,7 @@ void main()
 {
 	vec3 ambientComponent = vec3(0.5f);
 	vec3 diffuseComponent = vec3(0.5f);
-	vec3 specularComponent = vec3(0.0f);
+	vec3 specularComponent = vec3(0.2f);
 	
 	vec3 norm = normalize(Normal);
 	vec3 lightDir = normalize(lightPos - Position);

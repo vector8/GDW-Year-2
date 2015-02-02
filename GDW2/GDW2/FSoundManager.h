@@ -31,6 +31,10 @@ namespace flopse
 			return sm;
 		}
 
+		~FSoundManager();
+
+		void update();
+
 		void startFootSteps();
 		void stopFootSteps();
 		void pew();
