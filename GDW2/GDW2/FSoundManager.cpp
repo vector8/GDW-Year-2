@@ -4,12 +4,21 @@
 
 namespace flopse
 {
-	const float DISTANCE_FACTOR = 100.f;          // Units per meter.  I.e feet would = 3.28.  centimeters would = 100.
-
 	FSoundManager::FSoundManager()
 	{
 		initializeSystem(); 
 		loadSounds();
+	}
+
+	FSoundManager::~FSoundManager()
+	{
+		errorCheck(footSteps->release());
+		errorCheck(pewPew->release());
+		errorCheck(clankSound->release());
+		errorCheck(gateSmackSound->release());
+
+		errorCheck(system->close());
+		errorCheck(system->release());
 	}
 
 	void FSoundManager::initializeSystem()
@@ -69,7 +78,7 @@ namespace flopse
 		/*
 		Set the distance units. (meters/feet etc).
 		*/
-		errorCheck(system->set3DSettings(1.0, DISTANCE_FACTOR, 1.0f));
+		errorCheck(system->set3DSettings(1.0f, 1.0f, 1.0f));
 
 		// create the global channel group
 		errorCheck(system->createChannelGroup(NULL, &channelGroup));
@@ -82,22 +91,22 @@ namespace flopse
 		FMOD_VECTOR vel = { 0.0f, 0.0f, 0.0f };
 
 		errorCheck(system->createSound("sounds/footstep.wav", FMOD_3D, 0, &footSteps));
-		errorCheck(footSteps->set3DMinMaxDistance(0.5f * DISTANCE_FACTOR, 5000.0f * DISTANCE_FACTOR));
+		errorCheck(footSteps->set3DMinMaxDistance(0.5f, 100.0f));
 		errorCheck(footSteps->setMode(FMOD_LOOP_NORMAL));
 		errorCheck(system->playSound(FMOD_CHANNEL_FREE, footSteps, true, &channel1));
 		errorCheck(channel1->set3DAttributes(&pos, &vel));
 		errorCheck(channel1->setChannelGroup(channelGroup));
 
 		errorCheck(system->createSound("sounds/pew.wav", FMOD_3D, 0, &pewPew));
-		errorCheck(pewPew->set3DMinMaxDistance(0.5f * DISTANCE_FACTOR, 5000.0f * DISTANCE_FACTOR));
+		errorCheck(pewPew->set3DMinMaxDistance(0.5f, 100.0f));
 		errorCheck(pewPew->setMode(FMOD_LOOP_OFF));
 
 		errorCheck(system->createSound("sounds/clank.wav", FMOD_3D, 0, &clankSound));
-		errorCheck(clankSound->set3DMinMaxDistance(0.5f * DISTANCE_FACTOR, 5000.0f * DISTANCE_FACTOR));
+		errorCheck(clankSound->set3DMinMaxDistance(0.5f, 100.0f));
 		errorCheck(clankSound->setMode(FMOD_LOOP_OFF));
 
 		errorCheck(system->createSound("sounds/gateSmack.wav", FMOD_3D, 0, &gateSmackSound));
-		errorCheck(gateSmackSound->set3DMinMaxDistance(0.5f * DISTANCE_FACTOR, 5000.0f * DISTANCE_FACTOR));
+		errorCheck(gateSmackSound->set3DMinMaxDistance(0.5f, 100.0f));
 		errorCheck(gateSmackSound->setMode(FMOD_LOOP_OFF));
 	}
 
@@ -107,6 +116,11 @@ namespace flopse
 		{
 			std::cout << "FMOD error! (" << result << ") " << FMOD_ErrorString(result) << std::endl;
 		}
+	}
+
+	void FSoundManager::update()
+	{
+		system->update();
 	}
 
 	void FSoundManager::startFootSteps()

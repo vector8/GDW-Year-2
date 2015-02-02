@@ -89,7 +89,6 @@ namespace flopse
 
 		// Cache uniform locs
 		modelLoc = glGetUniformLocation(program, "model");
-		normalMatrixLoc = glGetUniformLocation(program, "normalMatrix");
 		viewLoc = glGetUniformLocation(program, "view");
 		projectionLoc = glGetUniformLocation(program, "projection");
 		objectColorLoc = glGetUniformLocation(program, "objectColor");
