@@ -159,11 +159,11 @@ bool LinkedList<T>::remove(const T &item)
 
 			if (current == head)
 			{
-				head = head->next;
+				head = next;
 			}
 			if (current == tail)
 			{
-				tail = tail->prev;
+				tail = prev;
 			}
 
 			delete current;

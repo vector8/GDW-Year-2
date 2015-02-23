@@ -10,12 +10,12 @@ namespace flopse
 	{
 	private:
 		Shader* s;
-		Mesh* mesh;
+		std::shared_ptr<Mesh> mesh;
 		Transform transform;
 
 	public:
 		PointParticleSystem(int rate, int maxParticles, const glm::vec3 &position, ParticleSystemBehaviour behaviour);
-		~PointParticleSystem();
+		virtual ~PointParticleSystem();
 
 		Shader* getShader();
 

@@ -10,6 +10,7 @@ namespace flopse
 	{
 	public:
 		Camera();
+		virtual ~Camera();
 
 		glm::mat4 view;
 

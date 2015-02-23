@@ -21,7 +21,7 @@ namespace flopse
 
 	public:
 		ParticleSystem(int rate, int maxParticles, const glm::vec3 &position, ParticleSystemBehaviour behaviour);
-		~ParticleSystem();
+		virtual ~ParticleSystem();
 
 		int rate = 0;
 		int maxParticles = 0;

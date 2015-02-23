@@ -12,6 +12,7 @@ namespace flopse
 
 	public:
 		GameOverState(sf::RenderWindow* window);
+		virtual ~GameOverState();
 
 		void update(const sf::Time &dt);
 		void draw();

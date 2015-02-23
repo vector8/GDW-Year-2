@@ -11,9 +11,9 @@ namespace flopse
 	{
 	}
 
-	ParticleSystem* ParticleManager::createParticleSystem(ParticleSystemBehaviour behaviour, int rate, int maxParticles, const glm::vec3 &position, const std::string &texturePath)
+	std::shared_ptr<ParticleSystem> ParticleManager::createParticleSystem(ParticleSystemBehaviour behaviour, int rate, int maxParticles, const glm::vec3 &position, const std::string &texturePath)
 	{
-		ParticleSystem* s;
+		std::shared_ptr<ParticleSystem> s = nullptr;
 
 		if (texturePath.size() > 0)
 		{
@@ -22,7 +22,7 @@ namespace flopse
 		else
 		{
 			// Create PointParticleSystem
-			s = new PointParticleSystem(rate, maxParticles, position, behaviour);
+			s = std::make_shared<PointParticleSystem>(rate, maxParticles, position, behaviour);
 		}
 
 		this->particleSystems.push_back(s);
@@ -32,7 +32,7 @@ namespace flopse
 
 	void ParticleManager::update(const sf::Time &dt)
 	{
-		for (std::vector<ParticleSystem*>::iterator it = this->particleSystems.begin(); it != this->particleSystems.end(); it++)
+		for (std::vector<std::shared_ptr<ParticleSystem>>::iterator it = this->particleSystems.begin(); it != this->particleSystems.end(); it++)
 		{
 			(*it)->update(dt);
 		}
@@ -40,7 +40,7 @@ namespace flopse
 
 	void ParticleManager::draw(Camera* cam, glm::mat4 projection)
 	{
-		for (std::vector<ParticleSystem*>::iterator it = this->particleSystems.begin(); it != this->particleSystems.end(); it++)
+		for (std::vector<std::shared_ptr<ParticleSystem>>::iterator it = this->particleSystems.begin(); it != this->particleSystems.end(); it++)
 		{
 			(*it)->draw(cam, projection);
 		}

@@ -64,6 +64,11 @@ namespace flopse
 			}
 		}
 	}
+
+	Path::~Path()
+	{
+
+	}
 	
 	glm::vec3 Path::getPoint(float distance)
 	{

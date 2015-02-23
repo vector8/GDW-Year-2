@@ -5,6 +5,7 @@
 #include "Camera.h"
 #include <glm\glm.hpp>
 #include <SFML\Graphics.hpp>
+#include <memory>
 
 namespace flopse
 {
@@ -12,9 +13,10 @@ namespace flopse
 	{
 	private:
 		ParticleManager();
-		~ParticleManager();
 
 	public:
+		virtual ~ParticleManager();
+
 		static ParticleManager* getInstance()
 		{
 			static ParticleManager* pm = new ParticleManager();
@@ -22,9 +24,9 @@ namespace flopse
 			return pm;
 		}
 
-		std::vector<ParticleSystem*> particleSystems;
+		std::vector<std::shared_ptr<ParticleSystem>> particleSystems;
 
-		ParticleSystem* createParticleSystem(ParticleSystemBehaviour behaviour, int rate, int maxParticles, const glm::vec3 &position, const std::string &texturePath = "");
+		std::shared_ptr<ParticleSystem> createParticleSystem(ParticleSystemBehaviour behaviour, int rate, int maxParticles, const glm::vec3 &position, const std::string &texturePath = "");
 
 		void update(const sf::Time &dt);
 

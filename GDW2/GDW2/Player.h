@@ -1,6 +1,7 @@
 #pragma once
 #include "Entity.h"
 #include "Animation.h"
+#include "Sound.h"
 
 namespace flopse
 {
@@ -9,10 +10,12 @@ namespace flopse
 	private:
 		float dy = 0.f;
 		Animation* runAnimation;
-		Mesh* idleMesh;
+		std::shared_ptr<Mesh> idleMesh;
+		Sound* footsteps;
 
 	public:
-		Player(Mesh *m);
+		Player(std::shared_ptr<Mesh> m);
+		virtual ~Player();
 
 		bool jumping = false;
 		int gold = 150;

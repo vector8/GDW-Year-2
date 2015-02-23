@@ -16,6 +16,11 @@ namespace flopse
 		setA(a);
 	}
 
+	Colour::~Colour()
+	{
+
+	}
+
 	float Colour::getR() const
 	{
 		return r;

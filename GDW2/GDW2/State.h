@@ -7,6 +7,7 @@ namespace flopse
 	{
 	public:
 		State();
+		virtual ~State();
 
 		virtual void update(const sf::Time &dt) = 0;
 		virtual void draw() = 0;

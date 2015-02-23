@@ -56,6 +56,7 @@ namespace flopse
 
 	public:
 		HUD(sf::RenderWindow* window);
+		virtual ~HUD();
 
 		void update(const sf::Time &dt);
 		void draw();

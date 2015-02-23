@@ -91,9 +91,21 @@ namespace flopse
 		modelLoc = glGetUniformLocation(program, "model");
 		viewLoc = glGetUniformLocation(program, "view");
 		projectionLoc = glGetUniformLocation(program, "projection");
-		objectColorLoc = glGetUniformLocation(program, "objectColor");
+		//objectColorLoc = glGetUniformLocation(program, "objectColor");
 		lightPosLoc = glGetUniformLocation(program, "lightPos");
 		viewPosLoc = glGetUniformLocation(program, "viewPos");
+		lightColourLoc = glGetUniformLocation(program, "lightColour");
+		ambientLoc = glGetUniformLocation(program, "ambient");
+		diffuseLoc = glGetUniformLocation(program, "diffuse");
+		specularLoc = glGetUniformLocation(program, "specular");
+		specularExponentLoc = glGetUniformLocation(program, "specularExponent");
+		constantAttenuationLoc = glGetUniformLocation(program, "constantAttenuation");
+		linearAttenuationLoc = glGetUniformLocation(program, "linearAttenuation");
+		quadraticAttenuationLoc = glGetUniformLocation(program, "quadraticAttenuation");
+		thresholdLoc = glGetUniformLocation(program, "uThreshold");
+		pixelSizeLoc = glGetUniformLocation(program, "uPixelSize");
+		sceneLoc = glGetUniformLocation(program, "uScene");
+		bloomLoc = glGetUniformLocation(program, "uBloom");
 	}
 
 	Shader::~Shader()
@@ -112,8 +124,14 @@ namespace flopse
 	}
 
 	// Use our program
-	void Shader::use() const
+	void Shader::bind() const
 	{
 		glUseProgram(this->program);
+	}
+
+	// Unbind the program
+	void Shader::unbind() const
+	{
+		glUseProgram(GL_NONE);
 	}
 }

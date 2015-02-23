@@ -6,4 +6,9 @@ namespace flopse
 	{
 
 	}
+
+	State::~State()
+	{
+
+	}
 }

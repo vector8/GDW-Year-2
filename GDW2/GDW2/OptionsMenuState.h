@@ -34,6 +34,7 @@ namespace flopse
 
 	public:
 		OptionsMenuState(sf::RenderWindow* window);
+		virtual ~OptionsMenuState();
 
 		void update(const sf::Time &dt);
 		void draw();

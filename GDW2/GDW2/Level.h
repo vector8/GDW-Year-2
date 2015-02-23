@@ -1,16 +1,20 @@
 #pragma once
+#include <memory>
+#include <list>
+
 #include "Entity.h"
 #include "Player.h"
 #include "Camera.h"
 #include "ParticleManager.h"
 #include "Path.h"
 #include "Enemy.h"
+#include "Light.h"
 
 namespace flopse
 {
 	struct EnemySpawn
 	{
-		Enemy* enemy;
+		std::shared_ptr<Enemy> enemy = nullptr;
 		sf::Time spawnTime;
 	};
 
@@ -18,7 +22,6 @@ namespace flopse
 	{
 	private:
 		sf::Time elapsed;
-		int spawnCounter = 0;
 
 		void initializeEntities();
 		void createPath();
@@ -26,23 +29,23 @@ namespace flopse
 		void createEnemies();
 
 	public:
-		Level(Player* p);
+		Level(const std::shared_ptr<Player> &p);
+		virtual ~Level();
 
-		glm::vec3 lightPos;
-		Camera* cam;
-		Player* player;
+		Light light;
+		std::shared_ptr<Camera> cam = nullptr;
+		std::shared_ptr<Player> player = nullptr;
 		ParticleManager* particleManager;
 
-		Path* path;
+		std::shared_ptr<Path> path = nullptr;
 
 		int gateHealth = 200;
 		int maxGateHealth = 200;
 		int enemyCount = 0;
 
-		std::vector<Entity*> entities;
-		std::vector<BoundingBox*> colliders;
-		std::vector<Enemy*> enemies;
-		std::vector<EnemySpawn> enemySpawns;
+		std::vector<BoundingBox> colliders;
+		std::vector<std::shared_ptr<Enemy>> enemies;
+		std::list<EnemySpawn> enemySpawns;
 
 		virtual void updateLocalTransform(const sf::RenderWindow &window, const sf::Time &dt);
 	};

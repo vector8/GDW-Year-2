@@ -12,7 +12,7 @@ namespace flopse
 
 	public:
 		Particle();
-		~Particle();
+		virtual ~Particle();
 
 		sf::Time lifespan = sf::seconds(1.f);		// Total age
 		sf::Time lifetime = sf::seconds(0.f);		// Current age

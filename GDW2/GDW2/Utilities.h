@@ -34,5 +34,8 @@ namespace flopse
 	float randomRangef(float min, float max);
 	int randomRangei(int min, int max);
 
+	void initFullScreenQuad();
+	void drawFullScreenQuad();
+
 	#include "Utilities.tpp"
 }

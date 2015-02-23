@@ -18,6 +18,11 @@ namespace flopse
 		bgSprite->setScale(sf::Vector2f(xScale, yScale));
 	}
 
+	GameOverState::~GameOverState()
+	{
+		delete bgSprite;
+	}
+
 	void GameOverState::update(const sf::Time &dt)
 	{
 		window->setMouseCursorVisible(true);

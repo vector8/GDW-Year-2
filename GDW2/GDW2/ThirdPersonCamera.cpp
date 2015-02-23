@@ -7,6 +7,11 @@ namespace flopse
 	{
 	}
 
+	ThirdPersonCamera::~ThirdPersonCamera()
+	{
+
+	}
+
 	void ThirdPersonCamera::updateLocalTransform(const sf::RenderWindow &window, const sf::Time &dt)
 	{
 		recalculateView();

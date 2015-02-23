@@ -24,6 +24,7 @@ namespace flopse
 
 	public:
 		Path(std::vector<glm::vec3> points);
+		virtual ~Path();
 
 		glm::vec3 getPoint(float distance);
 

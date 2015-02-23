@@ -1,4 +1,6 @@
 #pragma once
+#include <memory>
+
 #include "Entity.h"
 #include "Path.h"
 
@@ -15,8 +17,8 @@ namespace flopse
 	class Enemy : public Entity
 	{
 	private:
-		Enemy(Mesh *m);
-		Enemy(const glm::vec3 &pos, Mesh *m, int hp, int dmg, float spd, Path* path = nullptr);
+		Enemy(std::shared_ptr<Mesh> m);
+		Enemy(const glm::vec3 &pos, std::shared_ptr<Mesh> m, int hp, int dmg, float spd, std::shared_ptr<Path> path = nullptr);
 
 		int damage = 0;
 		float speed = 0.f;
@@ -24,12 +26,14 @@ namespace flopse
 		sf::Time lifeTime;
 		sf::Time attackTimer;
 		sf::Time attackDelay;
-		Path* path;
+		std::shared_ptr<Path> path;
 
 	public:
-		static Enemy* createEnemy(const EnemyType &t, const glm::vec3 &pos, Path* path = nullptr)
+		virtual ~Enemy();
+
+		static Enemy createEnemy(const EnemyType &t, const glm::vec3 &pos, std::shared_ptr<Path> path = nullptr)
 		{
-			static Mesh* GOBLIN_MESH = new Mesh("meshes/Goblin.bmf", new Shader("shaders/texShader.vert", "shaders/texShader.frag"), "textures/GoblinTexture.png");
+			static std::shared_ptr<Mesh> GOBLIN_MESH = std::make_shared<Mesh>("meshes/Goblin.bmf", new Shader("shaders/StaticGeometry.vert", "shaders/Phong.frag"), "textures/GoblinTexture.png");
 
 			Enemy* e = nullptr;
 
@@ -50,7 +54,11 @@ namespace flopse
 				break;
 			}
 
-			return e;
+			Enemy enemy(*e);
+
+			delete e;
+
+			return enemy;
 		}
 
 		int health = 0;

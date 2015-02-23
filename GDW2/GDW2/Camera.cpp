@@ -10,6 +10,11 @@ namespace flopse
 	{
 		recalculateView();
 	}
+	
+	Camera::~Camera()
+	{
+
+	}
 
 	glm::vec3 Camera::getLocalPosition() const
 	{
@@ -38,7 +43,7 @@ namespace flopse
 
 	void Camera::recalculateView()
 	{
-		glm::vec4 tpos4(0.f, 0.f, 0.f, 1.f), tfront4(0.f, 0.f, -1.f, 0.f);
+		glm::vec4 tpos4(0.f, 0.f, 0.f, 1.f), tfront4(0.f, 0.f, 1.f, 0.f);
 
 		tpos4 = globalTransform * tpos4;
 		tfront4 = globalTransform * tfront4;

@@ -18,6 +18,7 @@ namespace flopse
 		
 	public:
 		SpriteWithAtlas(std::string name);
+		virtual ~SpriteWithAtlas();
 
 		bool setToFrame(std::string frameName);
 		SpriteFrame getFrame(std::string frameName);

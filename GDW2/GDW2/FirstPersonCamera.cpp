@@ -9,6 +9,11 @@ namespace flopse
 	{
 	}
 
+	FirstPersonCamera::~FirstPersonCamera()
+	{
+
+	}
+
 	void FirstPersonCamera::updateLocalTransform(const sf::RenderWindow &window, const sf::Time &dt)
 	{
 		GLfloat camSpeed = 10.f;

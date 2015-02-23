@@ -33,6 +33,11 @@ namespace flopse
 
 		createUIElements();
 	}
+	
+	HUD::~HUD()
+	{
+		delete hudSprite;
+	}
 
 	void HUD::createUIElements()
 	{
@@ -141,7 +146,7 @@ namespace flopse
 		Game* game = Game::getGame();
 
 		// Enemies on minimap
-		std::vector<Enemy*> enemies = game->getEnemies();
+		std::vector<std::shared_ptr<Enemy>> enemies = game->getEnemies();
 		sf::IntRect minimap(3208 * scale.x, 110 * scale.y, 801 * scale.x, 785 * scale.y);
 		float mapWidth = game->getCurrentLevel()->mesh->getWidth();
 		float mapDepth = game->getCurrentLevel()->mesh->getDepth();

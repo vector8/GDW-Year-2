@@ -54,6 +54,11 @@ namespace flopse
 		}
 	}
 
+	SpriteWithAtlas::~SpriteWithAtlas()
+	{
+		delete sprite;
+	}
+
 	bool SpriteWithAtlas::setToFrame(std::string frameName)
 	{
 		bool success = false;
