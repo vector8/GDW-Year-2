@@ -164,13 +164,14 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="FirstPersonCamera.cpp" />
-    <ClCompile Include="FSoundManager.cpp" />
+    <ClCompile Include="FrameBuffer.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameOverState.cpp" />
     <ClCompile Include="GameplayState.cpp" />
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="ICollidable.cpp" />
     <ClCompile Include="Level.cpp" />
+    <ClCompile Include="Light.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MainMenuState.cpp" />
     <ClCompile Include="Mesh.cpp" />
@@ -184,6 +185,7 @@
     <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="SceneNode.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="Sound.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="SpriteWithAtlas.cpp" />
     <ClCompile Include="State.cpp" />
@@ -203,13 +205,14 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="FirstPersonCamera.h" />
-    <ClInclude Include="FSoundManager.h" />
+    <ClInclude Include="FrameBuffer.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameOverState.h" />
     <ClInclude Include="GameplayState.h" />
     <ClInclude Include="HUD.h" />
     <ClInclude Include="ICollidable.h" />
     <ClInclude Include="Level.h" />
+    <ClInclude Include="Light.h" />
     <ClInclude Include="LinkedList.h" />
     <ClInclude Include="MainMenuState.h" />
     <ClInclude Include="Mesh.h" />
@@ -224,6 +227,7 @@
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="SceneNode.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="Sound.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="SpriteWithAtlas.h" />
     <ClInclude Include="State.h" />

@@ -7,6 +7,11 @@ namespace flopse
 
 	}
 
+	BoundingBox::~BoundingBox()
+	{
+
+	}
+
 	bool BoundingBox::hasCollided(const BoundingBox &other)
 	{
 		bool overlapsX = false, overlapsY = false, overlapsZ = false;

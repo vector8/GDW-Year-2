@@ -21,6 +21,7 @@ namespace flopse
 
 	public:
 		MainMenuState(sf::RenderWindow* window);
+		virtual ~MainMenuState();
 
 		void update(const sf::Time &dt);
 		void draw();

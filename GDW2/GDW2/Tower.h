@@ -12,8 +12,8 @@ namespace flopse
 	class Tower : public Entity
 	{
 	private:
-		Tower(Mesh *m);
-		Tower(const glm::vec3 &pos, Mesh *m, float range, float delaySeconds, int damage);
+		Tower(std::shared_ptr<Mesh> m);
+		Tower(const glm::vec3 &pos, std::shared_ptr<Mesh> m, float range, float delaySeconds, int damage);
 
 		sf::Time shotTimer;
 		sf::Time shotDelay;
@@ -22,9 +22,11 @@ namespace flopse
 		int damage;
 
 	public:
-		static Tower* createTower(const TowerType &t, const glm::vec3 &pos)
+		virtual ~Tower();
+
+		static Tower createTower(const TowerType &t, const glm::vec3 &pos)
 		{
-			static Mesh* ARROW_TOWER_MESH = new Mesh("meshes/pyramid.bmf", new Shader("shaders/texShader.vert", "shaders/grayShader.frag"));
+			static std::shared_ptr<Mesh> ARROW_TOWER_MESH = std::make_shared<Mesh>("meshes/pyramid.bmf", new Shader("shaders/StaticGeometry.vert", "shaders/PhongNoTexture.frag"));
 
 			Tower* tow = nullptr;
 
@@ -39,7 +41,10 @@ namespace flopse
 				break;
 			}
 
-			return tow;
+			Tower tower(*tow);
+			delete tow;
+
+			return tower;
 		}
 
 		virtual void updateLocalTransform(const sf::RenderWindow &window, const sf::Time &dt);

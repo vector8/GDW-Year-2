@@ -2,6 +2,9 @@
 #include <string>
 #include <vector>
 #include <time.h>
+#include <GL\glew.h>
+
+#define BUFFER_OFFSET(i) ((char *)0 + (i))
 
 namespace flopse
 {
@@ -130,5 +133,47 @@ namespace flopse
 	int randomRangei(int min, int max)
 	{
 		return rand() % (max + 1 - min) + min;
+	}
+
+	GLuint fullScreenQuadVAO = GL_NONE;
+	GLuint fullScreenQuadVBO = GL_NONE;
+
+	void initFullScreenQuad()
+	{
+		float VBO_DATA[] =
+		{
+			-1.0f, -1.0f, 0.0f, 0.0f, 0.0f,
+			1.0f, -1.0f, 0.0f, 1.0f, 0.0f,
+			-1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+			1.0f, 1.0f, 0.0f, 1.0f, 1.0f,
+			-1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+			1.0f, -1.0f, 0.0f, 1.0f, 0.0f
+		};
+
+		glGenVertexArrays(1, &fullScreenQuadVAO);
+		glBindVertexArray(fullScreenQuadVAO);
+
+		glEnableVertexAttribArray(0); // Vertices
+		glEnableVertexAttribArray(1); // UV coords
+
+		glGenBuffers(1, &fullScreenQuadVBO);
+		glBindBuffer(GL_ARRAY_BUFFER, fullScreenQuadVBO);
+		glBufferData(GL_ARRAY_BUFFER, 30 * sizeof(float), VBO_DATA, GL_STATIC_DRAW);
+
+		glVertexAttribPointer((GLuint)0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (GLvoid*)0);
+		//glEnableVertexAttribArray(loc);
+
+		glVertexAttribPointer((GLuint)1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (GLvoid*)(3 * sizeof(float)));
+		//glEnableVertexAttribArray(loc);
+
+		glBindBuffer(GL_ARRAY_BUFFER, GL_NONE);
+		glBindVertexArray(GL_NONE);
+	}
+
+	void drawFullScreenQuad()
+	{
+		glBindVertexArray(fullScreenQuadVAO);
+		glDrawArrays(GL_TRIANGLES, 0, 6);
+		glBindVertexArray(GL_NONE);
 	}
 }

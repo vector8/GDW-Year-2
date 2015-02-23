@@ -8,14 +8,14 @@
 
 #include "Tower.h"
 #include "Projectile.h"
-#include "FSoundManager.h"
+#include "SoundManager.h"
 
 namespace flopse
 {
 	Game::Game() : window(new sf::RenderWindow(sf::VideoMode(1024, 768), "Garrison", sf::Style::Close)), running(true), frames(0), fullscreen(false)
 	{
-		window->setVerticalSyncEnabled(true);
-		window->setFramerateLimit(60);
+		//window->setVerticalSyncEnabled(true);		// These seem to reduce framerate dramatically after several minutes, even though nothing actually changes in the scene.
+		//window->setFramerateLimit(60);			// Not really sure why...
 
 		glewExperimental = GL_TRUE;
 		glewInit();
@@ -27,6 +27,15 @@ namespace flopse
 		optionsMenuState = nullptr;
 		gameOverState = nullptr;
 		currentState = mainMenuState;
+	}
+
+	Game::~Game()
+	{
+		delete gameplayState;
+		delete mainMenuState;
+		delete optionsMenuState;
+		delete gameOverState;
+		delete window;
 	}
 
 	void Game::run()
@@ -113,7 +122,7 @@ namespace flopse
 				// Update
 				currentState->update(elapsed);
 
-				FSoundManager::getSoundManager()->update();
+				SoundManager::getSoundManager()->update();
 
 				// Draw
 				currentState->draw();
@@ -140,7 +149,7 @@ namespace flopse
 		}
 	}
 
-	Player* Game::getPlayer() const
+	std::shared_ptr<Player> Game::getPlayer() const
 	{
 		return gameplayState->player;
 	}
@@ -150,22 +159,17 @@ namespace flopse
 		return gameplayState->currentLevel;
 	}
 
-	Camera* Game::getCamera() const
+	std::shared_ptr<Camera> Game::getCamera() const
 	{
 		return gameplayState->currentLevel->cam;
 	}
 
-	std::vector<Entity*> Game::getEntities() const
-	{
-		return gameplayState->currentLevel->entities;
-	}
-
-	std::vector<BoundingBox*> Game::getColliders() const
+	std::vector<BoundingBox> Game::getColliders() const
 	{
 		return gameplayState->currentLevel->colliders;
 	}
 
-	std::vector<Enemy*> Game::getEnemies() const
+	std::vector<std::shared_ptr<Enemy>> Game::getEnemies() const
 	{
 		return gameplayState->currentLevel->enemies;
 	}

@@ -7,6 +7,7 @@ namespace flopse
 	{
 	public:
 		BoundingBox(const glm::vec3 &pos, float width, float height, float depth);
+		virtual ~BoundingBox();
 
 		glm::vec3 position;
 

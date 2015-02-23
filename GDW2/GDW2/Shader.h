@@ -17,15 +17,29 @@ namespace flopse
 		GLint modelLoc;
 		GLint viewLoc;
 		GLint projectionLoc;
-		GLint objectColorLoc;
+		// GLint objectColorLoc;
 		GLint lightPosLoc;
 		GLint viewPosLoc;
+		GLint lightColourLoc;
+		GLint ambientLoc;
+		GLint diffuseLoc;
+		GLint specularLoc;
+		GLint specularExponentLoc;
+		GLint constantAttenuationLoc;
+		GLint linearAttenuationLoc;
+		GLint quadraticAttenuationLoc;
+		GLint thresholdLoc;
+		GLint pixelSizeLoc;
+		GLint sceneLoc;
+		GLint bloomLoc;
 
 		// Constructor reads and builds our shader
 		Shader(const GLchar* vertexSourcePath, const GLchar* fragmentSourcePath);
-		~Shader();
+		virtual ~Shader();
 
 		// Use our program
-		void use() const;
+		void bind() const;
+
+		void unbind() const;
 	};
 }

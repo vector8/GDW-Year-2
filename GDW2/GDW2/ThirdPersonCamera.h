@@ -12,7 +12,8 @@ namespace flopse
 
 	public:
 		ThirdPersonCamera();
-		//ThirdPersonCamera(Mesh* target, float distance);
+		//ThirdPersonCamera(std::shared_ptr<Mesh> target, float distance);
+		virtual ~ThirdPersonCamera();
 
 		void updateLocalTransform(const sf::RenderWindow &window, const sf::Time &dt);
 	};

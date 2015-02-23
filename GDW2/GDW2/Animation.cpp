@@ -8,8 +8,12 @@ namespace flopse
 	{
 		if (keyframes.size() > 0)
 		{
-			currentMesh = new Mesh(*keyframes[0].mesh);
+			currentMesh = keyframes[0].mesh;
 		}
+	}
+
+	Animation::~Animation()
+	{
 	}
 
 	void Animation::update(const sf::Time &dt)
@@ -25,7 +29,7 @@ namespace flopse
 			}
 
 			float interpParam = elapsed.asSeconds() / keyframes[currentKeyframe].duration.asSeconds();
-			Mesh* target;
+			std::shared_ptr<Mesh> target;
 
 			// Set currentMesh by interpolating between this and next mesh
 			if (currentKeyframe < keyframes.size() - 1)
@@ -38,7 +42,11 @@ namespace flopse
 			}
 
 			//currentMesh = keyframes[currentKeyframe].mesh;
-			for (int i = 0; i < currentMesh->objData.size(); i += 8)
+			for (int i = 0; i < currentMesh->objData.size(); i++)
+			{
+				currentMesh->objData[i] = lerp(interpParam, keyframes[currentKeyframe].mesh->objData[i], target->objData[i]);
+			}
+			/*for (int i = 0; i < currentMesh->objData.size(); i += 8)
 			{
 				currentMesh->objData[i] = lerp(interpParam, keyframes[currentKeyframe].mesh->objData[i], target->objData[i]);
 				currentMesh->objData[i + 1] = lerp(interpParam, keyframes[currentKeyframe].mesh->objData[i + 1], target->objData[i + 1]);
@@ -46,13 +54,13 @@ namespace flopse
 				currentMesh->objData[i + 5] = lerp(interpParam, keyframes[currentKeyframe].mesh->objData[i + 5], target->objData[i + 5]);
 				currentMesh->objData[i + 6] = lerp(interpParam, keyframes[currentKeyframe].mesh->objData[i + 6], target->objData[i + 6]);
 				currentMesh->objData[i + 7] = lerp(interpParam, keyframes[currentKeyframe].mesh->objData[i + 7], target->objData[i + 7]);
-			}
+			}*/
 
 			currentMesh->refreshArrays();
 		}
 	}
 
-	Mesh* Animation::getCurrentMesh()
+	std::shared_ptr<Mesh> Animation::getCurrentMesh()
 	{
 		return currentMesh;
 	}

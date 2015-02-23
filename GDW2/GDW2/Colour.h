@@ -16,6 +16,7 @@ namespace flopse
 		// default colour = white
 		Colour();
 		Colour(float r, float g, float b, float a);
+		virtual ~Colour();
 
 		float getR() const;
 		float getG() const;

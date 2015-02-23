@@ -9,6 +9,7 @@ namespace flopse
 	public:
 		Transform();
 		Transform(const glm::vec3 &position);
+		~Transform();
 
 		glm::mat4 rotationMatrix, translationMatrix;// , scaleMatrix;
 

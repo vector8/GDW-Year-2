@@ -36,6 +36,12 @@ namespace flopse
 		}
 	}
 
+	Mesh::~Mesh()
+	{
+		delete texture;
+		delete shader;
+	}
+
 	void Mesh::refreshArrays()
 	{
 		this->initArrays(&objData[0], objData.size() / 8);

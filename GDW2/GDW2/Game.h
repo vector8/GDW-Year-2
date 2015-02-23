@@ -3,6 +3,7 @@
 #include <glm\glm.hpp>
 
 #include <vector>
+#include <memory>
 
 #include "Entity.h"
 #include "Player.h"
@@ -35,6 +36,7 @@ namespace flopse
 		float fov = 45.f;
 
 	public:
+		virtual ~Game();
 
 		static Game* getGame()
 		{
@@ -45,12 +47,11 @@ namespace flopse
 
 		sf::RenderWindow* window;
 
-		Player* getPlayer() const;
+		std::shared_ptr<Player> getPlayer() const;
 		Level* getCurrentLevel() const;
-		Camera* getCamera() const;
-		std::vector<Entity*> getEntities() const;
-		std::vector<BoundingBox*> getColliders() const;
-		std::vector<Enemy*> getEnemies() const;
+		std::shared_ptr<Camera> getCamera() const;
+		std::vector<BoundingBox> getColliders() const;
+		std::vector<std::shared_ptr<Enemy>> getEnemies() const;
 
 		void run();
 

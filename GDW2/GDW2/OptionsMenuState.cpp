@@ -1,7 +1,7 @@
 #include "OptionsMenuState.h"
 #include "Game.h"
 #include <iostream>
-#include "FSoundManager.h"
+#include "SoundManager.h"
 
 namespace flopse
 {
@@ -21,6 +21,11 @@ namespace flopse
 		buttonSprite.setScale(xScale, yScale);
 
 		createButtons();
+	}
+
+	OptionsMenuState::~OptionsMenuState()
+	{
+		delete bgSprite;
 	}
 
 	void OptionsMenuState::createButtons()
@@ -60,7 +65,7 @@ namespace flopse
 		currentFrame = buttonSprite.getFrame("SliderTab.png");
 		volumeSliderTab.rect = currentFrame.rect;
 		volumeSliderTab.name = currentFrame.name;
-		volumeSliderTab.pos = sf::Vector2i(x2 + ((volumeSlider.rect.width * FSoundManager::getSoundManager()->getMasterVolume()) - (volumeSliderTab.rect.width / 2)) * buttonSprite.getSprite()->getScale().x, 
+		volumeSliderTab.pos = sf::Vector2i(x2 + ((volumeSlider.rect.width * SoundManager::getSoundManager()->getMasterVolume()) - (volumeSliderTab.rect.width / 2)) * buttonSprite.getSprite()->getScale().x, 
 			y2 + ((tempHeight / 2) - (currentFrame.rect.height / 2)) * buttonSprite.getSprite()->getScale().y);
 
 		Button fullscreen;
@@ -275,7 +280,7 @@ namespace flopse
 				float sliderWidth = volumeSlider.rect.width * xScale;
 
 				float volume = (float)(volumeSliderTab.pos.x + halfTabWidth - volumeSlider.pos.x) / sliderWidth;
-				FSoundManager::getSoundManager()->setMasterVolume(volume);
+				SoundManager::getSoundManager()->setMasterVolume(volume);
 
 				volumeSliderTab.state = ButtonState::Normal;
 			}

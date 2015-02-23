@@ -11,7 +11,7 @@ namespace flopse
 
 	public:
 		TextureParticleSystem(const std::string &texturePath, int rate, int maxParticles, const glm::vec3 &position, ParticleSystemBehaviour behaviour);
-		~TextureParticleSystem();
+		virtual ~TextureParticleSystem();
 
 		sf::Texture texture;
 

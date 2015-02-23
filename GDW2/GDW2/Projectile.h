@@ -8,15 +8,15 @@ namespace flopse
 	{
 	private:
 		glm::vec3 sourcePos;
-		Enemy* target = nullptr;
+		std::shared_ptr<Enemy> target = nullptr;
 		glm::vec3 targetPos;
 
 		float interpParam = 0.f;
 		int damage = 0;
 
-		static Mesh* getProjectileMesh()
+		static std::shared_ptr<Mesh> getProjectileMesh()
 		{
-			static Mesh* projectileMesh = new Mesh("meshes/projectile.bmf", new Shader("shaders/texShader.vert", "shaders/grayShader.frag"));
+			static std::shared_ptr<Mesh> projectileMesh = std::make_shared<Mesh>("meshes/projectile.bmf", new Shader("shaders/StaticGeometry.vert", "shaders/PhongNoTexture.frag"));
 
 			projectileMesh->overlayColour = Colour(0.5f, 0.f, 0.5f, 1.f);
 
@@ -24,8 +24,9 @@ namespace flopse
 		}
 
 	public:
-		Projectile(const glm::vec3 &source, Enemy* tar, int damage);
+		Projectile(const glm::vec3 &source, std::shared_ptr<Enemy> tar, int damage);
 		Projectile(const glm::vec3 &source, glm::vec3 tar, int damage);
+		virtual ~Projectile();
 
 		virtual void updateLocalTransform(const sf::RenderWindow &window, const sf::Time &dt);
 	};

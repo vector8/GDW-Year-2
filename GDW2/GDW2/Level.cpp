@@ -8,10 +8,18 @@
 
 namespace flopse
 {
-	Level::Level(Player* p) : Entity(new Mesh("meshes/Level1.bmf", new Shader("shaders/texShader.vert", "shaders/texShader.frag"))), player(p)
+	Level::Level(const std::shared_ptr<Player> &p) : Entity(std::make_shared<Mesh>("meshes/Level1.bmf", new Shader("shaders/StaticGeometry.vert", "shaders/Phong.frag"))), player(p)
 	{
 		this->mesh->setTexture("textures/Level1.png");
-		lightPos = glm::vec3(11000.f, 9000.f, 10000.f);
+		
+		light.ambientComponent = 0.2f;
+		light.diffuseComponent = 0.7f;
+		light.specularComponent = 0.3f;
+		light.specularExponent = 32.f;
+		light.constantAttenuation = 1.f;
+		light.linearAttenuation = 0.0001f;
+		light.quadraticAttenuation = 0.000001f;
+		light.position = glm::vec3(0.f, 500.f, 0.f);
 
 		particleManager = ParticleManager::getInstance();
 
@@ -21,9 +29,10 @@ namespace flopse
 
 		initializeEntities();
 
-		cam = new ThirdPersonCamera();
-		cam->localTransform.translate(glm::vec3(-30.f, (player->mesh->getHeight()/2.f) + 30.f, -200.f));
-		cam->localTransform.rotate(180.f, glm::vec3(0.f, 1.f, 0.f));
+		cam = std::make_shared<ThirdPersonCamera>();
+		cam->localTransform.translate(glm::vec3(-30.f, (player->mesh->getHeight() / 2.f) + 30.f, -200.f));
+		//cam->localTransform.translate(glm::vec3(-30.f, (player->mesh->getHeight()/2.f) + 30.f, -200.f));
+		//cam->localTransform.rotate(180.f, glm::vec3(0.f, 1.f, 0.f));
 		//cam->localTransform.rotate(10.f, glm::vec3(0.f, 1.f, 0.f));
 		player->attach(cam);
 		//ParticleSystem* s = particleManager->createParticleSystem(ParticleSystemBehaviour::Emit, 4, 1000, glm::vec3(0.f, player->mesh->getHeight(), 0.f));
@@ -32,30 +41,34 @@ namespace flopse
 		this->mesh->overlayColour = Colour(0.2f, 0.2f, 0.2f, 1.f);
 	}
 
+	Level::~Level()
+	{
+	}
+
 	void Level::initializeEntities()
 	{
-		//Mesh *crateMesh = new Mesh(vertices3, 36, new Shader("shaders/texShader.vert", "shaders/texShader.frag"));
+		//std::shared_ptr<Mesh> crateMesh = new Mesh(vertices3, 36, new Shader("shaders/StaticGeometry.vert", "shaders/Phong.frag"));
 		//crateMesh->setTexture("textures/container.jpg");
 		//Entity *crate = new Entity(crateMesh);
 		//crate->scale(glm::vec3(60.f, 60.f, 60.f));
-		/*Shader *texShader = new Shader("shaders/texShader.vert", "shaders/texShader.frag");
+		/*Shader *texShader = new Shader("shaders/StaticGeometry.vert", "shaders/Phong.frag");
 
-		Mesh *gobMesh = new Mesh("meshes/TreasureGoblin.bmf", texShader);
+		std::shared_ptr<Mesh> gobMesh = new Mesh("meshes/TreasureGoblin.bmf", texShader);
 		gobMesh->setTexture("textures/TreasureGoblin.png");
 		Entity *goblin = new Entity(gobMesh);
 		goblin->setPosition(glm::vec3(0.f, 145.f, 0.f));
 
-		Mesh* bossMesh = new Mesh("meshes/FinalBoss.bmf", texShader);
+		std::shared_ptr<Mesh> bossMesh = new Mesh("meshes/FinalBoss.bmf", texShader);
 		bossMesh->setTexture("textures/BossModelTexture.png");
 		Entity *boss = new Entity(bossMesh);
 		boss->setPosition(glm::vec3(0.f, 145.f, -200.f));
 
-		Mesh* p2mesh = new Mesh("meshes/Player.bmf", texShader);
+		std::shared_ptr<Mesh> p2mesh = new Mesh("meshes/Player.bmf", texShader);
 		p2mesh->setTexture("textures/PlayerTexture.png");
 		Entity *p2 = new Entity(p2mesh);
 		p2->setPosition(glm::vec3(0.f, 145.f, -400.f));
 
-		Mesh* knifeHandsMesh = new Mesh("meshes/KnifeHands.bmf", texShader);
+		std::shared_ptr<Mesh> knifeHandsMesh = new Mesh("meshes/KnifeHands.bmf", texShader);
 		knifeHandsMesh->setTexture("textures/KnifeHands.png");
 		Entity *knifeHands = new Entity(knifeHandsMesh);
 		knifeHands->setPosition(glm::vec3(0.f, 145.f, -600.f));*/
@@ -109,7 +122,7 @@ namespace flopse
 			points.push_back(currPoint);
 		}
 
-		path = new Path(points);
+		path = std::make_shared<Path>(points);
 	}
 
 	void Level::createColliders()
@@ -162,7 +175,7 @@ namespace flopse
 			height = abs(p2.y - p1.y);
 			depth = abs(p2.z - p1.z);
 
-			this->colliders.push_back(new BoundingBox(pos, width, height, depth));
+			this->colliders.push_back(BoundingBox(pos, width, height, depth));
 		}
 	}
 
@@ -175,7 +188,7 @@ namespace flopse
 			spawnTime += sf::seconds(3.f);
 
 			EnemySpawn es;
-			es.enemy = Enemy::createEnemy(EnemyType::Goblin, path->getPoint(0.f), path);
+			es.enemy = std::make_shared<Enemy>(Enemy::createEnemy(EnemyType::Goblin, path->getPoint(0.f), path));
 			es.spawnTime = spawnTime;
 			enemySpawns.push_back(es);
 		}
@@ -187,7 +200,7 @@ namespace flopse
 			spawnTime += sf::seconds(1.8f);
 
 			EnemySpawn es;
-			es.enemy = Enemy::createEnemy(EnemyType::Goblin, path->getPoint(0.f), path);
+			es.enemy = std::make_shared<Enemy>(Enemy::createEnemy(EnemyType::Goblin, path->getPoint(0.f), path));
 			es.spawnTime = spawnTime;
 			enemySpawns.push_back(es);
 		}
@@ -199,7 +212,7 @@ namespace flopse
 			spawnTime += sf::seconds(1.2f);
 
 			EnemySpawn es;
-			es.enemy = Enemy::createEnemy(EnemyType::Goblin, path->getPoint(0.f), path);
+			es.enemy = std::make_shared<Enemy>(Enemy::createEnemy(EnemyType::Goblin, path->getPoint(0.f), path));
 			es.spawnTime = spawnTime;
 			enemySpawns.push_back(es);
 		}
@@ -211,7 +224,7 @@ namespace flopse
 			spawnTime += sf::seconds(0.8f);
 
 			EnemySpawn es;
-			es.enemy = Enemy::createEnemy(EnemyType::Goblin, path->getPoint(0.f), path);
+			es.enemy = std::make_shared<Enemy>(Enemy::createEnemy(EnemyType::Goblin, path->getPoint(0.f), path));
 			es.spawnTime = spawnTime;
 			enemySpawns.push_back(es);
 		}
@@ -221,15 +234,24 @@ namespace flopse
 
 	void Level::updateLocalTransform(const sf::RenderWindow &window, const sf::Time &dt)
 	{
-		if (spawnCounter < enemySpawns.size())
+		/*if (enemySpawns.size() > 0)
 		{
 			elapsed += dt;
 
-			if (elapsed >= enemySpawns[spawnCounter].spawnTime)
+			if (elapsed >= enemySpawns.front().spawnTime)
 			{
-				this->attach(enemySpawns[spawnCounter].enemy);
-				this->enemies.push_back(enemySpawns[spawnCounter].enemy);
-				spawnCounter++;
+				this->attach(enemySpawns.front().enemy);
+				this->enemies.push_back(enemySpawns.front().enemy);
+				enemySpawns.pop_front();
+			}
+		}*/
+
+		for (int i = 0; i < enemies.size(); i++)
+		{
+			if (enemies[i]->toBeDeleted)
+			{
+				enemies.erase(enemies.begin() + i);
+				i--;
 			}
 		}
 	}

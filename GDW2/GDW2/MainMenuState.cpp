@@ -26,6 +26,12 @@ namespace flopse
 
 		createButtons();
 	}
+	
+	MainMenuState::~MainMenuState()
+	{
+		delete bgSprite;
+		delete buttonSprite;
+	}
 
 	void MainMenuState::createButtons()
 	{

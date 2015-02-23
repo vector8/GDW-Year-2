@@ -16,6 +16,11 @@ namespace flopse
 		setPosition(position);
 	}
 
+	Transform::~Transform()
+	{
+
+	}
+
 	void Transform::setPosition(const glm::vec3 &pos)
 	{
 		glm::mat4 temp;

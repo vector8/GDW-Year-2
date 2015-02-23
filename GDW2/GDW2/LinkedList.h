@@ -11,7 +11,7 @@ namespace flopse
 
 	public:
 		LinkedList();
-		~LinkedList();
+		virtual ~LinkedList();
 
 		Node<T> *head;
 		Node<T> *tail;

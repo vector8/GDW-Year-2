@@ -7,7 +7,7 @@ namespace flopse
 	{
 	public:
 		Node(const T &item, Node<T> *prev = nullptr, Node<T> *next = nullptr);
-		~Node();
+		virtual ~Node();
 
 		T data;
 		Node<T> *prev;

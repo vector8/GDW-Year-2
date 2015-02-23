@@ -4,12 +4,17 @@
 
 namespace flopse
 {
-	Projectile::Projectile(const glm::vec3 &source, Enemy* tar, int damage) : Entity(source, Projectile::getProjectileMesh()), sourcePos(source), target(tar), damage(damage)
+	Projectile::Projectile(const glm::vec3 &source, std::shared_ptr<Enemy> tar, int damage) : Entity(source, Projectile::getProjectileMesh()), sourcePos(source), target(tar), damage(damage)
 	{
 
 	}
 
 	Projectile::Projectile(const glm::vec3 &source, glm::vec3 tar, int damage) : Entity(source, Projectile::getProjectileMesh()), sourcePos(source), targetPos(tar), damage(damage)
+	{
+
+	}
+
+	Projectile::~Projectile()
 	{
 
 	}
@@ -27,14 +32,14 @@ namespace flopse
 			}
 			
 			this->localTransform.setPosition(lerp(interpParam, sourcePos, targetPos));
-			this->boundingBox->position = this->getGlobalPosition();
+			this->boundingBox.position = this->getGlobalPosition();
 
-			std::vector<Enemy*> enemies = Game::getGame()->getEnemies();
+			std::vector<std::shared_ptr<Enemy>> enemies = Game::getGame()->getEnemies();
 			for (int i = 0; i < enemies.size(); i++)
 			{
 				if (!enemies[i]->toBeDeleted)
 				{
-					if (this->boundingBox->hasCollided(*enemies[i]->boundingBox))
+					if (this->boundingBox.hasCollided(enemies[i]->boundingBox))
 					{
 						enemies[i]->health -= damage;
 

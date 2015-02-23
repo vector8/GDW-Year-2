@@ -8,6 +8,7 @@ namespace flopse
 	{
 	public:
 		FirstPersonCamera();
+		virtual ~FirstPersonCamera();
 
 		void updateLocalTransform(const sf::RenderWindow &window, const sf::Time &dt);
 	};

@@ -1,17 +1,17 @@
 #include "Player.h"
 #include "Game.h"
 #include <iostream>
-#include "FSoundManager.h"
+#include "SoundManager.h"
 #include <vector>
 #include <sstream>
 
 namespace flopse
 {
-	Player::Player(Mesh *m) : Entity(m), jumping(false), dy(0.f)
+	Player::Player(std::shared_ptr<Mesh> m) : Entity(m), jumping(false), dy(0.f)
 	{
-		idleMesh = new Mesh(*m);
+		idleMesh = m;
 		std::vector<Keyframe> runFrames;
-		Shader* s = new Shader("shaders/texShader.vert", "shaders/texShader.frag");
+		Shader* s = new Shader("shaders/StaticGeometry.vert", "shaders/Phong.frag");
 
 		for (int i = 1; i < 9; i++)
 		{
@@ -19,7 +19,7 @@ namespace flopse
 			ss << "meshes/GoblinRun" << i << ".bmf";
 			std::string filename = ss.str();
 			Keyframe frame;
-			frame.mesh = new Mesh(filename, s);
+			frame.mesh = std::make_shared<Mesh>(filename, s);
 			frame.mesh->setTexture("textures/GoblinTexture.png");
 
 			if (i == 8)
@@ -35,6 +35,14 @@ namespace flopse
 		}
 
 		runAnimation = new Animation(runFrames);
+
+		footsteps = new Sound("sounds/footstep.wav", true);
+	}
+
+	Player::~Player()
+	{
+		delete runAnimation;
+		delete footsteps;
 	}
 
 	void Player::updateLocalTransform(const sf::RenderWindow &window, const sf::Time &dt)
@@ -55,14 +63,14 @@ namespace flopse
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 		{
 			newPos += speed * dt.asSeconds() * glm::normalize(glm::cross(localTransform.getUp(), glm::cross(localTransform.getFront(), localTransform.getUp())));
-			FSoundManager::getSoundManager()->startFootSteps();
+			footsteps->play();
 
 			runAnimation->update(dt);
 			mesh = runAnimation->getCurrentMesh();
 		}
 		else
 		{
-			FSoundManager::getSoundManager()->stopFootSteps();
+			footsteps->setPaused(true);
 			mesh = idleMesh;
 		}
 
@@ -87,27 +95,27 @@ namespace flopse
 		Game* g = Game::getGame();
 		// check for collision
 		bool collidedX = false, collidedY = false, collidedZ = false;
-		std::vector<BoundingBox*> colliders = g->getColliders();
-		for (std::vector<BoundingBox*>::iterator it = colliders.begin(); it != colliders.end(); it++)
+		std::vector<BoundingBox> colliders = g->getColliders();
+		for (std::vector<BoundingBox>::iterator it = colliders.begin(); it != colliders.end(); it++)
 		{
-			boundingBox->position = glm::vec3(newPos.x, position.y, position.z);
+			boundingBox.position = glm::vec3(newPos.x, position.y, position.z);
 
-			if (boundingBox->hasCollided(*(*it)))
+			if (boundingBox.hasCollided(*it))
 			{
 				collidedX = true;
 			}
 
-			boundingBox->position = glm::vec3(position.x, newPos.y, position.z);
+			boundingBox.position = glm::vec3(position.x, newPos.y, position.z);
 
-			if (boundingBox->hasCollided(*(*it)))
+			if (boundingBox.hasCollided(*it))
 			{
 				collidedY = true;
 				jumping = false;
 			}
 
-			boundingBox->position = glm::vec3(position.x, position.y, newPos.z);
+			boundingBox.position = glm::vec3(position.x, position.y, newPos.z);
 
-			if (boundingBox->hasCollided(*(*it)))
+			if (boundingBox.hasCollided(*it))
 			{
 				collidedZ = true;
 			}
@@ -126,7 +134,7 @@ namespace flopse
 			newPos.z = position.z;
 		}
 
-		boundingBox->position = newPos;
+		boundingBox.position = newPos;
 		localTransform.setPosition(newPos);
 
 		sf::Vector2i mouse = sf::Mouse::getPosition(window);
@@ -156,6 +164,8 @@ namespace flopse
 
 		localTransform.rotate(-xoffset, localTransform.getUp());
 		localTransform.rotate(yoffset, glm::cross(localTransform.getFront(), localTransform.getUp()));
+
+		footsteps->setPosition(this->getGlobalPosition());
 
 		//std::cout << position.x << ", " << position.y << ", " << position.z << std::endl;
 	}

@@ -30,6 +30,7 @@ namespace flopse
 	public:
 		Mesh(GLfloat *vertexData, int numVertices, Shader *s, const std::string &textureFilename = "", bool useUVs = true, bool useNormals = true, bool useColour = false);
 		Mesh(const std::string &objFileName, Shader *s, const std::string &textureFilename = "");
+		virtual ~Mesh();
 
 		void refreshArrays();
 		void initArrays(GLfloat *vertexData, int numVertices, bool useUVs = true, bool useNormals = true, bool useColour = false);

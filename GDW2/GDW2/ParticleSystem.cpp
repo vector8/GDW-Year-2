@@ -12,6 +12,11 @@ namespace flopse
 
 	ParticleSystem::~ParticleSystem()
 	{
+		while (!particles.empty())
+		{
+			delete particles.back();
+			particles.pop_back();
+		}
 	}
 
 	void ParticleSystem::update(const sf::Time &dt)
