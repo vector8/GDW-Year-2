@@ -13,6 +13,15 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{c3d6ff12-e2e2-4915-8668-7170367676ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\Bloom">
+      <UniqueIdentifier>{9b75503d-cee6-4310-a4a7-47dc4b65157a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\Blur">
+      <UniqueIdentifier>{cbd8d60c-84d4-447b-8e29-521675a716e7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -258,6 +267,60 @@
     </None>
     <None Include="Utilities.tpp">
       <Filter>Source Files</Filter>
+    </None>
+    <None Include="shaders\AmbientTexture.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\GrayscalePost.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\Phong.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\PhongNoTexture.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\StaticColor.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\PosColorPassThrough.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\PosUVPassThrough.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\PosUVStraightPassThrough.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\StaticGeometry.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\bloom\BloomComposite.frag">
+      <Filter>Shaders\Bloom</Filter>
+    </None>
+    <None Include="shaders\bloom\BloomHighPass.frag">
+      <Filter>Shaders\Bloom</Filter>
+    </None>
+    <None Include="shaders\bloom\BlurHorizontal.frag">
+      <Filter>Shaders\Blur</Filter>
+    </None>
+    <None Include="shaders\bloom\BlurVertical.frag">
+      <Filter>Shaders\Blur</Filter>
+    </None>
+    <None Include="shaders\DoNothing.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\DrawFullScreenQuad.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\FogPost.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\GenerateShadows.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\ShadowComposite.frag">
+      <Filter>Shaders</Filter>
     </None>
   </ItemGroup>
 </Project>

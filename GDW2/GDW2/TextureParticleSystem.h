@@ -7,7 +7,7 @@ namespace flopse
 	class TextureParticleSystem : public ParticleSystem
 	{
 	private:
-		Shader* s;
+		std::shared_ptr<Shader> s;
 
 	public:
 		TextureParticleSystem(const std::string &texturePath, int rate, int maxParticles, const glm::vec3 &position, ParticleSystemBehaviour behaviour);
@@ -16,6 +16,6 @@ namespace flopse
 		sf::Texture texture;
 
 		//void draw(sf::RenderWindow window);
-		Shader* getShader();
+		std::shared_ptr<Shader> getShader();
 	};
 }

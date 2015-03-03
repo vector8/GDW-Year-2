@@ -8,31 +8,44 @@
 #include "HUD.h"
 #include "FrameBuffer.h"
 
-#define BLOOM_THRESHOLD		0.25f
+#define BLOOM_THRESHOLD		0.6f
 #define BLOOM_DOWNSCALE		2.0f
-#define BLOOM_BLUR_PASSES	4
+#define BLOOM_BLUR_PASSES	10
+#define SHADOW_RESOLUTION	2048
 
 namespace flopse
 {
 	class GameplayState : public State
 	{
 	private:
-		glm::mat4 projection;
 		sf::RenderWindow* window;
 
+		void applyBloomEffect(const FrameBuffer &inputBuffer, FrameBuffer &outputBuffer);
+		void applyBlur(FrameBuffer &inputBuffer, FrameBuffer &outputBuffer, int passes);
+		void applyGrayscaleEffect(const FrameBuffer &inputBuffer, FrameBuffer &outputBuffer);
+		void applyShadowEffect(const FrameBuffer &sceneDepthBuffer, const FrameBuffer &shadowDepthBuffer, FrameBuffer &outputBuffer);
+		void applyShadows(const FrameBuffer &sceneBuffer, const FrameBuffer &shadowBuffer, FrameBuffer &outputBuffer);
+
+		void GameplayState::draw(std::shared_ptr<SceneNode> node, const std::shared_ptr<Camera> &cam, const Light &dirLight, const Light* pointLights, float fogFactor);
+		void GameplayState::drawToShadowMap(std::shared_ptr<SceneNode> root, const std::shared_ptr<Camera> &cam);
+		void GameplayState::drawShadows(std::shared_ptr<SceneNode> node, const std::shared_ptr<Camera> &cam);
+
 	public:
-		SceneNode* root;
+		std::shared_ptr<SceneNode> root;
 		std::shared_ptr<Player> player = nullptr;
-		Level* currentLevel;
+		std::shared_ptr<Level> currentLevel;
 		HUD hud;
 		FrameBuffer mainBuffer;
-		FrameBuffer workBuffer1;
-		FrameBuffer workBuffer2;
-		Shader grayscalePostShader;
-		Shader bloomHighPassShader;
-		Shader blurHorizontalShader;
-		Shader blurVerticalShader;
-		Shader bloomCompositeShader;
+		FrameBuffer downscaleBuffer1;
+		FrameBuffer downscaleBuffer2;
+		FrameBuffer fullscaleBuffer1;
+		FrameBuffer fullscaleBuffer2;
+		FrameBuffer shadowMapBuffer;
+		std::shared_ptr<Shader> grayscalePostShader = nullptr;
+		std::shared_ptr<Shader> bloomHighPassShader = nullptr;
+		std::shared_ptr<Shader> blurHorizontalShader = nullptr;
+		std::shared_ptr<Shader> blurVerticalShader = nullptr;
+		std::shared_ptr<Shader> bloomCompositeShader = nullptr;
 
 		GameplayState(sf::RenderWindow* window);
 		virtual ~GameplayState();

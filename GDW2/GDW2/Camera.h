@@ -13,6 +13,7 @@ namespace flopse
 		virtual ~Camera();
 
 		glm::mat4 view;
+		glm::mat4 projection;
 
 		glm::vec3 getLocalPosition() const;
 		glm::vec3 getGlobalPosition() const;

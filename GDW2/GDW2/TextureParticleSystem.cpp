@@ -11,7 +11,7 @@ namespace flopse
 			std::cout << "Error loading image file" << std::endl;
 		}
 
-		this->s = new Shader("shaders/ambientTexShader.vert", "shaders/ambientTexShader.frag");
+		this->s = std::make_shared<Shader>("shaders/ambientTexShader.vert", "shaders/ambientTexShader.frag");
 	}
 
 	TextureParticleSystem::~TextureParticleSystem()
@@ -19,7 +19,7 @@ namespace flopse
 
 	}
 
-	Shader* TextureParticleSystem::getShader()
+	std::shared_ptr<Shader> TextureParticleSystem::getShader()
 	{
 		return s;
 	}

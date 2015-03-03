@@ -33,6 +33,7 @@ namespace flopse
 		int frames;
 		bool running;
 		bool fullscreen;
+		bool shouldDeleteGameplayState = false;
 		float fov = 45.f;
 
 	public:
@@ -48,7 +49,7 @@ namespace flopse
 		sf::RenderWindow* window;
 
 		std::shared_ptr<Player> getPlayer() const;
-		Level* getCurrentLevel() const;
+		std::shared_ptr<Level> getCurrentLevel() const;
 		std::shared_ptr<Camera> getCamera() const;
 		std::vector<BoundingBox> getColliders() const;
 		std::vector<std::shared_ptr<Enemy>> getEnemies() const;

@@ -1,5 +1,4 @@
 #include "SceneNode.h"
-#include <glm\gtc\type_ptr.hpp>
 #include <iostream>
 
 namespace flopse
@@ -66,55 +65,30 @@ namespace flopse
 		}
 	}
 
-	void SceneNode::draw(const glm::vec3 &camPos, const glm::mat4 &view, const glm::mat4 &projection, const Light &light)
-	{
-		if (mesh)
-		{
-			// Set the shader
-			mesh->shader->bind();
-
-			glUniformMatrix4fv(mesh->shader->modelLoc, 1, GL_FALSE, glm::value_ptr(globalTransform));
-			glUniformMatrix4fv(mesh->shader->viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-			glUniformMatrix4fv(mesh->shader->projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
-			//glUniform4f(mesh->shader->objectColorLoc, mesh->overlayColour.getR(), mesh->overlayColour.getG(), mesh->overlayColour.getB(), mesh->overlayColour.getA());
-			glUniform3f(mesh->shader->lightPosLoc, light.position.x, light.position.y, light.position.z);
-			glUniform3f(mesh->shader->viewPosLoc, camPos.x, camPos.y, camPos.z);
-			glUniform3f(mesh->shader->lightColourLoc, light.colour.getR(), light.colour.getG(), light.colour.getB());
-			glUniform1f(mesh->shader->ambientLoc, light.ambientComponent);
-			glUniform1f(mesh->shader->diffuseLoc, light.diffuseComponent);
-			glUniform1f(mesh->shader->specularLoc, light.specularComponent);
-			glUniform1f(mesh->shader->specularExponentLoc, light.specularExponent);
-			glUniform1f(mesh->shader->constantAttenuationLoc, light.constantAttenuation);
-			glUniform1f(mesh->shader->linearAttenuationLoc, light.linearAttenuation);
-			glUniform1f(mesh->shader->quadraticAttenuationLoc, light.quadraticAttenuation);
-
-			sf::Texture* t = mesh->getTexture();
-			sf::Texture::bind(t);
-
-			glBindVertexArray(mesh->VAO);
-			glDrawArrays(GL_TRIANGLES, 0, mesh->getNumberOfVertices());
-			glBindVertexArray(GL_NONE);
-
-			// Unbind the texture and shader.
-			sf::Texture::bind(NULL);
-			mesh->shader->unbind();
-		}
-
-		Node<std::shared_ptr<SceneNode>>* current = children.head;
-
-		while (current)
-		{
-			if (!current->data->toBeDeleted)
-			{
-				current->data->draw(camPos, view, projection, light);
-			}
-			
-			current = current->next;
-		}
-	}
-
 	void SceneNode::updateLocalTransform(const sf::RenderWindow &window, const sf::Time &dt)
 	{
 
+	}
+
+	glm::mat4 SceneNode::getInverseGlobalTransform()
+	{
+		glm::mat4 inverse;
+
+		glm::mat3 rotation(globalTransform[0][0], globalTransform[0][1], globalTransform[0][2], 
+							globalTransform[1][0], globalTransform[1][1], globalTransform[1][2], 
+							globalTransform[2][0], globalTransform[2][1], globalTransform[2][2]);
+
+		glm::vec3 translate(globalTransform[3][0], globalTransform[3][1], globalTransform[3][2]);
+
+		rotation = glm::transpose(rotation);
+
+		translate = -1.f * (rotation * translate);
+
+		inverse[0][0] = rotation[0][0];	inverse[1][0] = rotation[1][0];	inverse[2][0] = rotation[2][0];	inverse[3][0] = translate[0];
+		inverse[0][1] = rotation[0][1];	inverse[1][1] = rotation[1][1];	inverse[2][1] = rotation[2][1];	inverse[3][1] = translate[1];
+		inverse[0][2] = rotation[0][2];	inverse[1][2] = rotation[1][2];	inverse[2][2] = rotation[2][2];	inverse[3][2] = translate[2];
+		inverse[0][3] = 0.f;			inverse[1][3] = 0.f;			inverse[2][3] = 0.f;			inverse[3][3] = 1.f;
+
+		return inverse;
 	}
 }

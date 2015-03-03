@@ -32,6 +32,8 @@ namespace flopse
 		void unbind();
 
 		void moveToBackBuffer(int windowWidth, int windowHeight);
+		void moveToBackBuffer(int sourceWidth, int sourceHeight, int destWidth, int destHeight);
+		void moveToBackBuffer(int sourceX0, int sourceY0, int sourceX1, int sourceY1, int destX0, int destY0, int destX1, int destY1);
 
 		GLuint getDepthHandle() const;
 		GLuint getColorHandle(unsigned int index) const;

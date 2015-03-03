@@ -18,6 +18,16 @@ namespace flopse
 			// Open files
 			std::ifstream vShaderFile(vertexSourcePath), fShaderFile(fragmentSourcePath);
 
+			if (!vShaderFile.good())
+			{
+				std::cout << "Vertex shader file not found!" << std::endl;
+			}
+
+			if (!fShaderFile.good())
+			{
+				std::cout << "Fragment shader file not found!" << std::endl;
+			}
+
 			std::stringstream vShaderStream, fShaderStream;
 
 			// Read files' buffer contents into streams
@@ -87,25 +97,48 @@ namespace flopse
 			std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
 		}
 
-		// Cache uniform locs
+		// Cache uniform locations
 		modelLoc = glGetUniformLocation(program, "model");
 		viewLoc = glGetUniformLocation(program, "view");
 		projectionLoc = glGetUniformLocation(program, "projection");
-		//objectColorLoc = glGetUniformLocation(program, "objectColor");
-		lightPosLoc = glGetUniformLocation(program, "lightPos");
+		objectColorLoc = glGetUniformLocation(program, "objectColor");
 		viewPosLoc = glGetUniformLocation(program, "viewPos");
-		lightColourLoc = glGetUniformLocation(program, "lightColour");
-		ambientLoc = glGetUniformLocation(program, "ambient");
-		diffuseLoc = glGetUniformLocation(program, "diffuse");
-		specularLoc = glGetUniformLocation(program, "specular");
-		specularExponentLoc = glGetUniformLocation(program, "specularExponent");
-		constantAttenuationLoc = glGetUniformLocation(program, "constantAttenuation");
-		linearAttenuationLoc = glGetUniformLocation(program, "linearAttenuation");
-		quadraticAttenuationLoc = glGetUniformLocation(program, "quadraticAttenuation");
+
+		materialLocs.diffuse = glGetUniformLocation(program, "material.diffuse");
+		materialLocs.specular = glGetUniformLocation(program, "material.specular");
+		materialLocs.specularExponent = glGetUniformLocation(program, "material.specularExponent");
+
+		for (int i = 0; i < NUM_POINT_LIGHTS; i++)
+		{
+			std::string prefix = "pointLights[" + std::to_string(i) + "].";
+			pointLightLocs[i].position = glGetUniformLocation(program, std::string(prefix + "position").c_str());
+			pointLightLocs[i].ambient = glGetUniformLocation(program, std::string(prefix + "ambient").c_str());
+			pointLightLocs[i].diffuse = glGetUniformLocation(program, std::string(prefix + "diffuse").c_str());
+			pointLightLocs[i].specular = glGetUniformLocation(program, std::string(prefix + "specular").c_str());
+			pointLightLocs[i].constantAttenuation = glGetUniformLocation(program, std::string(prefix + "constantAttenuation").c_str());
+			pointLightLocs[i].linearAttenuation = glGetUniformLocation(program, std::string(prefix + "linearAttenuation").c_str());
+			pointLightLocs[i].quadraticAttenuation = glGetUniformLocation(program, std::string(prefix + "quadraticAttenuation").c_str());
+		}
+
+		directionalLightLocs.direction = glGetUniformLocation(program, "dirLight.direction");
+		directionalLightLocs.ambient = glGetUniformLocation(program, "dirLight.ambient");
+		directionalLightLocs.diffuse = glGetUniformLocation(program, "dirLight.diffuse");
+		directionalLightLocs.specular = glGetUniformLocation(program, "dirLight.specular");
+
 		thresholdLoc = glGetUniformLocation(program, "uThreshold");
 		pixelSizeLoc = glGetUniformLocation(program, "uPixelSize");
-		sceneLoc = glGetUniformLocation(program, "uScene");
-		bloomLoc = glGetUniformLocation(program, "uBloom");
+		sceneLoc = glGetUniformLocation(program, "scene");
+		bloomLoc = glGetUniformLocation(program, "bloom");
+		
+		fogFactorLoc = glGetUniformLocation(program, "fogFactor");
+
+		shadowLocs.worldToShadowMap = glGetUniformLocation(program, "worldToShadowMap");
+		shadowLocs.shadowMapDepth = glGetUniformLocation(program, "shadowMapDepth");
+		shadowLocs.drawShadow = glGetUniformLocation(program, "drawShadow");
+		shadowLocs.shadows = glGetUniformLocation(program, "shadows");
+
+		lightPosLoc = glGetUniformLocation(program, "lightPos");
+
 	}
 
 	Shader::~Shader()
