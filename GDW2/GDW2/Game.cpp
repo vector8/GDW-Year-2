@@ -154,7 +154,7 @@ namespace flopse
 		return gameplayState->player;
 	}
 
-	Level* Game::getCurrentLevel() const
+	std::shared_ptr<Level> Game::getCurrentLevel() const
 	{
 		return gameplayState->currentLevel;
 	}
@@ -176,6 +176,9 @@ namespace flopse
 
 	void Game::newGame()
 	{
+		delete this->gameplayState;
+		this->gameplayState = nullptr;
+
 		window->setMouseCursorVisible(false);
 		this->gameplayState = new GameplayState(window);
 		this->currentState = this->gameplayState;
@@ -184,12 +187,22 @@ namespace flopse
 
 	void Game::setGameplayState()
 	{
+		if (shouldDeleteGameplayState)
+		{
+			delete this->gameplayState;
+			this->gameplayState = nullptr;
+			shouldDeleteGameplayState = false;
+		}
+
 		if (this->gameplayState == nullptr)
 		{
 			this->gameplayState = new GameplayState(window);
 		}
 
 		this->currentState = this->gameplayState;
+		window->setMouseCursorVisible(false);
+		// Reset mouse to middle of screen
+		sf::Mouse::setPosition(sf::Vector2i((int)(window->getSize().x) / 2, (int)(window->getSize().y) / 2), *window);
 		clock.restart();
 	}
 
@@ -231,10 +244,13 @@ namespace flopse
 
 	void Game::checkGameOver()
 	{
-		if (gameplayState->currentLevel->gateHealth <= 0)
+		if (this->gameplayState != nullptr)
 		{
-			this->currentState = this->gameOverState;
-			this->gameplayState = nullptr;
+			if (gameplayState->currentLevel->gateHealth <= 0)
+			{
+				shouldDeleteGameplayState = true;
+				this->setGameOverState();
+			}
 		}
 	}
 

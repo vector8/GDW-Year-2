@@ -32,7 +32,7 @@ namespace flopse
 		std::vector<Particle*> particles;
 
 		virtual void update(const sf::Time &dt);
-		virtual Shader* getShader() = 0;
+		virtual std::shared_ptr<Shader> getShader() = 0;
 		virtual void draw(Camera* cam, const glm::mat4 &projection) = 0;
 	};
 }

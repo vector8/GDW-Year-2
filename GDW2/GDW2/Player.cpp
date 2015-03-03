@@ -11,7 +11,7 @@ namespace flopse
 	{
 		idleMesh = m;
 		std::vector<Keyframe> runFrames;
-		Shader* s = new Shader("shaders/StaticGeometry.vert", "shaders/Phong.frag");
+		std::shared_ptr<Shader> s = Shader::getStandardShader(StandardShaders::Phong);
 
 		for (int i = 1; i < 9; i++)
 		{
@@ -20,7 +20,8 @@ namespace flopse
 			std::string filename = ss.str();
 			Keyframe frame;
 			frame.mesh = std::make_shared<Mesh>(filename, s);
-			frame.mesh->setTexture("textures/GoblinTexture.png");
+			frame.mesh->setDiffuseMap("textures/GoblinTexture.png");
+			frame.mesh->setSpecularMap("textures/GoblinSpecularMap.png");
 
 			if (i == 8)
 			{
@@ -138,10 +139,12 @@ namespace flopse
 		localTransform.setPosition(newPos);
 
 		sf::Vector2i mouse = sf::Mouse::getPosition(window);
-		GLfloat xoffset = mouse.x - (int)(window.getSize().x) / 2;
-		GLfloat yoffset = (int)(window.getSize().y) / 2 - mouse.y;
+		// Reset mouse to middle of screen
+		sf::Mouse::setPosition(sf::Vector2i((int)(window.getSize().x) / 2, (int)(window.getSize().y) / 2), window);
+		float xoffset = mouse.x - (int)(window.getSize().x) / 2;
+		float yoffset = (int)(window.getSize().y) / 2 - mouse.y;
 
-		GLfloat sensitivity = 0.1;
+		float sensitivity = 0.1f;
 		xoffset *= sensitivity;
 		yoffset *= sensitivity;
 

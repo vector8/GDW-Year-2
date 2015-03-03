@@ -2,24 +2,34 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <glm\gtc\matrix_transform.hpp>
 #include "ThirdPersonCamera.h"
 #include "Constants.h"
 #include "Utilities.h"
+#include "Game.h"
 
 namespace flopse
 {
-	Level::Level(const std::shared_ptr<Player> &p) : Entity(std::make_shared<Mesh>("meshes/Level1.bmf", new Shader("shaders/StaticGeometry.vert", "shaders/Phong.frag"))), player(p)
+	Level::Level(const std::shared_ptr<Player> &p) : Entity(std::make_shared<Mesh>("meshes/Level1.bmf", Shader::getStandardShader(StandardShaders::Phong))), player(p)
 	{
-		this->mesh->setTexture("textures/Level1.png");
-		
-		light.ambientComponent = 0.2f;
-		light.diffuseComponent = 0.7f;
-		light.specularComponent = 0.3f;
-		light.specularExponent = 32.f;
-		light.constantAttenuation = 1.f;
-		light.linearAttenuation = 0.0001f;
-		light.quadraticAttenuation = 0.000001f;
-		light.position = glm::vec3(0.f, 500.f, 0.f);
+		this->mesh->setDiffuseMap("textures/Level1.png");
+		this->mesh->setSpecularMap("textures/Level1SpecMap.png");
+		this->mesh->acceptShadow = true;
+
+		pointLights[0].position = glm::vec3(0.f, 500.f, 0.f);
+		pointLights[0].ambient = glm::vec3(0.1f, 0.1f, 0.1f);
+		pointLights[0].diffuse = glm::vec3(0.3f, 0.3f, 0.3f);
+		pointLights[0].specular = glm::vec3(1.0f, 1.0f, 1.0f);
+		pointLights[0].constantAttenuation = 1.f;
+		pointLights[0].linearAttenuation = 0.0001f;
+		pointLights[0].quadraticAttenuation = 0.000001f;
+
+		dirLight.direction = glm::vec3(-1.f, -1.f, -1.f);
+		dirLight.ambient = glm::vec3(0.1f, 0.1f, 0.1f);
+		dirLight.diffuse = glm::vec3(0.3f, 0.3f, 0.3f);
+		dirLight.specular = glm::vec3(1.0f, 1.0f, 1.0f);
+
+		//fogFactor = 0.001;
 
 		particleManager = ParticleManager::getInstance();
 
@@ -31,12 +41,20 @@ namespace flopse
 
 		cam = std::make_shared<ThirdPersonCamera>();
 		cam->localTransform.translate(glm::vec3(-30.f, (player->mesh->getHeight() / 2.f) + 30.f, -200.f));
-		//cam->localTransform.translate(glm::vec3(-30.f, (player->mesh->getHeight()/2.f) + 30.f, -200.f));
-		//cam->localTransform.rotate(180.f, glm::vec3(0.f, 1.f, 0.f));
-		//cam->localTransform.rotate(10.f, glm::vec3(0.f, 1.f, 0.f));
+		cam->projection = glm::perspective(Game::getGame()->getFieldOfView(), 1024.0f / 768.0f, 0.1f, 100000.0f);
+		//cam->projection = glm::ortho(-512.0f, 512.0f, -384.0f, 384.0f, -1000.f, 1000.f);
+		//cam->projection = glm::ortho(-350.f, 350.f, -350.f, 350.f, -10.f, 10000.f);
 		player->attach(cam);
 		//ParticleSystem* s = particleManager->createParticleSystem(ParticleSystemBehaviour::Emit, 4, 1000, glm::vec3(0.f, player->mesh->getHeight(), 0.f));
 		//player->attach(s);
+
+		shadowCamera = std::make_shared<Camera>();
+		shadowCamera->localTransform.rotate(45.f, glm::vec3(1.f, 0.f, 0.f));
+		shadowCamera->localTransform.rotate(225.f, glm::vec3(0.f, 1.f, 0.f));
+		//shadowCamera->localTransform.translate(glm::vec3(1000.f, 1000.f, 1000.f));
+		shadowCamera->projection = glm::ortho(-4500.f, 4500.f, -4500.f, 4500.f, -3300.0f, 4600.f);
+		shadowCamera->globalTransform = shadowCamera->localTransform.getTransformMatrix();
+		shadowCamera->recalculateView();
 
 		this->mesh->overlayColour = Colour(0.2f, 0.2f, 0.2f, 1.f);
 	}
@@ -47,39 +65,9 @@ namespace flopse
 
 	void Level::initializeEntities()
 	{
-		//std::shared_ptr<Mesh> crateMesh = new Mesh(vertices3, 36, new Shader("shaders/StaticGeometry.vert", "shaders/Phong.frag"));
-		//crateMesh->setTexture("textures/container.jpg");
-		//Entity *crate = new Entity(crateMesh);
-		//crate->scale(glm::vec3(60.f, 60.f, 60.f));
-		/*Shader *texShader = new Shader("shaders/StaticGeometry.vert", "shaders/Phong.frag");
-
-		std::shared_ptr<Mesh> gobMesh = new Mesh("meshes/TreasureGoblin.bmf", texShader);
-		gobMesh->setTexture("textures/TreasureGoblin.png");
-		Entity *goblin = new Entity(gobMesh);
-		goblin->setPosition(glm::vec3(0.f, 145.f, 0.f));
-
-		std::shared_ptr<Mesh> bossMesh = new Mesh("meshes/FinalBoss.bmf", texShader);
-		bossMesh->setTexture("textures/BossModelTexture.png");
-		Entity *boss = new Entity(bossMesh);
-		boss->setPosition(glm::vec3(0.f, 145.f, -200.f));
-
-		std::shared_ptr<Mesh> p2mesh = new Mesh("meshes/Player.bmf", texShader);
-		p2mesh->setTexture("textures/PlayerTexture.png");
-		Entity *p2 = new Entity(p2mesh);
-		p2->setPosition(glm::vec3(0.f, 145.f, -400.f));
-
-		std::shared_ptr<Mesh> knifeHandsMesh = new Mesh("meshes/KnifeHands.bmf", texShader);
-		knifeHandsMesh->setTexture("textures/KnifeHands.png");
-		Entity *knifeHands = new Entity(knifeHandsMesh);
-		knifeHands->setPosition(glm::vec3(0.f, 145.f, -600.f));*/
-
 		player->setPosition(glm::vec3(0.f, 145.f, 100.f));
 
 		this->attach(player);
-		/*this->attach(goblin);
-		this->attach(boss);
-		this->attach(p2);
-		this->attach(knifeHands);*/
 	}
 
 	void Level::createPath()

@@ -16,7 +16,7 @@ namespace flopse
 
 		static std::shared_ptr<Mesh> getProjectileMesh()
 		{
-			static std::shared_ptr<Mesh> projectileMesh = std::make_shared<Mesh>("meshes/projectile.bmf", new Shader("shaders/StaticGeometry.vert", "shaders/PhongNoTexture.frag"));
+			static std::shared_ptr<Mesh> projectileMesh = std::make_shared<Mesh>("meshes/projectile.bmf", Shader::getStandardShader(StandardShaders::PhongNoTexture));
 
 			projectileMesh->overlayColour = Colour(0.5f, 0.f, 0.5f, 1.f);
 

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:973260ff52f797fa066547d5f724a29e:6597774236510a219a05af1ab63ae721:8cacd1a76f3d7aa0c1fcfa26806f5a09$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+-->
+<TextureAtlas imagePath="HUDSpriteSheet.png" width="2048" height="4096">
+    <sprite n="Bow.png" x="2" y="2" w="304" h="321" pX="0.5" pY="0.5"/>
+    <sprite n="BowSelected.png" x="308" y="2" w="304" h="321" pX="0.5" pY="0.5"/>
+    <sprite n="CastleHealthEmpty.png" x="614" y="2" w="1368" h="325" pX="0.5" pY="0.5"/>
+    <sprite n="CastleHealthFull.png" x="2" y="329" w="1368" h="325" pX="0.5" pY="0.5"/>
+    <sprite n="Fireball.png" x="1372" y="329" w="304" h="321" pX="0.5" pY="0.5"/>
+    <sprite n="FireballSelected.png" x="1678" y="329" w="304" h="321" pX="0.5" pY="0.5"/>
+    <sprite n="LifeBarEmpty.png" x="2" y="656" w="1293" h="219" pX="0.5" pY="0.5"/>
+    <sprite n="LifeBarFull.png" x="2" y="877" w="1293" h="219" pX="0.5" pY="0.5"/>
+    <sprite n="ManaBarEmpty.png" x="2" y="1098" w="1293" h="219" pX="0.5" pY="0.5"/>
+    <sprite n="ManaBarFull.png" x="2" y="1319" w="1293" h="219" pX="0.5" pY="0.5"/>
+    <sprite n="MiniMap.png" x="2" y="1540" w="1473" h="1454" pX="0.5" pY="0.5"/>
+    <sprite n="MiniMapHud.png" x="2" y="2996" w="708" h="715" pX="0.5" pY="0.5"/>
+    <sprite n="Sword.png" x="712" y="2996" w="304" h="321" pX="0.5" pY="0.5"/>
+    <sprite n="SwordSelected.png" x="1018" y="2996" w="304" h="321" pX="0.5" pY="0.5"/>
+</TextureAtlas>

@@ -1,10 +1,11 @@
 #pragma once
 
 #include <GL/glew.h>
-#include "Shader.h"
 #include <string>
 #include <vector>
 #include <SFML\Graphics.hpp>
+#include <memory>
+#include "Shader.h"
 #include "Colour.h"
 
 namespace flopse
@@ -21,34 +22,40 @@ namespace flopse
 
 		bool loadFromFile(const std::string &fileName);
 
-		sf::Texture* texture;
+		sf::Texture* diffuseMap = NULL;
+		sf::Texture* specularMap = NULL;
 
 		bool useUVs;
 		bool useNormals;
 		bool useColour;
 
 	public:
-		Mesh(GLfloat *vertexData, int numVertices, Shader *s, const std::string &textureFilename = "", bool useUVs = true, bool useNormals = true, bool useColour = false);
-		Mesh(const std::string &objFileName, Shader *s, const std::string &textureFilename = "");
+		Mesh(GLfloat *vertexData, int numVertices, std::shared_ptr<Shader> s, const std::string &diffuseMapFilename = "", const std::string &specularMapFilename = "", bool useUVs = true, bool useNormals = true, bool useColour = false);
+		Mesh(const std::string &objFileName, std::shared_ptr<Shader> s, const std::string &diffuseMapFilename = "", const std::string &specularMapFilename = "");
 		virtual ~Mesh();
 
 		void refreshArrays();
 		void initArrays(GLfloat *vertexData, int numVertices, bool useUVs = true, bool useNormals = true, bool useColour = false);
 		void calculateDimensions(GLfloat *vertexData, int numVertices);
 
-		Shader *shader;
+		std::shared_ptr<Shader> shader;
 		GLuint VAO;
 		Colour overlayColour;
 		std::vector<GLfloat> objData;
+		bool acceptShadow = false;
 
-		void setTexture(const std::string &filename);
-		void setTexture(sf::Texture *t);
+		void setDiffuseMap(const std::string &filename);
+		void setDiffuseMap(sf::Texture *t);
+
+		void setSpecularMap(const std::string &filename);
+		void setSpecularMap(sf::Texture *t);
 
 		void setPointColour(const Colour &c);
 
 		int getNumberOfVertices() const;
 
-		sf::Texture* getTexture() const;
+		sf::Texture* getDiffuseMap() const;
+		sf::Texture* getSpecularMap() const;
 
 		float getWidth() const;
 		float getHeight() const;

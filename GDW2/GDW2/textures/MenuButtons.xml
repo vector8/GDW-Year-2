@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:7e65ed28abcc8a3567701dd6ae378f79:c2b549607919e40969a6c937207b3bd7:30b52f0a39ff121f1ba502489bc0e3ca$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+-->
+<TextureAtlas imagePath="MenuButtons.png" width="2342" height="3470">
+    <sprite n="ContinueButton.png" x="2" y="2" w="1168" h="576" pX="0.5" pY="0.5"/>
+    <sprite n="ContinueSelected.png" x="1172" y="2" w="1168" h="576" pX="0.5" pY="0.5"/>
+    <sprite n="ExitButton.png" x="2" y="580" w="1168" h="576" pX="0.5" pY="0.5"/>
+    <sprite n="ExitSelected.png" x="1172" y="580" w="1168" h="576" pX="0.5" pY="0.5"/>
+    <sprite n="NewGameButton.png" x="2" y="1158" w="1168" h="576" pX="0.5" pY="0.5"/>
+    <sprite n="NewGameSelected.png" x="1172" y="1158" w="1168" h="576" pX="0.5" pY="0.5"/>
+    <sprite n="OptionsButton.png" x="2" y="1736" w="1168" h="576" pX="0.5" pY="0.5"/>
+    <sprite n="OptionsSelected.png" x="1172" y="1736" w="1168" h="576" pX="0.5" pY="0.5"/>
+    <sprite n="creditbutton.png" x="2" y="2314" w="1168" h="576" pX="0.5" pY="0.5"/>
+    <sprite n="creditselected.png" x="1172" y="2314" w="1168" h="576" pX="0.5" pY="0.5"/>
+    <sprite n="loadgamebutton.png" x="2" y="2892" w="1168" h="576" pX="0.5" pY="0.5"/>
+    <sprite n="loadgameselected.png" x="1172" y="2892" w="1168" h="576" pX="0.5" pY="0.5"/>
+</TextureAtlas>

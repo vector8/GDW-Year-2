@@ -32,10 +32,13 @@ namespace flopse
 		Level(const std::shared_ptr<Player> &p);
 		virtual ~Level();
 
-		Light light;
+		Light dirLight;
+		Light pointLights[NUM_POINT_LIGHTS];
 		std::shared_ptr<Camera> cam = nullptr;
 		std::shared_ptr<Player> player = nullptr;
+		std::shared_ptr<Camera> shadowCamera = nullptr;
 		ParticleManager* particleManager;
+		float fogFactor = 0.0f;
 
 		std::shared_ptr<Path> path = nullptr;
 

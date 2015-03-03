@@ -17,9 +17,7 @@ namespace flopse
 	Sound::~Sound()
 	{
 		sound->release();
-		delete sound;
 		sound = nullptr;
-		delete channel;
 		channel = nullptr;
 	}
 	

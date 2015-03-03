@@ -8,20 +8,27 @@
 
 namespace flopse
 {
-	Mesh::Mesh(GLfloat *vertexData, int numVertices, Shader *s, const std::string &textureFilename, bool useUVs, bool useNormals, bool useColour) : vertexData(vertexData), numVertices(numVertices), shader(s),
-		texture(NULL), useUVs(useUVs), useNormals(useNormals), useColour(useColour)
+	Mesh::Mesh(GLfloat *vertexData, int numVertices, std::shared_ptr<Shader> s, const std::string &diffuseMapFilename, const std::string &specularMapFilename, bool useUVs, bool useNormals, bool useColour) :
+		vertexData(vertexData), numVertices(numVertices), shader(s),
+		useUVs(useUVs), useNormals(useNormals), useColour(useColour)
 	{
 		this->initArrays(vertexData, numVertices, useUVs, useNormals);
 
 		calculateDimensions(vertexData, numVertices);
 
-		if (textureFilename.size() > 0)
+		if (diffuseMapFilename.size() > 0)
 		{
-			setTexture(textureFilename);
+			setDiffuseMap(diffuseMapFilename);
+		}
+
+		if (specularMapFilename.size() > 0)
+		{
+			setSpecularMap(specularMapFilename);
 		}
 	}
 
-	Mesh::Mesh(const std::string &fileName, Shader *s, const std::string &textureFilename) : shader(s), texture(NULL), width(0.f), height(0.f), depth(0.f), useUVs(true), useNormals(true), useColour(false)
+	Mesh::Mesh(const std::string &fileName, std::shared_ptr<Shader> s, const std::string &diffuseMapFilename, const std::string &specularMapFilename) :
+		shader(s), width(0.f), height(0.f), depth(0.f), useUVs(true), useNormals(true), useColour(false)
 	{
 		if (this->loadFromFile(fileName))
 		{
@@ -29,17 +36,24 @@ namespace flopse
 
 			calculateDimensions(&objData[0], objData.size() / 8);
 
-			if (textureFilename.size() > 0)
+			if (diffuseMapFilename.size() > 0)
 			{
-				setTexture(textureFilename);
+				setDiffuseMap(diffuseMapFilename);
+			}
+
+			if (specularMapFilename.size() > 0)
+			{
+				setSpecularMap(specularMapFilename);
 			}
 		}
 	}
 
 	Mesh::~Mesh()
 	{
-		delete texture;
-		delete shader;
+		delete diffuseMap;
+		diffuseMap = NULL;
+		delete specularMap;
+		specularMap = NULL;
 	}
 
 	void Mesh::refreshArrays()
@@ -150,18 +164,32 @@ namespace flopse
 		depth = maxZ - minZ;
 	}
 
-	void Mesh::setTexture(const std::string &filename)
+	void Mesh::setDiffuseMap(const std::string &filename)
 	{
-		this->texture = new sf::Texture();
-		if (!this->texture->loadFromFile(filename))
+		this->diffuseMap = new sf::Texture();
+		if (!this->diffuseMap->loadFromFile(filename))
 		{
-			std::cout << "!!!!ERROR LOADING TEXTURE!!!!" << std::endl;
+			std::cout << "!!!!ERROR LOADING DIFFUSE MAP!!!!" << std::endl;
 		}
 	}
 
-	void Mesh::setTexture(sf::Texture* t)
+	void Mesh::setDiffuseMap(sf::Texture* t)
 	{
-		this->texture = t;
+		this->diffuseMap = t;
+	}
+
+	void Mesh::setSpecularMap(const std::string &filename)
+	{
+		this->specularMap = new sf::Texture();
+		if (!this->specularMap->loadFromFile(filename))
+		{
+			std::cout << "!!!!ERROR LOADING SPECULAR MAP!!!!" << std::endl;
+		}
+	}
+
+	void Mesh::setSpecularMap(sf::Texture* t)
+	{
+		this->specularMap = t;
 	}
 
 	void Mesh::setPointColour(const Colour &c)
@@ -204,9 +232,14 @@ namespace flopse
 		}
 	}
 
-	sf::Texture* Mesh::getTexture() const
+	sf::Texture* Mesh::getDiffuseMap() const
 	{
-		return this->texture;
+		return this->diffuseMap;
+	}
+
+	sf::Texture* Mesh::getSpecularMap() const
+	{
+		return this->specularMap;
 	}
 
 	float Mesh::getWidth() const
@@ -242,5 +275,7 @@ namespace flopse
 		objData.resize(size);
 
 		fread(&objData[0], sizeof(GLfloat), size, binaryFile);
+
+		return true;
 	}
 }

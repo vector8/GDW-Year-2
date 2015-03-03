@@ -33,7 +33,7 @@ namespace flopse
 
 		static Enemy createEnemy(const EnemyType &t, const glm::vec3 &pos, std::shared_ptr<Path> path = nullptr)
 		{
-			static std::shared_ptr<Mesh> GOBLIN_MESH = std::make_shared<Mesh>("meshes/Goblin.bmf", new Shader("shaders/StaticGeometry.vert", "shaders/Phong.frag"), "textures/GoblinTexture.png");
+			static std::shared_ptr<Mesh> GOBLIN_MESH = std::make_shared<Mesh>("meshes/Goblin.bmf", Shader::getStandardShader(StandardShaders::Phong), "textures/GoblinTexture.png", "textures/GoblinSpecularMap.png");
 
 			Enemy* e = nullptr;
 

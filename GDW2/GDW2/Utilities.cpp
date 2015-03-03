@@ -161,10 +161,8 @@ namespace flopse
 		glBufferData(GL_ARRAY_BUFFER, 30 * sizeof(float), VBO_DATA, GL_STATIC_DRAW);
 
 		glVertexAttribPointer((GLuint)0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (GLvoid*)0);
-		//glEnableVertexAttribArray(loc);
 
 		glVertexAttribPointer((GLuint)1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (GLvoid*)(3 * sizeof(float)));
-		//glEnableVertexAttribArray(loc);
 
 		glBindBuffer(GL_ARRAY_BUFFER, GL_NONE);
 		glBindVertexArray(GL_NONE);

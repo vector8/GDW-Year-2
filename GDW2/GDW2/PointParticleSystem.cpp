@@ -7,16 +7,16 @@ namespace flopse
 	PointParticleSystem::PointParticleSystem(int rate, int maxParticles, const glm::vec3 &position, ParticleSystemBehaviour behaviour) :
 		ParticleSystem(rate, maxParticles, position, behaviour)
 	{
-		this->s = new Shader("shaders/colorShader.vert", "shaders/colorShader.frag");
+		this->s = std::make_shared<Shader>("shaders/colorShader.vert", "shaders/colorShader.frag");
 		GLfloat point[] = { 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f };
-		this->mesh = std::make_shared<Mesh>(point, 1, s, "", false, false, true);
+		this->mesh = std::make_shared<Mesh>(point, 1, s, "", "", false, false, true);
 	}
 
 	PointParticleSystem::~PointParticleSystem()
 	{
 	}
 
-	Shader* PointParticleSystem::getShader()
+	std::shared_ptr<Shader> PointParticleSystem::getShader()
 	{
 		return s;
 	}

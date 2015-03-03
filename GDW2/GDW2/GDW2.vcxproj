@@ -240,6 +240,24 @@
   <ItemGroup>
     <None Include="LinkedList.tpp" />
     <None Include="Node.tpp" />
+    <None Include="shaders\AmbientTexture.frag" />
+    <None Include="shaders\bloom\BloomComposite.frag" />
+    <None Include="shaders\bloom\BloomHighPass.frag" />
+    <None Include="shaders\bloom\BlurHorizontal.frag" />
+    <None Include="shaders\bloom\BlurVertical.frag" />
+    <None Include="shaders\DoNothing.frag" />
+    <None Include="shaders\DrawFullScreenQuad.frag" />
+    <None Include="shaders\FogPost.frag" />
+    <None Include="shaders\GenerateShadows.frag" />
+    <None Include="shaders\GrayscalePost.frag" />
+    <None Include="shaders\Phong.frag" />
+    <None Include="shaders\PhongNoTexture.frag" />
+    <None Include="shaders\PosColorPassThrough.vert" />
+    <None Include="shaders\PosUVPassThrough.vert" />
+    <None Include="shaders\PosUVStraightPassThrough.vert" />
+    <None Include="shaders\ShadowComposite.frag" />
+    <None Include="shaders\StaticColor.frag" />
+    <None Include="shaders\StaticGeometry.vert" />
     <None Include="Utilities.tpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

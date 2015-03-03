@@ -1,9 +1,9 @@
 #pragma once
-#include "Colour.h"
 #include <glm\glm.hpp>
 
 namespace flopse
 {
+	// Can represent a directional or point light.
 	class Light
 	{
 	private:
@@ -13,14 +13,12 @@ namespace flopse
 		~Light();
 
 		glm::vec3 position;
+		glm::vec3 direction;
 
-		Colour colour;
-		
-		float ambientComponent = 0.f;
-		float diffuseComponent = 0.f;
-		float specularComponent = 0.f;
+		glm::vec3 ambient;
+		glm::vec3 diffuse;
+		glm::vec3 specular;
 		float specularExponent = 0.f;
-
 		float constantAttenuation = 0.f;
 		float linearAttenuation = 0.f;
 		float quadraticAttenuation = 0.f;

@@ -1,7 +1,7 @@
 #version 420
 
-uniform sampler2D uTex; // source image
-uniform float uThreshold;
+uniform sampler2D scene; // source image
+uniform float threshold;
 
 in vec2 texCoord;
 
@@ -9,11 +9,11 @@ out vec3 outColor;
 
 void main()
 {
-	vec3 color = texture(uTex, texCoord).rgb;
+	vec3 color = texture(scene, texCoord).rgb;
 
 	float luminance = (color.r + color.g + color.b) / 3.0;
 
-	if(luminance > uThreshold)
+	if(luminance > threshold)
 	{
 		outColor = color;
 	}
