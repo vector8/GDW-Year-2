@@ -17,8 +17,5 @@ namespace flopse
 		void translate(const glm::vec3 &t);
 		void rotate(float degrees, const glm::vec3 &axis);
 		//void scale(const glm::vec3 &s);
-
-		glm::vec3 getGlobalPosition() const;
-		glm::vec3 Entity::getGlobalFront() const;
 	};
 }

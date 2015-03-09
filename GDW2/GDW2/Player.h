@@ -12,6 +12,7 @@ namespace flopse
 		Animation* runAnimation;
 		std::shared_ptr<Mesh> idleMesh;
 		Sound* footsteps;
+		std::shared_ptr<SceneNode> camJoint = nullptr;
 
 	public:
 		Player(std::shared_ptr<Mesh> m);
@@ -22,8 +23,11 @@ namespace flopse
 		int health = 100;
 		int maxHealth = 100;
 
-		void updateLocalTransform(const sf::RenderWindow &window, const sf::Time &dt);
+		virtual void attach(const std::shared_ptr<SceneNode> &n);
+		virtual void updateLocalTransform(const sf::RenderWindow &window, const sf::Time &dt);
 
 		void jump();
+
+		glm::vec3 getAimDirection();
 	};
 }

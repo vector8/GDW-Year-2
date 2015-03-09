@@ -5,7 +5,6 @@
 #include "Entity.h"
 #include "Player.h"
 #include "Camera.h"
-#include "ParticleManager.h"
 #include "Path.h"
 #include "Enemy.h"
 #include "Light.h"
@@ -37,7 +36,6 @@ namespace flopse
 		std::shared_ptr<Camera> cam = nullptr;
 		std::shared_ptr<Player> player = nullptr;
 		std::shared_ptr<Camera> shadowCamera = nullptr;
-		ParticleManager* particleManager;
 		float fogFactor = 0.0f;
 
 		std::shared_ptr<Path> path = nullptr;

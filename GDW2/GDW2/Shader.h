@@ -52,17 +52,22 @@ namespace flopse
 		Grayscale,
 		ShadowMap,
 		ShadowGenerator,
-		ShadowComposite
+		ShadowComposite,
+		Cel,
+		Billboard
 	};
 
 	class Shader
 	{
+	private:
+		GLuint createShader(const GLchar* sourcePath, GLenum shaderType);
+
 	public:
 		// Our program ID
 		GLuint program;
 
 		// Shader IDs
-		GLuint vertexShader, fragmentShader;
+		GLuint vertexShader, fragmentShader, geometryShader;
 
 		// Various uniform locations
 		GLint modelLoc;
@@ -83,7 +88,10 @@ namespace flopse
 
 		// Constructor reads and builds our shader
 		Shader(const GLchar* vertexSourcePath, const GLchar* fragmentSourcePath);
+		Shader(const GLchar* vertexSourcePath, const GLchar* fragmentSourcePath, const GLchar* geometrySourcePath);
 		virtual ~Shader();
+
+		void cacheUniformLocations();
 
 		static std::shared_ptr<Shader> getStandardShader(StandardShaders type)
 		{
@@ -95,8 +103,10 @@ namespace flopse
 			static std::shared_ptr<Shader> BLUR_VERTICAL = std::make_shared<Shader>("shaders/PosUVStraightPassThrough.vert", "shaders/blur/BlurVertical.frag");
 			static std::shared_ptr<Shader> GRAYSCALE = std::make_shared<Shader>("shaders/PosUVStraightPassThrough.vert", "shaders/GrayscalePost.frag");
 			static std::shared_ptr<Shader> SHADOW_MAP = std::make_shared<Shader>("shaders/StaticGeometry.vert", "shaders/DoNothing.frag");
-			static std::shared_ptr<Shader> SHADOW_GENERATOR = std::make_shared<Shader>("shaders/StaticGeometry.vert", "shaders/GenerateShadows.frag");
-			static std::shared_ptr<Shader> SHADOW_COMPOSITE = std::make_shared<Shader>("shaders/PosUVStraightPassThrough.vert", "shaders/ShadowComposite.frag");
+			static std::shared_ptr<Shader> SHADOW_GENERATOR = std::make_shared<Shader>("shaders/StaticGeometry.vert", "shaders/shadowmapping/GenerateShadows.frag");
+			static std::shared_ptr<Shader> SHADOW_COMPOSITE = std::make_shared<Shader>("shaders/PosUVStraightPassThrough.vert", "shaders/shadowmapping/ShadowComposite.frag");
+			static std::shared_ptr<Shader> CEL = std::make_shared<Shader>("shaders/StaticGeometry.vert", "shaders/CelShader.frag");
+			static std::shared_ptr<Shader> BILLBOARD = std::make_shared<Shader>("shaders/particles/Billboard.vert", "shaders/particles/Billboard.frag", "shaders/particles/Billboard.geom");
 
 			switch (type)
 			{
@@ -129,6 +139,12 @@ namespace flopse
 				break;
 			case flopse::StandardShaders::ShadowComposite:
 				return SHADOW_COMPOSITE;
+				break;
+			case flopse::StandardShaders::Cel:
+				return CEL;
+				break;
+			case flopse::StandardShaders::Billboard:
+				return BILLBOARD;
 				break;
 			default:
 				return nullptr;

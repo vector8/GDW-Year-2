@@ -6,9 +6,8 @@
 #include <chrono>
 #include <thread>
 
-#include "Tower.h"
-#include "Projectile.h"
 #include "SoundManager.h"
+#include "Utilities.h"
 
 namespace flopse
 {
@@ -27,6 +26,9 @@ namespace flopse
 		optionsMenuState = nullptr;
 		gameOverState = nullptr;
 		currentState = mainMenuState;
+
+		// Seed the random number generator so other classes don't have to.
+		seedRandomNumberGenerator();
 	}
 
 	Game::~Game()

@@ -46,22 +46,4 @@ namespace flopse
 		boundingBox.height *= s.y;
 		boundingBox.depth *= s.z;
 	}*/
-
-	glm::vec3 Entity::getGlobalPosition() const
-	{
-		glm::vec4 tpos(0.f, 0.f, 0.f, 1.f);
-
-		tpos = globalTransform * tpos;
-
-		return glm::vec3(tpos.x, tpos.y, tpos.z);
-	}
-
-	glm::vec3 Entity::getGlobalFront() const
-	{
-		glm::vec4 tfront(0.f, 0.f, 1.f, 0.f);
-
-		tfront = globalTransform * tfront;
-
-		return glm::normalize(glm::vec3(tfront.x, tfront.y, tfront.z));
-	}
 }

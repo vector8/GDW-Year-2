@@ -19,10 +19,11 @@ namespace flopse
 		LinkedList<std::shared_ptr<SceneNode>> children;
 		SceneNode* parent = nullptr;
 		std::shared_ptr<Mesh> mesh = nullptr;
+		bool usesCustomDraw = false;
 
 		bool toBeDeleted = false;
 		
-		void attach(const std::shared_ptr<SceneNode> &n);
+		virtual void attach(const std::shared_ptr<SceneNode> &n);
 		void detach(const std::shared_ptr<SceneNode> &n);
 
 		void update(const sf::RenderWindow &window, const sf::Time &dt, const glm::mat4 &parentTransform);
@@ -30,5 +31,11 @@ namespace flopse
 		virtual void updateLocalTransform(const sf::RenderWindow &window, const sf::Time &dt);
 
 		glm::mat4 getInverseGlobalTransform();
+
+		glm::vec3 getGlobalPosition() const;
+		glm::vec3 getGlobalFront() const;
+
+		// Overwriteable method in case a node needs different behaviour than the default (such as particle system)
+		virtual void draw();
 	};
 }
