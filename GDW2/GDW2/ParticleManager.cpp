@@ -1,5 +1,4 @@
 #include "ParticleManager.h"
-#include "PointParticleSystem.h"
 
 namespace flopse
 {
@@ -22,7 +21,7 @@ namespace flopse
 		else
 		{
 			// Create PointParticleSystem
-			s = std::make_shared<PointParticleSystem>(rate, maxParticles, position, behaviour);
+			//s = std::make_shared<PointParticleSystem>(rate, maxParticles, position, behaviour);
 		}
 
 		this->particleSystems.push_back(s);
@@ -34,7 +33,7 @@ namespace flopse
 	{
 		for (std::vector<std::shared_ptr<ParticleSystem>>::iterator it = this->particleSystems.begin(); it != this->particleSystems.end(); it++)
 		{
-			(*it)->update(dt);
+			//(*it)->update(dt);
 		}
 	}
 
@@ -42,7 +41,7 @@ namespace flopse
 	{
 		for (std::vector<std::shared_ptr<ParticleSystem>>::iterator it = this->particleSystems.begin(); it != this->particleSystems.end(); it++)
 		{
-			(*it)->draw(cam, projection);
+			//(*it)->draw(cam, projection);
 		}
 	}
 }

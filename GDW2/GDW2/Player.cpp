@@ -38,12 +38,21 @@ namespace flopse
 		runAnimation = new Animation(runFrames);
 
 		footsteps = new Sound("sounds/footstep.wav", true);
+
+		camJoint = std::make_shared<SceneNode>();
+		camJoint->parent = this;
+		children.add(camJoint);
 	}
 
 	Player::~Player()
 	{
 		delete runAnimation;
 		delete footsteps;
+	}
+
+	void Player::attach(const std::shared_ptr<SceneNode> &n)
+	{
+		camJoint->attach(n);
 	}
 
 	void Player::updateLocalTransform(const sf::RenderWindow &window, const sf::Time &dt)
@@ -150,27 +159,23 @@ namespace flopse
 
 		localTransform.yaw += xoffset;
 
-		if (std::abs(localTransform.pitch + yoffset) <= 89.f)
+		// limit pitch to between 23 and -60 degrees
+		if (camJoint->localTransform.pitch + yoffset > 23.f)
 		{
-			localTransform.pitch += yoffset;
+			yoffset = 23.f - camJoint->localTransform.pitch;
 		}
-		else if (yoffset > 0)
+		else if (camJoint->localTransform.pitch + yoffset < -60.f)
 		{
-			yoffset = 89.f - localTransform.pitch;
-			localTransform.pitch = 89.f;
+			yoffset = -60.f - camJoint->localTransform.pitch;
 		}
-		else
-		{
-			yoffset = -89.f - localTransform.pitch;
-			localTransform.pitch = -89.f;
-		}
+		camJoint->localTransform.pitch += yoffset;
 
 		localTransform.rotate(-xoffset, localTransform.getUp());
-		localTransform.rotate(yoffset, glm::cross(localTransform.getFront(), localTransform.getUp()));
+		camJoint->localTransform.rotate(yoffset, glm::cross(camJoint->localTransform.getFront(), camJoint->localTransform.getUp()));
 
 		footsteps->setPosition(this->getGlobalPosition());
 
-		//std::cout << position.x << ", " << position.y << ", " << position.z << std::endl;
+		//std::cout << this->getGlobalPosition().x << ", " << this->getGlobalPosition().y << ", " << this->getGlobalPosition().z << std::endl;
 	}
 
 	void Player::jump()
@@ -180,5 +185,10 @@ namespace flopse
 			dy = 600.f;
 			jumping = true;
 		}
+	}
+
+	glm::vec3 Player::getAimDirection()
+	{
+		return camJoint->getGlobalFront();
 	}
 }

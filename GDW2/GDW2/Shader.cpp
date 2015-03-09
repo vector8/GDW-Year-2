@@ -10,83 +10,17 @@ namespace flopse
 	// Constructor reads and builds our shader
 	Shader::Shader(const GLchar* vertexSourcePath, const GLchar* fragmentSourcePath)
 	{
-		// 1. Retrieve the vertex/fragment source code from filePath
-		std::string vertexCode, fragmentCode;
-
-		try
-		{
-			// Open files
-			std::ifstream vShaderFile(vertexSourcePath), fShaderFile(fragmentSourcePath);
-
-			if (!vShaderFile.good())
-			{
-				std::cout << "Vertex shader file not found!" << std::endl;
-			}
-
-			if (!fShaderFile.good())
-			{
-				std::cout << "Fragment shader file not found!" << std::endl;
-			}
-
-			std::stringstream vShaderStream, fShaderStream;
-
-			// Read files' buffer contents into streams
-			vShaderStream << vShaderFile.rdbuf();
-			fShaderStream << fShaderFile.rdbuf();
-
-			// Close file handlers
-			vShaderFile.close();
-			fShaderFile.close();
-
-			// Convert stream into GLchar array
-			vertexCode = vShaderStream.str();
-			fragmentCode = fShaderStream.str();
-		}
-		catch (std::exception e)
-		{
-			std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << std::endl;
-		}
-
-		const GLchar* vShaderCode = vertexCode.c_str();
-		const GLchar* fShaderCode = fragmentCode.c_str();
-
-		// 2. Compile shaders
-		GLint success;
-		GLchar infoLog[512];
-
-		// Vertex shader
-		vertexShader = glCreateShader(GL_VERTEX_SHADER);
-		glShaderSource(vertexShader, 1, &vShaderCode, NULL);
-		glCompileShader(vertexShader);
-
-		// Print compile errors if any
-		glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-
-		if (!success)
-		{
-			glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-			std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
-		}
-
-		// Repeat for fragment shader
-		fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-		glShaderSource(fragmentShader, 1, &fShaderCode, NULL);
-		glCompileShader(fragmentShader);
-
-		// Print compile errors if any
-		glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-
-		if (!success)
-		{
-			glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-			std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
-		}
+		vertexShader = createShader(vertexSourcePath, GL_VERTEX_SHADER);
+		fragmentShader = createShader(fragmentSourcePath, GL_FRAGMENT_SHADER);
 
 		// Shader program
 		this->program = glCreateProgram();
 		glAttachShader(this->program, vertexShader);
 		glAttachShader(this->program, fragmentShader);
 		glLinkProgram(this->program);
+
+		GLint success;
+		GLchar infoLog[512];
 
 		// Print linking errors if any
 		glGetProgramiv(this->program, GL_LINK_STATUS, &success);
@@ -98,6 +32,131 @@ namespace flopse
 		}
 
 		// Cache uniform locations
+		cacheUniformLocations();
+	}
+
+	Shader::Shader(const GLchar* vertexSourcePath, const GLchar* fragmentSourcePath, const GLchar* geometrySourcePath)
+	{
+		vertexShader = createShader(vertexSourcePath, GL_VERTEX_SHADER);
+		fragmentShader = createShader(fragmentSourcePath, GL_FRAGMENT_SHADER);
+		geometryShader = createShader(geometrySourcePath, GL_GEOMETRY_SHADER);
+
+		// Shader program
+		program = glCreateProgram();
+		glAttachShader(program, vertexShader);
+		glAttachShader(program, fragmentShader);
+		glAttachShader(program, geometryShader);
+		glLinkProgram(program);
+
+		GLint success;
+		GLchar infoLog[512];
+
+		// Print linking errors if any
+		glGetProgramiv(this->program, GL_LINK_STATUS, &success);
+
+		if (!success)
+		{
+			glGetShaderInfoLog(this->program, 512, NULL, infoLog);
+			std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
+		}
+
+		// Cache uniform locations
+		cacheUniformLocations();
+	}
+
+	Shader::~Shader()
+	{
+		glDetachShader(program, vertexShader);
+		glDetachShader(program, fragmentShader);
+		glDetachShader(program, geometryShader);
+
+		glDeleteShader(vertexShader);
+		glDeleteShader(fragmentShader);
+		glDeleteShader(geometryShader);
+
+		vertexShader = 0;
+		fragmentShader = 0;
+		geometryShader = 0;
+
+		glDeleteProgram(program);
+		program = 0;
+	}
+
+	GLuint Shader::createShader(const GLchar* sourcePath, GLenum shaderType)
+	{
+		std::string code;
+		std::string typeString, typeStringCaps;
+
+		switch (shaderType)
+		{
+		case GL_VERTEX_SHADER:
+			typeString = "Vertex";
+			typeStringCaps = "VERTEX";
+			break;
+		case GL_FRAGMENT_SHADER:
+			typeString = "Fragment";
+			typeStringCaps = "FRAGMENT";
+			break;
+		case GL_GEOMETRY_SHADER:
+			typeString = "Geometry";
+			typeStringCaps = "GEOMETRY";
+			break;
+		default:
+			break;
+		}
+
+		// 1. Retrieve the source code from sourcePath
+		try
+		{
+			// Open files
+			std::ifstream shaderFile(sourcePath);
+
+			if (!shaderFile.good())
+			{
+				std::cout << typeString << " shader file not found!" << std::endl;
+			}
+
+			std::stringstream shaderStream;
+
+			// Read files' buffer contents into streams
+			shaderStream << shaderFile.rdbuf();
+
+			// Close file handlers
+			shaderFile.close();
+
+			// Convert stream into GLchar array
+			code = shaderStream.str();
+		}
+		catch (std::exception e)
+		{
+			std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << std::endl;
+		}
+
+		const GLchar* shaderCode = code.c_str();
+
+		// 2. Compile shader
+		GLint success;
+		GLchar infoLog[512];
+
+		// Vertex shader
+		GLuint shader = glCreateShader(shaderType);
+		glShaderSource(shader, 1, &shaderCode, NULL);
+		glCompileShader(shader);
+
+		// Print compile errors if any
+		glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+
+		if (!success)
+		{
+			glGetShaderInfoLog(shader, 512, NULL, infoLog);
+			std::cout << "ERROR::SHADER::" << typeStringCaps << "::COMPILATION_FAILED\n" << infoLog << std::endl;
+		}
+
+		return shader;
+	}
+
+	void Shader::cacheUniformLocations()
+	{
 		modelLoc = glGetUniformLocation(program, "model");
 		viewLoc = glGetUniformLocation(program, "view");
 		projectionLoc = glGetUniformLocation(program, "projection");
@@ -129,7 +188,7 @@ namespace flopse
 		pixelSizeLoc = glGetUniformLocation(program, "uPixelSize");
 		sceneLoc = glGetUniformLocation(program, "scene");
 		bloomLoc = glGetUniformLocation(program, "bloom");
-		
+
 		fogFactorLoc = glGetUniformLocation(program, "fogFactor");
 
 		shadowLocs.worldToShadowMap = glGetUniformLocation(program, "worldToShadowMap");
@@ -138,22 +197,6 @@ namespace flopse
 		shadowLocs.shadows = glGetUniformLocation(program, "shadows");
 
 		lightPosLoc = glGetUniformLocation(program, "lightPos");
-
-	}
-
-	Shader::~Shader()
-	{
-		glDetachShader(program, vertexShader);
-		glDetachShader(program, fragmentShader);
-
-		glDeleteShader(vertexShader);
-		glDeleteShader(fragmentShader);
-
-		vertexShader = 0;
-		fragmentShader = 0;
-
-		glDeleteProgram(program);
-		program = 0;
 	}
 
 	// Use our program

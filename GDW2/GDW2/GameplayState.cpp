@@ -7,6 +7,7 @@
 #include "SoundManager.h"
 #include "Game.h"
 #include "Utilities.h"
+#include "ParticleSystem.h"
 
 namespace flopse
 {
@@ -76,30 +77,22 @@ namespace flopse
 		{
 			// Horizontal
 			blurHorizontalShader->bind();
-			glUniform1f(blurHorizontalShader->pixelSizeLoc, 1.0f / window->getSize().x);
-
+			glUniform1f(blurHorizontalShader->pixelSizeLoc, 1.0f / (window->getSize().x / BLOOM_DOWNSCALE));
 			downscaleBuffer2.bind();
-
 			glBindTexture(GL_TEXTURE_2D, downscaleBuffer1.getColorHandle(0));
 			drawFullScreenQuad();
 			glBindTexture(GL_TEXTURE_2D, GL_NONE);
-
 			downscaleBuffer2.unbind();
-
 			blurHorizontalShader->unbind();
 
 			// Vertical
 			blurVerticalShader->bind();
-			glUniform1f(blurVerticalShader->pixelSizeLoc, 1.0f / window->getSize().y);
-
+			glUniform1f(blurVerticalShader->pixelSizeLoc, 1.0f / (window->getSize().y / BLOOM_DOWNSCALE));
 			downscaleBuffer1.bind();
-
 			glBindTexture(GL_TEXTURE_2D, downscaleBuffer2.getColorHandle(0));
 			drawFullScreenQuad();
 			glBindTexture(GL_TEXTURE_2D, GL_NONE);
-
 			downscaleBuffer1.unbind();
-
 			blurVerticalShader->unbind();
 		}
 
@@ -196,8 +189,8 @@ namespace flopse
 	void GameplayState::draw()
 	{
 		// Clear all buffers
-		glClearColor(0.5f, 0.5f, 0.5f, 1.f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glClearColor(0.3f, 0.3f, 0.3f, 1.f);
 		mainBuffer.clear();
 		glClearColor(1.0f, 1.0f, 1.0f, 1.f);
 		downscaleBuffer1.clear();
@@ -205,6 +198,13 @@ namespace flopse
 		fullscaleBuffer1.clear();
 		fullscaleBuffer2.clear();
 		shadowMapBuffer.clear();
+
+		// Render the scene
+		glViewport(0, 0, window->getSize().x, window->getSize().y);
+		//glViewport(0, 0, window->getSize().x / 2, window->getSize().y / 2);
+		mainBuffer.bind();
+		draw(root, currentLevel->cam, currentLevel->dirLight, currentLevel->pointLights, currentLevel->fogFactor);
+		mainBuffer.unbind();
 
 		// Render to the shadow map
 		glViewport(0, 0, SHADOW_RESOLUTION, SHADOW_RESOLUTION);
@@ -221,13 +221,6 @@ namespace flopse
 		// Blur shadows
 		//applyBlur(fullscaleBuffer1, fullscaleBuffer2, 100);
 
-		// Render the scene
-		glViewport(0, 0, window->getSize().x, window->getSize().y);
-		//glViewport(0, 0, window->getSize().x / 2, window->getSize().y / 2);
-		mainBuffer.bind();
-		draw(root, currentLevel->cam, currentLevel->dirLight, currentLevel->pointLights, currentLevel->fogFactor);
-		mainBuffer.unbind();
-
 		// Composite shadows and scene.
 		applyShadows(mainBuffer, fullscaleBuffer1, fullscaleBuffer2);
 
@@ -241,14 +234,19 @@ namespace flopse
 
 		/*Shader s("shaders/PosUVStraightPassThrough.vert", "shaders/DrawFullScreenQuad.frag");
 		s.bind();
-		glBindTexture(GL_TEXTURE_2D, mainBuffer.getDepthHandle());
+		glBindTexture(GL_TEXTURE_2D, shadowMapBuffer.getDepthHandle());
+		fullscaleBuffer1.bind();
 		drawFullScreenQuad();
+		fullscaleBuffer1.unbind();
 		glBindTexture(GL_TEXTURE_2D, GL_NONE);
 		s.unbind();*/
 
-		fullscaleBuffer2.moveToBackBuffer(window->getSize().x, window->getSize().y);
-		//mainBuffer.moveToBackBuffer(0, 0, window->getSize().x / 2, window->getSize().y / 2, 0, 0, window->getSize().x / 2, window->getSize().y / 2);
+		fullscaleBuffer2.moveToBackBuffer(0, 0, window->getSize().x, window->getSize().y, 0, 0, window->getSize().x, window->getSize().y);
+		//fullscaleBuffer2.moveToBackBuffer(0, 0, window->getSize().x, window->getSize().y, 0, window->getSize().y / 2, window->getSize().x / 2, window->getSize().y);
+		//mainBuffer.moveToBackBuffer(0, 0, window->getSize().x, window->getSize().y, 0, 0, window->getSize().x / 2, window->getSize().y / 2);
 		//shadowMapBuffer.moveToBackBuffer(SHADOW_RESOLUTION, SHADOW_RESOLUTION, window->getSize().x, window->getSize().y);
+		//fullscaleBuffer1.moveToBackBuffer(0, 0, window->getSize().x, window->getSize().y, window->getSize().x / 2, window->getSize().y / 2, window->getSize().x, window->getSize().y);
+		//shadowMapBuffer.moveToBackBuffer(0, 0, SHADOW_RESOLUTION, SHADOW_RESOLUTION, window->getSize().x / 2, window->getSize().y / 2, window->getSize().x, window->getSize().y);
 		//fullscaleBuffer1.moveToBackBuffer(window->getSize().x / 2, window->getSize().y / 2, window->getSize().x, window->getSize().y, window->getSize().x / 2, window->getSize().y / 2, window->getSize().x, window->getSize().y);
 
 		hud.draw();
@@ -256,7 +254,17 @@ namespace flopse
 
 	void GameplayState::draw(std::shared_ptr<SceneNode> node, const std::shared_ptr<Camera> &cam, const Light &dirLight, const Light* pointLights, float fogFactor)
 	{
-		if (node->mesh)
+		if (node->usesCustomDraw)
+		{
+			std::shared_ptr<Shader> s = Shader::getStandardShader(StandardShaders::Billboard);
+			s->bind();
+			glUniformMatrix4fv(s->modelLoc, 1, GL_FALSE, glm::value_ptr(node->globalTransform));
+			glUniformMatrix4fv(s->viewLoc, 1, GL_FALSE, glm::value_ptr(cam->view));
+			glUniformMatrix4fv(s->projectionLoc, 1, GL_FALSE, glm::value_ptr(cam->projection));
+			node->draw();
+			s->unbind();
+		}
+		else if (node->mesh)
 		{
 			// Set the shader
 			node->mesh->shader->bind();
@@ -340,8 +348,8 @@ namespace flopse
 		if (node->mesh)
 		{
 			// Set the shader
-			//std::shared_ptr<Shader> shadowMapShader = Shader::getStandardShader(StandardShaders::PhongNoTexture);
-			std::shared_ptr<Shader> shadowMapShader = Shader::getStandardShader(StandardShaders::ShadowMap);
+			std::shared_ptr<Shader> shadowMapShader = Shader::getStandardShader(StandardShaders::PhongNoTexture);
+			//std::shared_ptr<Shader> shadowMapShader = Shader::getStandardShader(StandardShaders::ShadowMap);
 			shadowMapShader->bind();
 
 			glUniformMatrix4fv(shadowMapShader->modelLoc, 1, GL_FALSE, glm::value_ptr(node->globalTransform));
@@ -454,7 +462,7 @@ namespace flopse
 		case sf::Mouse::Button::Left:
 		{
 			glm::vec3 pos = player->getGlobalPosition() + glm::vec3(0.f, 3.f * player->mesh->getHeight() / 4.f, 0.f);
-			auto p = std::make_shared<Projectile>(pos, pos + player->getGlobalFront() * 1500.f, 5);
+			auto p = std::make_shared<Projectile>(pos, pos + player->getAimDirection() * 1500.f, 5);
 			this->currentLevel->attach(p);
 			SoundManager::playSoundAt(DefaultSounds::Ping, pos, false);
 		}

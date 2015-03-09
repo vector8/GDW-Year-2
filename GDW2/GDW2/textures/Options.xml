@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:e68498ec5d8ea1e73f7b2629dd8b569c:58c39f03ec3e685167aa7fa799b1f4ee:ec000f9ac5af181ca7f442f9b58cf3e5$ -->
+<!-- $TexturePacker:SmartUpdate:db6f6dd5c53b49aa4202586a7a519810:d1eef45469e79e22719bb824e0533e34:ec000f9ac5af181ca7f442f9b58cf3e5$ -->
 <!--Format:
 n  => name of the sprite
 x  => sprite x pos in texture
@@ -15,14 +15,15 @@ oW => sprite's original width (only available if trimmed)
 oH => sprite's original height (only available if trimmed)
 r => 'y' only set if sprite is rotated
 -->
-<TextureAtlas imagePath="Options.png" width="3482" height="1020">
-    <sprite n="FOV.png" x="2" y="164" w="1072" h="426" pX="0.5" pY="0.5" oX="477" oY="2020" oW="4200" oH="3300"/>
-    <sprite n="FullScreen.png" x="2" y="592" w="1072" h="426" pX="0.5" pY="0.5" oX="477" oY="1421" oW="4200" oH="3300"/>
-    <sprite n="FullScreenOff.png" x="2150" y="430" w="664" h="324" pX="0.5" pY="0.5" oX="1920" oY="1478" oW="4200" oH="3300"/>
-    <sprite n="FullScreenOn.png" x="2816" y="430" w="664" h="324" pX="0.5" pY="0.5" oX="2704" oY="1478" oW="4200" oH="3300"/>
-    <sprite n="KeyMapping.png" x="1076" y="164" w="1072" h="426" pX="0.5" pY="0.5" oX="477" oY="995" oW="4200" oH="3300"/>
-    <sprite n="MasterVolume.png" x="1076" y="592" w="1072" h="426" pX="0.5" pY="0.5" oX="477" oY="436" oW="4200" oH="3300"/>
-    <sprite n="MouseSensitivity.png" x="2207" y="2" w="1072" h="426" pX="0.5" pY="0.5" oX="477" oY="2020" oW="4200" oH="3300"/>
-    <sprite n="Slider.png" x="2" y="2" w="2203" h="160" pX="0.5" pY="0.5" oX="1679" oY="702" oW="4200" oH="3300"/>
-    <sprite n="SliderTab.png" x="2150" y="756" w="53" h="95" pX="0.5" pY="0.5" oX="3790" oY="735" oW="4200" oH="3300"/>
+<TextureAtlas imagePath="Options.png" width="2207" height="1810">
+    <sprite n="FOV.png" x="2" y="792" w="1072" h="426" pX="0.5" pY="0.5"/>
+    <sprite n="FullScreen.png" x="1076" y="792" w="1072" h="426" pX="0.5" pY="0.5"/>
+    <sprite n="FullScreenOff.png" x="57" y="2" w="664" h="324" pX="0.5" pY="0.5"/>
+    <sprite n="FullScreenOn.png" x="723" y="2" w="664" h="324" pX="0.5" pY="0.5"/>
+    <sprite n="KeyMapping.png" x="2" y="1220" w="1072" h="426" pX="0.5" pY="0.5"/>
+    <sprite n="MasterVolume.png" x="1076" y="364" w="1072" h="426" pX="0.5" pY="0.5"/>
+    <sprite n="MouseSensitivity.png" x="2" y="364" w="1072" h="426" pX="0.5" pY="0.5"/>
+    <sprite n="Slider.png" x="2" y="1648" w="2203" h="160" pX="0.5" pY="0.5"/>
+    <sprite n="SliderTab.png" x="2" y="2" w="53" h="95" pX="0.5" pY="0.5"/>
+    <sprite n="backbutton.png" x="1389" y="2" w="720" h="360" pX="0.5" pY="0.5"/>
 </TextureAtlas>

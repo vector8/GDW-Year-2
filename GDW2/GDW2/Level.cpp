@@ -7,6 +7,7 @@
 #include "Constants.h"
 #include "Utilities.h"
 #include "Game.h"
+#include "ParticleSystem.h"
 
 namespace flopse
 {
@@ -31,7 +32,26 @@ namespace flopse
 
 		//fogFactor = 0.001;
 
-		particleManager = ParticleManager::getInstance();
+		/*std::shared_ptr<ParticleSystem> fogEffect = std::make_shared<ParticleSystem>(10, 12000, "textures/Fog.png");
+		fogEffect->lerpAlpha = glm::vec2(0.2f, 0.f);
+		fogEffect->lerpSize = glm::vec2(0.f, 50.f);
+		fogEffect->rangeLifetime = glm::vec2(8.f, 20.f);
+		fogEffect->rangeVelocity = glm::vec2(0.33f, 0.4f);
+		fogEffect->rangeX = glm::vec2(-2300.f, 2300.f);
+		fogEffect->rangeY = glm::vec2(10.f, 15.f);
+		fogEffect->rangeZ = glm::vec2(-2900.f, 3150.f);
+
+		std::shared_ptr<ParticleSystem> sparkleEffect = std::make_shared<ParticleSystem>(1, 4, "textures/Sparkle.png");
+		sparkleEffect->lerpAlpha = glm::vec2(0.75f, 0.f);
+		sparkleEffect->lerpSize = glm::vec2(0.f, 10.f);
+		sparkleEffect->rangeLifetime = glm::vec2(1.f, 1.5f);
+		sparkleEffect->rangeVelocity = glm::vec2(0.25f, 0.33f);
+		sparkleEffect->rangeX = glm::vec2(-15.f, 15.f);
+		sparkleEffect->rangeY = glm::vec2(147.f, 157.f);
+		sparkleEffect->rangeZ = glm::vec2(-15.f, 15.f);
+
+		attach(fogEffect);
+		attach(sparkleEffect);*/
 
 		createPath();
 		createColliders();
@@ -222,7 +242,7 @@ namespace flopse
 
 	void Level::updateLocalTransform(const sf::RenderWindow &window, const sf::Time &dt)
 	{
-		/*if (enemySpawns.size() > 0)
+		if (enemySpawns.size() > 0)
 		{
 			elapsed += dt;
 
@@ -232,7 +252,7 @@ namespace flopse
 				this->enemies.push_back(enemySpawns.front().enemy);
 				enemySpawns.pop_front();
 			}
-		}*/
+		}
 
 		for (int i = 0; i < enemies.size(); i++)
 		{

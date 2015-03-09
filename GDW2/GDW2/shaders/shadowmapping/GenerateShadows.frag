@@ -14,13 +14,16 @@ void main()
 {
 	vec3 result = vec3(1.0);
 
-	// Shadow Map
-	vec4 shadowCoord = worldToShadowMap * vec4(Position, 1.0);
-	float shadowDepth = texture(shadowMapDepth, shadowCoord.xy).r;
-
-	if(drawShadow && shadowDepth < shadowCoord.z - 0.001)
+	if(drawShadow)
 	{
-		result *= 0.5;
+		// Shadow Map
+		vec4 shadowCoord = worldToShadowMap * vec4(Position, 1.0);
+		float shadowDepth = texture(shadowMapDepth, shadowCoord.xy).r;
+
+		if(shadowDepth < shadowCoord.z - 0.001)
+		{
+			result *= 0.5;
+		}
 	}
 
 	color = vec4(result, 1.0);

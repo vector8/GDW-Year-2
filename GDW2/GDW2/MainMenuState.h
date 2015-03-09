@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include "Button.h"
+#include "SpriteWithAtlas.h"
 
 namespace flopse
 {
@@ -10,14 +11,19 @@ namespace flopse
 	{
 	private:
 		sf::RenderWindow* window;
-		sf::Texture buttonTexture;
 		sf::Texture bgTexture;
 		sf::Sprite* bgSprite;
-		sf::Sprite* buttonSprite;
+		SpriteWithAtlas buttonSprite;
 		std::vector<Button> buttons;
+		Button contBtn;
+		Button newBtn;
+		Button loadBtn;
+		Button optionsBtn;
+		Button creditsBtn;
+		Button exitBtn;
 
 		void createButtons();
-		void buttonClicked(std::string name);
+		void buttonClicked(const std::string &name);
 
 	public:
 		MainMenuState(sf::RenderWindow* window);

@@ -22,6 +22,9 @@
     <Filter Include="Shaders\Blur">
       <UniqueIdentifier>{cbd8d60c-84d4-447b-8e29-521675a716e7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shaders\ShadowMapping">
+      <UniqueIdentifier>{da28f8e1-d4f8-4b20-be0e-e99280371b45}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -96,9 +99,6 @@
     <ClCompile Include="Path.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PointParticleSystem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Projectile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -112,9 +112,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="State.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TextureParticleSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Tower.cpp">
@@ -221,9 +218,6 @@
     <ClInclude Include="Path.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PointParticleSystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Projectile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -237,9 +231,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="State.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TextureParticleSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Tower.h">
@@ -316,11 +307,11 @@
     <None Include="shaders\FogPost.frag">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="shaders\GenerateShadows.frag">
-      <Filter>Shaders</Filter>
+    <None Include="shaders\shadowmapping\GenerateShadows.frag">
+      <Filter>Shaders\ShadowMapping</Filter>
     </None>
-    <None Include="shaders\ShadowComposite.frag">
-      <Filter>Shaders</Filter>
+    <None Include="shaders\shadowmapping\ShadowComposite.frag">
+      <Filter>Shaders\ShadowMapping</Filter>
     </None>
   </ItemGroup>
 </Project>

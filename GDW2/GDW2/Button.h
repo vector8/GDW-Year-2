@@ -13,8 +13,8 @@ namespace flopse
 	struct Button
 	{
 		sf::Vector2i pos;
-		sf::IntRect rect;
-		std::string name;
+		sf::IntRect rect, hoverRect, pressedRect;
+		std::string name, hoverName, pressedName;
 		ButtonState state = ButtonState::Normal;
 		bool visible = true;
 	};

@@ -181,7 +181,6 @@
     <ClCompile Include="ParticleSystem.cpp" />
     <ClCompile Include="Path.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="PointParticleSystem.cpp" />
     <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="SceneNode.cpp" />
     <ClCompile Include="Shader.cpp" />
@@ -189,7 +188,6 @@
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="SpriteWithAtlas.cpp" />
     <ClCompile Include="State.cpp" />
-    <ClCompile Include="TextureParticleSystem.cpp" />
     <ClCompile Include="ThirdPersonCamera.cpp" />
     <ClCompile Include="Tower.cpp" />
     <ClCompile Include="Transform.cpp" />
@@ -223,7 +221,6 @@
     <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="Path.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="PointParticleSystem.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="SceneNode.h" />
     <ClInclude Include="Shader.h" />
@@ -231,7 +228,6 @@
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="SpriteWithAtlas.h" />
     <ClInclude Include="State.h" />
-    <ClInclude Include="TextureParticleSystem.h" />
     <ClInclude Include="ThirdPersonCamera.h" />
     <ClInclude Include="Tower.h" />
     <ClInclude Include="Transform.h" />
@@ -248,14 +244,14 @@
     <None Include="shaders\DoNothing.frag" />
     <None Include="shaders\DrawFullScreenQuad.frag" />
     <None Include="shaders\FogPost.frag" />
-    <None Include="shaders\GenerateShadows.frag" />
     <None Include="shaders\GrayscalePost.frag" />
     <None Include="shaders\Phong.frag" />
     <None Include="shaders\PhongNoTexture.frag" />
     <None Include="shaders\PosColorPassThrough.vert" />
     <None Include="shaders\PosUVPassThrough.vert" />
     <None Include="shaders\PosUVStraightPassThrough.vert" />
-    <None Include="shaders\ShadowComposite.frag" />
+    <None Include="shaders\shadowmapping\GenerateShadows.frag" />
+    <None Include="shaders\shadowmapping\ShadowComposite.frag" />
     <None Include="shaders\StaticColor.frag" />
     <None Include="shaders\StaticGeometry.vert" />
     <None Include="Utilities.tpp" />
