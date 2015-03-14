@@ -10,12 +10,14 @@ namespace flopse
 	private:
 		float dy = 0.f;
 		Animation* runAnimation;
-		std::shared_ptr<Mesh> idleMesh;
+		Animation* idleAnimation;
 		Sound* footsteps;
 		std::shared_ptr<SceneNode> camJoint = nullptr;
 
+		void initAnimations();
+
 	public:
-		Player(std::shared_ptr<Mesh> m);
+		Player();
 		virtual ~Player();
 
 		bool jumping = false;

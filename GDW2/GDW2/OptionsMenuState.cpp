@@ -127,6 +127,13 @@ namespace flopse
 		fovSliderTab.name = currentFrame.name;
 		fovSliderTab.pos = sf::Vector2i(x2 + ((fovSlider.rect.width / 2) - (fovSliderTab.rect.width / 2)) * buttonSprite.getSprite()->getScale().x, 
 			y2 + ((tempHeight / 2) - (currentFrame.rect.height / 2)) * buttonSprite.getSprite()->getScale().y);
+
+		Button backBtn;
+		currentFrame = buttonSprite.getFrame("backbutton.png");
+		backBtn.rect = currentFrame.rect;
+		backBtn.name = currentFrame.name;
+		backBtn.pos = sf::Vector2i(window->getSize().x - ((256 + backBtn.rect.width) * buttonSprite.getSprite()->getScale().x), window->getSize().y - ((256 + backBtn.rect.height) * buttonSprite.getSprite()->getScale().y));
+		buttons.push_back(backBtn);
 	}
 
 	void OptionsMenuState::buttonClicked(std::string name)
@@ -147,6 +154,10 @@ namespace flopse
 			buttons[3].visible = true;
 			buttons[4].visible = false;
 			Game::getGame()->toggleFullscreen();
+		}
+		else if (name == "backbutton.png")
+		{
+			Game::getGame()->setMainMenuState();
 		}
 	}
 

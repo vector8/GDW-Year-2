@@ -19,6 +19,7 @@ namespace flopse
 	{
 	private:
 		sf::RenderWindow* window;
+		bool wireframe = false;
 
 		void applyBloomEffect(const FrameBuffer &inputBuffer, FrameBuffer &outputBuffer);
 		void applyBlur(FrameBuffer &inputBuffer, FrameBuffer &outputBuffer, int passes);
@@ -26,7 +27,7 @@ namespace flopse
 		void applyShadowEffect(const FrameBuffer &sceneDepthBuffer, const FrameBuffer &shadowDepthBuffer, FrameBuffer &outputBuffer);
 		void applyShadows(const FrameBuffer &sceneBuffer, const FrameBuffer &shadowBuffer, FrameBuffer &outputBuffer);
 
-		void GameplayState::draw(std::shared_ptr<SceneNode> node, const std::shared_ptr<Camera> &cam, const Light &dirLight, const Light* pointLights, float fogFactor);
+		void GameplayState::draw(std::shared_ptr<SceneNode> node, const std::shared_ptr<Camera> &cam, const std::shared_ptr<Level> &lvl);
 		void GameplayState::drawToShadowMap(std::shared_ptr<SceneNode> root, const std::shared_ptr<Camera> &cam);
 		void GameplayState::drawShadows(std::shared_ptr<SceneNode> node, const std::shared_ptr<Camera> &cam);
 

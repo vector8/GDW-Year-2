@@ -7,35 +7,9 @@
 
 namespace flopse
 {
-	Player::Player(std::shared_ptr<Mesh> m) : Entity(m), jumping(false), dy(0.f)
+	Player::Player() : jumping(false), dy(0.f)
 	{
-		idleMesh = m;
-		std::vector<Keyframe> runFrames;
-		std::shared_ptr<Shader> s = Shader::getStandardShader(StandardShaders::Phong);
-
-		for (int i = 1; i < 9; i++)
-		{
-			std::stringstream ss;
-			ss << "meshes/GoblinRun" << i << ".bmf";
-			std::string filename = ss.str();
-			Keyframe frame;
-			frame.mesh = std::make_shared<Mesh>(filename, s);
-			frame.mesh->setDiffuseMap("textures/GoblinTexture.png");
-			frame.mesh->setSpecularMap("textures/GoblinSpecularMap.png");
-
-			if (i == 8)
-			{
-				frame.duration = sf::seconds(0.033);
-			}
-			else
-			{
-				frame.duration = sf::seconds(0.1);
-			}
-
-			runFrames.push_back(frame);
-		}
-
-		runAnimation = new Animation(runFrames);
+		initAnimations();
 
 		footsteps = new Sound("sounds/footstep.wav", true);
 
@@ -48,6 +22,55 @@ namespace flopse
 	{
 		delete runAnimation;
 		delete footsteps;
+	}
+
+	void Player::initAnimations()
+	{
+		std::vector<Keyframe> frames;
+		std::shared_ptr<Shader> s = Shader::getStandardShader(StandardShaders::Phong);
+
+		// Run animation
+		for (int i = 1; i <= 9; i++)
+		{
+			std::string filename = "meshes/PlayerRun" + std::to_string(i) + ".bmf";
+			Keyframe frame;
+			frame.mesh = std::make_shared<Mesh>(filename, s);
+			frame.mesh->setDiffuseMap("textures/PlayerDiffuse.png");
+			frame.mesh->setSpecularMap("textures/BlankSpecular.png");
+			/*frame.mesh->setDiffuseMap("textures/GoblinTexture.png");
+			frame.mesh->setSpecularMap("textures/GoblinSpecularMap.png");*/
+
+			frame.duration = sf::seconds(0.22f);
+
+			/*if (i == 8)
+			{
+				frame.duration = sf::seconds(0.033);
+			}
+			else
+			{
+				frame.duration = sf::seconds(0.1);
+			}*/
+
+			frames.push_back(frame);
+		}
+		runAnimation = new Animation(frames);
+		frames.clear();
+
+		// Idle animation
+		for (int i = 1; i <= 10; i++)
+		{
+			std::string filename = "meshes/PlayerIdle" + std::to_string(i) + ".bmf";
+			Keyframe frame;
+			frame.mesh = std::make_shared<Mesh>(filename, s);
+			frame.mesh->setDiffuseMap("textures/PlayerDiffuse.png");
+			frame.mesh->setSpecularMap("textures/BlankSpecular.png");
+
+			frame.duration = sf::seconds(0.5f);
+
+			frames.push_back(frame);
+		}
+		idleAnimation = new Animation(frames);
+		mesh = idleAnimation->getCurrentMesh();
 	}
 
 	void Player::attach(const std::shared_ptr<SceneNode> &n)
@@ -81,7 +104,8 @@ namespace flopse
 		else
 		{
 			footsteps->setPaused(true);
-			mesh = idleMesh;
+			idleAnimation->update(dt);
+			mesh = idleAnimation->getCurrentMesh();
 		}
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))

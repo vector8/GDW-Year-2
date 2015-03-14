@@ -2,6 +2,11 @@
 
 namespace flopse
 {
+	Entity::Entity()
+	{
+
+	}
+
 	Entity::Entity(std::shared_ptr<Mesh> m) : ICollidable(glm::vec3(), m->getWidth(), m->getHeight(), m->getDepth()), SceneNode(m)
 	{
 
