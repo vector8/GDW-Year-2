@@ -13,8 +13,6 @@ namespace flopse
 	class Mesh
 	{
 	private:
-		GLuint VBO;
-
 		GLfloat *vertexData;
 		int numVertices;
 
@@ -24,10 +22,6 @@ namespace flopse
 
 		sf::Texture* diffuseMap = NULL;
 		sf::Texture* specularMap = NULL;
-
-		bool useUVs;
-		bool useNormals;
-		bool useColour;
 
 	public:
 		Mesh(GLfloat *vertexData, int numVertices, std::shared_ptr<Shader> s, const std::string &diffuseMapFilename = "", const std::string &specularMapFilename = "", bool useUVs = true, bool useNormals = true, bool useColour = false);
@@ -40,9 +34,14 @@ namespace flopse
 
 		std::shared_ptr<Shader> shader;
 		GLuint VAO;
+		GLuint VBO;
 		Colour overlayColour;
 		std::vector<GLfloat> objData;
 		bool acceptShadow = false;
+		bool useUVs;
+		bool useNormals;
+		bool useColour;
+		float animationBlend = 0.f;
 
 		void setDiffuseMap(const std::string &filename);
 		void setDiffuseMap(sf::Texture *t);

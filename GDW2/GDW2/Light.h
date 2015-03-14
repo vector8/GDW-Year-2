@@ -1,19 +1,17 @@
 #pragma once
 #include <glm\glm.hpp>
+#include "SceneNode.h"
 
 namespace flopse
 {
 	// Can represent a directional or point light.
-	class Light
+	class Light : public SceneNode
 	{
 	private:
 
 	public:
 		Light();
 		~Light();
-
-		glm::vec3 position;
-		glm::vec3 direction;
 
 		glm::vec3 ambient;
 		glm::vec3 diffuse;

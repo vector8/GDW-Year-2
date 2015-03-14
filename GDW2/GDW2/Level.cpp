@@ -14,21 +14,27 @@ namespace flopse
 	Level::Level(const std::shared_ptr<Player> &p) : Entity(std::make_shared<Mesh>("meshes/Level1.bmf", Shader::getStandardShader(StandardShaders::Phong))), player(p)
 	{
 		this->mesh->setDiffuseMap("textures/Level1.png");
-		this->mesh->setSpecularMap("textures/Level1SpecMap.png");
+		this->mesh->setSpecularMap("textures/BlankSpecular.png");
 		this->mesh->acceptShadow = true;
 
-		pointLights[0].position = glm::vec3(0.f, 500.f, 0.f);
-		pointLights[0].ambient = glm::vec3(0.1f, 0.1f, 0.1f);
-		pointLights[0].diffuse = glm::vec3(0.3f, 0.3f, 0.3f);
-		pointLights[0].specular = glm::vec3(1.0f, 1.0f, 1.0f);
-		pointLights[0].constantAttenuation = 1.f;
-		pointLights[0].linearAttenuation = 0.0001f;
-		pointLights[0].quadraticAttenuation = 0.000001f;
+		pointLights[0] = std::make_shared<Light>();
+		pointLights[0]->localTransform.translate(glm::vec3(0.f, 500.f, 0.f));
+		pointLights[0]->ambient = glm::vec3(0.1f, 0.1f, 0.1f);
+		pointLights[0]->diffuse = glm::vec3(0.3f, 0.3f, 0.3f);
+		pointLights[0]->specular = glm::vec3(1.0f, 1.0f, 1.0f);
+		pointLights[0]->constantAttenuation = 1.f;
+		pointLights[0]->linearAttenuation = 0.0001f;
+		pointLights[0]->quadraticAttenuation = 0.000001f;
 
-		dirLight.direction = glm::vec3(-1.f, -1.f, -1.f);
-		dirLight.ambient = glm::vec3(0.1f, 0.1f, 0.1f);
-		dirLight.diffuse = glm::vec3(0.3f, 0.3f, 0.3f);
-		dirLight.specular = glm::vec3(1.0f, 1.0f, 1.0f);
+		dirLight = std::make_shared<Light>();
+		dirLight->localTransform.rotate(45.f, glm::vec3(1.f, 0.f, 0.f));
+		dirLight->localTransform.rotate(225.f, glm::vec3(0.f, 1.f, 0.f));
+		dirLight->ambient = glm::vec3(0.1f, 0.1f, 0.1f);
+		dirLight->diffuse = glm::vec3(0.3f, 0.3f, 0.3f);
+		dirLight->specular = glm::vec3(1.0f, 1.0f, 1.0f);
+
+		attach(pointLights[0]);
+		attach(dirLight);
 
 		//fogFactor = 0.001;
 

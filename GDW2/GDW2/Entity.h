@@ -9,6 +9,7 @@ namespace flopse
 	class Entity : public ICollidable, public SceneNode
 	{
 	public:
+		Entity();
 		Entity(std::shared_ptr<Mesh> m);
 		Entity(const glm::vec3 &pos, std::shared_ptr<Mesh> m);
 		virtual ~Entity();

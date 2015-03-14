@@ -19,10 +19,7 @@ namespace flopse
 		blurHorizontalShader(Shader::getStandardShader(StandardShaders::BlurHorizontal)),
 		blurVerticalShader(Shader::getStandardShader(StandardShaders::BlurVertical))
 	{
-		std::shared_ptr<Mesh> playerMesh = std::make_shared<Mesh>("meshes/Goblin.bmf", Shader::getStandardShader(StandardShaders::Phong));
-		playerMesh->setDiffuseMap("textures/GoblinTexture.png");
-		playerMesh->setSpecularMap("textures/GoblinSpecularMap.png");
-		player = std::make_shared<Player>(playerMesh);
+		player = std::make_shared<Player>();
 
 		currentLevel = std::make_shared<Level>(player);
 		root = currentLevel;
@@ -203,7 +200,7 @@ namespace flopse
 		glViewport(0, 0, window->getSize().x, window->getSize().y);
 		//glViewport(0, 0, window->getSize().x / 2, window->getSize().y / 2);
 		mainBuffer.bind();
-		draw(root, currentLevel->cam, currentLevel->dirLight, currentLevel->pointLights, currentLevel->fogFactor);
+		draw(root, currentLevel->cam, currentLevel);
 		mainBuffer.unbind();
 
 		// Render to the shadow map
@@ -241,7 +238,8 @@ namespace flopse
 		glBindTexture(GL_TEXTURE_2D, GL_NONE);
 		s.unbind();*/
 
-		fullscaleBuffer2.moveToBackBuffer(0, 0, window->getSize().x, window->getSize().y, 0, 0, window->getSize().x, window->getSize().y);
+		mainBuffer.moveToBackBuffer(0, 0, window->getSize().x, window->getSize().y, 0, 0, window->getSize().x, window->getSize().y);
+		//fullscaleBuffer2.moveToBackBuffer(0, 0, window->getSize().x, window->getSize().y, 0, 0, window->getSize().x, window->getSize().y);
 		//fullscaleBuffer2.moveToBackBuffer(0, 0, window->getSize().x, window->getSize().y, 0, window->getSize().y / 2, window->getSize().x / 2, window->getSize().y);
 		//mainBuffer.moveToBackBuffer(0, 0, window->getSize().x, window->getSize().y, 0, 0, window->getSize().x / 2, window->getSize().y / 2);
 		//shadowMapBuffer.moveToBackBuffer(SHADOW_RESOLUTION, SHADOW_RESOLUTION, window->getSize().x, window->getSize().y);
@@ -252,7 +250,7 @@ namespace flopse
 		hud.draw();
 	}
 
-	void GameplayState::draw(std::shared_ptr<SceneNode> node, const std::shared_ptr<Camera> &cam, const Light &dirLight, const Light* pointLights, float fogFactor)
+	void GameplayState::draw(std::shared_ptr<SceneNode> node, const std::shared_ptr<Camera> &cam, const std::shared_ptr<Level> &lvl)
 	{
 		if (node->usesCustomDraw)
 		{
@@ -267,40 +265,45 @@ namespace flopse
 		else if (node->mesh)
 		{
 			// Set the shader
-			node->mesh->shader->bind();
+			std::shared_ptr<Shader> shader = node->mesh->shader;
+			shader->bind();
 
-			glUniformMatrix4fv(node->mesh->shader->modelLoc, 1, GL_FALSE, glm::value_ptr(node->globalTransform));
-			glUniformMatrix4fv(node->mesh->shader->viewLoc, 1, GL_FALSE, glm::value_ptr(cam->view));
-			glUniformMatrix4fv(node->mesh->shader->projectionLoc, 1, GL_FALSE, glm::value_ptr(cam->projection));
-			glUniform4f(node->mesh->shader->objectColorLoc, node->mesh->overlayColour.getR(), node->mesh->overlayColour.getG(), node->mesh->overlayColour.getB(), node->mesh->overlayColour.getA());
+			glUniformMatrix4fv(shader->modelLoc, 1, GL_FALSE, glm::value_ptr(node->globalTransform));
+			glUniformMatrix4fv(shader->viewLoc, 1, GL_FALSE, glm::value_ptr(cam->view));
+			glUniformMatrix4fv(shader->projectionLoc, 1, GL_FALSE, glm::value_ptr(cam->projection));
+			glUniform4f(shader->objectColorLoc, node->mesh->overlayColour.getR(), node->mesh->overlayColour.getG(), node->mesh->overlayColour.getB(), node->mesh->overlayColour.getA());
+			glUniform1f(shader->blendLoc, node->mesh->animationBlend);
+
 			glm::vec3 camPos = cam->getGlobalPosition();
-			glUniform3f(node->mesh->shader->viewPosLoc, camPos.x, camPos.y, camPos.z);
+			glUniform3f(shader->viewPosLoc, camPos.x, camPos.y, camPos.z);
 
 			// Fog
-			glUniform1f(node->mesh->shader->fogFactorLoc, fogFactor);
+			glUniform1f(shader->fogFactorLoc, lvl->fogFactor);
 
 			// Material
-			glUniform1i(node->mesh->shader->materialLocs.diffuse, 0);
-			glUniform1i(node->mesh->shader->materialLocs.specular, 1);
-			glUniform1f(node->mesh->shader->materialLocs.specularExponent, 32.f);
+			glUniform1i(shader->materialLocs.diffuse, 0);
+			glUniform1i(shader->materialLocs.specular, 1);
+			glUniform1f(shader->materialLocs.specularExponent, 32.f);
 
 			// Point Lights
 			for (int i = 0; i < NUM_POINT_LIGHTS; i++)
 			{
-				glUniform3f(node->mesh->shader->pointLightLocs[i].position, pointLights[i].position.x, pointLights[i].position.y, pointLights[i].position.z);
-				glUniform3f(node->mesh->shader->pointLightLocs[i].ambient, pointLights[i].ambient.r, pointLights[i].ambient.g, pointLights[i].ambient.b);
-				glUniform3f(node->mesh->shader->pointLightLocs[i].diffuse, pointLights[i].diffuse.r, pointLights[i].diffuse.g, pointLights[i].diffuse.b);
-				glUniform3f(node->mesh->shader->pointLightLocs[i].specular, pointLights[i].specular.r, pointLights[i].specular.g, pointLights[i].specular.b);
-				glUniform1f(node->mesh->shader->pointLightLocs[i].constantAttenuation, pointLights[i].constantAttenuation);
-				glUniform1f(node->mesh->shader->pointLightLocs[i].linearAttenuation, pointLights[i].linearAttenuation);
-				glUniform1f(node->mesh->shader->pointLightLocs[i].quadraticAttenuation, pointLights[i].quadraticAttenuation);
+				glm::vec3 pos = lvl->pointLights[i]->getGlobalPosition();
+				glUniform3f(shader->pointLightLocs[i].position, pos.x, pos.y, pos.z);
+				glUniform3f(shader->pointLightLocs[i].ambient, lvl->pointLights[i]->ambient.r, lvl->pointLights[i]->ambient.g, lvl->pointLights[i]->ambient.b);
+				glUniform3f(shader->pointLightLocs[i].diffuse, lvl->pointLights[i]->diffuse.r, lvl->pointLights[i]->diffuse.g, lvl->pointLights[i]->diffuse.b);
+				glUniform3f(shader->pointLightLocs[i].specular, lvl->pointLights[i]->specular.r, lvl->pointLights[i]->specular.g, lvl->pointLights[i]->specular.b);
+				glUniform1f(shader->pointLightLocs[i].constantAttenuation, lvl->pointLights[i]->constantAttenuation);
+				glUniform1f(shader->pointLightLocs[i].linearAttenuation, lvl->pointLights[i]->linearAttenuation);
+				glUniform1f(shader->pointLightLocs[i].quadraticAttenuation, lvl->pointLights[i]->quadraticAttenuation);
 			}
 
 			// Directional Lights
-			glUniform3f(node->mesh->shader->directionalLightLocs.direction, dirLight.direction.x, dirLight.direction.y, dirLight.direction.z);
-			glUniform3f(node->mesh->shader->directionalLightLocs.ambient, dirLight.ambient.r, dirLight.ambient.g, dirLight.ambient.b);
-			glUniform3f(node->mesh->shader->directionalLightLocs.diffuse, dirLight.diffuse.r, dirLight.diffuse.g, dirLight.diffuse.b);
-			glUniform3f(node->mesh->shader->directionalLightLocs.specular, dirLight.specular.r, dirLight.specular.g, dirLight.specular.b);
+			glm::vec3 front = lvl->dirLight->getGlobalFront();
+			glUniform3f(shader->directionalLightLocs.direction, front.x, front.y, front.z);
+			glUniform3f(shader->directionalLightLocs.ambient, lvl->dirLight->ambient.r, lvl->dirLight->ambient.g, lvl->dirLight->ambient.b);
+			glUniform3f(shader->directionalLightLocs.diffuse, lvl->dirLight->diffuse.r, lvl->dirLight->diffuse.g, lvl->dirLight->diffuse.b);
+			glUniform3f(shader->directionalLightLocs.specular, lvl->dirLight->specular.r, lvl->dirLight->specular.g, lvl->dirLight->specular.b);
 
 
 			// Diffuse map
@@ -327,7 +330,7 @@ namespace flopse
 			glBindTexture(GL_TEXTURE_2D, GL_NONE);
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, GL_NONE);
-			node->mesh->shader->unbind();
+			shader->unbind();
 		}
 
 		Node<std::shared_ptr<SceneNode>>* current = node->children.head;
@@ -336,7 +339,7 @@ namespace flopse
 		{
 			if (!current->data->toBeDeleted)
 			{
-				draw(current->data, cam, dirLight, pointLights, fogFactor);
+				draw(current->data, cam, lvl);
 			}
 
 			current = current->next;
@@ -348,24 +351,26 @@ namespace flopse
 		if (node->mesh)
 		{
 			// Set the shader
-			std::shared_ptr<Shader> shadowMapShader = Shader::getStandardShader(StandardShaders::PhongNoTexture);
+			std::shared_ptr<Shader> shader = node->mesh->shader;
 			//std::shared_ptr<Shader> shadowMapShader = Shader::getStandardShader(StandardShaders::ShadowMap);
-			shadowMapShader->bind();
+			shader->bind();
 
-			glUniformMatrix4fv(shadowMapShader->modelLoc, 1, GL_FALSE, glm::value_ptr(node->globalTransform));
-			glUniformMatrix4fv(shadowMapShader->viewLoc, 1, GL_FALSE, glm::value_ptr(cam->view));
-			glUniformMatrix4fv(shadowMapShader->projectionLoc, 1, GL_FALSE, glm::value_ptr(cam->projection));
-			glUniform4f(shadowMapShader->objectColorLoc, 0.0f, 0.0f, 1.0f, 1.0f);
+			glUniformMatrix4fv(shader->modelLoc, 1, GL_FALSE, glm::value_ptr(node->globalTransform));
+			glUniformMatrix4fv(shader->viewLoc, 1, GL_FALSE, glm::value_ptr(cam->view));
+			glUniformMatrix4fv(shader->projectionLoc, 1, GL_FALSE, glm::value_ptr(cam->projection));
+			glUniform4f(shader->objectColorLoc, 0.0f, 0.0f, 1.0f, 1.0f);
+			glUniform1f(shader->blendLoc, node->mesh->animationBlend);
+
 			glm::vec3 camPos = cam->getGlobalPosition();
-			glUniform3f(shadowMapShader->viewPosLoc, camPos.x, camPos.y, camPos.z);
-			glUniform3f(shadowMapShader->lightPosLoc, 500.f, 500.f, 500.f);
+			glUniform3f(shader->viewPosLoc, camPos.x, camPos.y, camPos.z);
+			glUniform3f(shader->lightPosLoc, 500.f, 500.f, 500.f);
 
 			glBindVertexArray(node->mesh->VAO);
 			glDrawArrays(GL_TRIANGLES, 0, node->mesh->getNumberOfVertices());
 			glBindVertexArray(GL_NONE);
 
 			// Unbind the shader.
-			shadowMapShader->unbind();
+			shader->unbind();
 		}
 
 		Node<std::shared_ptr<SceneNode>>* current = node->children.head;
@@ -392,6 +397,7 @@ namespace flopse
 			glUniformMatrix4fv(shadowGenShader->modelLoc, 1, GL_FALSE, glm::value_ptr(node->globalTransform));
 			glUniformMatrix4fv(shadowGenShader->viewLoc, 1, GL_FALSE, glm::value_ptr(cam->view));
 			glUniformMatrix4fv(shadowGenShader->projectionLoc, 1, GL_FALSE, glm::value_ptr(cam->projection));
+			glUniform1f(shadowGenShader->blendLoc, node->mesh->animationBlend);
 
 			glm::mat4 bias(0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.5f, 0.0f, 0.5f, 0.5f, 0.5f, 1.0f);
 			glm::mat4 worldToShadowMap = bias * (currentLevel->shadowCamera->projection * currentLevel->shadowCamera->view);
@@ -427,6 +433,17 @@ namespace flopse
 	{
 		switch (e.code)
 		{
+		case sf::Keyboard::Comma:
+			/*wireframe = !wireframe;
+			if (wireframe)
+			{
+				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			}
+			else
+			{
+				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			}*/
+			break;
 		case sf::Keyboard::Space:
 			player->jump();
 			break;

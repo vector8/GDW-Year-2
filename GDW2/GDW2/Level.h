@@ -31,8 +31,8 @@ namespace flopse
 		Level(const std::shared_ptr<Player> &p);
 		virtual ~Level();
 
-		Light dirLight;
-		Light pointLights[NUM_POINT_LIGHTS];
+		std::shared_ptr<Light> dirLight;
+		std::shared_ptr<Light> pointLights[NUM_POINT_LIGHTS];
 		std::shared_ptr<Camera> cam = nullptr;
 		std::shared_ptr<Player> player = nullptr;
 		std::shared_ptr<Camera> shadowCamera = nullptr;

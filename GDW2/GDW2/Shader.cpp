@@ -197,6 +197,8 @@ namespace flopse
 		shadowLocs.shadows = glGetUniformLocation(program, "shadows");
 
 		lightPosLoc = glGetUniformLocation(program, "lightPos");
+
+		blendLoc = glGetUniformLocation(program, "blend");
 	}
 
 	// Use our program
