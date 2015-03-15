@@ -148,6 +148,8 @@ namespace flopse
 				es.enemy = std::make_shared<Enemy>(Enemy::createEnemy(static_cast<EnemyType>(enemyType), path->getPoint(0.f), path));
 				es.spawnTime = sf::seconds(spawnTime);
 
+				enemySpawns.push_back(es);
+
 				enemyCount++;
 			}
 		}
