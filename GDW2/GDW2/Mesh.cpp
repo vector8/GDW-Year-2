@@ -50,10 +50,6 @@ namespace flopse
 
 	Mesh::~Mesh()
 	{
-		delete diffuseMap;
-		diffuseMap = NULL;
-		delete specularMap;
-		specularMap = NULL;
 	}
 
 	void Mesh::refreshArrays()
@@ -166,28 +162,28 @@ namespace flopse
 
 	void Mesh::setDiffuseMap(const std::string &filename)
 	{
-		this->diffuseMap = new sf::Texture();
+		this->diffuseMap = std::make_shared<sf::Texture>();
 		if (!this->diffuseMap->loadFromFile(filename))
 		{
 			std::cout << "!!!!ERROR LOADING DIFFUSE MAP!!!!" << std::endl;
 		}
 	}
 
-	void Mesh::setDiffuseMap(sf::Texture* t)
+	void Mesh::setDiffuseMap(std::shared_ptr<sf::Texture> t)
 	{
 		this->diffuseMap = t;
 	}
 
 	void Mesh::setSpecularMap(const std::string &filename)
 	{
-		this->specularMap = new sf::Texture();
+		this->specularMap = std::make_shared<sf::Texture>();
 		if (!this->specularMap->loadFromFile(filename))
 		{
 			std::cout << "!!!!ERROR LOADING SPECULAR MAP!!!!" << std::endl;
 		}
 	}
 
-	void Mesh::setSpecularMap(sf::Texture* t)
+	void Mesh::setSpecularMap(std::shared_ptr<sf::Texture> t)
 	{
 		this->specularMap = t;
 	}
@@ -232,12 +228,12 @@ namespace flopse
 		}
 	}
 
-	sf::Texture* Mesh::getDiffuseMap() const
+	std::shared_ptr<sf::Texture> Mesh::getDiffuseMap() const
 	{
 		return this->diffuseMap;
 	}
 
-	sf::Texture* Mesh::getSpecularMap() const
+	std::shared_ptr<sf::Texture> Mesh::getSpecularMap() const
 	{
 		return this->specularMap;
 	}

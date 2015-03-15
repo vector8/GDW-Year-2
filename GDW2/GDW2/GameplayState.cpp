@@ -26,7 +26,7 @@ namespace flopse
 		cam->projection = glm::perspective(Game::getGame()->getFieldOfView(), 1024.0f / 768.0f, 0.1f, 100000.0f);
 		//cam->projection = glm::ortho(-512.0f, 512.0f, -384.0f, 384.0f, -1000.f, 1000.f);
 		//cam->projection = glm::ortho(-350.f, 350.f, -350.f, 350.f, -10.f, 10000.f);
-		player->attach(cam);
+		player->attachCam(cam);
 
 		currentLevel = Level::createLevel(1, player);//std::make_shared<Level>(player);
 		root = currentLevel;
@@ -284,6 +284,9 @@ namespace flopse
 			glm::vec3 camPos = cam->getGlobalPosition();
 			glUniform3f(shader->viewPosLoc, camPos.x, camPos.y, camPos.z);
 
+			// Tower placement
+			glUniform1i(shader->validPlacementLoc, true);
+
 			// Fog
 			glUniform1f(shader->fogFactorLoc, lvl->fogFactor);
 
@@ -315,13 +318,19 @@ namespace flopse
 
 			// Diffuse map
 			glActiveTexture(GL_TEXTURE0);
-			sf::Texture* t = node->mesh->getDiffuseMap();
-			sf::Texture::bind(t);
+			std::shared_ptr<sf::Texture> t = node->mesh->getDiffuseMap();
+			if (t != nullptr)
+			{
+				sf::Texture::bind(&(*t));
+			}
 
 			// Specular map
 			glActiveTexture(GL_TEXTURE1);
 			t = node->mesh->getSpecularMap();
-			sf::Texture::bind(t);
+			if (t != nullptr)
+			{
+				sf::Texture::bind(&(*t));
+			}
 
 			// Shadow map
 			//glActiveTexture(GL_TEXTURE2);
@@ -455,15 +464,39 @@ namespace flopse
 			player->jump();
 			break;
 		case sf::Keyboard::Num1:
+			if (placingTower && currentTower != TowerType::Arrow)
+			{
+				player->detach(tempTower);
+				tempTower = std::make_shared<Tower>(Tower::createTower(TowerType::Arrow, glm::vec3(0.f, 0.f, 200.f)));
+				player->attach(tempTower);
+			}
 			currentTower = TowerType::Arrow; //ArrowTower
 			break;
 		case sf::Keyboard::Num2:
+			if (placingTower && currentTower != TowerType::Frost)
+			{
+				player->detach(tempTower);
+				tempTower = std::make_shared<Tower>(Tower::createTower(TowerType::Frost, glm::vec3(0.f, 0.f, 200.f)));
+				player->attach(tempTower);
+			}
 			currentTower = TowerType::Frost; //FrostTower
 			break;
 		case sf::Keyboard::Num3:
+			if (placingTower && currentTower != TowerType::Fire)
+			{
+				player->detach(tempTower);
+				tempTower = std::make_shared<Tower>(Tower::createTower(TowerType::Fire, glm::vec3(0.f, 0.f, 200.f)));
+				player->attach(tempTower);
+			}
 			currentTower = TowerType::Fire; //FireTower
 			break;
 		case sf::Keyboard::Num4:
+			if (placingTower && currentTower != TowerType::Catapult)
+			{
+				player->detach(tempTower);
+				tempTower = std::make_shared<Tower>(Tower::createTower(TowerType::Catapult, glm::vec3(0.f, 0.f, 200.f)));
+				player->attach(tempTower);
+			}
 			currentTower = TowerType::Catapult; //
 			break;
 		//case sf::Keyboard::Num5:
@@ -471,19 +504,19 @@ namespace flopse
 		//	break;
 		case sf::Keyboard::E:
 		{
-			if (!player->jumping && player->gold >= 50)
+			if (!placingTower)
 			{
-				player->gold -= 50;
+				if (!player->jumping && player->gold >= 50)
+				{
+					placingTower = true;
 
-				glm::vec3 front = player->getGlobalFront();
-				//auto t = std::make_shared<Tower>(Tower::createTower(TowerType::Arrow, player->getGlobalPosition() + glm::vec3(front.x, 0.f, front.z)  * 30.f));
-				auto t = std::make_shared<Tower>(Tower::createTower(currentTower, player->getGlobalPosition() + glm::vec3(front.x, 0.f, front.z)  * 30.f));
-				this->currentLevel->attach(t);
-				SoundManager::playSoundAt(DefaultSounds::Clank, t->getGlobalPosition(), false);
-			}
-			else
-			{
-				// TODO play error sound, flash gold on ui
+					tempTower = std::make_shared<Tower>(Tower::createTower(currentTower, glm::vec3(0.f, 0.f, 200.f)));
+					this->player->attach(tempTower);
+				}
+				else
+				{
+					// TODO play error sound, flash gold on ui
+				}
 			}
 		}
 			break;
@@ -500,11 +533,38 @@ namespace flopse
 		{
 		case sf::Mouse::Button::Left:
 		{
-			glm::vec3 pos = player->getGlobalPosition() + glm::vec3(0.f, 3.f * player->mesh->getHeight() / 4.f, 0.f);
-			auto p = std::make_shared<Projectile>(pos, cam->getGlobalPosition() + player->getAimDirection() * 2000.f, 5);
-			this->currentLevel->attach(p);
-			SoundManager::playSoundAt(DefaultSounds::Ping, pos, false);
+			if (placingTower)
+			{
+				player->gold -= 50;
+
+				//auto t = std::make_shared<Tower>(Tower::createTower(TowerType::Arrow, player->getGlobalPosition() + glm::vec3(front.x, 0.f, front.z)  * 30.f));
+				glm::vec3 pos = tempTower->getGlobalPosition();
+				player->detach(tempTower);
+
+				tempTower->activate();
+				tempTower->localTransform.setPosition(pos);
+				currentLevel->attach(tempTower);
+				
+				SoundManager::playSoundAt(DefaultSounds::Clank, pos, false);
+
+				placingTower = false;
+			}
+			else
+			{
+				glm::vec3 pos = player->getGlobalPosition() + glm::vec3(0.f, 3.f * player->mesh->getHeight() / 4.f, 0.f);
+				auto p = std::make_shared<Projectile>(pos, cam->getGlobalPosition() + player->getAimDirection() * 2000.f, 5);
+				this->currentLevel->attach(p);
+				SoundManager::playSoundAt(DefaultSounds::Ping, pos, false);
+			}
 		}
+			break;
+		case sf::Mouse::Button::Right:
+			if (placingTower)
+			{
+				player->detach(tempTower);
+				tempTower.reset();
+				placingTower = false;
+			}
 			break;
 		default:
 			break;

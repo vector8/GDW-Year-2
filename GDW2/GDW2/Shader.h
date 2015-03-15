@@ -54,7 +54,8 @@ namespace flopse
 		ShadowMap,
 		ShadowGenerator,
 		ShadowComposite,
-		Billboard
+		Billboard,
+		TowerPlacement
 	};
 
 	class Shader
@@ -86,6 +87,7 @@ namespace flopse
 		ShadowLocs shadowLocs;
 		GLint lightPosLoc;
 		GLint blendLoc;
+		GLint validPlacementLoc;
 
 		// Constructor reads and builds our shader
 		Shader(const GLchar* vertexSourcePath, const GLchar* fragmentSourcePath);
@@ -108,6 +110,7 @@ namespace flopse
 			static std::shared_ptr<Shader> SHADOW_GENERATOR = std::make_shared<Shader>("shaders/Animation.vert", "shaders/shadowmapping/GenerateShadows.frag");
 			static std::shared_ptr<Shader> SHADOW_COMPOSITE = std::make_shared<Shader>("shaders/PosUVStraightPassThrough.vert", "shaders/shadowmapping/ShadowComposite.frag");
 			static std::shared_ptr<Shader> BILLBOARD = std::make_shared<Shader>("shaders/particles/Billboard.vert", "shaders/particles/Billboard.frag", "shaders/particles/Billboard.geom");
+			static std::shared_ptr<Shader> TOWER_PLACEMENT = std::make_shared<Shader>("shaders/Animation.vert", "shaders/TowerPlacement.frag");
 
 			switch (type)
 			{
@@ -146,6 +149,9 @@ namespace flopse
 				break;
 			case flopse::StandardShaders::Billboard:
 				return BILLBOARD;
+				break;
+			case flopse::StandardShaders::TowerPlacement:
+				return TOWER_PLACEMENT;
 				break;
 			default:
 				return nullptr;

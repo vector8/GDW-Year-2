@@ -25,7 +25,7 @@ namespace flopse
 		int health = 100;
 		int maxHealth = 100;
 
-		virtual void attach(const std::shared_ptr<SceneNode> &n);
+		void attachCam(const std::shared_ptr<SceneNode> &n);
 		virtual void updateLocalTransform(const sf::RenderWindow &window, const sf::Time &dt);
 
 		void jump();
