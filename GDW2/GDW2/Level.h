@@ -39,10 +39,29 @@ namespace flopse
 			switch (levelNumber)
 			{
 			case 1:
-				lvl->mesh = std::make_shared<Mesh>("meshes/Level1.bmf", Shader::getStandardShader(StandardShaders::Phong));
-				lvl->mesh->setDiffuseMap("textures/Level1.png");
+			{
+				lvl->mesh = std::make_shared<Mesh>("meshes/Ground.bmf", Shader::getStandardShader(StandardShaders::Phong));
+				lvl->mesh->setDiffuseMap("textures/level1GroundTexture.png");
 				lvl->mesh->setSpecularMap("textures/BlankSpecular.png");
 				lvl->mesh->acceptShadow = true;
+
+				std::shared_ptr<Mesh> fencesMesh = std::make_shared<Mesh>("meshes/Fences.bmf", Shader::getStandardShader(StandardShaders::Phong));
+				std::shared_ptr<Entity> fences = std::make_shared<Entity>(fencesMesh);
+				fences->mesh->setDiffuseMap("textures/fenceTexture.png");
+				fences->mesh->setSpecularMap("textures/BlankSpecular.png");
+				fences->mesh->acceptShadow = true;
+
+				std::shared_ptr<Mesh> treesMesh = std::make_shared<Mesh>("meshes/Trees.bmf", Shader::getStandardShader(StandardShaders::Phong));
+				std::shared_ptr<Entity> trees = std::make_shared<Entity>(treesMesh);
+				trees->mesh->setDiffuseMap("textures/treeTexture.png");
+				trees->mesh->setSpecularMap("textures/BlankSpecular.png");
+				trees->mesh->acceptShadow = true;
+
+				std::shared_ptr<Mesh> castleMesh = std::make_shared<Mesh>("meshes/Castle.bmf", Shader::getStandardShader(StandardShaders::Phong));
+				std::shared_ptr<Entity> castle = std::make_shared<Entity>(castleMesh);
+				castle->mesh->setDiffuseMap("textures/castleTexture.png");
+				castle->mesh->setSpecularMap("textures/BlankSpecular.png");
+				castle->mesh->acceptShadow = true;
 
 				lvl->pointLights[0] = std::make_shared<Light>();
 				lvl->pointLights[0]->localTransform.translate(glm::vec3(0.f, 500.f, 0.f));
@@ -52,7 +71,7 @@ namespace flopse
 				lvl->pointLights[0]->constantAttenuation = 1.f;
 				lvl->pointLights[0]->linearAttenuation = 0.0001f;
 				lvl->pointLights[0]->quadraticAttenuation = 0.000001f;
-				
+
 				lvl->dirLight = std::make_shared<Light>();
 				lvl->dirLight->localTransform.rotate(45.f, glm::vec3(1.f, 0.f, 0.f));
 				lvl->dirLight->localTransform.rotate(225.f, glm::vec3(0.f, 1.f, 0.f));
@@ -60,9 +79,12 @@ namespace flopse
 				lvl->dirLight->diffuse = glm::vec3(0.3f, 0.3f, 0.3f);
 				lvl->dirLight->specular = glm::vec3(1.0f, 1.0f, 1.0f);
 
+
 				lvl->attach(lvl->pointLights[0]);
 				lvl->attach(lvl->dirLight);
-
+				lvl->attach(trees);
+				lvl->attach(castle);
+				lvl->attach(fences);
 				//lvl->fogFactor = 0.001;
 
 				/*std::shared_ptr<ParticleSystem> fogEffect = std::make_shared<ParticleSystem>(10, 12000, "textures/Fog.png");
@@ -105,14 +127,19 @@ namespace flopse
 				lvl->shadowCamera->recalculateView();
 
 				lvl->mesh->overlayColour = Colour(0.2f, 0.2f, 0.2f, 1.f);
+			}
 				break;
 			case 2:
+				//lvl 2
 				break;
 			case 3:
+				//lvl 3
 				break;
 			case 4:
+				//lvl 4
 				break;
 			case 5:
+				//lvl 5
 				break;
 			default:
 				break;
