@@ -22,7 +22,7 @@ namespace flopse
 		player = std::make_shared<Player>();
 
 		cam = std::make_shared<ThirdPersonCamera>();
-		cam->localTransform.translate(glm::vec3(-30.f, (player->mesh->getHeight() / 2.f) + 30.f, -200.f));
+		cam->localTransform.translate(glm::vec3(-80.f, (player->mesh->getHeight() / 2.f) + 30.f, -250.f));
 		cam->projection = glm::perspective(Game::getGame()->getFieldOfView(), 1024.0f / 768.0f, 0.1f, 100000.0f);
 		//cam->projection = glm::ortho(-512.0f, 512.0f, -384.0f, 384.0f, -1000.f, 1000.f);
 		//cam->projection = glm::ortho(-350.f, 350.f, -350.f, 350.f, -10.f, 10000.f);
@@ -486,7 +486,7 @@ namespace flopse
 		case sf::Mouse::Button::Left:
 		{
 			glm::vec3 pos = player->getGlobalPosition() + glm::vec3(0.f, 3.f * player->mesh->getHeight() / 4.f, 0.f);
-			auto p = std::make_shared<Projectile>(pos, pos + player->getAimDirection() * 1500.f, 5);
+			auto p = std::make_shared<Projectile>(pos, cam->getGlobalPosition() + player->getAimDirection() * 2000.f, 5);
 			this->currentLevel->attach(p);
 			SoundManager::playSoundAt(DefaultSounds::Ping, pos, false);
 		}
