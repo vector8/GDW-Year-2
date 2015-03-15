@@ -30,7 +30,7 @@ namespace flopse
 		std::shared_ptr<Shader> s = Shader::getStandardShader(StandardShaders::Phong);
 
 		// Run animation
-		for (int i = 1; i <= 9; i++)
+		for (int i = 1; i <= 5; i++)
 		{
 			std::string filename = "meshes/PlayerRun" + std::to_string(i) + ".bmf";
 			Keyframe frame;
@@ -57,7 +57,7 @@ namespace flopse
 		frames.clear();
 
 		// Idle animation
-		for (int i = 1; i <= 10; i++)
+		for (int i = 1; i <= 5; i++)
 		{
 			std::string filename = "meshes/PlayerIdle" + std::to_string(i) + ".bmf";
 			Keyframe frame;
