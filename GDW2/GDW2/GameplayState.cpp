@@ -21,7 +21,14 @@ namespace flopse
 	{
 		player = std::make_shared<Player>();
 
-		currentLevel = std::make_shared<Level>(player);
+		cam = std::make_shared<ThirdPersonCamera>();
+		cam->localTransform.translate(glm::vec3(-30.f, (player->mesh->getHeight() / 2.f) + 30.f, -200.f));
+		cam->projection = glm::perspective(Game::getGame()->getFieldOfView(), 1024.0f / 768.0f, 0.1f, 100000.0f);
+		//cam->projection = glm::ortho(-512.0f, 512.0f, -384.0f, 384.0f, -1000.f, 1000.f);
+		//cam->projection = glm::ortho(-350.f, 350.f, -350.f, 350.f, -10.f, 10000.f);
+		player->attach(cam);
+
+		currentLevel = Level::createLevel(1, player);//std::make_shared<Level>(player);
 		root = currentLevel;
 
 		SoundManager::getSoundManager()->setListener(player);
@@ -200,7 +207,7 @@ namespace flopse
 		glViewport(0, 0, window->getSize().x, window->getSize().y);
 		//glViewport(0, 0, window->getSize().x / 2, window->getSize().y / 2);
 		mainBuffer.bind();
-		draw(root, currentLevel->cam, currentLevel);
+		draw(root, cam, currentLevel);
 		mainBuffer.unbind();
 
 		// Render to the shadow map
@@ -212,7 +219,7 @@ namespace flopse
 		// Draw shadows in the scene
 		glViewport(0, 0, window->getSize().x, window->getSize().y);
 		fullscaleBuffer1.bind();
-		drawShadows(root, currentLevel->cam);
+		drawShadows(root, cam);
 		fullscaleBuffer1.unbind();
 
 		// Blur shadows
@@ -506,6 +513,6 @@ namespace flopse
 
 	void GameplayState::setFieldOfView(float degrees)
 	{
-		currentLevel->cam->projection = glm::perspective(degrees, 1024.f / 768.f, 0.1f, 100000.0f);
+		cam->projection = glm::perspective(degrees, 1024.f / 768.f, 0.1f, 100000.0f);
 	}
 }

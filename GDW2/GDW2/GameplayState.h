@@ -34,7 +34,8 @@ namespace flopse
 	public:
 		std::shared_ptr<SceneNode> root;
 		std::shared_ptr<Player> player = nullptr;
-		std::shared_ptr<Level> currentLevel;
+		std::shared_ptr<Camera> cam = nullptr;
+		std::shared_ptr<Level> currentLevel = nullptr;
 		HUD hud;
 		FrameBuffer mainBuffer;
 		FrameBuffer downscaleBuffer1;

@@ -163,7 +163,7 @@ namespace flopse
 
 	std::shared_ptr<Camera> Game::getCamera() const
 	{
-		return gameplayState->currentLevel->cam;
+		return gameplayState->cam;
 	}
 
 	std::vector<BoundingBox> Game::getColliders() const
