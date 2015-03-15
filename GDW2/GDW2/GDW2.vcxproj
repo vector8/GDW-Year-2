@@ -254,6 +254,7 @@
     <None Include="shaders\shadowmapping\ShadowComposite.frag" />
     <None Include="shaders\StaticColor.frag" />
     <None Include="shaders\StaticGeometry.vert" />
+    <None Include="shaders\TowerPlacement.frag" />
     <None Include="Utilities.tpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

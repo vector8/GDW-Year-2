@@ -313,5 +313,8 @@
     <None Include="shaders\shadowmapping\ShadowComposite.frag">
       <Filter>Shaders\ShadowMapping</Filter>
     </None>
+    <None Include="shaders\TowerPlacement.frag">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

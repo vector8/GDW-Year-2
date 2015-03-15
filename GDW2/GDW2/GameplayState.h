@@ -21,6 +21,8 @@ namespace flopse
 	private:
 		sf::RenderWindow* window;
 		bool wireframe = false;
+		bool placingTower = false;
+		std::shared_ptr<Tower> tempTower = nullptr;
 
 		TowerType currentTower = TowerType::Arrow;
 

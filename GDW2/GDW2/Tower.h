@@ -23,16 +23,19 @@ namespace flopse
 
 		float range;
 		int damage;
+		bool active = false;
 
 	public:
 		virtual ~Tower();
 
+		TowerType type;
+
 		static Tower createTower(const TowerType &t, const glm::vec3 &pos)
 		{
-			static std::shared_ptr<Mesh> ARROW_TOWER_MESH = std::make_shared<Mesh>("meshes/ArrowTower.bmf", Shader::getStandardShader(StandardShaders::Phong));
-			static std::shared_ptr<Mesh> FROST_MAGE_TOWER_MESH = std::make_shared<Mesh>("meshes/MageTower.bmf", Shader::getStandardShader(StandardShaders::Phong));
-			static std::shared_ptr<Mesh> FIRE_MAGE_TOWER_MESH = std::make_shared<Mesh>("meshes/MageTower.bmf", Shader::getStandardShader(StandardShaders::Phong));
-			static std::shared_ptr<Mesh> CATAPULT_TOWER_MESH = std::make_shared<Mesh>("meshes/Catapult.bmf", Shader::getStandardShader(StandardShaders::Phong));
+			static std::shared_ptr<Mesh> ARROW_TOWER_MESH = std::make_shared<Mesh>("meshes/ArrowTower.bmf", Shader::getStandardShader(StandardShaders::TowerPlacement));
+			static std::shared_ptr<Mesh> FROST_MAGE_TOWER_MESH = std::make_shared<Mesh>("meshes/MageTower.bmf", Shader::getStandardShader(StandardShaders::TowerPlacement));
+			static std::shared_ptr<Mesh> FIRE_MAGE_TOWER_MESH = std::make_shared<Mesh>("meshes/MageTower.bmf", Shader::getStandardShader(StandardShaders::TowerPlacement));
+			static std::shared_ptr<Mesh> CATAPULT_TOWER_MESH = std::make_shared<Mesh>("meshes/Catapult.bmf", Shader::getStandardShader(StandardShaders::TowerPlacement));
 			static bool first = true;
 
 			if (first)
@@ -64,11 +67,15 @@ namespace flopse
 				break;
 			}
 
+			tow->type = t;
+
 			Tower tower(*tow);
 			delete tow;
 
 			return tower;
 		}
+
+		void activate();
 
 		virtual void updateLocalTransform(const sf::RenderWindow &window, const sf::Time &dt);
 	};

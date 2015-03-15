@@ -73,7 +73,7 @@ namespace flopse
 		mesh = idleAnimation->getCurrentMesh();
 	}
 
-	void Player::attach(const std::shared_ptr<SceneNode> &n)
+	void Player::attachCam(const std::shared_ptr<SceneNode> &n)
 	{
 		camJoint->attach(n);
 	}

@@ -199,6 +199,8 @@ namespace flopse
 		lightPosLoc = glGetUniformLocation(program, "lightPos");
 
 		blendLoc = glGetUniformLocation(program, "blend");
+
+		validPlacementLoc = glGetUniformLocation(program, "validPlacement");
 	}
 
 	// Use our program
