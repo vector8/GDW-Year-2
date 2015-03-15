@@ -238,6 +238,21 @@ namespace flopse
 				tutorialTimer = sf::Time::Zero;
 			}
 			break;
+		case sf::Keyboard::Num1:
+			currentTower = 0; //ArrowTower
+			break;
+		case sf::Keyboard::Num2:
+			currentTower = 1; //FrostTower
+			break;
+		case sf::Keyboard::Num3:
+			currentTower = 2; //FireTower
+			break;
+		case sf::Keyboard::Num4:
+			currentTower = 3; //Catapult
+			break;
+		//case sf::Keyboard::Num5:
+		//	currentTower = 4; //Barricade
+		//	break;
 		default:
 			break;
 		}
