@@ -5,6 +5,7 @@
 #include <glm\glm.hpp>
 
 #include "Level.h"
+#include "Tower.h"
 #include "HUD.h"
 #include "FrameBuffer.h"
 
@@ -20,6 +21,8 @@ namespace flopse
 	private:
 		sf::RenderWindow* window;
 		bool wireframe = false;
+
+		TowerType currentTower = TowerType::Arrow;
 
 		void applyBloomEffect(const FrameBuffer &inputBuffer, FrameBuffer &outputBuffer);
 		void applyBlur(FrameBuffer &inputBuffer, FrameBuffer &outputBuffer, int passes);

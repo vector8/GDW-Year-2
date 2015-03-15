@@ -41,6 +41,7 @@ namespace flopse
 
 		int eButtonAnimIndex = 0;
 		int mouseButtonAnimIndex = 0;
+		int currentTower = 0;
 
 		sf::Time eButtonFlashTimer;
 		sf::Time mouseButtonFlashTimer;

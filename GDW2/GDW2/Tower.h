@@ -6,7 +6,10 @@ namespace flopse
 	enum class TowerType
 	{
 		Arrow,
-		Mage
+		Frost,
+		Fire,
+		Catapult,
+		Barricade
 	};
 
 	class Tower : public Entity
@@ -26,13 +29,18 @@ namespace flopse
 
 		static Tower createTower(const TowerType &t, const glm::vec3 &pos)
 		{
-			static std::shared_ptr<Mesh> ARROW_TOWER_MESH = std::make_shared<Mesh>("meshes/pyramid.bmf", Shader::getStandardShader(StandardShaders::PhongNoTexture));
+			static std::shared_ptr<Mesh> ARROW_TOWER_MESH = std::make_shared<Mesh>("meshes/ArrowTower.bmf", Shader::getStandardShader(StandardShaders::Phong));
+			static std::shared_ptr<Mesh> FROST_MAGE_TOWER_MESH = std::make_shared<Mesh>("meshes/MageTower.bmf", Shader::getStandardShader(StandardShaders::Phong));
 			static std::shared_ptr<Mesh> FIRE_MAGE_TOWER_MESH = std::make_shared<Mesh>("meshes/MageTower.bmf", Shader::getStandardShader(StandardShaders::Phong));
+			static std::shared_ptr<Mesh> CATAPULT_TOWER_MESH = std::make_shared<Mesh>("meshes/Catapult.bmf", Shader::getStandardShader(StandardShaders::Phong));
 			static bool first = true;
 
 			if (first)
 			{
+				ARROW_TOWER_MESH->setDiffuseMap("textures/ArrowTower.png");
+				FROST_MAGE_TOWER_MESH->setDiffuseMap("textures/FrostTower.png");
 				FIRE_MAGE_TOWER_MESH->setDiffuseMap("textures/FireTower.png");
+				CATAPULT_TOWER_MESH->setDiffuseMap("textures/CatapultTower.png");
 				first = false;
 			}
 
@@ -41,10 +49,16 @@ namespace flopse
 			switch (t)
 			{
 			case TowerType::Arrow:
-				tow = new Tower(pos, ARROW_TOWER_MESH, 500.f, 2.f, 12);
+				tow = new Tower(pos, ARROW_TOWER_MESH, 1000.f, 1.f, 10);
 				break;
-			case TowerType::Mage:
-				tow = new Tower(pos, FIRE_MAGE_TOWER_MESH, 500.f, 2.f, 12);
+			case TowerType::Frost:
+				tow = new Tower(pos, FROST_MAGE_TOWER_MESH, 1000.f, 1.f, 2);
+				break;
+			case TowerType::Fire:
+				tow = new Tower(pos, FIRE_MAGE_TOWER_MESH, 1000.f, 1.f, 1);
+				break;
+			case TowerType::Catapult:
+				tow = new Tower(pos, CATAPULT_TOWER_MESH, 1000.f, 2.f, 5);
 				break;
 			default:
 				break;

@@ -454,6 +454,21 @@ namespace flopse
 		case sf::Keyboard::Space:
 			player->jump();
 			break;
+		case sf::Keyboard::Num1:
+			currentTower = TowerType::Arrow; //ArrowTower
+			break;
+		case sf::Keyboard::Num2:
+			currentTower = TowerType::Frost; //FrostTower
+			break;
+		case sf::Keyboard::Num3:
+			currentTower = TowerType::Fire; //FireTower
+			break;
+		case sf::Keyboard::Num4:
+			currentTower = TowerType::Catapult; //
+			break;
+		//case sf::Keyboard::Num5:
+		//	currentTower = TowerType::Barricade;
+		//	break;
 		case sf::Keyboard::E:
 		{
 			if (!player->jumping && player->gold >= 50)
@@ -462,7 +477,7 @@ namespace flopse
 
 				glm::vec3 front = player->getGlobalFront();
 				//auto t = std::make_shared<Tower>(Tower::createTower(TowerType::Arrow, player->getGlobalPosition() + glm::vec3(front.x, 0.f, front.z)  * 30.f));
-				auto t = std::make_shared<Tower>(Tower::createTower(TowerType::Mage, player->getGlobalPosition() + glm::vec3(front.x, 0.f, front.z)  * 30.f));
+				auto t = std::make_shared<Tower>(Tower::createTower(currentTower, player->getGlobalPosition() + glm::vec3(front.x, 0.f, front.z)  * 30.f));
 				this->currentLevel->attach(t);
 				SoundManager::playSoundAt(DefaultSounds::Clank, t->getGlobalPosition(), false);
 			}
