@@ -112,6 +112,60 @@ namespace flopse
 		}
 	}
 
+	void Level::createTowerBlockers(const std::string &filename)
+	{
+		std::ifstream in(filename, std::ios::in);
+
+		if (!in)
+		{
+			std::cout << "Cannot open " << filename << std::endl;
+			assert(false);
+		}
+
+		std::string line;
+		std::istringstream ss;
+		while (std::getline(in, line))
+		{
+			std::vector<std::string> tokens = split(line, " ,");
+			assert(tokens.size() == 6);
+
+			glm::vec3 p1, p2;
+
+			ss.str(tokens[0]);
+			ss.clear();
+			assert(ss >> p1.x);
+			ss.str(tokens[1]);
+			ss.clear();
+			assert(ss >> p1.y);
+			ss.str(tokens[2]);
+			ss.clear();
+			assert(ss >> p1.z);
+
+			ss.str(tokens[3]);
+			ss.clear();
+			assert(ss >> p2.x);
+			ss.str(tokens[4]);
+			ss.clear();
+			assert(ss >> p2.y);
+			ss.str(tokens[5]);
+			ss.clear();
+			assert(ss >> p2.z);
+
+			glm::vec3 pos;
+			float width, height, depth;
+
+			pos.x = (p1.x + p2.x) / 2.f;
+			pos.y = p1.y;
+			pos.z = (p1.z + p2.z) / 2.f;
+
+			width = abs(p2.x - p1.x);
+			height = abs(p2.y - p1.y);
+			depth = abs(p2.z - p1.z);
+
+			this->towerBlockers.push_back(BoundingBox(pos, width, height, depth));
+		}
+	}
+
 	void Level::createEnemies(const std::string &filename)
 	{
 		enemyCount = 0;

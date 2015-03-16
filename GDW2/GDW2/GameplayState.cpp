@@ -285,7 +285,7 @@ namespace flopse
 			glUniform3f(shader->viewPosLoc, camPos.x, camPos.y, camPos.z);
 
 			// Tower placement
-			glUniform1i(shader->validPlacementLoc, true);
+			glUniform1i(shader->validPlacementLoc, node->mesh->validPlacement);
 
 			// Fog
 			glUniform1f(shader->fogFactorLoc, lvl->fogFactor);
@@ -535,19 +535,29 @@ namespace flopse
 		{
 			if (placingTower)
 			{
-				player->gold -= 50;
+				if (tempTower->mesh->validPlacement)
+				{
+					player->gold -= 50;
 
-				//auto t = std::make_shared<Tower>(Tower::createTower(TowerType::Arrow, player->getGlobalPosition() + glm::vec3(front.x, 0.f, front.z)  * 30.f));
-				glm::vec3 pos = tempTower->getGlobalPosition();
-				player->detach(tempTower);
+					//auto t = std::make_shared<Tower>(Tower::createTower(TowerType::Arrow, player->getGlobalPosition() + glm::vec3(front.x, 0.f, front.z)  * 30.f));
+					glm::vec3 pos = tempTower->getGlobalPosition();
+					player->detach(tempTower);
 
-				tempTower->activate();
-				tempTower->localTransform.setPosition(pos);
-				currentLevel->attach(tempTower);
+					tempTower->activate();
+					tempTower->localTransform.setPosition(pos);
+					currentLevel->attach(tempTower);
+					tempTower->boundingBox.position = pos;
+
+					currentLevel->towerBlockers.push_back(tempTower->boundingBox);
 				
-				SoundManager::playSoundAt(DefaultSounds::Clank, pos, false);
+					SoundManager::playSoundAt(DefaultSounds::Clank, pos, false);
 
-				placingTower = false;
+					placingTower = false;
+				}
+				else
+				{
+					// TODO play error sound
+				}
 			}
 			else
 			{

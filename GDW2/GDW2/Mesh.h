@@ -42,6 +42,7 @@ namespace flopse
 		bool useNormals;
 		bool useColour;
 		float animationBlend = 0.f;
+		bool validPlacement = true;
 
 		void setDiffuseMap(const std::string &filename);
 		void setDiffuseMap(std::shared_ptr<sf::Texture> t);

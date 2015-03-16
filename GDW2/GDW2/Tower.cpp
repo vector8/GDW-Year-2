@@ -99,5 +99,21 @@ namespace flopse
 				}
 			}
 		}
+		else
+		{
+			bool collided = false;
+			boundingBox.position = this->getGlobalPosition();
+			std::vector<BoundingBox> blockers = Game::getGame()->getTowerBlockers();
+			for (auto it = blockers.begin(); it != blockers.end(); it++)
+			{
+				if (boundingBox.hasCollided(*it))
+				{
+					collided = true;
+					break;
+				}
+			}
+
+			mesh->validPlacement = !collided;
+		}
 	}
 }
