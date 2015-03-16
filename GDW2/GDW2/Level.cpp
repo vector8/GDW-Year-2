@@ -43,7 +43,7 @@ namespace flopse
 			ss.str(tokens[i]);
 			ss.clear();
 			assert(ss >> currPoint.x);
-			
+
 			ss.str(tokens[i + 1]);
 			ss.clear();
 			assert(ss >> currPoint.y);

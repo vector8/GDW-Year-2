@@ -40,8 +40,8 @@ namespace flopse
 			{
 			case 1:
 
-				lvl->mesh = std::make_shared<Mesh>("meshes/LEVEL5.bmf", Shader::getStandardShader(StandardShaders::Phong));
-				lvl->mesh->setDiffuseMap("textures/level5Texture.png");
+				lvl->mesh = std::make_shared<Mesh>("meshes/level1.bmf", Shader::getStandardShader(StandardShaders::Phong));
+				lvl->mesh->setDiffuseMap("textures/Level1.png");
 				lvl->mesh->setSpecularMap("textures/BlankSpecular.png");
 				lvl->mesh->acceptShadow = true;
 
@@ -234,7 +234,7 @@ namespace flopse
 				//lvl 3
 
 			}
-				break;
+			break;
 			case 4:
 				//lvl 4
 				break;
