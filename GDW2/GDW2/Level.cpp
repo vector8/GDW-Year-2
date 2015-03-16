@@ -13,6 +13,7 @@ namespace flopse
 
 	Level::~Level()
 	{
+		delete bgMusic;
 	}
 
 	void Level::createPath(const std::string &filename)
@@ -206,6 +207,22 @@ namespace flopse
 
 				enemyCount++;
 			}
+		}
+	}
+
+	void Level::startBackgroundMusic()
+	{
+		if (bgMusic != nullptr)
+		{
+			bgMusic->play();
+		}
+	}
+
+	void Level::stopBackgroundMusic()
+	{
+		if (bgMusic != nullptr)
+		{
+			bgMusic->setPaused(true);
 		}
 	}
 
