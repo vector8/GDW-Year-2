@@ -9,6 +9,7 @@
 #include "Enemy.h"
 #include "Light.h"
 #include "ThirdPersonCamera.h"
+#include "Sound.h"
 
 namespace flopse
 {
@@ -22,6 +23,8 @@ namespace flopse
 	{
 	private:
 		sf::Time elapsed;
+
+		Sound *bgMusic = nullptr;
 
 		void createPath(const std::string &filename);
 		void createColliders(const std::string &filename);
@@ -39,7 +42,6 @@ namespace flopse
 			switch (levelNumber)
 			{
 			case 1:
-
 				lvl->mesh = std::make_shared<Mesh>("meshes/level1.bmf", Shader::getStandardShader(StandardShaders::Phong));
 				lvl->mesh->setDiffuseMap("textures/Level1.png");
 				lvl->mesh->setSpecularMap("textures/BlankSpecular.png");
@@ -255,6 +257,9 @@ namespace flopse
 		float fogFactor = 0.0f;
 
 		std::shared_ptr<Path> path = nullptr;
+
+		void startBackgroundMusic();
+		void stopBackgroundMusic();
 
 		int gateHealth = 200;
 		int maxGateHealth = 200;
