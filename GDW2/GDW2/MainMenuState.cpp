@@ -8,9 +8,9 @@ namespace flopse
 {
 	MainMenuState::MainMenuState(sf::RenderWindow* window) : window(window), buttonSprite("MenuButtons")
 	{
-		if (!bgTexture.loadFromFile("textures/MainMenuBackground.png"))
+		if (!bgTexture.loadFromFile("textures/MenuBackGround.png"))
 		{
-			std::cout << "ERROR LOADING textures/MainMenuBackground.png" << std::endl;
+			std::cout << "ERROR LOADING textures/MenuBackGround.png" << std::endl;
 		}
 
 		float xScale = (float)(window->getSize().x) / (float)(bgTexture.getSize().x);

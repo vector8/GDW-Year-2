@@ -39,6 +39,108 @@ namespace flopse
 			switch (levelNumber)
 			{
 			case 1:
+
+				lvl->mesh = std::make_shared<Mesh>("meshes/LEVEL5.bmf", Shader::getStandardShader(StandardShaders::Phong));
+				lvl->mesh->setDiffuseMap("textures/level5Texture.png");
+				lvl->mesh->setSpecularMap("textures/BlankSpecular.png");
+				lvl->mesh->acceptShadow = true;
+
+				lvl->pointLights[0] = std::make_shared<Light>();
+				lvl->pointLights[0]->localTransform.translate(glm::vec3(0.f, 500.f, 0.f));
+				lvl->pointLights[0]->ambient = glm::vec3(0.1f, 0.1f, 0.1f);
+				lvl->pointLights[0]->diffuse = glm::vec3(0.3f, 0.3f, 0.3f);
+				lvl->pointLights[0]->specular = glm::vec3(1.0f, 1.0f, 1.0f);
+				lvl->pointLights[0]->constantAttenuation = 1.f;
+				lvl->pointLights[0]->linearAttenuation = 0.0001f;
+				lvl->pointLights[0]->quadraticAttenuation = 0.000001f;
+
+				lvl->dirLight = std::make_shared<Light>();
+				lvl->dirLight->localTransform.rotate(45.f, glm::vec3(1.f, 0.f, 0.f));
+				lvl->dirLight->localTransform.rotate(225.f, glm::vec3(0.f, 1.f, 0.f));
+				lvl->dirLight->ambient = glm::vec3(0.1f, 0.1f, 0.1f);
+				lvl->dirLight->diffuse = glm::vec3(0.3f, 0.3f, 0.3f);
+				lvl->dirLight->specular = glm::vec3(1.0f, 1.0f, 1.0f);
+
+
+				lvl->attach(lvl->pointLights[0]);
+				lvl->attach(lvl->dirLight);
+
+				lvl->createPath("levels/Level1Path.txt");
+				lvl->createColliders("levels/Level1Colliders.txt");
+				lvl->createTowerBlockers("levels/Level1Colliders.txt");
+				lvl->createEnemies("levels/Level1Enemies.txt");
+
+				p->setPosition(glm::vec3(0.f, 145.f, 100.f));
+				lvl->attach(p);
+
+				lvl->shadowCamera = std::make_shared<Camera>();
+				lvl->shadowCamera->localTransform.rotate(45.f, glm::vec3(1.f, 0.f, 0.f));
+				lvl->shadowCamera->localTransform.rotate(225.f, glm::vec3(0.f, 1.f, 0.f));
+				//lvl->shadowCamera->localTransform.translate(glm::vec3(1000.f, 1000.f, 1000.f));
+				lvl->shadowCamera->projection = glm::ortho(-4500.f, 4500.f, -4500.f, 4500.f, -3300.0f, 4600.f);
+				lvl->shadowCamera->globalTransform = lvl->shadowCamera->localTransform.getTransformMatrix();
+				lvl->shadowCamera->recalculateView();
+
+				lvl->mesh->overlayColour = Colour(0.2f, 0.2f, 0.2f, 1.f);
+
+				break;
+			case 2:
+			{
+				//lvl 2
+				lvl->mesh = std::make_shared<Mesh>("meshes/level 4.bmf", Shader::getStandardShader(StandardShaders::Phong));
+				lvl->mesh->setDiffuseMap("textures/level4Texture.png");
+				lvl->mesh->setSpecularMap("textures/BlankSpecular.png");
+				lvl->mesh->acceptShadow = true;
+
+				std::shared_ptr<Mesh> castleMesh = std::make_shared<Mesh>("meshes/level 4 castle.bmf", Shader::getStandardShader(StandardShaders::Phong));
+				std::shared_ptr<Entity> castle = std::make_shared<Entity>(castleMesh);
+				castle->mesh->setDiffuseMap("textures/castleTexture.png");
+				castle->mesh->setSpecularMap("textures/BlankSpecular.png");
+				castle->mesh->acceptShadow = true;
+
+
+				lvl->pointLights[0] = std::make_shared<Light>();
+				lvl->pointLights[0]->localTransform.translate(glm::vec3(0.f, 500.f, 0.f));
+				lvl->pointLights[0]->ambient = glm::vec3(0.1f, 0.1f, 0.1f);
+				lvl->pointLights[0]->diffuse = glm::vec3(0.3f, 0.3f, 0.3f);
+				lvl->pointLights[0]->specular = glm::vec3(1.0f, 1.0f, 1.0f);
+				lvl->pointLights[0]->constantAttenuation = 1.f;
+				lvl->pointLights[0]->linearAttenuation = 0.0001f;
+				lvl->pointLights[0]->quadraticAttenuation = 0.000001f;
+
+				lvl->dirLight = std::make_shared<Light>();
+				lvl->dirLight->localTransform.rotate(45.f, glm::vec3(1.f, 0.f, 0.f));
+				lvl->dirLight->localTransform.rotate(225.f, glm::vec3(0.f, 1.f, 0.f));
+				lvl->dirLight->ambient = glm::vec3(0.1f, 0.1f, 0.1f);
+				lvl->dirLight->diffuse = glm::vec3(0.3f, 0.3f, 0.3f);
+				lvl->dirLight->specular = glm::vec3(1.0f, 1.0f, 1.0f);
+
+
+				lvl->attach(lvl->pointLights[0]);
+				lvl->attach(lvl->dirLight);
+				lvl->attach(castle);
+
+				lvl->createPath("levels/Level1Path.txt");
+				lvl->createColliders("levels/Level1Colliders.txt");
+				lvl->createTowerBlockers("levels/Level1Colliders.txt");
+				lvl->createEnemies("levels/Level1Enemies.txt");
+
+				p->setPosition(glm::vec3(0.f, 145.f, 100.f));
+				lvl->attach(p);
+
+				lvl->shadowCamera = std::make_shared<Camera>();
+				lvl->shadowCamera->localTransform.rotate(45.f, glm::vec3(1.f, 0.f, 0.f));
+				lvl->shadowCamera->localTransform.rotate(225.f, glm::vec3(0.f, 1.f, 0.f));
+				//lvl->shadowCamera->localTransform.translate(glm::vec3(1000.f, 1000.f, 1000.f));
+				lvl->shadowCamera->projection = glm::ortho(-4500.f, 4500.f, -4500.f, 4500.f, -3300.0f, 4600.f);
+				lvl->shadowCamera->globalTransform = lvl->shadowCamera->localTransform.getTransformMatrix();
+				lvl->shadowCamera->recalculateView();
+
+				lvl->mesh->overlayColour = Colour(0.2f, 0.2f, 0.2f, 1.f);
+
+			}
+			break;
+			case 3:
 			{
 				lvl->mesh = std::make_shared<Mesh>("meshes/Ground.bmf", Shader::getStandardShader(StandardShaders::Phong));
 				lvl->mesh->setDiffuseMap("textures/level1GroundTexture.png");
@@ -128,13 +230,10 @@ namespace flopse
 				lvl->shadowCamera->recalculateView();
 
 				lvl->mesh->overlayColour = Colour(0.2f, 0.2f, 0.2f, 1.f);
-			}
-				break;
-			case 2:
-				//lvl 2
-				break;
-			case 3:
+
 				//lvl 3
+
+			}
 				break;
 			case 4:
 				//lvl 4
