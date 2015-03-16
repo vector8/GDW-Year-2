@@ -52,6 +52,7 @@ namespace flopse
 		std::shared_ptr<Level> getCurrentLevel() const;
 		std::shared_ptr<Camera> getCamera() const;
 		std::vector<BoundingBox> getColliders() const;
+		std::vector<BoundingBox> getTowerBlockers() const;
 		std::vector<std::shared_ptr<Enemy>> getEnemies() const;
 
 		void run();

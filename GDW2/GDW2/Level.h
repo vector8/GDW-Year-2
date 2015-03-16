@@ -21,12 +21,12 @@ namespace flopse
 	class Level : public Entity
 	{
 	private:
-		
 		sf::Time elapsed;
 
 		void createPath(const std::string &filename);
 		void createColliders(const std::string &filename);
 		void createEnemies(const std::string &filename);
+		void createTowerBlockers(const std::string &filename);
 
 	public:
 		Level(const std::shared_ptr<Player> &p);
@@ -110,6 +110,7 @@ namespace flopse
 
 				lvl->createPath("levels/Level1Path.txt");
 				lvl->createColliders("levels/Level1Colliders.txt");
+				lvl->createTowerBlockers("levels/Level1Colliders.txt");
 				lvl->createEnemies("levels/Level1Enemies.txt");
 
 				p->setPosition(glm::vec3(0.f, 145.f, 100.f));
@@ -161,6 +162,7 @@ namespace flopse
 		int enemyCount = 0;
 
 		std::vector<BoundingBox> colliders;
+		std::vector<BoundingBox> towerBlockers;
 		std::vector<std::shared_ptr<Enemy>> enemies;
 		std::list<EnemySpawn> enemySpawns;
 

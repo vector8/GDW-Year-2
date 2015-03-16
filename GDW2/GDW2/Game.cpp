@@ -171,6 +171,11 @@ namespace flopse
 		return gameplayState->currentLevel->colliders;
 	}
 
+	std::vector<BoundingBox> Game::getTowerBlockers() const
+	{
+		return gameplayState->currentLevel->towerBlockers;
+	}
+
 	std::vector<std::shared_ptr<Enemy>> Game::getEnemies() const
 	{
 		return gameplayState->currentLevel->enemies;
