@@ -1,6 +1,7 @@
 #include "Projectile.h"
 #include "Utilities.h"
 #include "Game.h"
+#include <glm\gtx\vector_angle.hpp>
 
 namespace flopse
 {
@@ -79,6 +80,16 @@ namespace flopse
 			else
 			{
 				this->localTransform.setPosition(lerp(interpParam, sourcePos, target->getGlobalPosition() + glm::vec3(0.f, target->mesh->getHeight() / 2.f, 0.f)));
+				//angle projejtile towards target
+				glm::vec3 dir = target->localTransform.getPosition() - this->localTransform.getPosition();
+				dir.y = 0.f;
+				dir = glm::normalize(dir);
+				glm::vec3 up(0.f, 1.f, 0.f);
+				glm::vec3 oldFront = this->localTransform.getFront();
+				oldFront.y = 0.f;
+				oldFront = glm::normalize(oldFront);
+				float angle = glm::orientedAngle(oldFront, dir, up);
+				this->localTransform.rotate(angle, up);
 			}
 		}
 		else
