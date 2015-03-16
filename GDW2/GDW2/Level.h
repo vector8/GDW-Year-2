@@ -42,6 +42,9 @@ namespace flopse
 			switch (levelNumber)
 			{
 			case 1:
+
+				lvl->bgMusic = new Sound("sounds/Level Music/Nothing Broken.wav", true);
+
 				lvl->mesh = std::make_shared<Mesh>("meshes/level1.bmf", Shader::getStandardShader(StandardShaders::Phong));
 				lvl->mesh->setDiffuseMap("textures/Level1.png");
 				lvl->mesh->setSpecularMap("textures/BlankSpecular.png");
@@ -84,7 +87,7 @@ namespace flopse
 				lvl->shadowCamera->recalculateView();
 
 				lvl->mesh->overlayColour = Colour(0.2f, 0.2f, 0.2f, 1.f);
-
+				lvl->startBackgroundMusic();
 				break;
 			case 2:
 			{

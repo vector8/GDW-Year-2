@@ -210,11 +210,21 @@ namespace flopse
 		window->setMouseCursorVisible(false);
 		// Reset mouse to middle of screen
 		sf::Mouse::setPosition(sf::Vector2i((int)(window->getSize().x) / 2, (int)(window->getSize().y) / 2), *window);
+		this->gameplayState->currentLevel->startBackgroundMusic();
 		clock.restart();
 	}
 
 	void Game::setMainMenuState()
 	{
+		if (this->currentState != nullptr)
+		{
+			if (this->currentState == this->gameplayState)
+			{
+
+				this->gameplayState->currentLevel->stopBackgroundMusic();
+			}
+		}
+
 		if (this->mainMenuState == nullptr)
 		{
 			this->mainMenuState = new MainMenuState(window);
@@ -235,6 +245,15 @@ namespace flopse
 
 	void Game::setGameOverState()
 	{
+		if (this->currentState != nullptr)
+		{
+			if (this->currentState == this->gameplayState)
+			{
+
+				this->gameplayState->currentLevel->stopBackgroundMusic();
+			}
+		}
+
 		if (this->gameOverState == nullptr)
 		{
 			this->gameOverState = new GameOverState(window);
