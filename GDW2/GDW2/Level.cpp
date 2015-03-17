@@ -4,6 +4,7 @@
 #include <sstream>
 #include "Constants.h"
 #include "Utilities.h"
+#include "Game.h"
 
 namespace flopse
 {

@@ -121,6 +121,8 @@ namespace flopse
 
 				fpsTimer += elapsed;
 
+				checkGameOver();
+
 				// Update
 				currentState->update(elapsed);
 
@@ -183,13 +185,8 @@ namespace flopse
 
 	void Game::newGame()
 	{
-		delete this->gameplayState;
-		this->gameplayState = nullptr;
-
-		window->setMouseCursorVisible(false);
-		this->gameplayState = new GameplayState(window);
-		this->currentState = this->gameplayState;
-		clock.restart();
+		shouldDeleteGameplayState = true;
+		setGameplayState();
 	}
 
 	void Game::setGameplayState()
@@ -286,6 +283,10 @@ namespace flopse
 			{
 				shouldDeleteGameplayState = true;
 				this->setGameOverState();
+			}
+			else if (gameplayState->currentLevel->enemyCount < 1)
+			{
+				this->gameplayState->nextLevel();
 			}
 		}
 	}

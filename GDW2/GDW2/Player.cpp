@@ -98,7 +98,10 @@ namespace flopse
 			newPos += speed * dt.asSeconds() * glm::normalize(glm::cross(localTransform.getUp(), glm::cross(localTransform.getFront(), localTransform.getUp())));
 			footsteps->play();
 
-			runAnimation->update(dt);
+			if (!jumping)
+			{
+				runAnimation->update(dt);
+			}
 			mesh = runAnimation->getCurrentMesh();
 		}
 		else
