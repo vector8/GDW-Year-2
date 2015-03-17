@@ -6,7 +6,7 @@ in vec3 Normal;
 
 out vec4 color;
 
-uniform vec4 objectColor;
+uniform vec3 objectColor;
 uniform vec3 lightPos;
 uniform vec3 viewPos;
 
@@ -29,5 +29,5 @@ void main()
 	specularComponent = specular * specularComponent;
 
 	vec3 result = (ambientComponent + diffuseComponent + specularComponent);
-	color = vec4(result, 1.0f) * objectColor;
+	color = vec4(result * objectColor, 1.0f);
 }
