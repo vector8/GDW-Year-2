@@ -96,11 +96,15 @@ namespace flopse
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 		{
 			newPos += speed * dt.asSeconds() * glm::normalize(glm::cross(localTransform.getUp(), glm::cross(localTransform.getFront(), localTransform.getUp())));
-			footsteps->play();
 
 			if (!jumping)
 			{
+				footsteps->play();
 				runAnimation->update(dt);
+			}
+			else
+			{
+				footsteps->setPaused(true);
 			}
 			mesh = runAnimation->getCurrentMesh();
 		}
