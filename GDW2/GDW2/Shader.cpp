@@ -186,7 +186,11 @@ namespace flopse
 
 		thresholdLoc = glGetUniformLocation(program, "uThreshold");
 		pixelSizeLoc = glGetUniformLocation(program, "uPixelSize");
+
 		sceneLoc = glGetUniformLocation(program, "scene");
+		sceneNormalsLoc = glGetUniformLocation(program, "sceneNormals");
+		sceneDepthLoc = glGetUniformLocation(program, "sceneDepth");
+
 		bloomLoc = glGetUniformLocation(program, "bloom");
 
 		fogFactorLoc = glGetUniformLocation(program, "fogFactor");

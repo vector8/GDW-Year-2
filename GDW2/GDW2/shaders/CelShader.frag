@@ -35,7 +35,8 @@ in vec3 Position;
 in vec2 texCoord;
 in vec3 Normal;
 
-out vec4 color;
+layout(location = 0) out vec4 color;
+layout(location = 1) out vec3 normals;
 
 uniform Material material;
 uniform DirectionalLight dirLight;
@@ -66,6 +67,7 @@ void main()
 	result = mix(vec3(0.5, 0.5, 0.5), result.rgb, blend);
 
 	color = vec4(result, 1.0f);
+	normals = normalize(Normal) * 0.5 + 0.5;
 }
 
 vec3 calculateDirectionalLight(DirectionalLight light, vec3 normal, vec3 viewDir)
@@ -78,7 +80,7 @@ vec3 calculateDirectionalLight(DirectionalLight light, vec3 normal, vec3 viewDir
 	// Diffuse
 	float diff = max(dot(normal, lightDir), 0.0);
 	vec3 diffuse = light.diffuse * vec3(texture(material.diffuse, texCoord));
-	/*if(diff > 0.95)
+	if(diff > 0.95)
 	{
 		diffuse = vec3(1.0) * diffuse;
 	}
@@ -93,8 +95,8 @@ vec3 calculateDirectionalLight(DirectionalLight light, vec3 normal, vec3 viewDir
 	else
 	{
 		diffuse = vec3(0.1) * diffuse;
-	}*/
-	diffuse = round(diff * 5) / 5 * diffuse;
+	}
+	//diffuse = round(diff * 5) / 5 * diffuse;
 
 	// Specular
 	//vec3 reflectDir = reflect(-lightDir, normal);

@@ -32,6 +32,7 @@ namespace flopse
 		void applyGrayscaleEffect(const FrameBuffer &inputBuffer, FrameBuffer &outputBuffer);
 		void applyShadowEffect(const FrameBuffer &sceneDepthBuffer, const FrameBuffer &shadowDepthBuffer, FrameBuffer &outputBuffer);
 		void applyShadows(const FrameBuffer &sceneBuffer, const FrameBuffer &shadowBuffer, FrameBuffer &outputBuffer);
+		void applyEdgeOutline(const FrameBuffer &inputBuffer, FrameBuffer &outputBuffer);
 
 		void GameplayState::draw(std::shared_ptr<SceneNode> node, const std::shared_ptr<Camera> &cam, const std::shared_ptr<Level> &lvl);
 		void GameplayState::drawToShadowMap(std::shared_ptr<SceneNode> root, const std::shared_ptr<Camera> &cam);
@@ -48,6 +49,7 @@ namespace flopse
 		FrameBuffer downscaleBuffer2;
 		FrameBuffer fullscaleBuffer1;
 		FrameBuffer fullscaleBuffer2;
+		FrameBuffer fullscaleBuffer3;
 		FrameBuffer shadowMapBuffer;
 		std::shared_ptr<Shader> grayscalePostShader = nullptr;
 		std::shared_ptr<Shader> bloomHighPassShader = nullptr;
