@@ -53,7 +53,7 @@ namespace flopse
 				lvl->pointLights[0] = std::make_shared<Light>();
 				lvl->pointLights[0]->localTransform.translate(glm::vec3(0.f, 500.f, 0.f));
 				lvl->pointLights[0]->ambient = glm::vec3(0.1f, 0.1f, 0.1f);
-				lvl->pointLights[0]->diffuse = glm::vec3(0.3f, 0.3f, 0.3f);
+				lvl->pointLights[0]->diffuse = glm::vec3(0.9f, 0.9f, 0.9f);
 				lvl->pointLights[0]->specular = glm::vec3(1.0f, 1.0f, 1.0f);
 				lvl->pointLights[0]->constantAttenuation = 1.f;
 				lvl->pointLights[0]->linearAttenuation = 0.0001f;
@@ -62,8 +62,8 @@ namespace flopse
 				lvl->dirLight = std::make_shared<Light>();
 				lvl->dirLight->localTransform.rotate(45.f, glm::vec3(1.f, 0.f, 0.f));
 				lvl->dirLight->localTransform.rotate(225.f, glm::vec3(0.f, 1.f, 0.f));
-				lvl->dirLight->ambient = glm::vec3(0.1f, 0.1f, 0.1f);
-				lvl->dirLight->diffuse = glm::vec3(0.3f, 0.3f, 0.3f);
+				lvl->dirLight->ambient = glm::vec3(0.2f, 0.2f, 0.2f);
+				lvl->dirLight->diffuse = glm::vec3(0.5f, 0.5f, 0.5f);
 				lvl->dirLight->specular = glm::vec3(1.0f, 1.0f, 1.0f);
 
 
@@ -75,7 +75,7 @@ namespace flopse
 				lvl->createTowerBlockers("levels/Level1Colliders.txt");
 				lvl->createEnemies("levels/Level1Enemies.txt");
 
-				p->setPosition(glm::vec3(0.f, 145.f, 100.f));
+				p->setPosition(glm::vec3(0.f, 148.f, 100.f));
 				lvl->attach(p);
 
 				lvl->shadowCamera = std::make_shared<Camera>();
