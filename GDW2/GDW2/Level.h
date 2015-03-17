@@ -47,7 +47,7 @@ namespace flopse
 			{
 				lvl->bgMusic = new Sound("sounds/Level Music/Nothing Broken.wav", true);
 
-				//lvl 4
+				//lvl 1
 				lvl->mesh = std::make_shared<Mesh>("meshes/Ground.bmf", Shader::getStandardShader(StandardShaders::Phong));
 				lvl->mesh->setDiffuseMap("textures/level1GroundTexture.png");
 				lvl->mesh->setSpecularMap("textures/BlankSpecular.png");
@@ -179,7 +179,7 @@ namespace flopse
 				lvl->createPath("levels/Level1Path.txt");
 				lvl->createColliders("levels/Level1Colliders.txt");
 				lvl->createTowerBlockers("levels/Level1Colliders.txt");
-				lvl->createEnemies("levels/Level1Enemies.txt");
+				lvl->createEnemies("levels/Leve4Enemies.txt");
 
 				p->setPosition(glm::vec3(0.f, 145.f, 100.f));
 				lvl->attach(p);
@@ -228,7 +228,7 @@ namespace flopse
 				lvl->createPath("levels/Level1Path.txt");
 				lvl->createColliders("levels/Level1Colliders.txt");
 				lvl->createTowerBlockers("levels/Level1Colliders.txt");
-				lvl->createEnemies("levels/Level1Enemies.txt");
+				lvl->createEnemies("levels/Level5Enemies.txt");
 
 				p->setPosition(glm::vec3(0.f, 145.f, 100.f));
 				lvl->attach(p);
