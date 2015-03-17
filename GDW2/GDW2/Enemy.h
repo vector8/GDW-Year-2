@@ -8,7 +8,12 @@ namespace flopse
 {
 	enum class EnemyType
 	{
+		Orc,
+		Elf,
 		Goblin,
+		E_ORC,
+		E_ELF,
+		Golem,
 		TreasureGoblin,
 		LichKing,
 		KnifeHands
@@ -33,14 +38,44 @@ namespace flopse
 
 		static Enemy createEnemy(const EnemyType &t, const glm::vec3 &pos, std::shared_ptr<Path> path = nullptr)
 		{
+			static std::shared_ptr<Mesh> ORC_MESH = std::make_shared<Mesh>("meshes/Goblin.bmf", Shader::getStandardShader(StandardShaders::Phong), "textures/GoblinTexture.png", "textures/GoblinSpecularMap.png");
+			static std::shared_ptr<Mesh> ELF_MESH = std::make_shared<Mesh>("meshes/Goblin.bmf", Shader::getStandardShader(StandardShaders::Phong), "textures/GoblinTexture.png", "textures/GoblinSpecularMap.png");
 			static std::shared_ptr<Mesh> GOBLIN_MESH = std::make_shared<Mesh>("meshes/Goblin.bmf", Shader::getStandardShader(StandardShaders::Phong), "textures/GoblinTexture.png", "textures/GoblinSpecularMap.png");
+			static std::shared_ptr<Mesh> E_ORC_MESH = std::make_shared<Mesh>("meshes/Goblin.bmf", Shader::getStandardShader(StandardShaders::Phong), "textures/GoblinTexture.png", "textures/GoblinSpecularMap.png");
+			static std::shared_ptr<Mesh> E_ELF_MESH = std::make_shared<Mesh>("meshes/Goblin.bmf", Shader::getStandardShader(StandardShaders::Phong), "textures/GoblinTexture.png", "textures/GoblinSpecularMap.png");
+			static std::shared_ptr<Mesh> GOLEM_MESH = std::make_shared<Mesh>("meshes/Goblin.bmf", Shader::getStandardShader(StandardShaders::Phong), "textures/GoblinTexture.png", "textures/GoblinSpecularMap.png");
 
 			Enemy* e = nullptr;
 
 			switch (t)
 			{
+			case EnemyType::Orc:
+				e = new Enemy(pos, ORC_MESH, 100, 5, 400.f, path);
+				e->value = 10;
+				e->attackDelay = sf::seconds(1.f);
+				break;
+			case EnemyType::Elf:
+				e = new Enemy(pos, ELF_MESH, 80, 5, 600.f, path);
+				e->value = 10;
+				e->attackDelay = sf::seconds(1.f);
+				break;
 			case EnemyType::Goblin:
-				e = new Enemy(pos, GOBLIN_MESH, 30, 5, 400.f, path);
+				e = new Enemy(pos, GOBLIN_MESH, 40, 2.5f, 400.f, path);
+				e->value = 10;
+				e->attackDelay = sf::seconds(1.f);
+				break;
+			case EnemyType::E_ORC:
+				e = new Enemy(pos, E_ORC_MESH, 250, 10, 320.f, path);
+				e->value = 10;
+				e->attackDelay = sf::seconds(1.f);
+				break;
+			case EnemyType::E_ELF:
+				e = new Enemy(pos, E_ELF_MESH, 150, 7.5f, 720.f, path);
+				e->value = 10;
+				e->attackDelay = sf::seconds(1.f);
+				break;
+			case EnemyType::Golem:
+				e = new Enemy(pos, GOLEM_MESH, 1800, 40, 320.f, path);
 				e->value = 10;
 				e->attackDelay = sf::seconds(1.f);
 				break;
