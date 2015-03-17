@@ -8,6 +8,9 @@ namespace flopse
 {
 	MainMenuState::MainMenuState(sf::RenderWindow* window) : window(window), buttonSprite("MenuButtons")
 	{
+
+		bgMusic = new Sound("sounds/Level Music/Teller of the Tales.wav", true);
+
 		if (!bgTexture.loadFromFile("textures/MenuBackGround.png"))
 		{
 			std::cout << "ERROR LOADING textures/MenuBackGround.png" << std::endl;
@@ -254,6 +257,20 @@ namespace flopse
 			{
 				buttons[i].state = ButtonState::Normal;
 			}
+		}
+	}
+	void MainMenuState::startBackgroundMusic()
+	{
+		if (bgMusic != nullptr)
+		{
+			bgMusic->play();
+		}
+	}
+	void MainMenuState::stopBackgroundMusic()
+	{
+		if (bgMusic != nullptr)
+		{
+			bgMusic->setPaused(true);
 		}
 	}
 }
