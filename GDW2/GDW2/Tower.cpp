@@ -104,19 +104,26 @@ namespace flopse
 		}
 		else
 		{
-			bool collided = false;
-			boundingBox.position = this->getGlobalPosition();
-			std::vector<BoundingBox> blockers = Game::getGame()->getTowerBlockers();
-			for (auto it = blockers.begin(); it != blockers.end(); it++)
+			if (Game::getGame()->getPlayer()->jumping)
 			{
-				if (boundingBox.hasCollided(*it))
-				{
-					collided = true;
-					break;
-				}
+				mesh->validPlacement = false;
 			}
+			else
+			{
+				bool collided = false;
+				boundingBox.position = this->getGlobalPosition();
+				std::vector<BoundingBox> blockers = Game::getGame()->getTowerBlockers();
+				for (auto it = blockers.begin(); it != blockers.end(); it++)
+				{
+					if (boundingBox.hasCollided(*it))
+					{
+						collided = true;
+						break;
+					}
+				}
 
-			mesh->validPlacement = !collided;
+				mesh->validPlacement = !collided;
+			}
 		}
 	}
 }

@@ -80,7 +80,7 @@ namespace flopse
 			else
 			{
 				this->localTransform.setPosition(lerp(interpParam, sourcePos, target->getGlobalPosition() + glm::vec3(0.f, target->mesh->getHeight() / 2.f, 0.f)));
-				//angle projejtile towards target
+				//angle projectile towards target
 				glm::vec3 dir = target->localTransform.getPosition() - this->localTransform.getPosition();
 				dir.y = 0.f;
 				dir = glm::normalize(dir);

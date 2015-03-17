@@ -87,7 +87,6 @@ namespace flopse
 				lvl->shadowCamera->recalculateView();
 
 				lvl->mesh->overlayColour = Colour(0.2f, 0.2f, 0.2f, 1.f);
-			
 				break;
 			case 2:
 			{
@@ -312,6 +311,8 @@ namespace flopse
 
 		void startBackgroundMusic();
 		void stopBackgroundMusic();
+
+		void killEnemy();
 
 		int gateHealth = 200;
 		int maxGateHealth = 200;

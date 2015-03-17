@@ -21,7 +21,6 @@ namespace flopse
 		{
 			lifeTime += dt;
 			float distance = lifeTime.asSeconds() * speed;
-
 			
 			if (path)
 			{
@@ -36,7 +35,6 @@ namespace flopse
 						attackTimer = sf::Time::Zero;
 						Game::getGame()->getCurrentLevel()->gateHealth -= this->damage;
 						SoundManager::playSoundAt(DefaultSounds::MetalSmack, this->getGlobalPosition(), false);
-						Game::getGame()->checkGameOver();
 					}
 				}
 				else

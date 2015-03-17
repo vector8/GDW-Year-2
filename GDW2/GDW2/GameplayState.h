@@ -23,6 +23,7 @@ namespace flopse
 		bool wireframe = false;
 		bool placingTower = false;
 		std::shared_ptr<Tower> tempTower = nullptr;
+		int levelNumber = 1;
 
 		TowerType currentTower = TowerType::Arrow;
 
@@ -66,5 +67,7 @@ namespace flopse
 		void mouseMoved(sf::Event::MouseMoveEvent e);
 
 		void setFieldOfView(float degrees);
+
+		void nextLevel();
 	};
 }
