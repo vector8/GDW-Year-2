@@ -46,6 +46,7 @@ namespace flopse
 		Phong,
 		PhongNoTexture,
 		Cel,
+		EdgeOutliner,
 		BloomHighPass,
 		BloomComposite,
 		BlurHorizontal,
@@ -82,6 +83,8 @@ namespace flopse
 		GLint thresholdLoc;
 		GLint pixelSizeLoc;
 		GLint sceneLoc;
+		GLint sceneNormalsLoc;
+		GLint sceneDepthLoc;
 		GLint bloomLoc;
 		GLint fogFactorLoc;
 		ShadowLocs shadowLocs;
@@ -98,9 +101,10 @@ namespace flopse
 
 		static std::shared_ptr<Shader> getStandardShader(StandardShaders type)
 		{
-			static std::shared_ptr<Shader> PHONG = std::make_shared<Shader>("shaders/Animation.vert", "shaders/Phong.frag");
+			static std::shared_ptr<Shader> PHONG = std::make_shared<Shader>("shaders/Animation.vert", "shaders/CelShader.frag");
 			static std::shared_ptr<Shader> PHONG_NO_TEXTURE = std::make_shared<Shader>("shaders/Animation.vert", "shaders/PhongNoTexture.frag");
 			static std::shared_ptr<Shader> CEL = std::make_shared<Shader>("shaders/Animation.vert", "shaders/CelShader.frag");
+			static std::shared_ptr<Shader> EDGE_OUTLINER = std::make_shared<Shader>("shaders/PosUVStraightPassThrough.vert", "shaders/EdgeOutliner.frag");
 			static std::shared_ptr<Shader> BLOOM_HIGH_PASS = std::make_shared<Shader>("shaders/PosUVStraightPassThrough.vert", "shaders/bloom/BloomHighPass.frag");
 			static std::shared_ptr<Shader> BLOOM_COMPOSITE = std::make_shared<Shader>("shaders/PosUVStraightPassThrough.vert", "shaders/bloom/BloomComposite.frag");
 			static std::shared_ptr<Shader> BLUR_HORIZONTAL = std::make_shared<Shader>("shaders/PosUVStraightPassThrough.vert", "shaders/blur/BlurHorizontal.frag");
@@ -122,6 +126,9 @@ namespace flopse
 				break;
 			case flopse::StandardShaders::Cel:
 				return CEL;
+				break;
+			case flopse::StandardShaders::EdgeOutliner:
+				return EDGE_OUTLINER;
 				break;
 			case flopse::StandardShaders::BloomHighPass:
 				return BLOOM_HIGH_PASS;

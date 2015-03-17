@@ -12,7 +12,7 @@
 namespace flopse
 {
 	GameplayState::GameplayState(sf::RenderWindow* window) : window(window), hud(window),
-		mainBuffer(1), downscaleBuffer1(1), downscaleBuffer2(1), fullscaleBuffer1(1), fullscaleBuffer2(1), shadowMapBuffer(1),
+		mainBuffer(2), downscaleBuffer1(1), downscaleBuffer2(1), fullscaleBuffer1(1), fullscaleBuffer2(1), fullscaleBuffer3(1), shadowMapBuffer(1),
 		grayscalePostShader(Shader::getStandardShader(StandardShaders::Grayscale)),
 		bloomHighPassShader(Shader::getStandardShader(StandardShaders::BloomHighPass)),
 		bloomCompositeShader(Shader::getStandardShader(StandardShaders::BloomComposite)),
@@ -37,6 +37,7 @@ namespace flopse
 
 		mainBuffer.initDepthTexture(window->getSize().x, window->getSize().y);
 		mainBuffer.initColorTexture(0, window->getSize().x, window->getSize().y, GL_RGBA8, GL_NEAREST, GL_CLAMP_TO_EDGE);
+		mainBuffer.initColorTexture(1, window->getSize().x, window->getSize().y, GL_RGB8, GL_NEAREST, GL_CLAMP_TO_EDGE);
 		assert(mainBuffer.checkFBO());
 
 		shadowMapBuffer.initDepthTexture(SHADOW_RESOLUTION, SHADOW_RESOLUTION);
@@ -56,6 +57,10 @@ namespace flopse
 		fullscaleBuffer2.initDepthTexture(window->getSize().x, window->getSize().y);
 		fullscaleBuffer2.initColorTexture(0, window->getSize().x, window->getSize().y, GL_RGBA8, GL_NEAREST, GL_CLAMP_TO_EDGE);
 		assert(fullscaleBuffer2.checkFBO());
+
+		fullscaleBuffer3.initDepthTexture(window->getSize().x, window->getSize().y);
+		fullscaleBuffer3.initColorTexture(0, window->getSize().x, window->getSize().y, GL_RGBA8, GL_NEAREST, GL_CLAMP_TO_EDGE);
+		assert(fullscaleBuffer3.checkFBO());
 	}
 
 	GameplayState::~GameplayState()
@@ -183,6 +188,33 @@ namespace flopse
 		shadowCompositeShader->unbind();
 	}
 
+	void GameplayState::applyEdgeOutline(const FrameBuffer &inputBuffer, FrameBuffer &outputBuffer)
+	{
+		std::shared_ptr<Shader> edgeOutlinerShader = Shader::getStandardShader(StandardShaders::EdgeOutliner);
+		edgeOutlinerShader->bind();
+
+		glUniform1i(edgeOutlinerShader->sceneLoc, 0);
+		glUniform1i(edgeOutlinerShader->sceneNormalsLoc, 1);
+		glUniform1i(edgeOutlinerShader->sceneDepthLoc, 2);
+		glUniform2f(edgeOutlinerShader->pixelSizeLoc, 1.f / window->getSize().x, 1.f / window->getSize().y);
+
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, inputBuffer.getColorHandle(0));
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, inputBuffer.getColorHandle(1));
+		glActiveTexture(GL_TEXTURE2);
+		glBindTexture(GL_TEXTURE_2D, inputBuffer.getDepthHandle());
+		outputBuffer.bind();
+		drawFullScreenQuad();
+		outputBuffer.unbind();
+		glBindTexture(GL_TEXTURE_2D, GL_NONE);
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, GL_NONE);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, GL_NONE);
+		edgeOutlinerShader->unbind();
+	}
+
 	void GameplayState::update(const sf::Time &dt)
 	{
 		root->update(*window, dt, glm::mat4());
@@ -201,6 +233,7 @@ namespace flopse
 		downscaleBuffer2.clear();
 		fullscaleBuffer1.clear();
 		fullscaleBuffer2.clear();
+		fullscaleBuffer3.clear();
 		shadowMapBuffer.clear();
 
 		// Render the scene
@@ -209,6 +242,9 @@ namespace flopse
 		mainBuffer.bind();
 		draw(root, cam, currentLevel);
 		mainBuffer.unbind();
+
+		// Draw cel shader edges
+		applyEdgeOutline(mainBuffer, fullscaleBuffer3);
 
 		// Render to the shadow map
 		glViewport(0, 0, SHADOW_RESOLUTION, SHADOW_RESOLUTION);
@@ -226,7 +262,7 @@ namespace flopse
 		//applyBlur(fullscaleBuffer1, fullscaleBuffer2, 100);
 
 		// Composite shadows and scene.
-		applyShadows(mainBuffer, fullscaleBuffer1, fullscaleBuffer2);
+		applyShadows(fullscaleBuffer3, fullscaleBuffer1, fullscaleBuffer2);
 
 		//applyBloomEffect(fullscaleBuffer2, fullscaleBuffer1);
 		//applyGrayscaleEffect(fullscaleBuffer1, fullscaleBuffer2);
@@ -245,7 +281,7 @@ namespace flopse
 		glBindTexture(GL_TEXTURE_2D, GL_NONE);
 		s.unbind();*/
 
-		mainBuffer.moveToBackBuffer(0, 0, window->getSize().x, window->getSize().y, 0, 0, window->getSize().x, window->getSize().y);
+		fullscaleBuffer2.moveToBackBuffer(0, 0, window->getSize().x, window->getSize().y, 0, 0, window->getSize().x, window->getSize().y);
 		//fullscaleBuffer2.moveToBackBuffer(0, 0, window->getSize().x, window->getSize().y, 0, 0, window->getSize().x, window->getSize().y);
 		//fullscaleBuffer2.moveToBackBuffer(0, 0, window->getSize().x, window->getSize().y, 0, window->getSize().y / 2, window->getSize().x / 2, window->getSize().y);
 		//mainBuffer.moveToBackBuffer(0, 0, window->getSize().x, window->getSize().y, 0, 0, window->getSize().x / 2, window->getSize().y / 2);

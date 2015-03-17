@@ -316,5 +316,14 @@
     <None Include="shaders\TowerPlacement.frag">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="shaders\Animation.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\CelShader.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\EdgeOutliner.frag">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>
