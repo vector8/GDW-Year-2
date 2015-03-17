@@ -5,12 +5,12 @@
 
 namespace flopse
 {
-	Sound::Sound(std::string filename, bool loop)
+	Sound::Sound(std::string filename, bool loop, bool threeDimensional)
 	{
 		pos = { 0.0f, 0.0f, 0.0f };
 		vel = { 0.0f, 0.0f, 0.0f };
 
-		SoundManager::getSoundManager()->createSound(filename, &sound);
+		SoundManager::getSoundManager()->createSound(filename, &sound, threeDimensional);
 		setLoop(loop);
 	}
 

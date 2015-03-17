@@ -17,7 +17,7 @@ namespace flopse
 		FMOD_VECTOR vel;
 
 	public:
-		Sound(std::string filename, bool loop = false);
+		Sound(std::string filename, bool loop = false, bool threeDimensional = true);
 		virtual ~Sound();
 
 		void play();

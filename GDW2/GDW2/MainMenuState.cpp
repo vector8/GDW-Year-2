@@ -9,7 +9,7 @@ namespace flopse
 	MainMenuState::MainMenuState(sf::RenderWindow* window) : window(window), buttonSprite("MenuButtons")
 	{
 
-		bgMusic = new Sound("sounds/Level Music/Teller of the Tales.wav", true);
+		bgMusic = new Sound("sounds/Level Music/Teller of the Tales.wav", true, false);
 
 		if (!bgTexture.loadFromFile("textures/MenuBackGround.png"))
 		{
