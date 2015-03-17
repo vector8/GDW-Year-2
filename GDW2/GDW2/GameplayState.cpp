@@ -316,7 +316,7 @@ namespace flopse
 			glUniformMatrix4fv(shader->modelLoc, 1, GL_FALSE, glm::value_ptr(node->globalTransform));
 			glUniformMatrix4fv(shader->viewLoc, 1, GL_FALSE, glm::value_ptr(cam->view));
 			glUniformMatrix4fv(shader->projectionLoc, 1, GL_FALSE, glm::value_ptr(cam->projection));
-			glUniform4f(shader->objectColorLoc, node->mesh->overlayColour.getR(), node->mesh->overlayColour.getG(), node->mesh->overlayColour.getB(), node->mesh->overlayColour.getA());
+			glUniform3f(shader->objectColorLoc, node->mesh->overlayColour.getR(), node->mesh->overlayColour.getG(), node->mesh->overlayColour.getB());
 			glUniform1f(shader->blendLoc, node->mesh->animationBlend);
 
 			glm::vec3 camPos = cam->getGlobalPosition();

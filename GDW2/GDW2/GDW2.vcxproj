@@ -242,6 +242,7 @@
     <None Include="shaders\bloom\BloomHighPass.frag" />
     <None Include="shaders\bloom\BlurHorizontal.frag" />
     <None Include="shaders\bloom\BlurVertical.frag" />
+    <None Include="shaders\CelNoTexture.frag" />
     <None Include="shaders\CelShader.frag" />
     <None Include="shaders\DoNothing.frag" />
     <None Include="shaders\DrawFullScreenQuad.frag" />

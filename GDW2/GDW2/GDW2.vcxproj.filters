@@ -325,5 +325,8 @@
     <None Include="shaders\EdgeOutliner.frag">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="shaders\CelNoTexture.frag">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>
