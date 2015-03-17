@@ -184,7 +184,7 @@ namespace flopse
 		directionalLightLocs.diffuse = glGetUniformLocation(program, "dirLight.diffuse");
 		directionalLightLocs.specular = glGetUniformLocation(program, "dirLight.specular");
 
-		thresholdLoc = glGetUniformLocation(program, "uThreshold");
+		thresholdLoc = glGetUniformLocation(program, "threshold");
 		pixelSizeLoc = glGetUniformLocation(program, "uPixelSize");
 
 		sceneLoc = glGetUniformLocation(program, "scene");

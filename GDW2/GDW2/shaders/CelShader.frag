@@ -82,28 +82,38 @@ vec3 calculateDirectionalLight(DirectionalLight light, vec3 normal, vec3 viewDir
 	vec3 diffuse = light.diffuse * vec3(texture(material.diffuse, texCoord));
 	if(diff > 0.95)
 	{
-		diffuse = vec3(1.0) * diffuse;
+		diffuse = 1.0 * diffuse;
 	}
 	else if(diff > 0.5)
 	{
-		diffuse = vec3(0.7) * diffuse;
+		diffuse = 0.7 * diffuse;
 	}
 	else if(diff > 0.05)
 	{
-		diffuse = vec3(0.35) * diffuse;
+		diffuse = 0.35 * diffuse;
 	}
 	else
 	{
-		diffuse = vec3(0.1) * diffuse;
+		diffuse = 0.1 * diffuse;
 	}
 	//diffuse = round(diff * 5) / 5 * diffuse;
 
 	// Specular
-	//vec3 reflectDir = reflect(-lightDir, normal);
-	//float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.specularExponent);
-	//vec3 specular = light.specular * spec * vec3(texture(material.specular, texCoord));
+	vec3 reflectDir = reflect(-lightDir, normal);
+	float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.specularExponent);
+	vec3 specular = light.specular * vec3(texture(material.specular, texCoord));
 
-	return ambient + diffuse;// + specular;
+	if(spec > 0.8)
+	{
+		specular = 1.0 * specular;
+	}
+	else
+	{
+		specular = 0.0 * specular;
+	}
+
+
+	return ambient + diffuse + specular;
 }
 
 vec3 calculatePointLight(PointLight light, vec3 normal, vec3 fragmentPos, vec3 viewDir)
@@ -122,26 +132,35 @@ vec3 calculatePointLight(PointLight light, vec3 normal, vec3 fragmentPos, vec3 v
 	vec3 diffuse = attenuation * light.diffuse * vec3(texture(material.diffuse, texCoord));
 	if(diff > 0.95)
 	{
-		diffuse = vec3(1.0) * diffuse;
+		diffuse = 1.0 * diffuse;
 	}
 	else if(diff > 0.5)
 	{
-		diffuse = vec3(0.7) * diffuse;
+		diffuse = 0.7 * diffuse;
 	}
 	else if(diff > 0.05)
 	{
-		diffuse = vec3(0.35) * diffuse;
+		diffuse = 0.35 * diffuse;
 	}
 	else
 	{
-		diffuse = vec3(0.1) * diffuse;
+		diffuse = 0.1 * diffuse;
 	}
 
 	// Specular
-	//vec3 reflectDir = reflect(-lightDir, normal);
-	//float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.specularExponent);
-	//vec3 specular = spec * attenuation * light.specular * vec3(texture(material.specular, texCoord));
+	vec3 reflectDir = reflect(-lightDir, normal);
+	float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.specularExponent);
+	vec3 specular = attenuation * light.specular * vec3(texture(material.specular, texCoord));
 
-	//return ambient + diffuse;// + specular;
-	return vec3(0.0);
+	if(spec > 0.8)
+	{
+		specular = 1.0 * specular;
+	}
+	else
+	{
+		specular = 0.0 * specular;
+	}
+
+	return ambient + diffuse + specular;
+	//return vec3(0.0);
 }

@@ -264,7 +264,9 @@ namespace flopse
 		// Composite shadows and scene.
 		applyShadows(fullscaleBuffer3, fullscaleBuffer1, fullscaleBuffer2);
 
-		//applyBloomEffect(fullscaleBuffer2, fullscaleBuffer1);
+		fullscaleBuffer1.clear();
+
+		applyBloomEffect(fullscaleBuffer2, fullscaleBuffer1);
 		//applyGrayscaleEffect(fullscaleBuffer1, fullscaleBuffer2);
 
 		/*glViewport(window->getSize().x / 2, window->getSize().y / 2, window->getSize().x, window->getSize().y);
@@ -281,7 +283,7 @@ namespace flopse
 		glBindTexture(GL_TEXTURE_2D, GL_NONE);
 		s.unbind();*/
 
-		fullscaleBuffer2.moveToBackBuffer(0, 0, window->getSize().x, window->getSize().y, 0, 0, window->getSize().x, window->getSize().y);
+		fullscaleBuffer1.moveToBackBuffer(0, 0, window->getSize().x, window->getSize().y, 0, 0, window->getSize().x, window->getSize().y);
 		//fullscaleBuffer2.moveToBackBuffer(0, 0, window->getSize().x, window->getSize().y, 0, 0, window->getSize().x, window->getSize().y);
 		//fullscaleBuffer2.moveToBackBuffer(0, 0, window->getSize().x, window->getSize().y, 0, window->getSize().y / 2, window->getSize().x / 2, window->getSize().y);
 		//mainBuffer.moveToBackBuffer(0, 0, window->getSize().x, window->getSize().y, 0, 0, window->getSize().x / 2, window->getSize().y / 2);
