@@ -102,19 +102,32 @@ namespace flopse
 		}
 	}
 
-	void SoundManager::createSound(std::string path, FMOD::Sound** sound)
+	void SoundManager::createSound(std::string path, FMOD::Sound** sound, bool threeDimensional)
 	{
-		errorCheck(system->createSound(path.c_str(), FMOD_3D, 0, sound));
-		// Multiply by distance factor to convert meters to centimeters, which is the unit used by the rest of the engine.
-		// Min distance is 50cm, max distance is 5m.
-		(*sound)->set3DMinMaxDistance(0.5f * DISTANCE_FACTOR, 5.0f * DISTANCE_FACTOR);
+		if (threeDimensional)
+		{
+			errorCheck(system->createSound(path.c_str(), FMOD_3D, 0, sound));
+
+			// Multiply by distance factor to convert meters to centimeters, which is the unit used by the rest of the engine.
+			// Min distance is 50cm, max distance is 5m.
+			(*sound)->set3DMinMaxDistance(0.5f * DISTANCE_FACTOR, 5.0f * DISTANCE_FACTOR);
+		}
+		else
+		{
+			errorCheck(system->createSound(path.c_str(), FMOD_2D, 0, sound));
+		}
 	}
 
 	void SoundManager::playSound(FMOD::Sound* sound, FMOD::Channel** channel, FMOD_VECTOR pos, FMOD_VECTOR vel)
 	{
 		// Start the sound paused. This is so that looping sounds aren't forced to begin playing when they are created.
 		errorCheck(system->playSound(FMOD_CHANNEL_FREE, sound, true, channel));
-		errorCheck((*channel)->set3DAttributes(&pos, &vel));
+		FMOD_MODE mode;
+		sound->getMode(&mode);
+		if (mode == mode & FMOD_3D)
+		{
+			errorCheck((*channel)->set3DAttributes(&pos, &vel));
+		}
 		// Add this channel to the master channel group so that it will be affected by the master volume.
 		errorCheck((*channel)->setChannelGroup(masterGroup));
 	}

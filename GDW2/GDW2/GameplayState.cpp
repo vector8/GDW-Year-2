@@ -224,6 +224,12 @@ namespace flopse
 
 	void GameplayState::draw()
 	{
+		GLenum error;
+		do
+		{
+			error = glGetError();
+		} while (error != GL_NO_ERROR);
+
 		// Clear all buffers
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glClearColor(0.3f, 0.3f, 0.3f, 1.f);
@@ -242,6 +248,11 @@ namespace flopse
 		mainBuffer.bind();
 		draw(root, cam, currentLevel);
 		mainBuffer.unbind();
+
+		do
+		{
+			error = glGetError();
+		} while (error != GL_NO_ERROR);
 
 		// Draw cel shader edges
 		applyEdgeOutline(mainBuffer, fullscaleBuffer3);
@@ -283,6 +294,7 @@ namespace flopse
 		glBindTexture(GL_TEXTURE_2D, GL_NONE);
 		s.unbind();*/
 
+		//fullscaleBuffer3.moveToBackBuffer(0, 0, window->getSize().x, window->getSize().y, 0, 0, window->getSize().x, window->getSize().y);
 		fullscaleBuffer1.moveToBackBuffer(0, 0, window->getSize().x, window->getSize().y, 0, 0, window->getSize().x, window->getSize().y);
 		//fullscaleBuffer2.moveToBackBuffer(0, 0, window->getSize().x, window->getSize().y, 0, 0, window->getSize().x, window->getSize().y);
 		//fullscaleBuffer2.moveToBackBuffer(0, 0, window->getSize().x, window->getSize().y, 0, window->getSize().y / 2, window->getSize().x / 2, window->getSize().y);
@@ -291,6 +303,11 @@ namespace flopse
 		//fullscaleBuffer1.moveToBackBuffer(0, 0, window->getSize().x, window->getSize().y, window->getSize().x / 2, window->getSize().y / 2, window->getSize().x, window->getSize().y);
 		//shadowMapBuffer.moveToBackBuffer(0, 0, SHADOW_RESOLUTION, SHADOW_RESOLUTION, window->getSize().x / 2, window->getSize().y / 2, window->getSize().x, window->getSize().y);
 		//fullscaleBuffer1.moveToBackBuffer(window->getSize().x / 2, window->getSize().y / 2, window->getSize().x, window->getSize().y, window->getSize().x / 2, window->getSize().y / 2, window->getSize().x, window->getSize().y);
+
+		do
+		{
+			error = glGetError();
+		} while (error != GL_NO_ERROR);
 
 		hud.draw();
 	}
@@ -370,9 +387,9 @@ namespace flopse
 				sf::Texture::bind(&(*t));
 			}
 
-			// Shadow map
-			//glActiveTexture(GL_TEXTURE2);
-			//glBindTexture(GL_TEXTURE_2D, shadowMap);
+			/* Shadow map
+			glActiveTexture(GL_TEXTURE2);
+			glBindTexture(GL_TEXTURE_2D, shadowMap);*/
 
 			glBindVertexArray(node->mesh->VAO);
 			glDrawArrays(GL_TRIANGLES, 0, node->mesh->getNumberOfVertices());
@@ -412,7 +429,7 @@ namespace flopse
 			glUniformMatrix4fv(shader->modelLoc, 1, GL_FALSE, glm::value_ptr(node->globalTransform));
 			glUniformMatrix4fv(shader->viewLoc, 1, GL_FALSE, glm::value_ptr(cam->view));
 			glUniformMatrix4fv(shader->projectionLoc, 1, GL_FALSE, glm::value_ptr(cam->projection));
-			glUniform4f(shader->objectColorLoc, 0.0f, 0.0f, 1.0f, 1.0f);
+			glUniform3f(shader->objectColorLoc, 0.0f, 0.0f, 1.0f);
 			glUniform1f(shader->blendLoc, node->mesh->animationBlend);
 
 			glm::vec3 camPos = cam->getGlobalPosition();

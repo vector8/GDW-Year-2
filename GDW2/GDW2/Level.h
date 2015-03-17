@@ -45,7 +45,7 @@ namespace flopse
 			case 1:
 
 			{
-				lvl->bgMusic = new Sound("sounds/Level Music/Nothing Broken.wav", true);
+				lvl->bgMusic = new Sound("sounds/Level Music/Nothing Broken.wav", true, false);
 
 				//lvl 1
 				lvl->mesh = std::make_shared<Mesh>("meshes/Ground.bmf", Shader::getStandardShader(StandardShaders::Phong));
@@ -141,7 +141,7 @@ namespace flopse
 			case 2:
 			{
 				//lvl 2
-				lvl->bgMusic = new Sound("sounds/Level Music/Music for Manatees.wav", true);
+				lvl->bgMusic = new Sound("sounds/Level Music/Music for Manatees.wav", true, false);
 
 				lvl->mesh = std::make_shared<Mesh>("meshes/level 4.bmf", Shader::getStandardShader(StandardShaders::Phong));
 				lvl->mesh->setDiffuseMap("textures/level4Texture.png");
@@ -198,7 +198,7 @@ namespace flopse
 			break;
 			case 3:
 			{
-				lvl->bgMusic = new Sound("sounds/Level Music/Oppressive Gloom.wav", true);
+				lvl->bgMusic = new Sound("sounds/Level Music/Oppressive Gloom.wav", true, false);
 
 				lvl->mesh = std::make_shared<Mesh>("meshes/LEVEL5.bmf", Shader::getStandardShader(StandardShaders::Phong));
 				lvl->mesh->setDiffuseMap("textures/level5Texture.png");

@@ -75,7 +75,7 @@ namespace flopse
 		}
 
 		// Create a sound corresponding to the file at the given path, and store it in the provided sound variable.
-		void createSound(std::string path, FMOD::Sound** sound);
+		void createSound(std::string path, FMOD::Sound** sound, bool threeDimensional = true);
 		// Play the given sound on the given channel, using the provided position and velocity parameters.
 		void playSound(FMOD::Sound* sound, FMOD::Channel** channel, FMOD_VECTOR pos, FMOD_VECTOR vel);
 
