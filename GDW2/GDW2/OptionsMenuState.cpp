@@ -7,7 +7,7 @@ namespace flopse
 {
 	OptionsMenuState::OptionsMenuState(sf::RenderWindow* window) : window(window), buttonSprite("Options")
 	{
-		if (!bgTexture.loadFromFile("textures/MainMenuBackground.png"))
+		if (!bgTexture.loadFromFile("textures/MenuBackGround.png"))
 		{
 			std::cout << "ERROR LOADING textures/MainMenuBackground.png" << std::endl;
 		}

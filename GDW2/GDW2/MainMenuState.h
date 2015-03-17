@@ -4,6 +4,7 @@
 #include <string>
 #include "Button.h"
 #include "SpriteWithAtlas.h"
+#include "SoundManager.h"
 
 namespace flopse
 {
@@ -22,6 +23,8 @@ namespace flopse
 		Button creditsBtn;
 		Button exitBtn;
 
+		Sound *bgMusic = nullptr;
+
 		void createButtons();
 		void buttonClicked(const std::string &name);
 
@@ -36,5 +39,8 @@ namespace flopse
 		void mouseButtonPressed(sf::Event::MouseButtonEvent e);
 		void mouseButtonReleased(sf::Event::MouseButtonEvent e);
 		void mouseMoved(sf::Event::MouseMoveEvent e);
+
+		void startBackgroundMusic();
+		void stopBackgroundMusic();
 	};
 }

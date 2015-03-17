@@ -22,11 +22,11 @@ namespace flopse
 		glEnable(GL_DEPTH_TEST);
 
 		gameplayState = nullptr;
-		mainMenuState = new MainMenuState(window);
 		optionsMenuState = nullptr;
 		gameOverState = nullptr;
-		currentState = mainMenuState;
 
+		setMainMenuState();
+		
 		// Seed the random number generator so other classes don't have to.
 		seedRandomNumberGenerator();
 	}
@@ -194,6 +194,15 @@ namespace flopse
 
 	void Game::setGameplayState()
 	{
+		if (this->currentState != nullptr)
+		{
+			if (this->currentState == this->mainMenuState)
+			{
+
+				this->mainMenuState->stopBackgroundMusic();
+			}
+		}
+
 		if (shouldDeleteGameplayState)
 		{
 			delete this->gameplayState;
@@ -231,6 +240,7 @@ namespace flopse
 		}
 
 		this->currentState = this->mainMenuState;
+		this->mainMenuState->startBackgroundMusic();
 	}
 
 	void Game::setOptionsMenuState()
