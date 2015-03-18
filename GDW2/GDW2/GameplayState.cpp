@@ -617,7 +617,7 @@ namespace flopse
 			else
 			{
 				glm::vec3 pos = player->getGlobalPosition() + glm::vec3(0.f, 3.f * player->mesh->getHeight() / 4.f, 0.f);
-				auto p = std::make_shared<Projectile>(pos, cam->getGlobalPosition() + player->getAimDirection() * 2000.f, 5);
+				auto p = std::make_shared<Projectile>(Projectile::createProjectile(pos, cam->getGlobalPosition() + player->getAimDirection() * 2000.f, 5));
 				this->currentLevel->attach(p);
 				SoundManager::playSoundAt(DefaultSounds::Ping, pos, false);
 			}
