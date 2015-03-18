@@ -20,7 +20,6 @@ namespace flopse
 
 	Player::~Player()
 	{
-		delete runAnimation;
 		delete footsteps;
 	}
 
@@ -53,7 +52,7 @@ namespace flopse
 
 			frames.push_back(frame);
 		}
-		runAnimation = new Animation(frames);
+		runAnimation = std::make_shared<Animation>(frames);
 		frames.clear();
 
 		// Idle animation
@@ -69,7 +68,7 @@ namespace flopse
 
 			frames.push_back(frame);
 		}
-		idleAnimation = new Animation(frames);
+		idleAnimation = std::make_shared<Animation>(frames);
 		mesh = idleAnimation->getCurrentMesh();
 	}
 

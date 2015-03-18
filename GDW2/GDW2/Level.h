@@ -83,8 +83,8 @@ namespace flopse
 				lvl->dirLight = std::make_shared<Light>();
 				lvl->dirLight->localTransform.rotate(45.f, glm::vec3(1.f, 0.f, 0.f));
 				lvl->dirLight->localTransform.rotate(225.f, glm::vec3(0.f, 1.f, 0.f));
-				lvl->dirLight->ambient = glm::vec3(0.1f, 0.1f, 0.1f);
-				lvl->dirLight->diffuse = glm::vec3(0.3f, 0.3f, 0.3f);
+				lvl->dirLight->ambient = glm::vec3(0.2f, 0.2f, 0.2f);
+				lvl->dirLight->diffuse = glm::vec3(0.6f, 0.6f, 0.6f);
 				lvl->dirLight->specular = glm::vec3(1.0f, 1.0f, 1.0f);
 
 

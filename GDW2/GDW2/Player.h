@@ -9,8 +9,8 @@ namespace flopse
 	{
 	private:
 		float dy = 0.f;
-		Animation* runAnimation;
-		Animation* idleAnimation;
+		std::shared_ptr<Animation> runAnimation;
+		std::shared_ptr<Animation> idleAnimation;
 		Sound* footsteps;
 		std::shared_ptr<SceneNode> camJoint = nullptr;
 
