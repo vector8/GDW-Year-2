@@ -5,7 +5,7 @@
 
 namespace flopse
 {
-	Enemy::Enemy(const glm::vec3 &pos, std::shared_ptr<Mesh> m, int hp, int dmg, float spd, bool slowed, bool onFire, std::shared_ptr<Path> path) : Entity(pos, m), health(hp), maxHealth(hp), damage(dmg), speed(spd),
+	Enemy::Enemy(const glm::vec3 &pos, std::shared_ptr<Mesh> m, int hp, int dmg, float spd, std::shared_ptr<Path> path) : Entity(pos, m), health(hp), maxHealth(hp), damage(dmg), speed(spd),
 		path(path), lifeTime(sf::Time::Zero)
 	{
 
@@ -47,6 +47,13 @@ namespace flopse
 					float angle = glm::orientedAngle(glm::normalize(this->localTransform.getFront()), glm::normalize(nextFront), up);
 
 					this->localTransform.rotate(angle, up);
+
+					// Update the running animation
+					if (runAnimation != nullptr)
+					{
+						runAnimation->update(dt);
+						mesh = runAnimation->getCurrentMesh();
+					}
 				}
 			}
 		}
