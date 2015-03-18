@@ -5,20 +5,9 @@
 
 namespace flopse
 {
-	/*enum class ProjectileType
-	{
-	Arrow,
-	Frost,
-	Fire,
-	Catapult
-	};*/
-
 	class Projectile : public Entity
 	{
 	private:
-		//Projectile(std::shared_ptr<Mesh> m);
-		//Projectile(const glm::vec3 &source, std::shared_ptr<Enemy> tar, int damage);
-		//Projectile(const glm::vec3 &source, glm::vec3 tar,std::shared_ptr<Mesh> m, int damage);
 
 		glm::vec3 sourcePos;
 		std::shared_ptr<Enemy> target = nullptr;
@@ -27,111 +16,58 @@ namespace flopse
 		float interpParam = 0.f;
 		int damage = 0;
 
-		std::shared_ptr<Mesh> getProjectileMesh()
-		{
-			std::shared_ptr<Mesh> projectileMesh;
-
-			if (type == TowerType::Arrow)
-			{
-				projectileMesh = std::make_shared<Mesh>("meshes/Arrow.bmf", Shader::getStandardShader(StandardShaders::PhongNoTexture));
-				projectileMesh->overlayColour = Colour(0.8f, 0.3f, 0.1f, 1.f);
-			}
-			else if (type == TowerType::Frost)
-			{
-				projectileMesh = std::make_shared<Mesh>("meshes/projectile.bmf", Shader::getStandardShader(StandardShaders::PhongNoTexture));
-				projectileMesh->overlayColour = Colour(0.1f, 0.1f, 1.0f, 1.f);
-			}
-			else if (type == TowerType::Fire)
-			{
-				projectileMesh = std::make_shared<Mesh>("meshes/projectile.bmf", Shader::getStandardShader(StandardShaders::PhongNoTexture));
-				projectileMesh->overlayColour = Colour(1.0f, 0.1f, 0.1f, 1.f);
-			}
-			else if (type == TowerType::Catapult)
-			{
-				projectileMesh = std::make_shared<Mesh>("meshes/projectile.bmf", Shader::getStandardShader(StandardShaders::PhongNoTexture));
-				projectileMesh->overlayColour = Colour(0.0f, 0.0f, 0.0f, 1.f);
-			}
-			else
-			{
-				projectileMesh = std::make_shared<Mesh>("meshes/projectile.bmf", Shader::getStandardShader(StandardShaders::PhongNoTexture));
-				projectileMesh->overlayColour = Colour(0.5f, 0.f, 0.5f, 1.f);
-			}
-
-			return projectileMesh;
-		}
-		std::shared_ptr<Mesh> getProjectileMesh(TowerType t)
-		{
-			std::shared_ptr<Mesh> projectileMesh;
-
-			if (t == TowerType::Arrow)
-			{
-				projectileMesh = std::make_shared<Mesh>("meshes/Arrow.bmf", Shader::getStandardShader(StandardShaders::PhongNoTexture));
-				projectileMesh->overlayColour = Colour(0.8f, 0.3f, 0.1f, 1.f);
-			}
-			else if (t == TowerType::Frost)
-			{
-				projectileMesh = std::make_shared<Mesh>("meshes/projectile.bmf", Shader::getStandardShader(StandardShaders::PhongNoTexture));
-				projectileMesh->overlayColour = Colour(0.1f, 0.1f, 1.0f, 1.f);
-			}
-			else if (t == TowerType::Fire)
-			{
-				projectileMesh = std::make_shared<Mesh>("meshes/projectile.bmf", Shader::getStandardShader(StandardShaders::PhongNoTexture));
-				projectileMesh->overlayColour = Colour(1.0f, 0.1f, 0.1f, 1.f);
-
-			}
-			else if (t == TowerType::Catapult)
-			{
-				projectileMesh = std::make_shared<Mesh>("meshes/projectile.bmf", Shader::getStandardShader(StandardShaders::PhongNoTexture));
-				projectileMesh->overlayColour = Colour(0.0f, 0.0f, 0.0f, 1.f);
-			}
-			else
-			{
-				projectileMesh = std::make_shared<Mesh>("meshes/projectile.bmf", Shader::getStandardShader(StandardShaders::PhongNoTexture));
-				projectileMesh->overlayColour = Colour(0.5f, 0.f, 0.5f, 1.f);
-			}
-
-			return projectileMesh;
-		}
-
 	public:
-		Projectile(const glm::vec3 &source, std::shared_ptr<Enemy> tar, int damage);
-		Projectile(const glm::vec3 &source, std::shared_ptr<Enemy> tar, int damage, TowerType type);
-		Projectile(const glm::vec3 &source, glm::vec3 tar, int damage);
+		Projectile(std::shared_ptr<Mesh> m, const glm::vec3 &source, std::shared_ptr<Enemy> tar, int damage);
+		Projectile(std::shared_ptr<Mesh> m, const glm::vec3 &source, glm::vec3 tar, int damage);
 
-		TowerType type = TowerType::Barricade;
-
-		static Projectile createProjectile(const glm::vec3 &source, std::shared_ptr<Enemy> tar, int damage, TowerType t)
+		static Projectile createProjectile(const glm::vec3 &source, const glm::vec3 &tar, int damage)
 		{
-			/*static std::shared_ptr<Mesh> ARROW_PROJECTILE_MESH = std::make_shared<Mesh>("meshes/ArrowTower.bmf", Shader::getStandardShader(StandardShaders::Phong));
-			static std::shared_ptr<Mesh> FROST_MAGE_PROJECTILE_MESH = std::make_shared<Mesh>("meshes/MageTower.bmf", Shader::getStandardShader(StandardShaders::Phong));
-			static std::shared_ptr<Mesh> FIRE_MAGE_PROJECTILE_MESH = std::make_shared<Mesh>("meshes/MageTower.bmf", Shader::getStandardShader(StandardShaders::Phong));
-			static std::shared_ptr<Mesh> CATAPULT_PROJECTILE_MESH = std::make_shared<Mesh>("meshes/Catapult.bmf", Shader::getStandardShader(StandardShaders::Phong));
+			static std::shared_ptr<Mesh> PLAYER_PROJECTILE_MESH = std::make_shared<Mesh>("meshes/projectile.bmf", Shader::getStandardShader(StandardShaders::PhongNoTexture));
 			static bool first = true;
 
 			if (first)
 			{
-				ARROW_PROJECTILE_MESH->setDiffuseMap("textures/ArrowTower.png");
-				FROST_MAGE_PROJECTILE_MESH->setDiffuseMap("textures/FrostTower.png");
-				FIRE_MAGE_PROJECTILE_MESH->setDiffuseMap("textures/FireTower.png");
-				CATAPULT_PROJECTILE_MESH->setDiffuseMap("textures/CatapultTower.png");
+				PLAYER_PROJECTILE_MESH->overlayColour = Colour(0.5f, 0.f, 0.5f, 1.f);
 				first = false;
-			}*/
+			}
+
+			Projectile projectile(PLAYER_PROJECTILE_MESH, source, tar, damage);
+
+			return projectile;
+		}
+
+		static Projectile createProjectile(const glm::vec3 &source, std::shared_ptr<Enemy> tar, int damage, TowerType t)
+		{
+			static std::shared_ptr<Mesh> ARROW_PROJECTILE_MESH = std::make_shared<Mesh>("meshes/Arrow.bmf", Shader::getStandardShader(StandardShaders::PhongNoTexture));
+			static std::shared_ptr<Mesh> FROST_MAGE_PROJECTILE_MESH = std::make_shared<Mesh>("meshes/projectile.bmf", Shader::getStandardShader(StandardShaders::PhongNoTexture));
+			static std::shared_ptr<Mesh> FIRE_MAGE_PROJECTILE_MESH = std::make_shared<Mesh>("meshes/projectile.bmf", Shader::getStandardShader(StandardShaders::PhongNoTexture));
+			static std::shared_ptr<Mesh> CATAPULT_PROJECTILE_MESH = std::make_shared<Mesh>("meshes/projectile.bmf", Shader::getStandardShader(StandardShaders::PhongNoTexture));
+			static bool first = true;
+
+			if (first)
+			{
+				ARROW_PROJECTILE_MESH->overlayColour = Colour(0.8f, 0.3f, 0.1f, 1.f);
+				FROST_MAGE_PROJECTILE_MESH->overlayColour = Colour(0.1f, 0.1f, 1.f, 1.f);
+				FIRE_MAGE_PROJECTILE_MESH->overlayColour = Colour(1.f, 0.1f, 0.1f, 1.f);
+				CATAPULT_PROJECTILE_MESH->overlayColour = Colour(0.f, 0.f, 0.f, 1.f);
+				first = false;
+			}
 
 			Projectile* pro = nullptr;
 
 			switch (t)
 			{
 			case TowerType::Arrow:
-				pro = new Projectile(source, tar, damage, TowerType::Arrow);
+				pro = new Projectile(ARROW_PROJECTILE_MESH, source, tar, damage);
 				break;
 			case TowerType::Frost:
-				pro = new Projectile(source, tar, damage, TowerType::Frost);
+				pro = new Projectile(FROST_MAGE_PROJECTILE_MESH, source, tar, damage);
 				break;
 			case TowerType::Fire:
-				pro = new Projectile(source, tar, damage, TowerType::Fire);
+				pro = new Projectile(FIRE_MAGE_PROJECTILE_MESH, source, tar, damage);
 				break;
 			case TowerType::Catapult:
-				pro = new Projectile(source, tar, damage, TowerType::Catapult);
+				pro = new Projectile(CATAPULT_PROJECTILE_MESH, source, tar, damage);
 				break;
 			default:
 				break;

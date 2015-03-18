@@ -5,17 +5,13 @@
 
 namespace flopse
 {
-	Projectile::Projectile(const glm::vec3 &source, std::shared_ptr<Enemy> tar, int damage) : Entity(source, Projectile::getProjectileMesh()), sourcePos(source), target(tar), damage(damage)
+
+	Projectile::Projectile(std::shared_ptr<Mesh> m, const glm::vec3 &source, std::shared_ptr<Enemy> tar, int damage) : Entity(source, m), sourcePos(source), target(tar), damage(damage)
 	{
 
 	}
 
-	Projectile::Projectile(const glm::vec3 &source, std::shared_ptr<Enemy> tar, int damage, TowerType type) : Entity(source, Projectile::getProjectileMesh(type)), sourcePos(source), target(tar), damage(damage), type(type)
-	{
-		this->type = type;
-	}
-
-	Projectile::Projectile(const glm::vec3 &source, glm::vec3 tar, int damage) : Entity(source, Projectile::getProjectileMesh()), sourcePos(source), targetPos(tar), damage(damage)
+	Projectile::Projectile(std::shared_ptr<Mesh> m, const glm::vec3 &source, glm::vec3 tar, int damage) : Entity(source, m), sourcePos(source), targetPos(tar), damage(damage)
 	{
 
 	}

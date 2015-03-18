@@ -92,8 +92,6 @@ namespace flopse
 						{
 							shotTimer = sf::Time::Zero;
 							auto p = std::make_shared<Projectile>(Projectile::createProjectile(this->getGlobalPosition() + glm::vec3(0, this->mesh->getHeight(), 0) + this->getGlobalFront()*(this->mesh->getDepth() / 2), enemies[i], this->damage, this->type));
-						//auto p = std::make_shared<Projectile>(this->getGlobalPosition() + glm::vec3(0, this->mesh->getHeight(), 0) + this->getGlobalFront()*(this->mesh->getDepth()/2), enemies[i], this->damage, this->type);
-						//auto p = createProjectile(this->type, this->getGlobalPosition() + glm::vec3(0, this->mesh->getHeight(), 0) + this->getGlobalFront()*(this->mesh->getDepth() / 2), enemies[i], this->damage);
 							Game::getGame()->getCurrentLevel()->attach(p);
 							SoundManager::playSoundAt(DefaultSounds::Ping, this->getGlobalPosition(), false);
 						}
