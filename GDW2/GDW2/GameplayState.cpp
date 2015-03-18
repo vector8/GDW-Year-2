@@ -220,6 +220,8 @@ namespace flopse
 		root->update(*window, dt, glm::mat4());
 
 		hud.update(dt);
+
+		Game::getGame()->checkGameOver();
 	}
 
 	void GameplayState::draw()

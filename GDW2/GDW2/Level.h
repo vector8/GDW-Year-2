@@ -179,7 +179,7 @@ namespace flopse
 				lvl->createPath("levels/Level1Path.txt");
 				lvl->createColliders("levels/Level1Colliders.txt");
 				lvl->createTowerBlockers("levels/Level1Colliders.txt");
-				lvl->createEnemies("levels/Leve4Enemies.txt");
+				lvl->createEnemies("levels/Level4Enemies.txt");
 
 				p->setPosition(glm::vec3(0.f, 145.f, 100.f));
 				lvl->attach(p);

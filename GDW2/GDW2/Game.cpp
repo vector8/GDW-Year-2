@@ -121,8 +121,6 @@ namespace flopse
 
 				fpsTimer += elapsed;
 
-				checkGameOver();
-
 				// Update
 				currentState->update(elapsed);
 
@@ -287,6 +285,7 @@ namespace flopse
 			else if (gameplayState->currentLevel->enemyCount < 1)
 			{
 				this->gameplayState->nextLevel();
+				clock.restart();
 			}
 		}
 	}
