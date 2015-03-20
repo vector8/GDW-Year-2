@@ -215,6 +215,22 @@ namespace flopse
 		edgeOutlinerShader->unbind();
 	}
 
+	void GameplayState::applyPixelationEffect(const FrameBuffer &inputBuffer, FrameBuffer &outputBuffer)
+	{
+		glViewport(0, 0, window->getSize().x, window->getSize().y);
+		std::shared_ptr<Shader> pixelationShader = Shader::getStandardShader(StandardShaders::Pixelation);
+		pixelationShader->bind();
+
+		glUniform2f(pixelationShader->pixelSizeLoc, 7.f / window->getSize().x, 5.f / window->getSize().y);
+
+		glBindTexture(GL_TEXTURE_2D, inputBuffer.getColorHandle(0));
+		outputBuffer.bind();
+		drawFullScreenQuad();
+		outputBuffer.unbind();
+		glBindTexture(GL_TEXTURE_2D, GL_NONE);
+		pixelationShader->unbind();
+	}
+
 	void GameplayState::update(const sf::Time &dt)
 	{
 		root->update(*window, dt, glm::mat4());
@@ -257,7 +273,7 @@ namespace flopse
 		} while (error != GL_NO_ERROR);
 
 		// Draw cel shader edges
-		applyEdgeOutline(mainBuffer, fullscaleBuffer3);
+		//applyEdgeOutline(mainBuffer, fullscaleBuffer3);
 
 		// Render to the shadow map
 		glViewport(0, 0, SHADOW_RESOLUTION, SHADOW_RESOLUTION);
@@ -275,11 +291,14 @@ namespace flopse
 		//applyBlur(fullscaleBuffer1, fullscaleBuffer2, 100);
 
 		// Composite shadows and scene.
-		applyShadows(fullscaleBuffer3, fullscaleBuffer1, fullscaleBuffer2);
+		applyShadows(mainBuffer, fullscaleBuffer1, fullscaleBuffer2);
 
 		fullscaleBuffer1.clear();
+		fullscaleBuffer3.clear();
 
-		applyBloomEffect(fullscaleBuffer2, fullscaleBuffer1);
+		applyPixelationEffect(fullscaleBuffer2, fullscaleBuffer3);
+
+		applyBloomEffect(fullscaleBuffer3, fullscaleBuffer1);
 		//applyGrayscaleEffect(fullscaleBuffer1, fullscaleBuffer2);
 
 		/*glViewport(window->getSize().x / 2, window->getSize().y / 2, window->getSize().x, window->getSize().y);

@@ -33,6 +33,7 @@ namespace flopse
 		void applyShadowEffect(const FrameBuffer &sceneDepthBuffer, const FrameBuffer &shadowDepthBuffer, FrameBuffer &outputBuffer);
 		void applyShadows(const FrameBuffer &sceneBuffer, const FrameBuffer &shadowBuffer, FrameBuffer &outputBuffer);
 		void applyEdgeOutline(const FrameBuffer &inputBuffer, FrameBuffer &outputBuffer);
+		void applyPixelationEffect(const FrameBuffer &inputBuffer, FrameBuffer &outputBuffer);
 
 		void GameplayState::draw(std::shared_ptr<SceneNode> node, const std::shared_ptr<Camera> &cam, const std::shared_ptr<Level> &lvl);
 		void GameplayState::drawToShadowMap(std::shared_ptr<SceneNode> root, const std::shared_ptr<Camera> &cam);

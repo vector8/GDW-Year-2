@@ -234,6 +234,8 @@
     <ClInclude Include="Utilities.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\..\..\..\..\..\Desktop\GDW2\GDW2\GDW2\shaders\SelectiveColorComposite.frag" />
+    <None Include="..\..\..\..\..\..\..\..\Desktop\GDW2\GDW2\GDW2\shaders\SelectiveColoringFilter.frag" />
     <None Include="LinkedList.tpp" />
     <None Include="Node.tpp" />
     <None Include="shaders\AmbientTexture.frag" />
@@ -249,8 +251,12 @@
     <None Include="shaders\EdgeOutliner.frag" />
     <None Include="shaders\FogPost.frag" />
     <None Include="shaders\GrayscalePost.frag" />
+    <None Include="shaders\particles\Billboard.frag" />
+    <None Include="shaders\particles\Billboard.geom" />
+    <None Include="shaders\particles\Billboard.vert" />
     <None Include="shaders\Phong.frag" />
     <None Include="shaders\PhongNoTexture.frag" />
+    <None Include="shaders\PixelationPost.frag" />
     <None Include="shaders\PosColorPassThrough.vert" />
     <None Include="shaders\PosUVPassThrough.vert" />
     <None Include="shaders\PosUVStraightPassThrough.vert" />
