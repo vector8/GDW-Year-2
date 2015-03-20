@@ -25,6 +25,9 @@
     <Filter Include="Shaders\ShadowMapping">
       <UniqueIdentifier>{da28f8e1-d4f8-4b20-be0e-e99280371b45}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shaders\Particles">
+      <UniqueIdentifier>{a4cea0fc-b028-4ca9-a23d-1efc9fb66722}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -327,6 +330,24 @@
     </None>
     <None Include="shaders\CelNoTexture.frag">
       <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\PixelationPost.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\..\..\..\..\..\..\Desktop\GDW2\GDW2\GDW2\shaders\SelectiveColorComposite.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\..\..\..\..\..\..\Desktop\GDW2\GDW2\GDW2\shaders\SelectiveColoringFilter.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\particles\Billboard.frag">
+      <Filter>Shaders\Particles</Filter>
+    </None>
+    <None Include="shaders\particles\Billboard.geom">
+      <Filter>Shaders\Particles</Filter>
+    </None>
+    <None Include="shaders\particles\Billboard.vert">
+      <Filter>Shaders\Particles</Filter>
     </None>
   </ItemGroup>
 </Project>

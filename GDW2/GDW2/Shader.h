@@ -57,7 +57,8 @@ namespace flopse
 		ShadowGenerator,
 		ShadowComposite,
 		Billboard,
-		TowerPlacement
+		TowerPlacement,
+		Pixelation
 	};
 
 	class Shader
@@ -102,8 +103,8 @@ namespace flopse
 
 		static std::shared_ptr<Shader> getStandardShader(StandardShaders type)
 		{
-			static std::shared_ptr<Shader> PHONG = std::make_shared<Shader>("shaders/Animation.vert", "shaders/CelShader.frag");
-			static std::shared_ptr<Shader> PHONG_NO_TEXTURE = std::make_shared<Shader>("shaders/Animation.vert", "shaders/CelNoTexture.frag");
+			static std::shared_ptr<Shader> PHONG = std::make_shared<Shader>("shaders/Animation.vert", "shaders/Phong.frag");
+			static std::shared_ptr<Shader> PHONG_NO_TEXTURE = std::make_shared<Shader>("shaders/Animation.vert", "shaders/PhongNoTexture.frag");
 			static std::shared_ptr<Shader> CEL = std::make_shared<Shader>("shaders/Animation.vert", "shaders/CelShader.frag");
 			static std::shared_ptr<Shader> CEL_NO_TEXTURE = std::make_shared<Shader>("shaders/Animation.vert", "shaders/CelNoTexture.frag");
 			static std::shared_ptr<Shader> EDGE_OUTLINER = std::make_shared<Shader>("shaders/PosUVStraightPassThrough.vert", "shaders/EdgeOutliner.frag");
@@ -117,6 +118,7 @@ namespace flopse
 			static std::shared_ptr<Shader> SHADOW_COMPOSITE = std::make_shared<Shader>("shaders/PosUVStraightPassThrough.vert", "shaders/shadowmapping/ShadowComposite.frag");
 			static std::shared_ptr<Shader> BILLBOARD = std::make_shared<Shader>("shaders/particles/Billboard.vert", "shaders/particles/Billboard.frag", "shaders/particles/Billboard.geom");
 			static std::shared_ptr<Shader> TOWER_PLACEMENT = std::make_shared<Shader>("shaders/Animation.vert", "shaders/TowerPlacement.frag");
+			static std::shared_ptr<Shader> PIXELATION = std::make_shared<Shader>("shaders/PosUVStraightPassThrough.vert", "shaders/PixelationPost.frag");
 
 			switch (type)
 			{
@@ -164,6 +166,9 @@ namespace flopse
 				break;
 			case flopse::StandardShaders::TowerPlacement:
 				return TOWER_PLACEMENT;
+				break;
+			case flopse::StandardShaders::Pixelation:
+				return PIXELATION;
 				break;
 			default:
 				return nullptr;
