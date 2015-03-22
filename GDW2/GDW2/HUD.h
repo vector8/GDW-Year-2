@@ -35,6 +35,7 @@ namespace flopse
 		sf::RectangleShape crossHairHoriz;
 
 		sf::CircleShape enemyDot;
+		sf::CircleShape playerDot;
 
 		sf::Font arial;
 		sf::Text text;

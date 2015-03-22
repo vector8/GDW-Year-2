@@ -1,4 +1,6 @@
 #pragma once
+#include <memory>
+
 #include "Node.h"
 
 namespace flopse
@@ -13,8 +15,8 @@ namespace flopse
 		LinkedList();
 		virtual ~LinkedList();
 
-		Node<T> *head;
-		Node<T> *tail;
+		std::shared_ptr<Node<T>> head;
+		std::shared_ptr<Node<T>> tail;
 
 		int size();
 

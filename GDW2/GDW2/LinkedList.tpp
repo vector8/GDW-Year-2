@@ -21,7 +21,7 @@ int LinkedList<T>::size()
 template <class T>
 void LinkedList<T>::add(const T &item)
 {
-	Node<T> *n = new Node<T>(item, tail);
+	std::shared_ptr<Node<T>> n = std::make_shared<Node<T>>(item, tail);
 
 	if (head == nullptr)	// list is empty
 	{
@@ -40,7 +40,7 @@ void LinkedList<T>::add(const T &item)
 template <class T>
 void LinkedList<T>::add(int index, const T &item)
 {
-	Node<T> *n = new Node<T>(item);
+	std::shared_ptr<Node<T>> n = std::make_share<Node<T>>(item);
 
 	if (head == nullptr)	// list is empty
 	{
@@ -49,7 +49,7 @@ void LinkedList<T>::add(int index, const T &item)
 	}
 	else
 	{
-		Node<T> *current = head;
+		std::shared_ptr<Node<T>> current = head;
 
 		for (int i = 0; i < index; i++)
 		{
@@ -83,7 +83,7 @@ bool LinkedList<T>::remove(int index)
 {
 	if (head != nullptr)
 	{
-		Node<T> *current = head;
+		std::shared_ptr<Node<T>> current = head;
 
 		for (int i = 0; i < index; i++)
 		{
@@ -97,8 +97,8 @@ bool LinkedList<T>::remove(int index)
 			}
 		}
 
-		Node<T>* prev = current->prev;
-		Node<T>* next = current->next;
+		std::shared_ptr<Node<T>> prev = current->prev;
+		std::shared_ptr<Node<T>> next = current->next;
 
 		if (next != nullptr)
 		{
@@ -119,8 +119,6 @@ bool LinkedList<T>::remove(int index)
 			tail = tail->prev;
 		}
 
-		delete current;
-
 		count--;
 			
 		return true;
@@ -134,7 +132,7 @@ bool LinkedList<T>::remove(int index)
 template <class T>
 bool LinkedList<T>::remove(const T &item)
 {
-	Node<T> *current = head;
+	std::shared_ptr<Node<T>> current = head;
 
 	for (int i = 0; i < count; i++)
 	{
@@ -144,8 +142,8 @@ bool LinkedList<T>::remove(const T &item)
 		}
 		else if (current->data == item)
 		{
-			Node<T>* prev = current->prev;
-			Node<T>* next = current->next;
+			std::shared_ptr<Node<T>> prev = current->prev;
+			std::shared_ptr<Node<T>> next = current->next;
 
 			if (next != nullptr)
 			{
@@ -166,9 +164,6 @@ bool LinkedList<T>::remove(const T &item)
 				tail = prev;
 			}
 
-			delete current;
-			current = nullptr;
-
 			count--;
 
 			return true;
@@ -185,13 +180,13 @@ bool LinkedList<T>::remove(const T &item)
 template <class T>
 void LinkedList<T>::clear()
 {
-	Node<T>* current = head;
+	std::shared_ptr<Node<T>> current = head;
 
 	while (current != nullptr)
 	{
 		current->prev = nullptr;
-		Node<T>* next = current->next;
-		delete current;
+		std::shared_ptr<Node<T>> next = current->next;
+		current = nullptr;
 		current = next;
 	}
 }

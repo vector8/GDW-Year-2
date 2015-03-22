@@ -2,6 +2,7 @@
 #include "Entity.h"
 #include "Enemy.h"
 #include "Tower.h"
+#include "ParticleSystem.h"
 
 namespace flopse
 {
@@ -17,21 +18,38 @@ namespace flopse
 		int damage = 0;
 
 	public:
+		Projectile();
 		Projectile(std::shared_ptr<Mesh> m, const glm::vec3 &source, std::shared_ptr<Enemy> tar, int damage);
 		Projectile(std::shared_ptr<Mesh> m, const glm::vec3 &source, glm::vec3 tar, int damage);
+		Projectile(const glm::vec3 &source, std::shared_ptr<Enemy> tar, int damage);
+		Projectile(const glm::vec3 &source, glm::vec3 tar, int damage);
+
+		bool slows = false;
+		bool burns = false;
 
 		static Projectile createProjectile(const glm::vec3 &source, const glm::vec3 &tar, int damage)
 		{
-			static std::shared_ptr<Mesh> PLAYER_PROJECTILE_MESH = std::make_shared<Mesh>("meshes/projectile.bmf", Shader::getStandardShader(StandardShaders::PhongNoTexture));
-			static bool first = true;
+			//static std::shared_ptr<Mesh> PLAYER_PROJECTILE_MESH = std::make_shared<Mesh>("meshes/projectile.bmf", Shader::getStandardShader(StandardShaders::PhongNoTexture));
+			//static bool first = true;
 
-			if (first)
+			/*if (first)
 			{
 				PLAYER_PROJECTILE_MESH->overlayColour = Colour(0.5f, 0.f, 0.5f, 1.f);
 				first = false;
-			}
+			}*/
 
-			Projectile projectile(PLAYER_PROJECTILE_MESH, source, tar, damage);
+			Projectile projectile(source, tar, damage);
+
+			std::shared_ptr<ParticleSystem> magicEffect = std::make_shared<ParticleSystem>(15, 50, "textures/MagicParticle.png");
+			magicEffect->lerpAlpha = glm::vec2(1.f, 0.f);
+			magicEffect->lerpSize = glm::vec2(10.f, 2.5f);
+			magicEffect->rangeLifetime = glm::vec2(0.5f, 1.f);
+			magicEffect->rangeVelocity = glm::vec2(1.f, 2.f);
+			magicEffect->rangeX = glm::vec2(-10.f, 10.f);
+			magicEffect->rangeY = glm::vec2(-10.f, 10.f);
+			magicEffect->rangeZ = glm::vec2(-10.f, 10.f);
+
+			projectile.attach(magicEffect);
 
 			return projectile;
 		}
@@ -46,35 +64,62 @@ namespace flopse
 
 			if (first)
 			{
-				ARROW_PROJECTILE_MESH->overlayColour = Colour(0.8f, 0.3f, 0.1f, 1.f);
-				FROST_MAGE_PROJECTILE_MESH->overlayColour = Colour(0.1f, 0.1f, 1.f, 1.f);
-				FIRE_MAGE_PROJECTILE_MESH->overlayColour = Colour(1.f, 0.1f, 0.1f, 1.f);
-				CATAPULT_PROJECTILE_MESH->overlayColour = Colour(0.f, 0.f, 0.f, 1.f);
+				//ARROW_PROJECTILE_MESH->overlayColour = Colour(0.8f, 0.3f, 0.1f, 1.f);
+				//FROST_MAGE_PROJECTILE_MESH->overlayColour = Colour(0.1f, 0.1f, 1.f, 1.f);
+				//FIRE_MAGE_PROJECTILE_MESH->overlayColour = Colour(1.f, 0.1f, 0.1f, 1.f);
+				//CATAPULT_PROJECTILE_MESH->overlayColour = Colour(0.f, 0.f, 0.f, 1.f);
 				first = false;
 			}
 
-			Projectile* pro = nullptr;
+			Projectile projectile;
 
 			switch (t)
 			{
 			case TowerType::Arrow:
-				pro = new Projectile(ARROW_PROJECTILE_MESH, source, tar, damage);
+				projectile = Projectile(ARROW_PROJECTILE_MESH, source, tar, damage);
+				projectile.overlayColour = Colour(0.8f, 0.3f, 0.1f, 1.f);
 				break;
 			case TowerType::Frost:
-				pro = new Projectile(FROST_MAGE_PROJECTILE_MESH, source, tar, damage);
+			{
+				projectile = Projectile(source, tar, damage);
+				projectile.slows = true;
+
+				std::shared_ptr<ParticleSystem> magicEffect = std::make_shared<ParticleSystem>(15, 50, "textures/Snowflake.png");
+				magicEffect->lerpAlpha = glm::vec2(1.f, 0.f);
+				magicEffect->lerpSize = glm::vec2(10.f, 2.5f);
+				magicEffect->rangeLifetime = glm::vec2(0.5f, 1.f);
+				magicEffect->rangeVelocity = glm::vec2(1.f, 2.f);
+				magicEffect->rangeX = glm::vec2(-10.f, 10.f);
+				magicEffect->rangeY = glm::vec2(-10.f, 10.f);
+				magicEffect->rangeZ = glm::vec2(-10.f, 10.f);
+
+				projectile.attach(magicEffect);
+			}
 				break;
 			case TowerType::Fire:
-				pro = new Projectile(FIRE_MAGE_PROJECTILE_MESH, source, tar, damage);
+			{
+				projectile = Projectile(source, tar, damage);
+				projectile.burns = true;
+
+				std::shared_ptr<ParticleSystem> magicEffect = std::make_shared<ParticleSystem>(15, 50, "textures/Flame.png");
+				magicEffect->lerpAlpha = glm::vec2(1.f, 0.f);
+				magicEffect->lerpSize = glm::vec2(10.f, 2.5f);
+				magicEffect->rangeLifetime = glm::vec2(0.5f, 1.f);
+				magicEffect->rangeVelocity = glm::vec2(1.f, 2.f);
+				magicEffect->rangeX = glm::vec2(-10.f, 10.f);
+				magicEffect->rangeY = glm::vec2(-10.f, 10.f);
+				magicEffect->rangeZ = glm::vec2(-10.f, 10.f);
+
+				projectile.attach(magicEffect);
+			}
 				break;
 			case TowerType::Catapult:
-				pro = new Projectile(CATAPULT_PROJECTILE_MESH, source, tar, damage);
+				projectile = Projectile(CATAPULT_PROJECTILE_MESH, source, tar, damage);
+				projectile.overlayColour = Colour(0.f, 0.f, 0.f, 1.f);
 				break;
 			default:
 				break;
 			}
-
-			Projectile projectile(*pro);
-			delete pro;
 
 			return projectile;
 		}

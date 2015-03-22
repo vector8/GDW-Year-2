@@ -4,6 +4,13 @@
 #include "Entity.h"
 #include "Path.h"
 #include "Animation.h"
+#include "ParticleSystem.h"
+
+#define SLOW_DURATION 3.f
+#define BURN_DURATION 3.f
+#define SLOW_FACTOR 0.5f
+#define BURN_DPS 10.f
+#define DAMAGE_INDICATOR_DURATION 0.25f
 
 namespace flopse
 {
@@ -29,9 +36,17 @@ namespace flopse
 		int damage = 0;
 		float speed = 0.f;
 
+		bool onFire = false;
+
+		std::shared_ptr<ParticleSystem> fireParticles;
+
 		sf::Time lifeTime;
 		sf::Time attackTimer;
 		sf::Time attackDelay;
+		sf::Time slowTimer;
+		sf::Time burnTimer;
+		sf::Time currentBurnTime;
+		sf::Time damageIndicatorTimer;
 		std::shared_ptr<Path> path;
 
 	public:
@@ -41,10 +56,6 @@ namespace flopse
 		int health = 0;
 		int maxHealth = 0;
 		int value = 0;
-
-		// Status Effects
-		bool slowed = false;
-		bool onFire = false;
 
 		std::shared_ptr<Animation> runAnimation = nullptr;
 		std::shared_ptr<Animation> attackAnimation = nullptr;
@@ -153,6 +164,12 @@ namespace flopse
 
 			return enemy;
 		}
+
+		// Status effects
+		void setSlow();
+		void setOnFire();
+
+		void takeDamage(int damage);
 		
 		virtual void updateLocalTransform(const sf::RenderWindow &window, const sf::Time &dt);
 	};

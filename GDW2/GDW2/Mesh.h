@@ -35,7 +35,6 @@ namespace flopse
 		std::shared_ptr<Shader> shader;
 		GLuint VAO;
 		GLuint VBO;
-		Colour overlayColour;
 		std::vector<GLfloat> objData;
 		bool acceptShadow = false;
 		bool useUVs;

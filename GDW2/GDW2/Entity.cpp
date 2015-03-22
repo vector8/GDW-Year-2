@@ -17,6 +17,11 @@ namespace flopse
 		localTransform.setPosition(pos);
 	}
 
+	Entity::Entity(const glm::vec3 &pos)
+	{
+		localTransform.setPosition(pos);
+	}
+
 	Entity::~Entity()
 	{
 

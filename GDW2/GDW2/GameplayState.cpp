@@ -126,33 +126,51 @@ namespace flopse
 	void GameplayState::applyBlur(FrameBuffer &inputBuffer, FrameBuffer &outputBuffer, int passes)
 	{
 		// Compute blur
-		glViewport(0, 0, window->getSize().x, window->getSize().y);
+		glViewport(0, 0, window->getSize().x * BLOOM_DOWNSCALE, window->getSize().y * BLOOM_DOWNSCALE);
+
+		Shader s("shaders/PosUVStraightPassThrough.vert", "shaders/DrawFullScreenQuad.frag");
+		s.bind();
+		glBindTexture(GL_TEXTURE_2D, inputBuffer.getColorHandle(0));
+		downscaleBuffer1.bind();
+		drawFullScreenQuad();
+		downscaleBuffer1.unbind();
+		glBindTexture(GL_TEXTURE_2D, GL_NONE);
+		s.unbind();
+
 		for (int i = 0; i < passes; i++)
 		{
 			// Horizontal
 			blurHorizontalShader->bind();
-			glUniform1f(blurHorizontalShader->pixelSizeLoc, 1.0f / window->getSize().x);
+			glUniform1f(blurHorizontalShader->pixelSizeLoc, 1.0f / (window->getSize().x / BLOOM_DOWNSCALE));
 
-			outputBuffer.bind();
-			glBindTexture(GL_TEXTURE_2D, inputBuffer.getColorHandle(0));
+			downscaleBuffer2.bind();
+			glBindTexture(GL_TEXTURE_2D, downscaleBuffer1.getColorHandle(0));
 			drawFullScreenQuad();
 			glBindTexture(GL_TEXTURE_2D, GL_NONE);
-			outputBuffer.unbind();
+			downscaleBuffer2.unbind();
 
 			blurHorizontalShader->unbind();
 
 			// Vertical
 			blurVerticalShader->bind();
-			glUniform1f(blurVerticalShader->pixelSizeLoc, 1.0f / window->getSize().y);
+			glUniform1f(blurVerticalShader->pixelSizeLoc, 1.0f / (window->getSize().y / BLOOM_DOWNSCALE));
 
-			outputBuffer.bind();
-			glBindTexture(GL_TEXTURE_2D, outputBuffer.getColorHandle(0));
+			downscaleBuffer1.bind();
+			glBindTexture(GL_TEXTURE_2D, downscaleBuffer2.getColorHandle(0));
 			drawFullScreenQuad();
 			glBindTexture(GL_TEXTURE_2D, GL_NONE);
-			outputBuffer.unbind();
+			downscaleBuffer1.unbind();
 
 			blurVerticalShader->unbind();
 		}
+
+		s.bind();
+		glBindTexture(GL_TEXTURE_2D, downscaleBuffer1.getColorHandle(0));
+		outputBuffer.bind();
+		drawFullScreenQuad();
+		outputBuffer.unbind();
+		glBindTexture(GL_TEXTURE_2D, GL_NONE);
+		s.unbind();
 	}
 
 	void GameplayState::applyGrayscaleEffect(const FrameBuffer &inputBuffer, FrameBuffer &outputBuffer)
@@ -294,11 +312,10 @@ namespace flopse
 		applyShadows(mainBuffer, fullscaleBuffer1, fullscaleBuffer2);
 
 		fullscaleBuffer1.clear();
-		fullscaleBuffer3.clear();
 
-		applyPixelationEffect(fullscaleBuffer2, fullscaleBuffer3);
+		//applyPixelationEffect(fullscaleBuffer2, fullscaleBuffer3);
 
-		applyBloomEffect(fullscaleBuffer3, fullscaleBuffer1);
+		applyBloomEffect(fullscaleBuffer2, fullscaleBuffer1);
 		//applyGrayscaleEffect(fullscaleBuffer1, fullscaleBuffer2);
 
 		/*glViewport(window->getSize().x / 2, window->getSize().y / 2, window->getSize().x, window->getSize().y);
@@ -324,6 +341,17 @@ namespace flopse
 		//fullscaleBuffer1.moveToBackBuffer(0, 0, window->getSize().x, window->getSize().y, window->getSize().x / 2, window->getSize().y / 2, window->getSize().x, window->getSize().y);
 		//shadowMapBuffer.moveToBackBuffer(0, 0, SHADOW_RESOLUTION, SHADOW_RESOLUTION, window->getSize().x / 2, window->getSize().y / 2, window->getSize().x, window->getSize().y);
 		//fullscaleBuffer1.moveToBackBuffer(window->getSize().x / 2, window->getSize().y / 2, window->getSize().x, window->getSize().y, window->getSize().x / 2, window->getSize().y / 2, window->getSize().x, window->getSize().y);
+
+		if (currentLevel->minimapCamera != nullptr)
+		{
+			// Render the scene from the minimap's point of view.
+			glViewport(0, 0, window->getSize().x, window->getSize().y);
+			fullscaleBuffer3.bind();
+			draw(root, currentLevel->minimapCamera, currentLevel);
+			fullscaleBuffer3.unbind();
+
+			fullscaleBuffer3.moveToBackBuffer(0, 0, window->getSize().x, window->getSize().y, 780, window->getSize().y - 220, 975, window->getSize().y - 25);
+		}
 
 		do
 		{
@@ -354,7 +382,7 @@ namespace flopse
 			glUniformMatrix4fv(shader->modelLoc, 1, GL_FALSE, glm::value_ptr(node->globalTransform));
 			glUniformMatrix4fv(shader->viewLoc, 1, GL_FALSE, glm::value_ptr(cam->view));
 			glUniformMatrix4fv(shader->projectionLoc, 1, GL_FALSE, glm::value_ptr(cam->projection));
-			glUniform3f(shader->objectColorLoc, node->mesh->overlayColour.getR(), node->mesh->overlayColour.getG(), node->mesh->overlayColour.getB());
+			glUniform3f(shader->objectColorLoc, node->overlayColour.getR(), node->overlayColour.getG(), node->overlayColour.getB());
 			glUniform1f(shader->blendLoc, node->mesh->animationBlend);
 
 			glm::vec3 camPos = cam->getGlobalPosition();
@@ -425,7 +453,7 @@ namespace flopse
 			shader->unbind();
 		}
 
-		Node<std::shared_ptr<SceneNode>>* current = node->children.head;
+		std::shared_ptr<Node<std::shared_ptr<SceneNode>>> current = node->children.head;
 
 		while (current)
 		{
@@ -465,7 +493,7 @@ namespace flopse
 			shader->unbind();
 		}
 
-		Node<std::shared_ptr<SceneNode>>* current = node->children.head;
+		std::shared_ptr<Node<std::shared_ptr<SceneNode>>> current = node->children.head;
 
 		while (current)
 		{
@@ -508,7 +536,7 @@ namespace flopse
 			shadowGenShader->unbind();
 		}
 
-		Node<std::shared_ptr<SceneNode>>* current = node->children.head;
+		std::shared_ptr<Node<std::shared_ptr<SceneNode>>> current = node->children.head;
 
 		while (current)
 		{
@@ -615,7 +643,6 @@ namespace flopse
 				{
 					player->gold -= 50;
 
-					//auto t = std::make_shared<Tower>(Tower::createTower(TowerType::Arrow, player->getGlobalPosition() + glm::vec3(front.x, 0.f, front.z)  * 30.f));
 					glm::vec3 pos = tempTower->getGlobalPosition();
 					player->detach(tempTower);
 
@@ -632,7 +659,7 @@ namespace flopse
 				}
 				else
 				{
-					// TODO play error sound
+					// TODO: play error sound
 				}
 			}
 			else

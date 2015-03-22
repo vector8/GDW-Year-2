@@ -6,7 +6,7 @@
 
 namespace flopse
 {
-	HUD::HUD(sf::RenderWindow* window) : window(window), crossHairVert(sf::Vector2f(4, 24)), crossHairHoriz(sf::Vector2f(25, 5)), enemyDot(3)
+	HUD::HUD(sf::RenderWindow* window) : window(window), crossHairVert(sf::Vector2f(4, 24)), crossHairHoriz(sf::Vector2f(25, 5)), enemyDot(3), playerDot(3)
 	{
 		crossHairVert.setPosition(sf::Vector2f(((float)(window->getSize().x) / 2.f) - 14.f, ((float)(window->getSize().y) / 2.f) - 12.f));
 		crossHairHoriz.setPosition(sf::Vector2f(((float)(window->getSize().x) / 2.f) - 24.f, ((float)(window->getSize().y) / 2.f) - 2.f));
@@ -22,6 +22,7 @@ namespace flopse
 		hudSprite->setScale(scale);
 
 		enemyDot.setFillColor(sf::Color::Red);
+		playerDot.setFillColor(sf::Color::Blue);
 
 		if (!arial.loadFromFile("fonts/arial.ttf"))
 		{
@@ -68,8 +69,8 @@ namespace flopse
 		structureBarBG.pos = sf::Vector2i(325, 528);
 		structureBarBG.rect = sf::IntRect(1481, 528, 880, 96);
 		staticElements.push_back(structureBarBG);
-		UIElement minimap(3208, 110, 801, 785);
-		staticElements.push_back(minimap);
+		/*UIElement minimap(3208, 110, 801, 785);
+		staticElements.push_back(minimap);*/
 		UIElement enemyCountBG(3446, 962, 358, 85);
 		staticElements.push_back(enemyCountBG);
 		UIElement goldBG(3455, 1072, 356, 67);
@@ -147,23 +148,29 @@ namespace flopse
 
 		// Enemies on minimap
 		std::vector<std::shared_ptr<Enemy>> enemies = game->getEnemies();
-		sf::IntRect minimap(3208 * scale.x, 110 * scale.y, 801 * scale.x, 785 * scale.y);
+		sf::IntRect minimap(780, 25, 195, 195);
 		float mapWidth = game->getCurrentLevel()->mesh->getWidth();
 		float mapDepth = game->getCurrentLevel()->mesh->getDepth();
-		int enemyCount = 0;
 		for (int i = 0; i < enemies.size(); i++)
 		{
 			if (!enemies[i]->toBeDeleted)
 			{
-				glm::vec3 pos(enemies[i]->localTransform.getPosition());
+				glm::vec3 pos(enemies[i]->getGlobalPosition());
 
 				pos.x += mapWidth / 2.f;
 				pos.z += mapDepth / 2.f;
 
-				enemyDot.setPosition(minimap.left + (pos.x / mapWidth) * minimap.width, minimap.top + (pos.z / mapDepth) * minimap.height);
+				enemyDot.setPosition(minimap.left + ((mapWidth - pos.x) / mapWidth) * minimap.width - enemyDot.getRadius(), minimap.top + ((mapDepth - pos.z) / mapDepth) * minimap.height - enemyDot.getRadius());
 				window->draw(enemyDot);
 			}
 		}
+
+		// Player on minimap
+		glm::vec3 ppos = game->getPlayer()->getGlobalPosition();
+		ppos.x += mapWidth / 2.f;
+		ppos.z += mapDepth / 2.f;
+		playerDot.setPosition(minimap.left + ((mapWidth - ppos.x) / mapWidth) * minimap.width - playerDot.getRadius(), minimap.top + ((mapDepth - ppos.z) / mapDepth) * minimap.height - playerDot.getRadius());
+		window->draw(playerDot);
 
 		// Health bar
 		hudSprite->setTextureRect(resourceBars[0].rect);
