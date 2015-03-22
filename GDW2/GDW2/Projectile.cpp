@@ -5,6 +5,10 @@
 
 namespace flopse
 {
+	Projectile::Projectile()
+	{
+
+	}
 
 	Projectile::Projectile(std::shared_ptr<Mesh> m, const glm::vec3 &source, std::shared_ptr<Enemy> tar, int damage) : Entity(source, m), sourcePos(source), target(tar), damage(damage)
 	{
@@ -14,6 +18,18 @@ namespace flopse
 	Projectile::Projectile(std::shared_ptr<Mesh> m, const glm::vec3 &source, glm::vec3 tar, int damage) : Entity(source, m), sourcePos(source), targetPos(tar), damage(damage)
 	{
 
+	}
+
+	Projectile::Projectile(const glm::vec3 &source, std::shared_ptr<Enemy> tar, int damage) : Entity(source), sourcePos(source), target(tar), damage(damage)
+	{
+
+	}
+
+	Projectile::Projectile(const glm::vec3 &source, glm::vec3 tar, int damage) : Entity(source), sourcePos(source), targetPos(tar), damage(damage)
+	{
+		boundingBox.width = 10;
+		boundingBox.height = 10;
+		boundingBox.depth = 10;
 	}
 
 	Projectile::~Projectile()
@@ -43,13 +59,16 @@ namespace flopse
 				{
 					if (this->boundingBox.hasCollided(enemies[i]->boundingBox))
 					{
-						enemies[i]->health -= damage;
+						enemies[i]->takeDamage(damage);
 
-						if (enemies[i]->health <= 0)
+						if (this->slows)
 						{
-							enemies[i]->toBeDeleted = true;
-							Game::getGame()->getPlayer()->gold += enemies[i]->value;
-							Game::getGame()->getCurrentLevel()->enemyCount--;
+							enemies[i]->setSlow();
+						}
+
+						if (this->burns)
+						{
+							enemies[i]->setOnFire();
 						}
 
 						this->toBeDeleted = true;
@@ -62,13 +81,16 @@ namespace flopse
 		{
 			if (interpParam >= 1.f)
 			{
-				target->health -= damage;
+				target->takeDamage(damage);
 
-				if (target->health <= 0)
+				if (this->slows)
 				{
-					target->toBeDeleted = true;
-					Game::getGame()->getPlayer()->gold += target->value;
-					Game::getGame()->getCurrentLevel()->enemyCount--;
+					target->setSlow();
+				}
+
+				if (this->burns)
+				{
+					target->setOnFire();
 				}
 
 				this->toBeDeleted = true;

@@ -12,6 +12,7 @@ namespace flopse
 		Entity();
 		Entity(std::shared_ptr<Mesh> m);
 		Entity(const glm::vec3 &pos, std::shared_ptr<Mesh> m);
+		Entity(const glm::vec3 &pos);
 		virtual ~Entity();
 
 		void setPosition(const glm::vec3 &pos);

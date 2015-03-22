@@ -53,4 +53,9 @@ namespace flopse
 
 		view = glm::lookAt(tpos3, tpos3 + tfront3, glm::vec3(0.f, 1.f, 0.f));
 	}
+
+	void Camera::updateLocalTransform(const sf::RenderWindow &window, const sf::Time &dt)
+	{
+		recalculateView();
+	}
 }

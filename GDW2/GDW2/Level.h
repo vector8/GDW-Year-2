@@ -87,7 +87,6 @@ namespace flopse
 				lvl->dirLight->diffuse = glm::vec3(0.6f, 0.6f, 0.6f);
 				lvl->dirLight->specular = glm::vec3(1.0f, 1.0f, 1.0f);
 
-
 				lvl->attach(lvl->pointLights[0]);
 				lvl->attach(lvl->dirLight);
 				lvl->attach(trees);
@@ -135,7 +134,14 @@ namespace flopse
 				lvl->shadowCamera->globalTransform = lvl->shadowCamera->localTransform.getTransformMatrix();
 				lvl->shadowCamera->recalculateView();
 
-				lvl->mesh->overlayColour = Colour(0.2f, 0.2f, 0.2f, 1.f);
+				lvl->minimapCamera = std::make_shared<Camera>();
+				lvl->minimapCamera->localTransform.rotate(90.f, glm::vec3(1.f, 0.f, 0.f));
+				lvl->minimapCamera->localTransform.rotate(180.f, glm::vec3(0.f, 1.f, 0.f));
+				float lvlWidth = lvl->mesh->getWidth() / 2.f, lvlDepth = lvl->mesh->getDepth() / 2.f;
+				lvl->minimapCamera->projection = glm::ortho(-lvlWidth, lvlWidth, -lvlDepth, lvlDepth, -castleMesh->getHeight(), castleMesh->getHeight());
+				lvl->attach(lvl->minimapCamera);
+
+				//lvl->mesh->overlayColour = Colour(0.2f, 0.2f, 0.2f, 1.f);
 			}
 				break;
 			case 2:
@@ -192,7 +198,7 @@ namespace flopse
 				lvl->shadowCamera->globalTransform = lvl->shadowCamera->localTransform.getTransformMatrix();
 				lvl->shadowCamera->recalculateView();
 
-				lvl->mesh->overlayColour = Colour(0.2f, 0.2f, 0.2f, 1.f);
+				//lvl->mesh->overlayColour = Colour(0.2f, 0.2f, 0.2f, 1.f);
 
 			}
 			break;
@@ -241,7 +247,7 @@ namespace flopse
 				lvl->shadowCamera->globalTransform = lvl->shadowCamera->localTransform.getTransformMatrix();
 				lvl->shadowCamera->recalculateView();
 
-				lvl->mesh->overlayColour = Colour(0.2f, 0.2f, 0.2f, 1.f);
+				//lvl->mesh->overlayColour = Colour(0.2f, 0.2f, 0.2f, 1.f);
 				lvl->startBackgroundMusic();
 
 				//lvl 3
@@ -292,7 +298,7 @@ namespace flopse
 				lvl->shadowCamera->globalTransform = lvl->shadowCamera->localTransform.getTransformMatrix();
 				lvl->shadowCamera->recalculateView();
 
-				lvl->mesh->overlayColour = Colour(0.2f, 0.2f, 0.2f, 1.f);
+				//lvl->mesh->overlayColour = Colour(0.2f, 0.2f, 0.2f, 1.f);
 			}
 				break;
 			case 5:
@@ -309,6 +315,7 @@ namespace flopse
 		std::shared_ptr<Light> pointLights[NUM_POINT_LIGHTS];
 		std::shared_ptr<Player> player = nullptr;
 		std::shared_ptr<Camera> shadowCamera = nullptr;
+		std::shared_ptr<Camera> minimapCamera = nullptr;
 		float fogFactor = 0.0f;
 
 		std::shared_ptr<Path> path = nullptr;

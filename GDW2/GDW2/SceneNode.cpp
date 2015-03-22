@@ -43,7 +43,7 @@ namespace flopse
 		// update global transform
 		globalTransform = parentTransform * localTransform.getTransformMatrix();
 		
-		Node<std::shared_ptr<SceneNode>>* current = children.head;
+		std::shared_ptr<Node<std::shared_ptr<SceneNode>>> current = children.head;
 
 		while (current)
 		{
@@ -54,7 +54,7 @@ namespace flopse
 
 			if (current->data->toBeDeleted)
 			{
-				Node<std::shared_ptr<SceneNode>>* nodeToDelete = current;
+				std::shared_ptr<Node<std::shared_ptr<SceneNode>>> nodeToDelete = current;
 				current = current->next;
 				this->detach(nodeToDelete->data); 
 			}

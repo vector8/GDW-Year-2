@@ -19,6 +19,7 @@ namespace flopse
 		LinkedList<std::shared_ptr<SceneNode>> children;
 		SceneNode* parent = nullptr;
 		std::shared_ptr<Mesh> mesh = nullptr;
+		Colour overlayColour;
 		bool usesCustomDraw = false;
 
 		bool toBeDeleted = false;

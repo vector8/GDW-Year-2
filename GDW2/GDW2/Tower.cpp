@@ -14,7 +14,7 @@ namespace flopse
 
 	Tower::Tower(const glm::vec3 &pos, std::shared_ptr<Mesh> m, float range, float delaySeconds, int damage) : Entity(pos, m), range(range), shotDelay(sf::seconds(delaySeconds)), damage(damage)
 	{
-		this->mesh->overlayColour = Colour(0.f, 0.f, 1.f, 1.f);
+		//this->mesh->overlayColour = Colour(0.f, 0.f, 1.f, 1.f);
 	}
 
 	Tower::~Tower()

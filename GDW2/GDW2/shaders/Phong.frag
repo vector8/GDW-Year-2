@@ -41,6 +41,8 @@ uniform Material material;
 uniform DirectionalLight dirLight;
 uniform PointLight pointLights[NUM_POINT_LIGHTS];
 
+uniform vec3 objectColor;
+
 uniform float fogFactor;
 
 uniform vec3 viewPos;
@@ -65,7 +67,7 @@ void main()
 	float blend = exp(-length(viewPos - Position) * fogFactor);
 	result = mix(vec3(0.5, 0.5, 0.5), result.rgb, blend);
 
-	color = vec4(result, 1.0f);
+	color = vec4(result * objectColor, 1.0f);
 }
 
 vec3 calculateDirectionalLight(DirectionalLight light, vec3 normal, vec3 viewDir)

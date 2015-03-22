@@ -22,5 +22,7 @@ namespace flopse
 		void lookAt(const glm::vec3 &target);
 
 		void recalculateView();
+
+		virtual void updateLocalTransform(const sf::RenderWindow &window, const sf::Time &dt);
 	};
 }
