@@ -62,6 +62,9 @@ namespace flopse
 		{
 			static std::vector<Keyframe> goblinRunFrames;
 			static std::vector<Keyframe> goblinAttackFrames;
+			static std::vector<Keyframe> elfRunFrames;
+			static std::vector<Keyframe> armorElfRunFrames;
+			static std::vector<Keyframe> orcRunFrames;
 			static std::vector<Keyframe> golemRunFrames;
 			static std::vector<Keyframe> golemAttackFrames;
 			
@@ -93,6 +96,48 @@ namespace flopse
 					goblinRunFrames.push_back(frame);
 				}
 
+				// Elf Walk Animation
+				for (int i = 1; i <= 6; i++)
+				{
+					std::string filename = "meshes/ElfArmorWalkFrame" + std::to_string(i) + ".bmf";
+					Keyframe frame;
+					frame.mesh = std::make_shared<Mesh>(filename, s);
+					frame.mesh->setDiffuseMap("textures/elfTexture.png");
+					frame.mesh->setSpecularMap("textures/BlankSpecular.png");
+
+					frame.duration = sf::seconds(0.1);
+
+					elfRunFrames.push_back(frame);
+				}
+
+				// Armor Elf Walk Animation
+				for (int i = 1; i <= 6; i++)
+				{
+					std::string filename = "meshes/ElfWalkFrame" + std::to_string(i) + ".bmf";
+					Keyframe frame;
+					frame.mesh = std::make_shared<Mesh>(filename, s);
+					frame.mesh->setDiffuseMap("textures/elfArmorTexture.png");
+					frame.mesh->setSpecularMap("textures/BlankSpecular.png");
+
+					frame.duration = sf::seconds(0.1);
+
+					armorElfRunFrames.push_back(frame);
+				}
+
+				// Orc Run Animation
+				for (int i = 1; i <= 5; i++)
+				{
+					std::string filename = "meshes/OrcRun" + std::to_string(i) + ".bmf";
+					Keyframe frame;
+					frame.mesh = std::make_shared<Mesh>(filename, s);
+					frame.mesh->setDiffuseMap("textures/orc.png");
+					frame.mesh->setSpecularMap("textures/BlankSpecular.png");
+
+					frame.duration = sf::seconds(0.1);
+
+					orcRunFrames.push_back(frame);
+				}
+
 				// Golem Run Animation
 				for (int i = 1; i <= 6; i++)
 				{
@@ -116,14 +161,16 @@ namespace flopse
 			switch (t)
 			{
 			case EnemyType::Orc:
-				e = new Enemy(pos, goblinRunFrames[0].mesh, 100, 5, 400.f, path);
+				e = new Enemy(pos, orcRunFrames[0].mesh, 100, 5, 400.f, path);
 				e->value = 10;
 				e->attackDelay = sf::seconds(1.f);
+				e->runAnimation = std::make_shared<Animation>(orcRunFrames);
 				break;
 			case EnemyType::Elf:
-				e = new Enemy(pos, goblinRunFrames[0].mesh, 80, 5, 600.f, path);
+				e = new Enemy(pos, elfRunFrames[0].mesh, 80, 5, 600.f, path);
 				e->value = 10;
 				e->attackDelay = sf::seconds(1.f);
+				e->runAnimation = std::make_shared<Animation>(elfRunFrames);
 				break;
 			case EnemyType::Goblin:
 				e = new Enemy(pos, goblinRunFrames[0].mesh, 40, 2.5f, 400.f, path);
@@ -137,9 +184,10 @@ namespace flopse
 				e->attackDelay = sf::seconds(1.f);
 				break;
 			case EnemyType::E_ELF:
-				e = new Enemy(pos, goblinRunFrames[0].mesh, 150, 7.5f, 720.f, path);
+				e = new Enemy(pos, armorElfRunFrames[0].mesh, 150, 7.5f, 720.f, path);
 				e->value = 10;
 				e->attackDelay = sf::seconds(1.f);
+				e->runAnimation = std::make_shared<Animation>(armorElfRunFrames);
 				break;
 			case EnemyType::Golem:
 				e = new Enemy(pos, golemRunFrames[0].mesh, 1800, 40, 320.f, path);
