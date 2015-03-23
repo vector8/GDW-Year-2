@@ -181,6 +181,7 @@
     <ClCompile Include="ParticleSystem.cpp" />
     <ClCompile Include="Path.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PointCollection.cpp" />
     <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="SceneNode.cpp" />
     <ClCompile Include="Shader.cpp" />
@@ -221,6 +222,7 @@
     <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="Path.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PointCollection.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="SceneNode.h" />
     <ClInclude Include="Shader.h" />

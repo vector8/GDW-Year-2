@@ -10,6 +10,7 @@
 #include "Light.h"
 #include "ThirdPersonCamera.h"
 #include "Sound.h"
+#include "PointCollection.h"
 
 namespace flopse
 {
@@ -39,7 +40,8 @@ namespace flopse
 		{
 			std::shared_ptr<Level> lvl = std::make_shared<Level>(p);
 
-			//levelNumber = 4;
+			//levelNumber = 3;
+			lvl->levelNumber = levelNumber;
 			switch (levelNumber)
 			{
 			case 1:
@@ -203,7 +205,7 @@ namespace flopse
 				lvl->attach(largeTrees);
 
 				lvl->createPath("levels/Level1Path.txt");
-				lvl->createColliders("levels/Level1Colliders.txt");
+				lvl->createColliders("levels/Level2Colliders.txt");
 				lvl->createTowerBlockers("levels/Level1Colliders.txt");
 				lvl->createEnemies("levels/Level2Enemies.txt");
 
@@ -226,12 +228,12 @@ namespace flopse
 			{
 				lvl->bgMusic = new Sound("sounds/Level Music/Music for Manatees.wav", true, false);
 
-				lvl->mesh = std::make_shared<Mesh>("meshes/level 4.bmf", Shader::getStandardShader(StandardShaders::Phong));
-				lvl->mesh->setDiffuseMap("textures/level4Texture.png");
+				lvl->mesh = std::make_shared<Mesh>("meshes/Level3.bmf", Shader::getStandardShader(StandardShaders::Phong));
+				lvl->mesh->setDiffuseMap("textures/level3Texture.png");
 				lvl->mesh->setSpecularMap("textures/BlankSpecular.png");
 				lvl->mesh->acceptShadow = true;
 
-				std::shared_ptr<Mesh> castleMesh = std::make_shared<Mesh>("meshes/level 4 castle.bmf", Shader::getStandardShader(StandardShaders::Phong));
+				std::shared_ptr<Mesh> castleMesh = std::make_shared<Mesh>("meshes/Level4castle.bmf", Shader::getStandardShader(StandardShaders::Phong));
 				std::shared_ptr<Entity> castle = std::make_shared<Entity>(castleMesh);
 				castle->mesh->setDiffuseMap("textures/castleTexture.png");
 				castle->mesh->setSpecularMap("textures/BlankSpecular.png");
@@ -259,12 +261,13 @@ namespace flopse
 				lvl->attach(lvl->dirLight);
 				lvl->attach(castle);
 
-				lvl->createPath("levels/Level1Path.txt");
-				lvl->createColliders("levels/Level1Colliders.txt");
-				lvl->createTowerBlockers("levels/Level1Colliders.txt");
-				lvl->createEnemies("levels/Level4Enemies.txt");
+				lvl->createPath("levels/Level3Path.txt");
+				lvl->createColliders("levels/Level3Colliders.txt");
+				lvl->createTowerBlockers("levels/Level3Colliders.txt");
+				lvl->createEnemies("levels/Level3Enemies.txt");
+				//lvl->pointGraph.createCollection("levels/Level3Points");
 
-				p->setPosition(glm::vec3(0.f, 145.f, 100.f));
+				p->setPosition(glm::vec3(0.f, 300.f, 100.f));
 				lvl->attach(p);
 
 				lvl->shadowCamera = std::make_shared<Camera>();
@@ -285,10 +288,16 @@ namespace flopse
 			{
 				lvl->bgMusic = new Sound("sounds/Level Music/Oppressive Gloom.wav", true, false);
 
-				lvl->mesh = std::make_shared<Mesh>("meshes/LEVEL5.bmf", Shader::getStandardShader(StandardShaders::Phong));
-				lvl->mesh->setDiffuseMap("textures/level5Texture.png");
+				lvl->mesh = std::make_shared<Mesh>("meshes/Level4.bmf", Shader::getStandardShader(StandardShaders::Phong));
+				lvl->mesh->setDiffuseMap("textures/Level4Texture.png");
 				lvl->mesh->setSpecularMap("textures/BlankSpecular.png");
 				lvl->mesh->acceptShadow = true;
+
+				std::shared_ptr<Mesh> castleMesh = std::make_shared<Mesh>("meshes/Castle.bmf", Shader::getStandardShader(StandardShaders::Phong));
+				std::shared_ptr<Entity> castle = std::make_shared<Entity>(castleMesh);
+				castle->mesh->setDiffuseMap("textures/castleTexture.png");
+				castle->mesh->setSpecularMap("textures/BlankSpecular.png");
+				castle->mesh->acceptShadow = true;
 
 				lvl->pointLights[0] = std::make_shared<Light>();
 				lvl->pointLights[0]->localTransform.translate(glm::vec3(0.f, 500.f, 0.f));
@@ -311,11 +320,11 @@ namespace flopse
 				lvl->attach(lvl->dirLight);
 
 				lvl->createPath("levels/Level1Path.txt");
-				lvl->createColliders("levels/Level1Colliders.txt");
-				lvl->createTowerBlockers("levels/Level1Colliders.txt");
+				lvl->createColliders("levels/Level3Colliders.txt");
+				lvl->createTowerBlockers("levels/Level3Colliders.txt");
 				lvl->createEnemies("levels/Level5Enemies.txt");
 
-				p->setPosition(glm::vec3(0.f, 145.f, 100.f));
+				p->setPosition(glm::vec3(0.f, 100.f, 0.f));
 				lvl->attach(p);
 
 				lvl->shadowCamera = std::make_shared<Camera>();
@@ -402,6 +411,10 @@ namespace flopse
 		int gateHealth = 200;
 		int maxGateHealth = 200;
 		int enemyCount = 0;
+		
+		int levelNumber = 0;
+
+		PointCollection pointGraph;
 
 		std::vector<BoundingBox> colliders;
 		std::vector<BoundingBox> towerBlockers;
