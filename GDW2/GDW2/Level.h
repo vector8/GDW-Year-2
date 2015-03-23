@@ -40,7 +40,7 @@ namespace flopse
 		{
 			std::shared_ptr<Level> lvl = std::make_shared<Level>(p);
 
-			//levelNumber = 3;
+			//levelNumber = 2;
 			lvl->levelNumber = levelNumber;
 			switch (levelNumber)
 			{
@@ -220,9 +220,9 @@ namespace flopse
 				lvl->attach(largeTrees);
 				lvl->attach(skybox);
 
-				lvl->createPath("levels/Level1Path.txt");
+				lvl->createPath("levels/Level2Path.txt");
 				lvl->createColliders("levels/Level2Colliders.txt");
-				lvl->createTowerBlockers("levels/Level1Colliders.txt");
+				lvl->createTowerBlockers("levels/Level2Colliders.txt");
 				lvl->createEnemies("levels/Level2Enemies.txt");
 
 				p->setPosition(glm::vec3(0.f, 145.f, 100.f));
