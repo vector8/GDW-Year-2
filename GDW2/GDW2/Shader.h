@@ -47,6 +47,7 @@ namespace flopse
 		PhongNoTexture,
 		Cel,
 		CelNoTexture,
+		AmbientTexture,
 		EdgeOutliner,
 		BloomHighPass,
 		BloomComposite,
@@ -93,6 +94,7 @@ namespace flopse
 		GLint lightPosLoc;
 		GLint blendLoc;
 		GLint validPlacementLoc;
+		GLint texLoc;
 
 		// Constructor reads and builds our shader
 		Shader(const GLchar* vertexSourcePath, const GLchar* fragmentSourcePath);
@@ -107,6 +109,7 @@ namespace flopse
 			static std::shared_ptr<Shader> PHONG_NO_TEXTURE = std::make_shared<Shader>("shaders/Animation.vert", "shaders/PhongNoTexture.frag");
 			static std::shared_ptr<Shader> CEL = std::make_shared<Shader>("shaders/Animation.vert", "shaders/CelShader.frag");
 			static std::shared_ptr<Shader> CEL_NO_TEXTURE = std::make_shared<Shader>("shaders/Animation.vert", "shaders/CelNoTexture.frag");
+			static std::shared_ptr<Shader> AMBIENT_TEXTURE = std::make_shared<Shader>("shaders/Animation.vert", "shaders/AmbientTexture.frag");
 			static std::shared_ptr<Shader> EDGE_OUTLINER = std::make_shared<Shader>("shaders/PosUVStraightPassThrough.vert", "shaders/EdgeOutliner.frag");
 			static std::shared_ptr<Shader> BLOOM_HIGH_PASS = std::make_shared<Shader>("shaders/PosUVStraightPassThrough.vert", "shaders/bloom/BloomHighPass.frag");
 			static std::shared_ptr<Shader> BLOOM_COMPOSITE = std::make_shared<Shader>("shaders/PosUVStraightPassThrough.vert", "shaders/bloom/BloomComposite.frag");
@@ -133,6 +136,9 @@ namespace flopse
 				break;
 			case flopse::StandardShaders::CelNoTexture:
 				return CEL_NO_TEXTURE;
+				break;
+			case flopse::StandardShaders::AmbientTexture:
+				return AMBIENT_TEXTURE;
 				break;
 			case flopse::StandardShaders::EdgeOutliner:
 				return EDGE_OUTLINER;

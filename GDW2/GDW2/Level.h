@@ -73,6 +73,13 @@ namespace flopse
 				castle->mesh->setSpecularMap("textures/BlankSpecular.png");
 				castle->mesh->acceptShadow = true;
 
+				std::shared_ptr<Mesh> skyboxMesh = std::make_shared<Mesh>("meshes/Skybox.bmf", Shader::getStandardShader(StandardShaders::AmbientTexture));
+				std::shared_ptr<Entity> skybox = std::make_shared<Entity>(skyboxMesh);
+				skybox->mesh->setDiffuseMap("textures/Skybox.png");
+				skybox->mesh->setSpecularMap("textures/BlankSpecular.png");
+				skybox->mesh->acceptShadow = false;
+				skybox->mesh->castShadow = false;
+
 				lvl->pointLights[0] = std::make_shared<Light>();
 				lvl->pointLights[0]->localTransform.translate(glm::vec3(0.f, 500.f, 0.f));
 				lvl->pointLights[0]->ambient = glm::vec3(0.1f, 0.1f, 0.1f);
@@ -94,6 +101,7 @@ namespace flopse
 				lvl->attach(trees);
 				lvl->attach(castle);
 				lvl->attach(fences);
+				lvl->attach(skybox);
 				//lvl->fogFactor = 0.001;
 
 				/*std::shared_ptr<ParticleSystem> fogEffect = std::make_shared<ParticleSystem>(10, 12000, "textures/Fog.png");
@@ -180,6 +188,13 @@ namespace flopse
 				largeTrees->mesh->setSpecularMap("textures/BlankSpecular.png");
 				largeTrees->mesh->acceptShadow = true;
 
+				std::shared_ptr<Mesh> skyboxMesh = std::make_shared<Mesh>("meshes/Skybox.bmf", Shader::getStandardShader(StandardShaders::AmbientTexture));
+				std::shared_ptr<Entity> skybox = std::make_shared<Entity>(skyboxMesh);
+				skybox->mesh->setDiffuseMap("textures/Skybox.png");
+				skybox->mesh->setSpecularMap("textures/BlankSpecular.png");
+				skybox->mesh->acceptShadow = false;
+				skybox->mesh->castShadow = false;
+
 				lvl->pointLights[0] = std::make_shared<Light>();
 				lvl->pointLights[0]->localTransform.translate(glm::vec3(0.f, 500.f, 0.f));
 				lvl->pointLights[0]->ambient = glm::vec3(0.1f, 0.1f, 0.1f);
@@ -203,6 +218,7 @@ namespace flopse
 				lvl->attach(fence);
 				lvl->attach(smallTrees);
 				lvl->attach(largeTrees);
+				lvl->attach(skybox);
 
 				lvl->createPath("levels/Level1Path.txt");
 				lvl->createColliders("levels/Level2Colliders.txt");
@@ -239,6 +255,12 @@ namespace flopse
 				castle->mesh->setSpecularMap("textures/BlankSpecular.png");
 				castle->mesh->acceptShadow = true;
 
+				std::shared_ptr<Mesh> skyboxMesh = std::make_shared<Mesh>("meshes/Skybox.bmf", Shader::getStandardShader(StandardShaders::AmbientTexture));
+				std::shared_ptr<Entity> skybox = std::make_shared<Entity>(skyboxMesh);
+				skybox->mesh->setDiffuseMap("textures/Skybox.png");
+				skybox->mesh->setSpecularMap("textures/BlankSpecular.png");
+				skybox->mesh->acceptShadow = false;
+				skybox->mesh->castShadow = false;
 
 				lvl->pointLights[0] = std::make_shared<Light>();
 				lvl->pointLights[0]->localTransform.translate(glm::vec3(0.f, 500.f, 0.f));
@@ -260,6 +282,7 @@ namespace flopse
 				lvl->attach(lvl->pointLights[0]);
 				lvl->attach(lvl->dirLight);
 				lvl->attach(castle);
+				lvl->attach(skybox);
 
 				lvl->createPath("levels/Level3Path.txt");
 				lvl->createColliders("levels/Level3Colliders.txt");
@@ -299,6 +322,13 @@ namespace flopse
 				castle->mesh->setSpecularMap("textures/BlankSpecular.png");
 				castle->mesh->acceptShadow = true;
 
+				std::shared_ptr<Mesh> skyboxMesh = std::make_shared<Mesh>("meshes/Skybox.bmf", Shader::getStandardShader(StandardShaders::AmbientTexture));
+				std::shared_ptr<Entity> skybox = std::make_shared<Entity>(skyboxMesh);
+				skybox->mesh->setDiffuseMap("textures/Skybox.png");
+				skybox->mesh->setSpecularMap("textures/BlankSpecular.png");
+				skybox->mesh->acceptShadow = false;
+				skybox->mesh->castShadow = false;
+
 				lvl->pointLights[0] = std::make_shared<Light>();
 				lvl->pointLights[0]->localTransform.translate(glm::vec3(0.f, 500.f, 0.f));
 				lvl->pointLights[0]->ambient = glm::vec3(0.1f, 0.1f, 0.1f);
@@ -315,9 +345,9 @@ namespace flopse
 				lvl->dirLight->diffuse = glm::vec3(0.3f, 0.3f, 0.3f);
 				lvl->dirLight->specular = glm::vec3(1.0f, 1.0f, 1.0f);
 
-
 				lvl->attach(lvl->pointLights[0]);
 				lvl->attach(lvl->dirLight);
+				lvl->attach(skybox);
 
 				lvl->createPath("levels/Level1Path.txt");
 				lvl->createColliders("levels/Level3Colliders.txt");
@@ -364,7 +394,6 @@ namespace flopse
 				lvl->dirLight->ambient = glm::vec3(0.2f, 0.2f, 0.2f);
 				lvl->dirLight->diffuse = glm::vec3(0.5f, 0.5f, 0.5f);
 				lvl->dirLight->specular = glm::vec3(1.0f, 1.0f, 1.0f);
-
 
 				lvl->attach(lvl->pointLights[0]);
 				lvl->attach(lvl->dirLight);

@@ -37,6 +37,7 @@ namespace flopse
 		GLuint VBO;
 		std::vector<GLfloat> objData;
 		bool acceptShadow = false;
+		bool castShadow = true;
 		bool useUVs;
 		bool useNormals;
 		bool useColour;
