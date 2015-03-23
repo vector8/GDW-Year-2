@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include "glm\glm.hpp"
+#include "PointCollection.h"
 
 namespace flopse
 {
@@ -27,6 +28,8 @@ namespace flopse
 		virtual ~Path();
 
 		glm::vec3 getPoint(float distance);
+
+		void createDikstrasPath(PointCollection collection, int start);
 
 		float getMaxDistance();
 	};

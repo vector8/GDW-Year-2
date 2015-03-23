@@ -2,6 +2,9 @@
 #include <glm\gtx\vector_angle.hpp>
 #include "Game.h"
 #include "SoundManager.h"
+#include "Level.h"
+#include "Path.h"
+#include "PointCollection.h"
 
 namespace flopse
 {
@@ -123,6 +126,16 @@ namespace flopse
 				}
 				else
 				{
+					if (Game::getGame()->getCurrentLevel()->levelNumber == 3)
+					{
+						for (int i = 0; i < Game::getGame()->getCurrentLevel()->pointGraph.collection.size(); i++)
+						{
+							if (this->localTransform.getPosition() == Game::getGame()->getCurrentLevel()->pointGraph.collection[i]->location)
+							{
+								this->path->createDikstrasPath(Game::getGame()->getCurrentLevel()->pointGraph, i);
+							}
+						}
+					}
 					this->localTransform.setPosition(path->getPoint(distance));
 					this->boundingBox.position = this->getGlobalPosition();
 

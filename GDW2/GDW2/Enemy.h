@@ -22,9 +22,6 @@ namespace flopse
 		E_ORC,
 		E_ELF,
 		Golem,
-		TreasureGoblin,
-		LichKing,
-		KnifeHands
 	};
 
 	class Enemy : public Entity
@@ -47,7 +44,6 @@ namespace flopse
 		sf::Time burnTimer;
 		sf::Time currentBurnTime;
 		sf::Time damageIndicatorTimer;
-		std::shared_ptr<Path> path;
 
 	public:
 		virtual ~Enemy();
@@ -56,6 +52,8 @@ namespace flopse
 		int health = 0;
 		int maxHealth = 0;
 		int value = 0;
+
+		std::shared_ptr<Path> path;
 
 		std::shared_ptr<Animation> runAnimation = nullptr;
 		std::shared_ptr<Animation> attackAnimation = nullptr;
@@ -114,6 +112,7 @@ namespace flopse
 
 			Enemy* e = nullptr;
 
+			//TODO: Update Enemy Meshes
 			switch (t)
 			{
 			case EnemyType::Orc:
@@ -147,12 +146,6 @@ namespace flopse
 				e->value = 10;
 				e->attackDelay = sf::seconds(1.f);
 				e->runAnimation = std::make_shared<Animation>(golemRunFrames);
-				break;
-			case EnemyType::TreasureGoblin:
-				break;
-			case EnemyType::LichKing:
-				break;
-			case EnemyType::KnifeHands:
 				break;
 			default:
 				break;
