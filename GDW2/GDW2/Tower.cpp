@@ -93,7 +93,21 @@ namespace flopse
 							shotTimer = sf::Time::Zero;
 							auto p = std::make_shared<Projectile>(Projectile::createProjectile(this->getGlobalPosition() + glm::vec3(0, this->mesh->getHeight(), 0) + this->getGlobalFront()*(this->mesh->getDepth() / 2), enemies[i], this->damage, this->type));
 							Game::getGame()->getCurrentLevel()->attach(p);
-							SoundManager::playSoundAt(DefaultSounds::Ping, this->getGlobalPosition(), false);
+							switch (this->type)
+							{
+							case TowerType::Fire:
+								SoundManager::playSoundAt(DefaultSounds::Ping, this->getGlobalPosition(), false);
+								break;
+							case TowerType::Frost:
+								SoundManager::playSoundAt(DefaultSounds::Frost, this->getGlobalPosition(), false);
+								break;
+							case TowerType::Arrow:
+								SoundManager::playSoundAt(DefaultSounds::Arrow, this->getGlobalPosition(), false);
+								break;
+							case TowerType::Catapult:
+								SoundManager::playSoundAt(DefaultSounds::Catapult, this->getGlobalPosition(), false);
+								break;
+							}
 						}
 						return;
 					}
