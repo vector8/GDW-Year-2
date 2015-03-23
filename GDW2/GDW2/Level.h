@@ -147,6 +147,83 @@ namespace flopse
 			case 2:
 			{
 				//lvl 2
+				lvl->bgMusic = new Sound("sounds/Level Music/Anguish.wav", true, false);
+
+				lvl->mesh = std::make_shared<Mesh>("meshes/Level 2/Ground.bmf", Shader::getStandardShader(StandardShaders::Phong));
+				lvl->mesh->setDiffuseMap("textures/level2Ground.png");
+				lvl->mesh->setSpecularMap("textures/BlankSpecular.png");
+				lvl->mesh->acceptShadow = true;
+
+				std::shared_ptr<Mesh> castleMesh = std::make_shared<Mesh>("meshes/Level 2/Castle.bmf", Shader::getStandardShader(StandardShaders::Phong));
+				std::shared_ptr<Entity> castle = std::make_shared<Entity>(castleMesh);
+				castle->mesh->setDiffuseMap("textures/castleTexture.png");
+				castle->mesh->setSpecularMap("textures/BlankSpecular.png");
+				castle->mesh->acceptShadow = true;
+
+				std::shared_ptr<Mesh> fenceMesh = std::make_shared<Mesh>("meshes/Level 2/fences.bmf", Shader::getStandardShader(StandardShaders::Phong));
+				std::shared_ptr<Entity> fence = std::make_shared<Entity>(fenceMesh);
+				fence->mesh->setDiffuseMap("textures/fenceTexture.png");
+				fence->mesh->setSpecularMap("textures/BlankSpecular.png");
+				fence->mesh->acceptShadow = true;
+
+				std::shared_ptr<Mesh> smallTreesMesh = std::make_shared<Mesh>("meshes/Level 2/smallTrees.bmf", Shader::getStandardShader(StandardShaders::Phong));
+				std::shared_ptr<Entity> smallTrees = std::make_shared<Entity>(smallTreesMesh);
+				smallTrees->mesh->setDiffuseMap("textures/treeTexture.png");
+				smallTrees->mesh->setSpecularMap("textures/BlankSpecular.png");
+				smallTrees->mesh->acceptShadow = true;
+
+				std::shared_ptr<Mesh> largeTreesMesh = std::make_shared<Mesh>("meshes/Level 2/largeTrees.bmf", Shader::getStandardShader(StandardShaders::Phong));
+				std::shared_ptr<Entity> largeTrees = std::make_shared<Entity>(largeTreesMesh);
+				largeTrees->mesh->setDiffuseMap("textures/largeTreeTexture.png");
+				largeTrees->mesh->setSpecularMap("textures/BlankSpecular.png");
+				largeTrees->mesh->acceptShadow = true;
+
+				lvl->pointLights[0] = std::make_shared<Light>();
+				lvl->pointLights[0]->localTransform.translate(glm::vec3(0.f, 500.f, 0.f));
+				lvl->pointLights[0]->ambient = glm::vec3(0.1f, 0.1f, 0.1f);
+				lvl->pointLights[0]->diffuse = glm::vec3(0.3f, 0.3f, 0.3f);
+				lvl->pointLights[0]->specular = glm::vec3(1.0f, 1.0f, 1.0f);
+				lvl->pointLights[0]->constantAttenuation = 1.f;
+				lvl->pointLights[0]->linearAttenuation = 0.0001f;
+				lvl->pointLights[0]->quadraticAttenuation = 0.000001f;
+
+				lvl->dirLight = std::make_shared<Light>();
+				lvl->dirLight->localTransform.rotate(45.f, glm::vec3(1.f, 0.f, 0.f));
+				lvl->dirLight->localTransform.rotate(225.f, glm::vec3(0.f, 1.f, 0.f));
+				lvl->dirLight->ambient = glm::vec3(0.1f, 0.1f, 0.1f);
+				lvl->dirLight->diffuse = glm::vec3(0.3f, 0.3f, 0.3f);
+				lvl->dirLight->specular = glm::vec3(1.0f, 1.0f, 1.0f);
+
+
+				lvl->attach(lvl->pointLights[0]);
+				lvl->attach(lvl->dirLight);
+				lvl->attach(castle);
+				lvl->attach(fence);
+				lvl->attach(smallTrees);
+				lvl->attach(largeTrees);
+
+				lvl->createPath("levels/Level1Path.txt");
+				lvl->createColliders("levels/Level1Colliders.txt");
+				lvl->createTowerBlockers("levels/Level1Colliders.txt");
+				lvl->createEnemies("levels/Level2Enemies.txt");
+
+				p->setPosition(glm::vec3(0.f, 145.f, 100.f));
+				lvl->attach(p);
+
+				lvl->shadowCamera = std::make_shared<Camera>();
+				lvl->shadowCamera->localTransform.rotate(45.f, glm::vec3(1.f, 0.f, 0.f));
+				lvl->shadowCamera->localTransform.rotate(225.f, glm::vec3(0.f, 1.f, 0.f));
+				//lvl->shadowCamera->localTransform.translate(glm::vec3(1000.f, 1000.f, 1000.f));
+				lvl->shadowCamera->projection = glm::ortho(-4500.f, 4500.f, -4500.f, 4500.f, -3300.0f, 4600.f);
+				lvl->shadowCamera->globalTransform = lvl->shadowCamera->localTransform.getTransformMatrix();
+				lvl->shadowCamera->recalculateView();
+
+				//lvl->mesh->overlayColour = Colour(0.2f, 0.2f, 0.2f, 1.f);
+
+			}
+			break;
+			case 3:
+			{
 				lvl->bgMusic = new Sound("sounds/Level Music/Music for Manatees.wav", true, false);
 
 				lvl->mesh = std::make_shared<Mesh>("meshes/level 4.bmf", Shader::getStandardShader(StandardShaders::Phong));
@@ -200,9 +277,11 @@ namespace flopse
 
 				//lvl->mesh->overlayColour = Colour(0.2f, 0.2f, 0.2f, 1.f);
 
+				//lvl 3
+
 			}
 			break;
-			case 3:
+			case 4:
 			{
 				lvl->bgMusic = new Sound("sounds/Level Music/Oppressive Gloom.wav", true, false);
 
@@ -249,14 +328,13 @@ namespace flopse
 
 				//lvl->mesh->overlayColour = Colour(0.2f, 0.2f, 0.2f, 1.f);
 				lvl->startBackgroundMusic();
-
-				//lvl 3
-
+				
 			}
-			break;
-			case 4:
-			{
-
+				break;
+			case 5:
+				//lvl 5
+				break;
+			case 6:
 				lvl->mesh = std::make_shared<Mesh>("meshes/level1.bmf", Shader::getStandardShader(StandardShaders::Phong));
 				lvl->mesh->setDiffuseMap("textures/Level1.png");
 				lvl->mesh->setSpecularMap("textures/BlankSpecular.png");
@@ -299,10 +377,6 @@ namespace flopse
 				lvl->shadowCamera->recalculateView();
 
 				//lvl->mesh->overlayColour = Colour(0.2f, 0.2f, 0.2f, 1.f);
-			}
-				break;
-			case 5:
-				//lvl 5
 				break;
 			default:
 				break;
