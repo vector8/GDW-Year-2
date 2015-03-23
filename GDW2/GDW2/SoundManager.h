@@ -8,6 +8,9 @@ namespace flopse
 	enum class DefaultSounds
 	{
 		Ping,
+		Arrow,
+		Frost,
+		Catapult,
 		Clank,
 		MetalSmack,
 		Footstep
@@ -48,7 +51,22 @@ namespace flopse
 			switch (sound)
 			{
 			case flopse::DefaultSounds::Ping:
-				s = new Sound("sounds/pew.wav", loop);
+				s = new Sound("sounds/fireball.wav", loop);
+				s->setPosition(position);
+				s->play();
+				break;
+			case flopse::DefaultSounds::Frost:
+				s = new Sound("sounds/frostball.wav", loop);
+				s->setPosition(position);
+				s->play();
+				break;
+			case flopse::DefaultSounds::Catapult:
+				s = new Sound("sounds/arrow.wav", loop);
+				s->setPosition(position);
+				s->play();
+				break;
+			case flopse::DefaultSounds::Arrow:
+				s = new Sound("sounds/arrow.wav", loop);
 				s->setPosition(position);
 				s->play();
 				break;
