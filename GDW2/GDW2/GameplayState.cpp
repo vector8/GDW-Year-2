@@ -395,7 +395,14 @@ namespace flopse
 			glUniform1f(shader->fogFactorLoc, lvl->fogFactor);
 
 			// Material
-			glUniform1i(shader->materialLocs.diffuse, 0);
+			if (shader->materialLocs.diffuse > -1)
+			{
+				glUniform1i(shader->materialLocs.diffuse, 0);
+			}
+			else
+			{
+				glUniform1i(shader->texLoc, 0);
+			}
 			glUniform1i(shader->materialLocs.specular, 1);
 			glUniform1f(shader->materialLocs.specularExponent, 32.f);
 

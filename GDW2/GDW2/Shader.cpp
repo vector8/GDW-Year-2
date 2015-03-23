@@ -205,6 +205,8 @@ namespace flopse
 		blendLoc = glGetUniformLocation(program, "blend");
 
 		validPlacementLoc = glGetUniformLocation(program, "validPlacement");
+
+		texLoc = glGetUniformLocation(program, "tex");
 	}
 
 	// Use our program
