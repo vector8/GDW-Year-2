@@ -6,20 +6,12 @@
 
 namespace flopse
 {
-	HUD::HUD(sf::RenderWindow* window) : window(window), crossHairVert(sf::Vector2f(4, 24)), crossHairHoriz(sf::Vector2f(25, 5)), enemyDot(3), playerDot(3)
+	HUD::HUD(sf::RenderWindow* window) : window(window), crossHairVert(sf::Vector2f(4, 24)), crossHairHoriz(sf::Vector2f(25, 5)), enemyDot(3), playerDot(3), hudSprite("HUDSpriteSheet")
 	{
 		crossHairVert.setPosition(sf::Vector2f(((float)(window->getSize().x) / 2.f) - 14.f, ((float)(window->getSize().y) / 2.f) - 12.f));
 		crossHairHoriz.setPosition(sf::Vector2f(((float)(window->getSize().x) / 2.f) - 24.f, ((float)(window->getSize().y) / 2.f) - 2.f));
 
-		if (!hudTexture.loadFromFile("textures/HUD.png"))
-		{
-			std::cout << "ERROR Loading textures/HUD.png" << std::endl;
-		}
-
-		hudSprite = new sf::Sprite(hudTexture);
-		scale.x = (float)(window->getSize().x) / (float)(hudTexture.getSize().x);
-		scale.y = (float)(window->getSize().y) / (float)(hudTexture.getSize().y);
-		hudSprite->setScale(scale);
+		scaleChanged();
 
 		enemyDot.setFillColor(sf::Color::Red);
 		playerDot.setFillColor(sf::Color::Blue);
@@ -29,7 +21,7 @@ namespace flopse
 			std::cout << "ERROR Loading fonts/arial.ttf" << std::endl;
 		}
 		text.setFont(arial);
-		text.setCharacterSize(14);
+		text.setCharacterSize(24);
 		text.setColor(sf::Color::Black);
 
 		createUIElements();
@@ -37,60 +29,74 @@ namespace flopse
 	
 	HUD::~HUD()
 	{
-		delete hudSprite;
 	}
 
 	void HUD::createUIElements()
 	{
-		// Resource bars
-		UIElement healthBar(325, 183, 880, 88);
-		resourceBars.push_back(healthBar);
-		UIElement manaBar(325, 282, 880, 88);
-		resourceBars.push_back(manaBar);
-		UIElement structureBar(325, 528, 880, 96);
-		resourceBars.push_back(structureBar);
+		SpriteFrame currentFrame;
+		UIElement currentElement;
+		int prevDimension = 0, prevDimension2 = 0;
 
-		// Static UI elements
-		UIElement healthIcon(192, 172, 79, 92);
-		staticElements.push_back(healthIcon);
-		UIElement healthBarBG;
-		healthBarBG.pos = sf::Vector2i(325, 183);
-		healthBarBG.rect = sf::IntRect(1481, 183, 883, 88);
-		staticElements.push_back(healthBarBG);
-		UIElement manaIcon(179, 269, 101, 119);
-		staticElements.push_back(manaIcon);
-		UIElement manaBarBG;
-		manaBarBG.pos = sf::Vector2i(325, 282);
-		manaBarBG.rect = sf::IntRect(1481, 183, 883, 88);
-		staticElements.push_back(manaBarBG);
-		UIElement structureIcon(124, 472, 157, 152);
-		staticElements.push_back(structureIcon);
-		UIElement structureBarBG;
-		structureBarBG.pos = sf::Vector2i(325, 528);
-		structureBarBG.rect = sf::IntRect(1481, 528, 880, 96);
-		staticElements.push_back(structureBarBG);
-		/*UIElement minimap(3208, 110, 801, 785);
-		staticElements.push_back(minimap);*/
-		UIElement enemyCountBG(3446, 962, 358, 85);
+		/// Static UI elements ///
+		// Enemy Count Icon
+		currentFrame = hudSprite.getFrame("EnemyCounter.png");
+		currentElement.rect = currentFrame.rect;
+		prevDimension = currentElement.rect.height * scale.x;
+		currentElement.name = currentFrame.name;
+		currentElement.pos = sf::Vector2i(window->getSize().x - 245, 270);
+		staticElements.push_back(currentElement);
+		// Gold Icon
+		currentFrame = hudSprite.getFrame("GoldCounter.png");
+		currentElement.rect = currentFrame.rect;
+		currentElement.name = currentFrame.name;
+		currentElement.pos = sf::Vector2i(window->getSize().x - 245, prevDimension + 280);
+		staticElements.push_back(currentElement);
+		/*UIElement enemyCountBG(3446, 962, 358, 85);
 		staticElements.push_back(enemyCountBG);
 		UIElement goldBG(3455, 1072, 356, 67);
-		staticElements.push_back(goldBG);
+		staticElements.push_back(goldBG);*/
+		// Castle Icon
+		currentFrame = hudSprite.getFrame("CastleHealthIcon.png");
+		currentElement.rect = currentFrame.rect;
+		prevDimension = currentElement.rect.width * scale.x;
+		prevDimension2 = currentElement.rect.height * scale.y;
+		currentElement.name = currentFrame.name;
+		currentElement.pos = sf::Vector2i(50, 50);
+		staticElements.push_back(currentElement);
+		// Castle Health BG
+		currentFrame = hudSprite.getFrame("CastleHealthEmpty.png");
+		currentElement.rect = currentFrame.rect;
+		currentElement.name = currentFrame.name;
+		currentElement.pos = sf::Vector2i(prevDimension + 70, 50 + (prevDimension2 / 2.f) - ((currentElement.rect.height * scale.y) / 2.f));
+		staticElements.push_back(currentElement);
 
-		// Tutorial Animations
-		UIElement pressEIcon(2500, 1424, 300, 282);
-		eButtonAnimation.push_back(pressEIcon);
-		UIElement pressEIconPressed;
-		pressEIconPressed.pos = sf::Vector2i(2500, 1424);
-		pressEIconPressed.rect = sf::IntRect(2800, 1424, 300, 282);
-		eButtonAnimation.push_back(pressEIconPressed);
+		/// Health bar ///
+		currentFrame = hudSprite.getFrame("CastleHealthFull.png");
+		castleHealthBar.rect = currentFrame.rect;
+		castleHealthBar.name = currentFrame.name;
+		castleHealthBar.pos = sf::Vector2i(prevDimension + 70, 50 + (prevDimension2 / 2.f) - ((castleHealthBar.rect.height * scale.y) / 2.f));
 
-		UIElement mouseIcon(2507, 1728, 330, 480);
-		mouseIcon.pos = sf::Vector2i(2500, 1424);
-		mouseButtonAnimation.push_back(mouseIcon);
-		UIElement mouseIconPressed;
-		mouseIconPressed.pos = sf::Vector2i(2500, 1424);
-		mouseIconPressed.rect = sf::IntRect(2837, 1728, 330, 480);
-		mouseButtonAnimation.push_back(mouseIconPressed);
+		/// Tutorial Animations///
+		sf::Time frameTime = sf::seconds(1.f);
+		// E
+		currentFrame = hudSprite.getFrame("EKey.png");
+		currentElement.rect = currentFrame.rect;
+		currentElement.name = currentFrame.name;
+		currentElement.pos = sf::Vector2i(window->getSize().x * 0.6f, window->getSize().y * 0.4f);
+		eKeyAnimation.frames.push_back(std::pair<UIElement, sf::Time>(currentElement, frameTime));
+		currentFrame = hudSprite.getFrame("EKeyHilighted.png");
+		currentElement.rect = currentFrame.rect;
+		currentElement.name = currentFrame.name;
+		eKeyAnimation.frames.push_back(std::pair<UIElement, sf::Time>(currentElement, frameTime));
+		// Left Mouse Button
+		currentFrame = hudSprite.getFrame("Mouse.png");
+		currentElement.rect = currentFrame.rect;
+		currentElement.name = currentFrame.name;
+		mouseButtonAnimation.frames.push_back(std::pair<UIElement, sf::Time>(currentElement, frameTime));
+		currentFrame = hudSprite.getFrame("MouseHilighted.png");
+		currentElement.rect = currentFrame.rect;
+		currentElement.name = currentFrame.name;
+		mouseButtonAnimation.frames.push_back(std::pair<UIElement, sf::Time>(currentElement, frameTime));
 	}
 
 	void HUD::update(const sf::Time &dt)
@@ -99,11 +105,11 @@ namespace flopse
 		{
 			if (tutorialTimer > eButtonDelay)
 			{
-				eButtonFlashTimer += dt;
-				if (eButtonFlashTimer >= flashDelay)
+				eKeyAnimation.animationTimer += dt;
+				if (eKeyAnimation.animationTimer >= eKeyAnimation.frames[eKeyAnimation.frameIndex].second)
 				{
-					eButtonAnimIndex = (eButtonAnimIndex + 1) % eButtonAnimation.size();
-					eButtonFlashTimer = sf::Time::Zero;
+					eKeyAnimation.frameIndex = (eKeyAnimation.frameIndex + 1) % eKeyAnimation.frames.size();
+					eKeyAnimation.animationTimer = sf::Time::Zero;
 				}
 			}
 			else
@@ -116,11 +122,11 @@ namespace flopse
 		{
 			if (tutorialTimer > mouseButtonDelay)
 			{
-				mouseButtonFlashTimer += dt;
-				if (mouseButtonFlashTimer >= flashDelay)
+				mouseButtonAnimation.animationTimer += dt;
+				if (mouseButtonAnimation.animationTimer >= mouseButtonAnimation.frames[mouseButtonAnimation.frameIndex].second)
 				{
-					mouseButtonAnimIndex = (mouseButtonAnimIndex + 1) % mouseButtonAnimation.size();
-					mouseButtonFlashTimer = sf::Time::Zero;
+					mouseButtonAnimation.frameIndex = (mouseButtonAnimation.frameIndex + 1) % mouseButtonAnimation.frames.size();
+					mouseButtonAnimation.animationTimer = sf::Time::Zero;
 				}
 			}
 			else
@@ -137,18 +143,19 @@ namespace flopse
 		window->pushGLStates();
 
 		// Static elements
+		sf::Sprite* s = hudSprite.getSprite();
 		for (int i = 0; i < staticElements.size(); i++)
 		{
-			hudSprite->setTextureRect(staticElements[i].rect);
-			hudSprite->setPosition(staticElements[i].pos.x * scale.x, staticElements[i].pos.y * scale.y);
-			window->draw(*hudSprite);
+			hudSprite.setToFrame(staticElements[i].name);
+			hudSprite.setPosition(staticElements[i].pos);
+			window->draw(*s);
 		}
 
 		Game* game = Game::getGame();
 
 		// Enemies on minimap
 		std::vector<std::shared_ptr<Enemy>> enemies = game->getEnemies();
-		sf::IntRect minimap(780, 25, 195, 195);
+		sf::IntRect minimap(window->getSize().x - 245, 50, 195, 195);
 		float mapWidth = game->getCurrentLevel()->mesh->getWidth();
 		float mapDepth = game->getCurrentLevel()->mesh->getDepth();
 		for (int i = 0; i < enemies.size(); i++)
@@ -172,66 +179,51 @@ namespace flopse
 		playerDot.setPosition(minimap.left + ((mapWidth - ppos.x) / mapWidth) * minimap.width - playerDot.getRadius(), minimap.top + ((mapDepth - ppos.z) / mapDepth) * minimap.height - playerDot.getRadius());
 		window->draw(playerDot);
 
-		// Health bar
-		hudSprite->setTextureRect(resourceBars[0].rect);
-		hudSprite->setPosition(resourceBars[0].pos.x * scale.x, resourceBars[0].pos.y * scale.y);
-		float xScale = (float)game->getPlayer()->health / (float)game->getPlayer()->maxHealth;
-		hudSprite->scale(sf::Vector2f(xScale, 1.f));
-		window->draw(*hudSprite);
-		hudSprite->setScale(scale);
-
-		// Mana bar
-		hudSprite->setTextureRect(resourceBars[1].rect);
-		hudSprite->setPosition(resourceBars[1].pos.x * scale.x, resourceBars[1].pos.y * scale.y);
-		window->draw(*hudSprite);
-
 		// Structure bar
-		hudSprite->setTextureRect(resourceBars[2].rect);
-		hudSprite->setPosition(resourceBars[2].pos.x * scale.x, resourceBars[2].pos.y * scale.y);
-		xScale = (float)game->getCurrentLevel()->gateHealth / (float)game->getCurrentLevel()->maxGateHealth;
-		hudSprite->scale(sf::Vector2f(xScale, 1.f));
-		window->draw(*hudSprite);
-		hudSprite->setScale(scale);
+		hudSprite.setToFrame(castleHealthBar.name);
+		hudSprite.setPosition(castleHealthBar.pos);
+		hudSprite.setScale(scale.x * (float)game->getCurrentLevel()->gateHealth / (float)game->getCurrentLevel()->maxGateHealth, scale.y);
+		window->draw(*s);
+		hudSprite.setScale(scale.x, scale.y);
 
 		// Enemy count
 		std::stringstream ss;
+		float x, y;
+		x = staticElements[0].pos.x + staticElements[0].rect.width * scale.x + 10.f;
+		y = staticElements[0].pos.y + staticElements[0].rect.height * scale.y * 0.25;
 		ss << game->getCurrentLevel()->enemyCount;
 		text.setString(ss.str());
-		text.setPosition(3532 * scale.x, 975 * scale.y);
+		text.setPosition(x, y);
 		window->draw(text);
 
 		// Gold count
+		x = staticElements[1].pos.x + staticElements[1].rect.width * scale.x + 10.f;
+		y = staticElements[1].pos.y + staticElements[1].rect.height * scale.y * 0.25;
 		ss.str("");
 		ss.clear();
 		ss << game->getPlayer()->gold;
 		text.setString(ss.str());
-		text.setPosition(3532 * scale.x, 1065 * scale.y);
+		text.setPosition(x, y);
 		window->draw(text);
 		
 		if (!eButtonPressed && tutorialTimer > eButtonDelay)
 		{
-			hudSprite->setTextureRect(eButtonAnimation[eButtonAnimIndex].rect);
-			hudSprite->setPosition(eButtonAnimation[eButtonAnimIndex].pos.x * scale.x, eButtonAnimation[eButtonAnimIndex].pos.y * scale.y);
-			window->draw(*hudSprite);
+			hudSprite.setToFrame(eKeyAnimation.frames[eKeyAnimation.frameIndex].first.name);
+			hudSprite.setPosition(eKeyAnimation.frames[eKeyAnimation.frameIndex].first.pos);
+			window->draw(*s);
 		}
 		else if (!lMouseButtonPressed && tutorialTimer > mouseButtonDelay)
 		{
 			// TODO have some elaborate code to detect if an enemy is nearby?
-			hudSprite->setTextureRect(mouseButtonAnimation[mouseButtonAnimIndex].rect);
-			hudSprite->setPosition(mouseButtonAnimation[mouseButtonAnimIndex].pos.x * scale.x, mouseButtonAnimation[mouseButtonAnimIndex].pos.y * scale.y);
-			window->draw(*hudSprite);
+			hudSprite.setToFrame(mouseButtonAnimation.frames[mouseButtonAnimation.frameIndex].first.name);
+			hudSprite.setPosition(mouseButtonAnimation.frames[mouseButtonAnimation.frameIndex].first.pos);
+			window->draw(*s);
 		}
 
 		window->draw(crossHairVert);
 		window->draw(crossHairHoriz);
 
 		window->popGLStates();
-	}
-
-	void HUD::scaleChanged()
-	{
-		scale.x = (float)(window->getSize().x) / (float)(hudTexture.getSize().x);
-		scale.y = (float)(window->getSize().y) / (float)(hudTexture.getSize().y);
 	}
 
 	void HUD::keyPressed(sf::Event::KeyEvent e)
@@ -278,5 +270,21 @@ namespace flopse
 		default:
 			break;
 		}
+	}
+
+	void HUD::scaleChanged()
+	{
+		if (window->getSize().x <= window->getSize().y)
+		{
+			scale.x = 0.5f * (float)(window->getSize().x) / (float)(hudSprite.getSprite()->getTexture()->getSize().x);
+			scale.y = scale.x;
+		}
+		else
+		{
+			scale.y = 0.5f * (float)(window->getSize().y) / (float)(hudSprite.getSprite()->getTexture()->getSize().y);
+			scale.x = scale.y;
+		}
+
+		hudSprite.setScale(scale.x, scale.y);
 	}
 }

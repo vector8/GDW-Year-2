@@ -2,7 +2,7 @@
 #include "State.h"
 #include <vector>
 #include <string>
-#include "Button.h"
+#include "UIElement.h"
 #include "SpriteWithAtlas.h"
 
 namespace flopse
@@ -22,6 +22,7 @@ namespace flopse
 		sf::Sprite* bgSprite;
 		SpriteWithAtlas buttonSprite;
 		std::vector<Button> buttons;
+		std::vector<UIElement> staticElements;
 
 		Slider volumeSlider;
 		Button volumeSliderTab;
@@ -43,5 +44,7 @@ namespace flopse
 		void mouseButtonPressed(sf::Event::MouseButtonEvent e);
 		void mouseButtonReleased(sf::Event::MouseButtonEvent e);
 		void mouseMoved(sf::Event::MouseMoveEvent e);
+
+		void scaleChanged();
 	};
 }

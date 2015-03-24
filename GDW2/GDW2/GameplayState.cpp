@@ -23,7 +23,7 @@ namespace flopse
 
 		cam = std::make_shared<ThirdPersonCamera>();
 		cam->localTransform.translate(glm::vec3(-80.f, (player->mesh->getHeight() / 2.f) + 30.f, -250.f));
-		cam->projection = glm::perspective(Game::getGame()->getFieldOfView(), 1024.0f / 768.0f, 0.1f, 100000.0f);
+		cam->projection = glm::perspective(Game::getGame()->getFieldOfView(), (float)window->getSize().x / (float)window->getSize().y, 0.1f, 100000.0f);
 		//cam->projection = glm::ortho(-512.0f, 512.0f, -384.0f, 384.0f, -1000.f, 1000.f);
 		//cam->projection = glm::ortho(-350.f, 350.f, -350.f, 350.f, -10.f, 10000.f);
 		player->attachCam(cam);
@@ -350,7 +350,7 @@ namespace flopse
 			draw(root, currentLevel->minimapCamera, currentLevel);
 			fullscaleBuffer3.unbind();
 
-			fullscaleBuffer3.moveToBackBuffer(0, 0, window->getSize().x, window->getSize().y, 780, window->getSize().y - 220, 975, window->getSize().y - 25);
+			fullscaleBuffer3.moveToBackBuffer(0, 0, window->getSize().x, window->getSize().y, window->getSize().x - 245, window->getSize().y - 245, window->getSize().x - 50, window->getSize().y - 50);
 		}
 
 		do
@@ -708,7 +708,7 @@ namespace flopse
 
 	void GameplayState::setFieldOfView(float degrees)
 	{
-		cam->projection = glm::perspective(degrees, 1024.f / 768.f, 0.1f, 100000.0f);
+		cam->projection = glm::perspective(degrees, (float)window->getSize().x / (float)window->getSize().y, 0.1f, 100000.0f);
 	}
 
 	void GameplayState::nextLevel()

@@ -9,7 +9,7 @@
 #include "HUD.h"
 #include "FrameBuffer.h"
 
-#define BLOOM_THRESHOLD		0.6f
+#define BLOOM_THRESHOLD		0.7f
 #define BLOOM_DOWNSCALE		2.0f
 #define BLOOM_BLUR_PASSES	10
 #define SHADOW_RESOLUTION	2048
