@@ -13,6 +13,7 @@
 #include "MainMenuState.h"
 #include "GameOverState.h"
 #include "OptionsMenuState.h"
+#include "LoadingState.h"
 
 namespace flopse
 {
@@ -24,11 +25,12 @@ namespace flopse
 		sf::Clock clock;
 		sf::Time elapsed, fpsTimer;
 
-		State* currentState;
-		GameplayState* gameplayState;
-		MainMenuState* mainMenuState;
-		OptionsMenuState* optionsMenuState;
-		GameOverState* gameOverState;
+		State* currentState = nullptr;
+		GameplayState* gameplayState = nullptr;
+		LoadingState* loadingState = nullptr;
+		MainMenuState* mainMenuState = nullptr;
+		OptionsMenuState* optionsMenuState = nullptr;
+		GameOverState* gameOverState = nullptr;
 
 		int frames;
 		bool running;
@@ -59,6 +61,7 @@ namespace flopse
 
 		void newGame();
 		void setGameplayState();
+		void setLoadingState();
 		void setMainMenuState();
 		void setOptionsMenuState();
 		void setGameOverState();

@@ -27,5 +27,7 @@ namespace flopse
 
 		void setScale(float x, float y);
 		void setPosition(float x, float y);
+		void setPosition(sf::Vector2i pos);
+		void setPosition(sf::Vector2f pos);
 	};
 }

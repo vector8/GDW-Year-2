@@ -12,13 +12,9 @@ namespace flopse
 			std::cout << "ERROR LOADING textures/MainMenuBackground.png" << std::endl;
 		}
 
-		float xScale = (float)(window->getSize().x) / (float)(bgTexture.getSize().x);
-		float yScale = (float)(window->getSize().y) / (float)(bgTexture.getSize().y);
-		
 		bgSprite = new sf::Sprite(bgTexture);
-		bgSprite->setScale(sf::Vector2f(xScale, yScale));
 
-		buttonSprite.setScale(xScale, yScale);
+		scaleChanged();
 
 		createButtons();
 	}
@@ -31,25 +27,25 @@ namespace flopse
 	void OptionsMenuState::createButtons()
 	{
 		int x = 256 * buttonSprite.getSprite()->getScale().x;
-		int y = 256 * buttonSprite.getSprite()->getScale().y;
-		int yOffset = 10 * buttonSprite.getSprite()->getScale().y;
+		int y = 300 * buttonSprite.getSprite()->getScale().y;
+		int yOffset = 10;
 		int xOffset = 50 * buttonSprite.getSprite()->getScale().x;
 		SpriteFrame currentFrame;
 
-		Button keyMapping;
+		UIElement keyMapping;
 		currentFrame = buttonSprite.getFrame("KeyMapping.png");
 		keyMapping.rect = currentFrame.rect;
 		keyMapping.name = currentFrame.name;
 		keyMapping.pos = sf::Vector2i(x, y);
-		buttons.push_back(keyMapping);
+		staticElements.push_back(keyMapping);
 		y += currentFrame.rect.height * buttonSprite.getSprite()->getScale().y + yOffset;
 
-		Button volume;
+		UIElement volume;
 		currentFrame = buttonSprite.getFrame("MasterVolume.png");
 		volume.rect = currentFrame.rect;
 		volume.name = currentFrame.name;
 		volume.pos = sf::Vector2i(x, y);
-		buttons.push_back(volume);
+		staticElements.push_back(volume);
 		int tempY = y;
 		int tempHeight = currentFrame.rect.height;
 		int x2 = x + currentFrame.rect.width * buttonSprite.getSprite()->getScale().x + xOffset;
@@ -68,7 +64,7 @@ namespace flopse
 		volumeSliderTab.pos = sf::Vector2i(x2 + ((volumeSlider.rect.width * SoundManager::getSoundManager()->getMasterVolume()) - (volumeSliderTab.rect.width / 2)) * buttonSprite.getSprite()->getScale().x, 
 			y2 + ((tempHeight / 2) - (currentFrame.rect.height / 2)) * buttonSprite.getSprite()->getScale().y);
 
-		Button fullscreen;
+		/*Button fullscreen;
 		currentFrame = buttonSprite.getFrame("FullScreen.png");
 		fullscreen.rect = currentFrame.rect;
 		fullscreen.name = currentFrame.name;
@@ -94,22 +90,22 @@ namespace flopse
 		fullscreenOff.name = currentFrame.name;
 		fullscreenOff.pos = sf::Vector2i(x2, y2);
 		fullscreenOff.visible = !Game::getGame()->isFullscreen();
-		buttons.push_back(fullscreenOff);
+		buttons.push_back(fullscreenOff);*/
 
-		Button mouseSensitivity;
+		UIElement mouseSensitivity;
 		currentFrame = buttonSprite.getFrame("MouseSensitivity.png");
 		mouseSensitivity.rect = currentFrame.rect;
 		mouseSensitivity.name = currentFrame.name;
 		mouseSensitivity.pos = sf::Vector2i(x, y);
-		buttons.push_back(mouseSensitivity);
+		staticElements.push_back(mouseSensitivity);
 		y += currentFrame.rect.height * buttonSprite.getSprite()->getScale().y + yOffset;
 
-		Button fov;
+		UIElement fov;
 		currentFrame = buttonSprite.getFrame("FOV.png");
 		fov.rect = currentFrame.rect;
 		fov.name = currentFrame.name;
 		fov.pos = sf::Vector2i(x, y);
-		buttons.push_back(fov);
+		staticElements.push_back(fov);
 		tempY = y;
 		tempHeight = currentFrame.rect.height;
 		x2 = x + currentFrame.rect.width * buttonSprite.getSprite()->getScale().x + xOffset;
@@ -132,6 +128,12 @@ namespace flopse
 		currentFrame = buttonSprite.getFrame("backbutton.png");
 		backBtn.rect = currentFrame.rect;
 		backBtn.name = currentFrame.name;
+		currentFrame = buttonSprite.getFrame("backbuttonselected.png");
+		backBtn.hoverRect = currentFrame.rect;
+		backBtn.hoverName = currentFrame.name;
+		currentFrame = buttonSprite.getFrame("backbuttonpressed.png");
+		backBtn.pressedRect = currentFrame.rect;
+		backBtn.pressedName = currentFrame.name;
 		backBtn.pos = sf::Vector2i(window->getSize().x - ((256 + backBtn.rect.width) * buttonSprite.getSprite()->getScale().x), window->getSize().y - ((256 + backBtn.rect.height) * buttonSprite.getSprite()->getScale().y));
 		buttons.push_back(backBtn);
 	}
@@ -141,19 +143,6 @@ namespace flopse
 		if (name == "KeyMapping.png")
 		{
 			// have a keymapping state later..
-		}
-		else if (name == "FullScreenOn.png")
-		{
-			buttons[3].visible = false;
-			buttons[4].visible = true;
-
-			Game::getGame()->toggleFullscreen();
-		}
-		else if (name == "FullScreenOff.png")
-		{
-			buttons[3].visible = true;
-			buttons[4].visible = false;
-			Game::getGame()->toggleFullscreen();
 		}
 		else if (name == "backbutton.png")
 		{
@@ -173,6 +162,7 @@ namespace flopse
 			this->buttonSprite.setScale(xScale, yScale);
 			this->bgSprite->setScale(sf::Vector2f(xScale, yScale));
 			this->buttons.clear();	// TODO maybe not clear?
+			this->staticElements.clear();
 			this->createButtons();
 		}
 	}
@@ -188,14 +178,33 @@ namespace flopse
 		window->draw(*bgSprite);
 
 		sf::Sprite* s = buttonSprite.getSprite();
-		for (int i = 0; i < buttons.size(); i++)
+		for (int i = 0; i < staticElements.size(); i++)
 		{
-			if (buttons[i].visible)
+			if (staticElements[i].visible)
 			{
-				buttonSprite.setToFrame(buttons[i].name);
-				buttonSprite.setPosition(buttons[i].pos.x, buttons[i].pos.y);
+				buttonSprite.setToFrame(staticElements[i].name);
+				buttonSprite.setPosition(staticElements[i].pos);
 				window->draw(*s);
 			}
+		}
+
+		for (int i = 0; i < buttons.size(); i++)
+		{
+			if (buttons[i].state == ButtonState::Normal)
+			{
+				buttonSprite.setToFrame(buttons[i].name);
+			}
+			else if (buttons[i].state == ButtonState::Hover)
+			{
+				buttonSprite.setToFrame(buttons[i].hoverName);
+			}
+			else if (buttons[i].state == ButtonState::Pressed)
+			{
+				buttonSprite.setToFrame(buttons[i].pressedName);
+			}
+
+			buttonSprite.setPosition(buttons[i].pos);
+			window->draw(*s);
 		}
 
 		buttonSprite.setToFrame(volumeSlider.name);
@@ -375,5 +384,24 @@ namespace flopse
 
 			fovSliderTab.pos.x = posx - sliderTabWidth / 2;
 		}
+	}
+
+	void OptionsMenuState::scaleChanged()
+	{
+		float xScale, yScale;
+
+		if (window->getSize().x <= window->getSize().y)
+		{
+			xScale = (float)(window->getSize().x) / (float)(bgTexture.getSize().x);
+			yScale = xScale;
+		}
+		else
+		{
+			yScale = (float)(window->getSize().y) / (float)(bgTexture.getSize().y);
+			xScale = yScale;
+		}
+
+		bgSprite->setScale(sf::Vector2f(xScale, yScale));
+		buttonSprite.setScale(xScale, yScale);
 	}
 }

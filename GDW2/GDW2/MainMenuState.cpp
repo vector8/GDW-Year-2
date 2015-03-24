@@ -8,7 +8,6 @@ namespace flopse
 {
 	MainMenuState::MainMenuState(sf::RenderWindow* window) : window(window), buttonSprite("MenuButtons")
 	{
-
 		bgMusic = new Sound("sounds/Level Music/Teller of the Tales.wav", true, false);
 
 		if (!bgTexture.loadFromFile("textures/MenuBackGround.png"))
@@ -16,13 +15,9 @@ namespace flopse
 			std::cout << "ERROR LOADING textures/MenuBackGround.png" << std::endl;
 		}
 
-		float xScale = (float)(window->getSize().x) / (float)(bgTexture.getSize().x);
-		float yScale = (float)(window->getSize().y) / (float)(bgTexture.getSize().y);
-
 		bgSprite = new sf::Sprite(bgTexture);
-		bgSprite->setScale(sf::Vector2f(xScale, yScale));
 
-		buttonSprite.setScale(SCALE_CONSTANT * xScale, SCALE_CONSTANT * yScale);
+		scaleChanged();
 
 		createButtons();
 	}
@@ -37,7 +32,7 @@ namespace flopse
 		int x = 3000 * bgSprite->getScale().x;
 		int exitX = 3310 * bgSprite->getScale().x;
 		int y = 300 * bgSprite->getScale().y;
-		const int Y_OFFSET = 620 * buttonSprite.getSprite()->getScale().y;
+		int yOffset = 10;
 		SpriteFrame currentFrame;
 
 		currentFrame = buttonSprite.getFrame("ContinueButton.png");
@@ -51,7 +46,7 @@ namespace flopse
 		contBtn.pressedName = currentFrame.name;
 		contBtn.pos = sf::Vector2i(x, y);
 		buttons.push_back(contBtn);
-		y += Y_OFFSET;
+		y += currentFrame.rect.height * buttonSprite.getSprite()->getScale().y + yOffset;
 
 		currentFrame = buttonSprite.getFrame("NewGameButton.png");
 		newBtn.rect = currentFrame.rect;
@@ -64,7 +59,7 @@ namespace flopse
 		newBtn.pressedName = currentFrame.name;
 		newBtn.pos = sf::Vector2i(x, y);
 		buttons.push_back(newBtn);
-		y += Y_OFFSET;
+		y += currentFrame.rect.height * buttonSprite.getSprite()->getScale().y + yOffset;
 
 		currentFrame = buttonSprite.getFrame("LoadGameButton.png");
 		loadBtn.rect = currentFrame.rect;
@@ -77,7 +72,7 @@ namespace flopse
 		loadBtn.pressedName = currentFrame.name;
 		loadBtn.pos = sf::Vector2i(x, y);
 		buttons.push_back(loadBtn);
-		y += Y_OFFSET;
+		y += currentFrame.rect.height * buttonSprite.getSprite()->getScale().y + yOffset;
 
 		currentFrame = buttonSprite.getFrame("OptionsButton.png");
 		optionsBtn.rect = currentFrame.rect;
@@ -90,12 +85,12 @@ namespace flopse
 		optionsBtn.pressedName = currentFrame.name;
 		optionsBtn.pos = sf::Vector2i(x, y);
 		buttons.push_back(optionsBtn);
-		y += Y_OFFSET;
+		y += currentFrame.rect.height * buttonSprite.getSprite()->getScale().y + yOffset;
 
-		currentFrame = buttonSprite.getFrame("CreditButton.png");
+		currentFrame = buttonSprite.getFrame("CreditsButton.png");
 		creditsBtn.rect = currentFrame.rect;
 		creditsBtn.name = currentFrame.name;
-		currentFrame = buttonSprite.getFrame("CreditSelected.png");
+		currentFrame = buttonSprite.getFrame("CreditsSelected.png");
 		creditsBtn.hoverRect = currentFrame.rect;
 		creditsBtn.hoverName = currentFrame.name;
 		currentFrame = buttonSprite.getFrame("CreditsPressed.png");
@@ -103,7 +98,7 @@ namespace flopse
 		creditsBtn.pressedName = currentFrame.name;
 		creditsBtn.pos = sf::Vector2i(x, y);
 		buttons.push_back(creditsBtn);
-		y += Y_OFFSET;
+		y += currentFrame.rect.height * buttonSprite.getSprite()->getScale().y + yOffset;
 
 		currentFrame = buttonSprite.getFrame("ExitButton.png");
 		exitBtn.rect = currentFrame.rect;
@@ -122,7 +117,7 @@ namespace flopse
 	{
 		if (name == contBtn.name)
 		{
-			Game::getGame()->setGameplayState();
+			Game::getGame()->setLoadingState();
 		}
 		else if (name == newBtn.name)
 		{
@@ -181,7 +176,7 @@ namespace flopse
 				buttonSprite.setToFrame(buttons[i].pressedName);
 			}
 
-			buttonSprite.setPosition(buttons[i].pos.x, buttons[i].pos.y);
+			buttonSprite.setPosition(buttons[i].pos);
 			window->draw(*s); 
 		}
 
@@ -272,5 +267,24 @@ namespace flopse
 		{
 			bgMusic->setPaused(true);
 		}
+	}
+
+	void MainMenuState::scaleChanged()
+	{
+		float xScale, yScale;
+		
+		if (window->getSize().x <= window->getSize().y)
+		{
+			xScale = (float)(window->getSize().x) / (float)(bgTexture.getSize().x);
+			yScale = xScale;
+		}
+		else
+		{
+			yScale = (float)(window->getSize().y) / (float)(bgTexture.getSize().y);
+			xScale = yScale;
+		}
+
+		bgSprite->setScale(sf::Vector2f(xScale, yScale));
+		buttonSprite.setScale(SCALE_CONSTANT * xScale, SCALE_CONSTANT * yScale);
 	}
 }

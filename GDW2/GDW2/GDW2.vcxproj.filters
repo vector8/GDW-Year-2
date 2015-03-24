@@ -138,6 +138,9 @@
     <ClCompile Include="PointCollection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="LoadingState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -171,9 +174,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Animation.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Button.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Colour.h">
@@ -255,6 +255,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PointCollection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UIElement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadingState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

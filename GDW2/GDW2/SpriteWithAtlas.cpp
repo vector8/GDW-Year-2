@@ -105,4 +105,14 @@ namespace flopse
 	{
 		sprite->setPosition(x, y);
 	}
+
+	void SpriteWithAtlas::setPosition(sf::Vector2i pos)
+	{
+		sprite->setPosition(pos.x, pos.y);
+	}
+
+	void SpriteWithAtlas::setPosition(sf::Vector2f pos)
+	{
+		sprite->setPosition(pos.x, pos.y);
+	}
 }

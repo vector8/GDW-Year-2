@@ -11,7 +11,7 @@
 
 namespace flopse
 {
-	Game::Game() : window(new sf::RenderWindow(sf::VideoMode(1024, 768), "Garrison", sf::Style::Close)), running(true), frames(0), fullscreen(false)
+	Game::Game() : window(new sf::RenderWindow(sf::VideoMode::getDesktopMode(), "Garrison", sf::Style::Fullscreen)), running(true), frames(0), fullscreen(false)
 	{
 		//window->setVerticalSyncEnabled(true);		// These seem to reduce framerate dramatically after several minutes, even though nothing actually changes in the scene.
 		//window->setFramerateLimit(60);			// Not really sure why...
@@ -20,10 +20,6 @@ namespace flopse
 		glewInit();
 		glViewport(0, 0, window->getSize().x, window->getSize().y);
 		glEnable(GL_DEPTH_TEST);
-
-		gameplayState = nullptr;
-		optionsMenuState = nullptr;
-		gameOverState = nullptr;
 
 		setMainMenuState();
 		
@@ -34,6 +30,7 @@ namespace flopse
 	Game::~Game()
 	{
 		delete gameplayState;
+		delete loadingState;
 		delete mainMenuState;
 		delete optionsMenuState;
 		delete gameOverState;
@@ -94,7 +91,7 @@ namespace flopse
 					case sf::Keyboard::Return:
 						if (event.key.alt)
 						{
-							if (fullscreen)
+							/*if (fullscreen)
 							{
 								window->create(sf::VideoMode(1024, 768), "Garrison");
 								fullscreen = false;
@@ -103,7 +100,7 @@ namespace flopse
 							{
 								window->create(sf::VideoMode::getDesktopMode(), "Garrison", sf::Style::Fullscreen);
 								fullscreen = true;
-							}
+							}*/
 						}
 						break;
 					default:
@@ -184,18 +181,14 @@ namespace flopse
 	void Game::newGame()
 	{
 		shouldDeleteGameplayState = true;
-		setGameplayState();
+		setLoadingState();
 	}
 
 	void Game::setGameplayState()
 	{
-		if (this->currentState != nullptr)
+		if (this->currentState != nullptr && (this->currentState == this->loadingState || this->currentState == this->mainMenuState))
 		{
-			if (this->currentState == this->mainMenuState)
-			{
-
-				this->mainMenuState->stopBackgroundMusic();
-			}
+			this->mainMenuState->stopBackgroundMusic();
 		}
 
 		if (shouldDeleteGameplayState)
@@ -218,15 +211,21 @@ namespace flopse
 		clock.restart();
 	}
 
+	void Game::setLoadingState()
+	{
+		if (this->loadingState == nullptr)
+		{
+			this->loadingState = new LoadingState(window);
+		}
+
+		this->currentState = this->loadingState;
+	}
+
 	void Game::setMainMenuState()
 	{
-		if (this->currentState != nullptr)
+		if (this->currentState != nullptr && this->currentState == this->gameplayState)
 		{
-			if (this->currentState == this->gameplayState)
-			{
-
-				this->gameplayState->currentLevel->stopBackgroundMusic();
-			}
+			this->gameplayState->currentLevel->stopBackgroundMusic();
 		}
 
 		if (this->mainMenuState == nullptr)
@@ -250,13 +249,10 @@ namespace flopse
 
 	void Game::setGameOverState()
 	{
-		if (this->currentState != nullptr)
+		if (this->currentState != nullptr && this->currentState == this->gameplayState)
 		{
-			if (this->currentState == this->gameplayState)
-			{
 
-				this->gameplayState->currentLevel->stopBackgroundMusic();
-			}
+			this->gameplayState->currentLevel->stopBackgroundMusic();
 		}
 
 		if (this->gameOverState == nullptr)
@@ -292,11 +288,9 @@ namespace flopse
 
 	void Game::toggleFullscreen()
 	{
-		if (fullscreen)
+		/*if (fullscreen)
 		{
 			window->create(sf::VideoMode(1024, 768), "Garrison");
-			window->setVerticalSyncEnabled(true);
-			window->setFramerateLimit(60);
 
 			glewExperimental = GL_TRUE;
 			glewInit();
@@ -307,15 +301,13 @@ namespace flopse
 		else
 		{
 			window->create(sf::VideoMode::getDesktopMode(), "Garrison", sf::Style::Fullscreen);
-			window->setVerticalSyncEnabled(true);
-			window->setFramerateLimit(60);
 
 			glewExperimental = GL_TRUE;
 			glewInit();
 			glViewport(0, 0, window->getSize().x, window->getSize().y);
 			glEnable(GL_DEPTH_TEST);
 			fullscreen = true;
-		}
+		}*/
 	}
 
 	bool Game::isFullscreen()

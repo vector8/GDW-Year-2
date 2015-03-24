@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:973260ff52f797fa066547d5f724a29e:6597774236510a219a05af1ab63ae721:8cacd1a76f3d7aa0c1fcfa26806f5a09$ -->
+<!-- $TexturePacker:SmartUpdate:73563db465839ed27d01eb47e321f31a:13d0a8583e04287d72718183da8fa217:8cacd1a76f3d7aa0c1fcfa26806f5a09$ -->
 <!--Format:
 n  => name of the sprite
 x  => sprite x pos in texture
@@ -15,19 +15,40 @@ oW => sprite's original width (only available if trimmed)
 oH => sprite's original height (only available if trimmed)
 r => 'y' only set if sprite is rotated
 -->
-<TextureAtlas imagePath="HUDSpriteSheet.png" width="2048" height="4096">
-    <sprite n="Bow.png" x="2" y="2" w="304" h="321" pX="0.5" pY="0.5"/>
-    <sprite n="BowSelected.png" x="308" y="2" w="304" h="321" pX="0.5" pY="0.5"/>
-    <sprite n="CastleHealthEmpty.png" x="614" y="2" w="1368" h="325" pX="0.5" pY="0.5"/>
-    <sprite n="CastleHealthFull.png" x="2" y="329" w="1368" h="325" pX="0.5" pY="0.5"/>
-    <sprite n="Fireball.png" x="1372" y="329" w="304" h="321" pX="0.5" pY="0.5"/>
-    <sprite n="FireballSelected.png" x="1678" y="329" w="304" h="321" pX="0.5" pY="0.5"/>
-    <sprite n="LifeBarEmpty.png" x="2" y="656" w="1293" h="219" pX="0.5" pY="0.5"/>
-    <sprite n="LifeBarFull.png" x="2" y="877" w="1293" h="219" pX="0.5" pY="0.5"/>
-    <sprite n="ManaBarEmpty.png" x="2" y="1098" w="1293" h="219" pX="0.5" pY="0.5"/>
-    <sprite n="ManaBarFull.png" x="2" y="1319" w="1293" h="219" pX="0.5" pY="0.5"/>
-    <sprite n="MiniMap.png" x="2" y="1540" w="1473" h="1454" pX="0.5" pY="0.5"/>
-    <sprite n="MiniMapHud.png" x="2" y="2996" w="708" h="715" pX="0.5" pY="0.5"/>
-    <sprite n="Sword.png" x="712" y="2996" w="304" h="321" pX="0.5" pY="0.5"/>
-    <sprite n="SwordSelected.png" x="1018" y="2996" w="304" h="321" pX="0.5" pY="0.5"/>
+<TextureAtlas imagePath="HUDSpriteSheet.png" width="4096" height="2048">
+    <sprite n="1stTower.png" x="2" y="2" w="301" h="282" pX="0.5" pY="0.5"/>
+    <sprite n="1stTowerHilighted.png" x="305" y="2" w="300" h="282" pX="0.5" pY="0.5"/>
+    <sprite n="2ndTower.png" x="607" y="2" w="301" h="282" pX="0.5" pY="0.5"/>
+    <sprite n="2ndTowerHilighted.png" x="910" y="2" w="300" h="282" pX="0.5" pY="0.5"/>
+    <sprite n="3rdTower.png" x="1212" y="2" w="301" h="282" pX="0.5" pY="0.5"/>
+    <sprite n="3rdTowerHilighted.png" x="1515" y="2" w="300" h="282" pX="0.5" pY="0.5"/>
+    <sprite n="4thTower.png" x="1817" y="2" w="301" h="282" pX="0.5" pY="0.5"/>
+    <sprite n="4thTowerHilighted.png" x="2120" y="2" w="300" h="282" pX="0.5" pY="0.5"/>
+    <sprite n="Ballista.PNG" x="2422" y="2" w="304" h="321" pX="0.5" pY="0.5"/>
+    <sprite n="BallistaSelected.png" x="2728" y="2" w="304" h="321" pX="0.5" pY="0.5"/>
+    <sprite n="CastleHealthEmpty.png" x="2" y="325" w="1827" h="200" pX="0.5" pY="0.5"/>
+    <sprite n="CastleHealthFull.png" x="1831" y="325" w="1827" h="200" pX="0.5" pY="0.5"/>
+    <sprite n="CastleHealthIcon.png" x="3660" y="325" w="400" h="456" pX="0.5" pY="0.5"/>
+    <sprite n="Catapult.PNG" x="2" y="783" w="304" h="321" pX="0.5" pY="0.5"/>
+    <sprite n="CatapultSelected.png" x="308" y="783" w="304" h="321" pX="0.5" pY="0.5"/>
+    <sprite n="EKey.png" x="614" y="783" w="301" h="282" pX="0.5" pY="0.5"/>
+    <sprite n="EKeyHilighted.png" x="917" y="783" w="300" h="282" pX="0.5" pY="0.5"/>
+    <sprite n="EnemyCounter.png" x="1219" y="783" w="196" h="232" pX="0.5" pY="0.5"/>
+    <sprite n="FireTower.PNG" x="1417" y="783" w="304" h="321" pX="0.5" pY="0.5"/>
+    <sprite n="FireTowerSelected.png" x="1723" y="783" w="304" h="321" pX="0.5" pY="0.5"/>
+    <sprite n="FrostTower.PNG" x="2029" y="783" w="304" h="321" pX="0.5" pY="0.5"/>
+    <sprite n="FrostTowerSelected.png" x="2335" y="783" w="304" h="321" pX="0.5" pY="0.5"/>
+    <sprite n="GoldCounter.png" x="2641" y="783" w="190" h="189" pX="0.5" pY="0.5"/>
+    <sprite n="Mouse.png" x="2833" y="783" w="330" h="480" pX="0.5" pY="0.5"/>
+    <sprite n="MouseHilighted.png" x="3165" y="783" w="330" h="480" pX="0.5" pY="0.5"/>
+    <sprite n="Number0.png" x="3497" y="783" w="57" h="57" pX="0.5" pY="0.5"/>
+    <sprite n="Number1.png" x="3556" y="783" w="57" h="57" pX="0.5" pY="0.5"/>
+    <sprite n="Number2.png" x="3615" y="783" w="57" h="57" pX="0.5" pY="0.5"/>
+    <sprite n="Number3.png" x="3674" y="783" w="57" h="57" pX="0.5" pY="0.5"/>
+    <sprite n="Number4.png" x="3733" y="783" w="57" h="57" pX="0.5" pY="0.5"/>
+    <sprite n="Number5.png" x="3792" y="783" w="57" h="57" pX="0.5" pY="0.5"/>
+    <sprite n="Number6.png" x="3851" y="783" w="57" h="57" pX="0.5" pY="0.5"/>
+    <sprite n="Number7.png" x="3910" y="783" w="57" h="57" pX="0.5" pY="0.5"/>
+    <sprite n="Number8.png" x="3969" y="783" w="57" h="57" pX="0.5" pY="0.5"/>
+    <sprite n="Number9.png" x="4028" y="783" w="57" h="57" pX="0.5" pY="0.5"/>
 </TextureAtlas>

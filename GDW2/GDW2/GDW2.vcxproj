@@ -187,6 +187,7 @@
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="SoundManager.cpp" />
+    <ClCompile Include="LoadingState.cpp" />
     <ClCompile Include="SpriteWithAtlas.cpp" />
     <ClCompile Include="State.cpp" />
     <ClCompile Include="ThirdPersonCamera.cpp" />
@@ -197,7 +198,8 @@
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="BoundingBox.h" />
-    <ClInclude Include="Button.h" />
+    <ClInclude Include="LoadingState.h" />
+    <ClInclude Include="UIElement.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Colour.h" />
     <ClInclude Include="Constants.h" />
