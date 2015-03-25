@@ -212,7 +212,7 @@ namespace flopse
 	{
 		if (!jumping)
 		{
-			dy = 600.f;
+			dy = 375.f;
 			jumping = true;
 		}
 	}

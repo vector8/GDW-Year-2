@@ -40,8 +40,8 @@ namespace flopse
 		{
 			std::shared_ptr<Level> lvl = std::make_shared<Level>(p);
 
-			//levelNumber = 2;
-			lvl->levelNumber = levelNumber;
+			levelNumber = 2;
+			//lvl->levelNumber = levelNumber;
 			switch (levelNumber)
 			{
 			case 1:
@@ -131,6 +131,7 @@ namespace flopse
 				lvl->createEnemies("levels/Level1Enemies.txt");
 
 				p->setPosition(glm::vec3(0.f, 145.f, 100.f));
+				p->gold = 50;
 				lvl->attach(p);
 
 				//ParticleSystem* s = particleManager->createParticleSystem(ParticleSystemBehaviour::Emit, 4, 1000, glm::vec3(0.f, player->mesh->getHeight(), 0.f));
@@ -226,6 +227,7 @@ namespace flopse
 				lvl->createEnemies("levels/Level2Enemies.txt");
 
 				p->setPosition(glm::vec3(0.f, 145.f, 100.f));
+				p->gold = 200;
 				lvl->attach(p);
 
 				lvl->shadowCamera = std::make_shared<Camera>();
@@ -242,7 +244,7 @@ namespace flopse
 			break;
 			case 3:
 			{
-				lvl->bgMusic = new Sound("sounds/Level Music/Music for Manatees.wav", true, false);
+				lvl->bgMusic = new Sound("sounds/Level Music/Stoneworld Battle.wav", true, false);
 
 				lvl->mesh = std::make_shared<Mesh>("meshes/Level3.bmf", Shader::getStandardShader(StandardShaders::Phong));
 				lvl->mesh->setDiffuseMap("textures/level3Texture.png");
@@ -291,6 +293,7 @@ namespace flopse
 				//lvl->pointGraph.createCollection("levels/Level3Points");
 
 				p->setPosition(glm::vec3(0.f, 300.f, 100.f));
+				p->gold = 300;
 				lvl->attach(p);
 
 				lvl->shadowCamera = std::make_shared<Camera>();
@@ -309,10 +312,10 @@ namespace flopse
 			break;
 			case 4:
 			{
-				lvl->bgMusic = new Sound("sounds/Level Music/Oppressive Gloom.wav", true, false);
+				lvl->bgMusic = new Sound("sounds/Level Music/Music for Manatees.wav", true, false);
 
 				lvl->mesh = std::make_shared<Mesh>("meshes/Level4.bmf", Shader::getStandardShader(StandardShaders::Phong));
-				lvl->mesh->setDiffuseMap("textures/Level4Texture.png");
+				lvl->mesh->setDiffuseMap("textures/level4Texture.png");
 				lvl->mesh->setSpecularMap("textures/BlankSpecular.png");
 				lvl->mesh->acceptShadow = true;
 
@@ -352,9 +355,10 @@ namespace flopse
 				lvl->createPath("levels/Level1Path.txt");
 				lvl->createColliders("levels/Level3Colliders.txt");
 				lvl->createTowerBlockers("levels/Level3Colliders.txt");
-				lvl->createEnemies("levels/Level5Enemies.txt");
+				lvl->createEnemies("levels/Level4Enemies.txt");
 
 				p->setPosition(glm::vec3(0.f, 100.f, 0.f));
+				p->gold = 400;
 				lvl->attach(p);
 
 				lvl->shadowCamera = std::make_shared<Camera>();
@@ -371,18 +375,26 @@ namespace flopse
 			}
 				break;
 			case 5:
+			{
 				//lvl 5
-				break;
-			case 6:
-				lvl->mesh = std::make_shared<Mesh>("meshes/level1.bmf", Shader::getStandardShader(StandardShaders::Phong));
-				lvl->mesh->setDiffuseMap("textures/Level1.png");
+				lvl->bgMusic = new Sound("sounds/Level Music/Oppressive Gloom.wav", true, false);
+
+				lvl->mesh = std::make_shared<Mesh>("meshes/LEVEL5.bmf", Shader::getStandardShader(StandardShaders::Phong));
+				lvl->mesh->setDiffuseMap("textures/level5Texture.png");
 				lvl->mesh->setSpecularMap("textures/BlankSpecular.png");
 				lvl->mesh->acceptShadow = true;
+
+				std::shared_ptr<Mesh> skyboxMesh = std::make_shared<Mesh>("meshes/Skybox.bmf", Shader::getStandardShader(StandardShaders::AmbientTexture));
+				std::shared_ptr<Entity> skybox = std::make_shared<Entity>(skyboxMesh);
+				skybox->mesh->setDiffuseMap("textures/Skybox.png");
+				skybox->mesh->setSpecularMap("textures/BlankSpecular.png");
+				skybox->mesh->acceptShadow = false;
+				skybox->mesh->castShadow = false;
 
 				lvl->pointLights[0] = std::make_shared<Light>();
 				lvl->pointLights[0]->localTransform.translate(glm::vec3(0.f, 500.f, 0.f));
 				lvl->pointLights[0]->ambient = glm::vec3(0.1f, 0.1f, 0.1f);
-				lvl->pointLights[0]->diffuse = glm::vec3(0.9f, 0.9f, 0.9f);
+				lvl->pointLights[0]->diffuse = glm::vec3(0.3f, 0.3f, 0.3f);
 				lvl->pointLights[0]->specular = glm::vec3(1.0f, 1.0f, 1.0f);
 				lvl->pointLights[0]->constantAttenuation = 1.f;
 				lvl->pointLights[0]->linearAttenuation = 0.0001f;
@@ -391,19 +403,21 @@ namespace flopse
 				lvl->dirLight = std::make_shared<Light>();
 				lvl->dirLight->localTransform.rotate(45.f, glm::vec3(1.f, 0.f, 0.f));
 				lvl->dirLight->localTransform.rotate(225.f, glm::vec3(0.f, 1.f, 0.f));
-				lvl->dirLight->ambient = glm::vec3(0.2f, 0.2f, 0.2f);
-				lvl->dirLight->diffuse = glm::vec3(0.5f, 0.5f, 0.5f);
+				lvl->dirLight->ambient = glm::vec3(0.1f, 0.1f, 0.1f);
+				lvl->dirLight->diffuse = glm::vec3(0.3f, 0.3f, 0.3f);
 				lvl->dirLight->specular = glm::vec3(1.0f, 1.0f, 1.0f);
 
 				lvl->attach(lvl->pointLights[0]);
 				lvl->attach(lvl->dirLight);
+				lvl->attach(skybox);
 
-				lvl->createPath("levels/Level1PathOld.txt");
-				lvl->createColliders("levels/Level1CollidersOld.txt");
-				lvl->createTowerBlockers("levels/Level1CollidersOld.txt");
-				lvl->createEnemies("levels/Level1Enemies.txt");
+				lvl->createPath("levels/Level1Path.txt");
+				lvl->createColliders("levels/Level3Colliders.txt");
+				lvl->createTowerBlockers("levels/Level3Colliders.txt");
+				lvl->createEnemies("levels/Level5Enemies.txt");
 
-				p->setPosition(glm::vec3(0.f, 148.f, 100.f));
+				p->setPosition(glm::vec3(0.f, 100.f, 0.f));
+				p->gold = 500;
 				lvl->attach(p);
 
 				lvl->shadowCamera = std::make_shared<Camera>();
@@ -415,7 +429,10 @@ namespace flopse
 				lvl->shadowCamera->recalculateView();
 
 				//lvl->mesh->overlayColour = Colour(0.2f, 0.2f, 0.2f, 1.f);
+				lvl->startBackgroundMusic();
+
 				break;
+			}
 			default:
 				break;
 			}
