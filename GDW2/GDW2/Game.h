@@ -37,6 +37,7 @@ namespace flopse
 		bool fullscreen;
 		bool shouldDeleteGameplayState = false;
 		float fov = 45.f;
+		bool nextLevel = false;
 
 	public:
 		virtual ~Game();

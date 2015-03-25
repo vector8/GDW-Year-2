@@ -203,6 +203,13 @@ namespace flopse
 			this->gameplayState = new GameplayState(window);
 		}
 
+		if (nextLevel)
+		{
+			this->gameplayState->currentLevel = Level::createLevel(this->gameplayState->levelNumber, this->gameplayState->player);
+			this->gameplayState->root = this->gameplayState->currentLevel;
+			nextLevel = false;
+		}
+
 		this->currentState = this->gameplayState;
 		window->setMouseCursorVisible(false);
 		// Reset mouse to middle of screen
@@ -280,7 +287,17 @@ namespace flopse
 			}
 			else if (gameplayState->currentLevel->enemyCount < 1)
 			{
-				this->gameplayState->nextLevel();
+				this->gameplayState->levelNumber++;
+				if (this->gameplayState->levelNumber > 5)
+				{
+					shouldDeleteGameplayState = true;
+					setMainMenuState();
+				}
+				else
+				{
+					nextLevel = true;
+					setLoadingState();
+				}
 				clock.restart();
 			}
 		}
