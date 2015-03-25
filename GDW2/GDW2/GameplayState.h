@@ -23,7 +23,6 @@ namespace flopse
 		bool wireframe = false;
 		bool placingTower = false;
 		std::shared_ptr<Tower> tempTower = nullptr;
-		int levelNumber = 1;
 
 		TowerType currentTower = TowerType::Arrow;
 
@@ -57,6 +56,7 @@ namespace flopse
 		std::shared_ptr<Shader> blurHorizontalShader = nullptr;
 		std::shared_ptr<Shader> blurVerticalShader = nullptr;
 		std::shared_ptr<Shader> bloomCompositeShader = nullptr;
+		int levelNumber = 1;
 
 		GameplayState(sf::RenderWindow* window);
 		virtual ~GameplayState();
@@ -70,7 +70,5 @@ namespace flopse
 		void mouseMoved(sf::Event::MouseMoveEvent e);
 
 		void setFieldOfView(float degrees);
-
-		void nextLevel();
 	};
 }

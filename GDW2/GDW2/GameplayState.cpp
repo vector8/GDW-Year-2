@@ -710,19 +710,4 @@ namespace flopse
 	{
 		cam->projection = glm::perspective(degrees, (float)window->getSize().x / (float)window->getSize().y, 0.1f, 100000.0f);
 	}
-
-	void GameplayState::nextLevel()
-	{
-		levelNumber++;
-		if (levelNumber > 5)
-		{
-			Game::getGame()->newGame();
-			Game::getGame()->setMainMenuState();
-		}
-		else
-		{
-			currentLevel = Level::createLevel(levelNumber, player);
-			root = currentLevel;
-		}
-	}
 }
