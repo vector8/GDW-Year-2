@@ -40,8 +40,8 @@ namespace flopse
 		{
 			std::shared_ptr<Level> lvl = std::make_shared<Level>(p);
 
-			levelNumber = 2;
-			//lvl->levelNumber = levelNumber;
+			//levelNumber = 2;
+			lvl->levelNumber = levelNumber;
 			switch (levelNumber)
 			{
 			case 1:
