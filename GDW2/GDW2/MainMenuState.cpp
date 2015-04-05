@@ -165,7 +165,6 @@ namespace flopse
 			if (buttons[i].state == ButtonState::Normal)
 			{
 				buttonSprite.setToFrame(buttons[i].name);
-				
 			}
 			else if (buttons[i].state == ButtonState::Hover)
 			{

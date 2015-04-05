@@ -13,8 +13,15 @@ namespace flopse
 		sf::RenderWindow* window;
 		SpriteWithAtlas hudSprite;
 		sf::Vector2f scale;
+
 		std::vector<UIElement> staticElements;
 		UIElement castleHealthBar;
+
+		// Tower selectors
+		std::vector<Button> buttons;
+		sf::Vector2f selectorScale;
+
+		// Tutorial animations
 		AnimatedUIElement eKeyAnimation;
 		AnimatedUIElement mouseButtonAnimation;
 

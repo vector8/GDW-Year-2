@@ -105,8 +105,10 @@ namespace flopse
 
 		static std::shared_ptr<Shader> getStandardShader(StandardShaders type)
 		{
-			static std::shared_ptr<Shader> PHONG = std::make_shared<Shader>("shaders/Animation.vert", "shaders/Phong.frag");
-			static std::shared_ptr<Shader> PHONG_NO_TEXTURE = std::make_shared<Shader>("shaders/Animation.vert", "shaders/PhongNoTexture.frag");
+			/*static std::shared_ptr<Shader> PHONG = std::make_shared<Shader>("shaders/Animation.vert", "shaders/Phong.frag");
+			static std::shared_ptr<Shader> PHONG_NO_TEXTURE = std::make_shared<Shader>("shaders/Animation.vert", "shaders/PhongNoTexture.frag");*/
+			static std::shared_ptr<Shader> PHONG = std::make_shared<Shader>("shaders/Animation.vert", "shaders/CelShader.frag");
+			static std::shared_ptr<Shader> PHONG_NO_TEXTURE = std::make_shared<Shader>("shaders/Animation.vert", "shaders/CelNoTexture.frag");
 			static std::shared_ptr<Shader> CEL = std::make_shared<Shader>("shaders/Animation.vert", "shaders/CelShader.frag");
 			static std::shared_ptr<Shader> CEL_NO_TEXTURE = std::make_shared<Shader>("shaders/Animation.vert", "shaders/CelNoTexture.frag");
 			static std::shared_ptr<Shader> AMBIENT_TEXTURE = std::make_shared<Shader>("shaders/Animation.vert", "shaders/AmbientTexture.frag");

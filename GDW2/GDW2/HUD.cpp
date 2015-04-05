@@ -22,7 +22,7 @@ namespace flopse
 		}
 		text.setFont(arial);
 		text.setCharacterSize(24);
-		text.setColor(sf::Color::Black);
+		text.setColor(sf::Color::White);
 
 		createUIElements();
 	}
@@ -97,6 +97,52 @@ namespace flopse
 		currentElement.rect = currentFrame.rect;
 		currentElement.name = currentFrame.name;
 		mouseButtonAnimation.frames.push_back(std::pair<UIElement, sf::Time>(currentElement, frameTime));
+
+		/// Tower Selectors ///
+		selectorScale = 1.5f * scale;
+		Button tower1Btn, tower2Btn, tower3Btn, tower4Btn;
+		// Ballista
+		currentFrame = hudSprite.getFrame("Ballista.png");
+		tower1Btn.rect = currentFrame.rect;
+		tower1Btn.name = currentFrame.name;
+		currentFrame = hudSprite.getFrame("BallistaSelected.png");
+		tower1Btn.pressedRect = currentFrame.rect;
+		tower1Btn.pressedName = currentFrame.name;
+		float width = tower1Btn.rect.width * selectorScale.x + 25.f;
+		float height = tower1Btn.rect.height * selectorScale.y;
+		tower1Btn.pos = sf::Vector2i(50.f, window->getSize().y - 50.f - height);
+		tower1Btn.state = ButtonState::Pressed;
+		buttons.push_back(tower1Btn);
+
+		// Frost Tower
+		currentFrame = hudSprite.getFrame("FrostTower.png");
+		tower2Btn.rect = currentFrame.rect;
+		tower2Btn.name = currentFrame.name;
+		currentFrame = hudSprite.getFrame("FrostTowerSelected.png");
+		tower2Btn.pressedRect = currentFrame.rect;
+		tower2Btn.pressedName = currentFrame.name;
+		tower2Btn.pos = sf::Vector2i(50.f + width, window->getSize().y - 50.f - height);
+		buttons.push_back(tower2Btn);
+
+		// Fire Tower
+		currentFrame = hudSprite.getFrame("FireTower.png");
+		tower3Btn.rect = currentFrame.rect;
+		tower3Btn.name = currentFrame.name;
+		currentFrame = hudSprite.getFrame("FireTowerSelected.png");
+		tower3Btn.pressedRect = currentFrame.rect;
+		tower3Btn.pressedName = currentFrame.name;
+		tower3Btn.pos = sf::Vector2i(50.f + 2.f * width, window->getSize().y - 50.f - height);
+		buttons.push_back(tower3Btn);
+
+		// Catapult
+		currentFrame = hudSprite.getFrame("Catapult.png");
+		tower4Btn.rect = currentFrame.rect;
+		tower4Btn.name = currentFrame.name;
+		currentFrame = hudSprite.getFrame("CatapultSelected.png");
+		tower4Btn.pressedRect = currentFrame.rect;
+		tower4Btn.pressedName = currentFrame.name;
+		tower4Btn.pos = sf::Vector2i(50.f + 3.f * width, window->getSize().y - 50.f - height);
+		buttons.push_back(tower4Btn);
 	}
 
 	void HUD::update(const sf::Time &dt)
@@ -189,7 +235,7 @@ namespace flopse
 		// Enemy count
 		std::stringstream ss;
 		float x, y;
-		x = staticElements[0].pos.x + staticElements[0].rect.width * scale.x + 10.f;
+		x = staticElements[0].pos.x + staticElements[0].rect.width * scale.x * 0.3f + 10.f;
 		y = staticElements[0].pos.y + staticElements[0].rect.height * scale.y * 0.25;
 		ss << game->getCurrentLevel()->enemyCount;
 		text.setString(ss.str());
@@ -197,15 +243,34 @@ namespace flopse
 		window->draw(text);
 
 		// Gold count
-		x = staticElements[1].pos.x + staticElements[1].rect.width * scale.x + 10.f;
-		y = staticElements[1].pos.y + staticElements[1].rect.height * scale.y * 0.25;
+		x = staticElements[1].pos.x + staticElements[1].rect.width * scale.x * 0.3f + 10.f;
+		y = staticElements[1].pos.y + staticElements[1].rect.height * scale.y * 0.25 - 3.f;
 		ss.str("");
 		ss.clear();
 		ss << game->getPlayer()->gold;
 		text.setString(ss.str());
 		text.setPosition(x, y);
 		window->draw(text);
-		
+
+		// Tower selectors
+		hudSprite.setScale(selectorScale.x, selectorScale.y);
+		for (int i = 0; i < buttons.size(); i++)
+		{
+			if (buttons[i].state == ButtonState::Normal)
+			{
+				hudSprite.setToFrame(buttons[i].name);
+			}
+			else if (buttons[i].state == ButtonState::Pressed)
+			{
+				hudSprite.setToFrame(buttons[i].pressedName);
+			}
+
+			hudSprite.setPosition(buttons[i].pos);
+			window->draw(*s);
+		}
+		hudSprite.setScale(scale.x, scale.y);
+
+		// Tutorial
 		if (!eButtonPressed && tutorialTimer > eButtonDelay)
 		{
 			hudSprite.setToFrame(eKeyAnimation.frames[eKeyAnimation.frameIndex].first.name);
@@ -239,15 +304,31 @@ namespace flopse
 			break;
 		case sf::Keyboard::Num1:
 			currentTower = 0; //ArrowTower
+			buttons[0].state = ButtonState::Pressed;
+			buttons[1].state = ButtonState::Normal;
+			buttons[2].state = ButtonState::Normal;
+			buttons[3].state = ButtonState::Normal;
 			break;
 		case sf::Keyboard::Num2:
 			currentTower = 1; //FrostTower
+			buttons[0].state = ButtonState::Normal;
+			buttons[1].state = ButtonState::Pressed;
+			buttons[2].state = ButtonState::Normal;
+			buttons[3].state = ButtonState::Normal;
 			break;
 		case sf::Keyboard::Num3:
 			currentTower = 2; //FireTower
+			buttons[0].state = ButtonState::Normal;
+			buttons[1].state = ButtonState::Normal;
+			buttons[2].state = ButtonState::Pressed;
+			buttons[3].state = ButtonState::Normal;
 			break;
 		case sf::Keyboard::Num4:
 			currentTower = 3; //Catapult
+			buttons[0].state = ButtonState::Normal;
+			buttons[1].state = ButtonState::Normal;
+			buttons[2].state = ButtonState::Normal;
+			buttons[3].state = ButtonState::Pressed;
 			break;
 		//case sf::Keyboard::Num5:
 		//	currentTower = 4; //Barricade
@@ -274,7 +355,7 @@ namespace flopse
 
 	void HUD::scaleChanged()
 	{
-		if (window->getSize().x <= window->getSize().y)
+		/*if (window->getSize().x <= window->getSize().y)
 		{
 			scale.x = 0.5f * (float)(window->getSize().x) / (float)(hudSprite.getSprite()->getTexture()->getSize().x);
 			scale.y = scale.x;
@@ -283,7 +364,10 @@ namespace flopse
 		{
 			scale.y = 0.5f * (float)(window->getSize().y) / (float)(hudSprite.getSprite()->getTexture()->getSize().y);
 			scale.x = scale.y;
-		}
+		}*/
+
+		scale.x = 0.25f;
+		scale.y = 0.25f;
 
 		hudSprite.setScale(scale.x, scale.y);
 	}
