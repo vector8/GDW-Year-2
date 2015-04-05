@@ -96,16 +96,16 @@ namespace flopse
 							switch (this->type)
 							{
 							case TowerType::Fire:
-								SoundManager::playSoundAt(DefaultSounds::Ping, this->getGlobalPosition(), false);
+								SoundManager::playSoundAt(DefaultSounds::Ping, this->getGlobalPosition());
 								break;
 							case TowerType::Frost:
-								SoundManager::playSoundAt(DefaultSounds::Frost, this->getGlobalPosition(), false);
+								SoundManager::playSoundAt(DefaultSounds::Frost, this->getGlobalPosition());
 								break;
 							case TowerType::Arrow:
-								SoundManager::playSoundAt(DefaultSounds::Arrow, this->getGlobalPosition(), false);
+								SoundManager::playSoundAt(DefaultSounds::Arrow, this->getGlobalPosition());
 								break;
 							case TowerType::Catapult:
-								SoundManager::playSoundAt(DefaultSounds::Catapult, this->getGlobalPosition(), false);
+								SoundManager::playSoundAt(DefaultSounds::Catapult, this->getGlobalPosition());
 								break;
 							}
 						}

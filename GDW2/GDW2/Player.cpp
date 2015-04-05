@@ -150,7 +150,11 @@ namespace flopse
 			if (boundingBox.hasCollided(*it))
 			{
 				collidedY = true;
-				jumping = false;
+				
+				if (dy <= 0)
+				{
+					jumping = false;
+				}
 			}
 
 			boundingBox.position = glm::vec3(position.x, position.y, newPos.z);
@@ -202,9 +206,11 @@ namespace flopse
 
 		localTransform.rotate(-xoffset, localTransform.getUp());
 		camJoint->localTransform.rotate(yoffset, glm::cross(camJoint->localTransform.getFront(), camJoint->localTransform.getUp()));
+	}
 
+	void Player::postUpdate(const sf::RenderWindow &window, const sf::Time &dt)
+	{
 		footsteps->setPosition(this->getGlobalPosition());
-
 		//std::cout << this->getGlobalPosition().x << ", " << this->getGlobalPosition().y << ", " << this->getGlobalPosition().z << std::endl;
 	}
 

@@ -13,7 +13,8 @@ namespace flopse
 		Catapult,
 		Clank,
 		MetalSmack,
-		Footstep
+		Footstep,
+		Error
 	};
 
 	class SoundManager
@@ -44,7 +45,7 @@ namespace flopse
 		virtual ~SoundManager();
 
 		// Basic method to play a certain sound at a certain position in the world. The sound is returned so that it can be updated if required.
-		static Sound* playSoundAt(DefaultSounds sound, glm::vec3 position, bool loop)
+		static Sound* playSoundAt(DefaultSounds sound, glm::vec3 position, bool loop = false)
 		{
 			Sound* s = nullptr;
 
@@ -83,6 +84,56 @@ namespace flopse
 			case flopse::DefaultSounds::Footstep:
 				s = new Sound("sounds/footstep.wav", loop);
 				s->setPosition(position);
+				s->play();
+				break;
+			case flopse::DefaultSounds::Error:
+				s = new Sound("sounds/fart.wav", loop);
+				s->setPosition(position);
+				s->play();
+				break;
+			default:
+				break;
+			}
+
+			return s;
+		}
+
+		static Sound* playSound(DefaultSounds sound, bool loop = false)
+		{
+			Sound* s = nullptr;
+
+			switch (sound)
+			{
+			case flopse::DefaultSounds::Ping:
+				s = new Sound("sounds/fireball.wav", loop, false);
+				s->play();
+				break;
+			case flopse::DefaultSounds::Frost:
+				s = new Sound("sounds/frostball.wav", loop, false);
+				s->play();
+				break;
+			case flopse::DefaultSounds::Catapult:
+				s = new Sound("sounds/arrow.wav", loop, false);
+				s->play();
+				break;
+			case flopse::DefaultSounds::Arrow:
+				s = new Sound("sounds/arrow.wav", loop, false);
+				s->play();
+				break;
+			case flopse::DefaultSounds::Clank:
+				s = new Sound("sounds/clank.wav", loop, false);
+				s->play();
+				break;
+			case flopse::DefaultSounds::MetalSmack:
+				s = new Sound("sounds/gateSmack.wav", loop, false);
+				s->play();
+				break;
+			case flopse::DefaultSounds::Footstep:
+				s = new Sound("sounds/footstep.wav", loop, false);
+				s->play();
+				break;
+			case flopse::DefaultSounds::Error:
+				s = new Sound("sounds/fart.wav", loop, false);
 				s->play();
 				break;
 			default:

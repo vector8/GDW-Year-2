@@ -80,7 +80,7 @@ namespace flopse
 
 		// Create the global channel group
 		errorCheck(system->createChannelGroup(NULL, &masterGroup));
-		setMasterVolume(0.0f);
+		setMasterVolume(0.5f);
 
 		// Set listener attributes:
 		FMOD_VECTOR pos = { 0.f, 0.f, 0.f }, vel = { 0.f, 0.f, 0.f }, forward = { 0.f, 0.f, 1.f }, up = { 0.f, 1.f, 0.f };

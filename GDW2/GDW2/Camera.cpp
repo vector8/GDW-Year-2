@@ -56,6 +56,10 @@ namespace flopse
 
 	void Camera::updateLocalTransform(const sf::RenderWindow &window, const sf::Time &dt)
 	{
+	}
+
+	void Camera::postUpdate(const sf::RenderWindow &window, const sf::Time &dt)
+	{
 		recalculateView();
 	}
 }

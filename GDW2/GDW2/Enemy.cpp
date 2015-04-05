@@ -121,7 +121,7 @@ namespace flopse
 					{
 						attackTimer = sf::Time::Zero;
 						Game::getGame()->getCurrentLevel()->gateHealth -= this->damage;
-						SoundManager::playSoundAt(DefaultSounds::MetalSmack, this->getGlobalPosition(), false);
+						SoundManager::playSoundAt(DefaultSounds::MetalSmack, this->getGlobalPosition());
 					}
 				}
 				else
