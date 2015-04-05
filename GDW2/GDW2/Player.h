@@ -27,6 +27,7 @@ namespace flopse
 
 		void attachCam(const std::shared_ptr<SceneNode> &n);
 		virtual void updateLocalTransform(const sf::RenderWindow &window, const sf::Time &dt);
+		virtual void postUpdate(const sf::RenderWindow &window, const sf::Time &dt);
 
 		void jump();
 

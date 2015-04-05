@@ -38,10 +38,14 @@ namespace flopse
 
 	void SceneNode::update(const sf::RenderWindow &window, const sf::Time &dt, const glm::mat4 &parentTransform)
 	{
+		// update local transform
 		updateLocalTransform(window, dt);
 
 		// update global transform
 		globalTransform = parentTransform * localTransform.getTransformMatrix();
+
+		// execute any logic required after global transform is updated
+		postUpdate(window, dt);
 		
 		std::shared_ptr<Node<std::shared_ptr<SceneNode>>> current = children.head;
 
@@ -66,6 +70,11 @@ namespace flopse
 	}
 
 	void SceneNode::updateLocalTransform(const sf::RenderWindow &window, const sf::Time &dt)
+	{
+
+	}
+
+	void SceneNode::postUpdate(const sf::RenderWindow &window, const sf::Time &dt)
 	{
 
 	}

@@ -622,7 +622,8 @@ namespace flopse
 				}
 				else
 				{
-					// TODO play error sound, flash gold on ui
+					// TODO flash gold on ui
+					SoundManager::playSound(DefaultSounds::Error);
 				}
 			}
 		}
@@ -656,13 +657,13 @@ namespace flopse
 
 					currentLevel->towerBlockers.push_back(tempTower->boundingBox);
 				
-					SoundManager::playSoundAt(DefaultSounds::Clank, pos, false);
+					SoundManager::playSoundAt(DefaultSounds::Clank, pos);
 
 					placingTower = false;
 				}
 				else
 				{
-					// TODO: play error sound
+					SoundManager::playSound(DefaultSounds::Error);
 				}
 			}
 			else
@@ -670,7 +671,7 @@ namespace flopse
 				glm::vec3 pos = player->getGlobalPosition() + glm::vec3(0.f, 3.f * player->mesh->getHeight() / 4.f, 0.f);
 				auto p = std::make_shared<Projectile>(Projectile::createProjectile(pos, cam->getGlobalPosition() + player->getAimDirection() * 2000.f, 5));
 				this->currentLevel->attach(p);
-				SoundManager::playSoundAt(DefaultSounds::Ping, pos, false);
+				SoundManager::playSoundAt(DefaultSounds::Ping, pos);
 			}
 		}
 			break;

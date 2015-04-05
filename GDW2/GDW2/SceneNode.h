@@ -29,7 +29,11 @@ namespace flopse
 
 		void update(const sf::RenderWindow &window, const sf::Time &dt, const glm::mat4 &parentTransform);
 
+		// THIS METHOD MUST ONLY USE LOCAL TRANSFORM, IT MUST NEVER USE THE GLOBAL TRANSFORM!!!
 		virtual void updateLocalTransform(const sf::RenderWindow &window, const sf::Time &dt);
+
+		// Update stuff that needs to use the global transform in this method.
+		virtual void postUpdate(const sf::RenderWindow &window, const sf::Time &dt);
 
 		glm::mat4 getInverseGlobalTransform();
 

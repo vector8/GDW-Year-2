@@ -24,5 +24,6 @@ namespace flopse
 		void recalculateView();
 
 		virtual void updateLocalTransform(const sf::RenderWindow &window, const sf::Time &dt);
+		virtual void postUpdate(const sf::RenderWindow &window, const sf::Time &dt);
 	};
 }
