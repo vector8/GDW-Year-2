@@ -291,7 +291,7 @@ namespace flopse
 		} while (error != GL_NO_ERROR);
 
 		// Draw cel shader edges
-		//applyEdgeOutline(mainBuffer, fullscaleBuffer3);
+		applyEdgeOutline(mainBuffer, fullscaleBuffer3);
 
 		// Render to the shadow map
 		glViewport(0, 0, SHADOW_RESOLUTION, SHADOW_RESOLUTION);
@@ -309,7 +309,7 @@ namespace flopse
 		//applyBlur(fullscaleBuffer1, fullscaleBuffer2, 100);
 
 		// Composite shadows and scene.
-		applyShadows(mainBuffer, fullscaleBuffer1, fullscaleBuffer2);
+		applyShadows(fullscaleBuffer3, fullscaleBuffer1, fullscaleBuffer2);
 
 		fullscaleBuffer1.clear();
 
@@ -317,11 +317,6 @@ namespace flopse
 
 		applyBloomEffect(fullscaleBuffer2, fullscaleBuffer1);
 		//applyGrayscaleEffect(fullscaleBuffer1, fullscaleBuffer2);
-
-		/*glViewport(window->getSize().x / 2, window->getSize().y / 2, window->getSize().x, window->getSize().y);
-		applyShadowEffect(mainBuffer, shadowMapBuffer, fullscaleBuffer1);*/
-
-		//fullscaleBuffer1.moveToBackBuffer(window->getSize().x, window->getSize().y);
 
 		/*Shader s("shaders/PosUVStraightPassThrough.vert", "shaders/DrawFullScreenQuad.frag");
 		s.bind();
@@ -332,8 +327,8 @@ namespace flopse
 		glBindTexture(GL_TEXTURE_2D, GL_NONE);
 		s.unbind();*/
 
-		//fullscaleBuffer3.moveToBackBuffer(0, 0, window->getSize().x, window->getSize().y, 0, 0, window->getSize().x, window->getSize().y);
 		fullscaleBuffer1.moveToBackBuffer(0, 0, window->getSize().x, window->getSize().y, 0, 0, window->getSize().x, window->getSize().y);
+		//fullscaleBuffer3.moveToBackBuffer(0, 0, window->getSize().x, window->getSize().y, 0, 0, window->getSize().x, window->getSize().y);
 		//fullscaleBuffer2.moveToBackBuffer(0, 0, window->getSize().x, window->getSize().y, 0, 0, window->getSize().x, window->getSize().y);
 		//fullscaleBuffer2.moveToBackBuffer(0, 0, window->getSize().x, window->getSize().y, 0, window->getSize().y / 2, window->getSize().x / 2, window->getSize().y);
 		//mainBuffer.moveToBackBuffer(0, 0, window->getSize().x, window->getSize().y, 0, 0, window->getSize().x / 2, window->getSize().y / 2);
@@ -345,7 +340,8 @@ namespace flopse
 		if (currentLevel->minimapCamera != nullptr)
 		{
 			// Render the scene from the minimap's point of view.
-			glViewport(0, 0, window->getSize().x, window->getSize().y);
+			glViewport(0, 0, window->getSize().x, window->getSize().y); 
+			fullscaleBuffer3.clear();
 			fullscaleBuffer3.bind();
 			draw(root, currentLevel->minimapCamera, currentLevel);
 			fullscaleBuffer3.unbind();

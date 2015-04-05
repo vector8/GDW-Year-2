@@ -29,15 +29,6 @@ namespace flopse
 
 		static Projectile createProjectile(const glm::vec3 &source, const glm::vec3 &tar, int damage)
 		{
-			//static std::shared_ptr<Mesh> PLAYER_PROJECTILE_MESH = std::make_shared<Mesh>("meshes/projectile.bmf", Shader::getStandardShader(StandardShaders::PhongNoTexture));
-			//static bool first = true;
-
-			/*if (first)
-			{
-				PLAYER_PROJECTILE_MESH->overlayColour = Colour(0.5f, 0.f, 0.5f, 1.f);
-				first = false;
-			}*/
-
 			Projectile projectile(source, tar, damage);
 
 			std::shared_ptr<ParticleSystem> magicEffect = std::make_shared<ParticleSystem>(15, 50, "textures/MagicParticle.png");
@@ -57,19 +48,7 @@ namespace flopse
 		static Projectile createProjectile(const glm::vec3 &source, std::shared_ptr<Enemy> tar, int damage, TowerType t)
 		{
 			static std::shared_ptr<Mesh> ARROW_PROJECTILE_MESH = std::make_shared<Mesh>("meshes/Arrow.bmf", Shader::getStandardShader(StandardShaders::PhongNoTexture));
-			static std::shared_ptr<Mesh> FROST_MAGE_PROJECTILE_MESH = std::make_shared<Mesh>("meshes/projectile.bmf", Shader::getStandardShader(StandardShaders::PhongNoTexture));
-			static std::shared_ptr<Mesh> FIRE_MAGE_PROJECTILE_MESH = std::make_shared<Mesh>("meshes/projectile.bmf", Shader::getStandardShader(StandardShaders::PhongNoTexture));
 			static std::shared_ptr<Mesh> CATAPULT_PROJECTILE_MESH = std::make_shared<Mesh>("meshes/projectile.bmf", Shader::getStandardShader(StandardShaders::PhongNoTexture));
-			static bool first = true;
-
-			if (first)
-			{
-				//ARROW_PROJECTILE_MESH->overlayColour = Colour(0.8f, 0.3f, 0.1f, 1.f);
-				//FROST_MAGE_PROJECTILE_MESH->overlayColour = Colour(0.1f, 0.1f, 1.f, 1.f);
-				//FIRE_MAGE_PROJECTILE_MESH->overlayColour = Colour(1.f, 0.1f, 0.1f, 1.f);
-				//CATAPULT_PROJECTILE_MESH->overlayColour = Colour(0.f, 0.f, 0.f, 1.f);
-				first = false;
-			}
 
 			Projectile projectile;
 
