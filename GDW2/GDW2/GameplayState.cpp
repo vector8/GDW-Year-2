@@ -61,6 +61,17 @@ namespace flopse
 		fullscaleBuffer3.initDepthTexture(window->getSize().x, window->getSize().y);
 		fullscaleBuffer3.initColorTexture(0, window->getSize().x, window->getSize().y, GL_RGBA8, GL_NEAREST, GL_CLAMP_TO_EDGE);
 		assert(fullscaleBuffer3.checkFBO());
+
+		// init range indicators
+		std::shared_ptr<Mesh> ballistaRangeMesh = std::make_shared<Mesh>("meshes/BallistaRange.bmf", Shader::getStandardShader(StandardShaders::Phong));
+		ballistaRangeMesh->setDiffuseMap("textures/WhiteSpecular.png");
+		ballistaRange = std::make_shared<Entity>(ballistaRangeMesh);
+		std::shared_ptr<Mesh> mageRangeMesh = std::make_shared<Mesh>("meshes/MageTowerRange.bmf", Shader::getStandardShader(StandardShaders::Phong));
+		mageRangeMesh->setDiffuseMap("textures/WhiteSpecular.png");
+		mageRange = std::make_shared<Entity>(mageRangeMesh);
+		std::shared_ptr<Mesh> catapultRangeMesh = std::make_shared<Mesh>("meshes/CatapultRange.bmf", Shader::getStandardShader(StandardShaders::Phong));
+		catapultRangeMesh->setDiffuseMap("textures/WhiteSpecular.png");
+		catapultRange = std::make_shared<Entity>(catapultRangeMesh);
 	}
 
 	GameplayState::~GameplayState()
@@ -575,6 +586,7 @@ namespace flopse
 			{
 				player->detach(tempTower);
 				tempTower = std::make_shared<Tower>(Tower::createTower(TowerType::Arrow, glm::vec3(0.f, 0.f, 200.f)));
+				tempTower->attach(ballistaRange);
 				player->attach(tempTower);
 			}
 			currentTower = TowerType::Arrow; //ArrowTower
@@ -584,6 +596,7 @@ namespace flopse
 			{
 				player->detach(tempTower);
 				tempTower = std::make_shared<Tower>(Tower::createTower(TowerType::Frost, glm::vec3(0.f, 0.f, 200.f)));
+				tempTower->attach(mageRange);
 				player->attach(tempTower);
 			}
 			currentTower = TowerType::Frost; //FrostTower
@@ -593,6 +606,7 @@ namespace flopse
 			{
 				player->detach(tempTower);
 				tempTower = std::make_shared<Tower>(Tower::createTower(TowerType::Fire, glm::vec3(0.f, 0.f, 200.f)));
+				tempTower->attach(mageRange);
 				player->attach(tempTower);
 			}
 			currentTower = TowerType::Fire; //FireTower
@@ -602,6 +616,7 @@ namespace flopse
 			{
 				player->detach(tempTower);
 				tempTower = std::make_shared<Tower>(Tower::createTower(TowerType::Catapult, glm::vec3(0.f, 0.f, 200.f)));
+				tempTower->attach(catapultRange);
 				player->attach(tempTower);
 			}
 			currentTower = TowerType::Catapult; //
@@ -618,6 +633,22 @@ namespace flopse
 					placingTower = true;
 
 					tempTower = std::make_shared<Tower>(Tower::createTower(currentTower, glm::vec3(0.f, 0.f, 200.f)));
+					switch (currentTower)
+					{
+					case flopse::TowerType::Arrow:
+						tempTower->attach(ballistaRange);
+						break;
+					case flopse::TowerType::Frost:
+					case flopse::TowerType::Fire:
+						tempTower->attach(mageRange);
+						break;
+					case flopse::TowerType::Catapult:
+						tempTower->attach(catapultRange);
+						break;
+					default:
+						break;
+					}
+
 					this->player->attach(tempTower);
 				}
 				else
@@ -649,7 +680,7 @@ namespace flopse
 
 					glm::vec3 pos = tempTower->getGlobalPosition();
 					player->detach(tempTower);
-
+					tempTower->children.clear();
 					tempTower->activate();
 					tempTower->localTransform.setPosition(pos);
 					currentLevel->attach(tempTower);

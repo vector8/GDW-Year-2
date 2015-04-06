@@ -189,4 +189,7 @@ void LinkedList<T>::clear()
 		current = nullptr;
 		current = next;
 	}
+
+	head = nullptr;
+	tail = nullptr;
 }
