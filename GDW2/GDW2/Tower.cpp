@@ -74,8 +74,9 @@ namespace flopse
 			{
 				if (!enemies[i]->toBeDeleted)
 				{
-					float distanceToEnemy = glm::length(enemies[i]->getGlobalPosition() - this->getGlobalPosition());
-					if (distanceToEnemy <= this->range)
+					glm::vec3 enemyPosition = enemies[i]->getGlobalPosition();
+					float distanceToEnemy = glm::length(enemyPosition - this->getGlobalPosition());
+					if (distanceToEnemy <= this->range && !(enemyPosition.x == 0.0 && enemyPosition.z == 0.0))
 					{
 						// Turn Tower to face enemy.
 						glm::vec3 dir = enemies[i]->localTransform.getPosition() - this->localTransform.getPosition();
