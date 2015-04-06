@@ -29,8 +29,6 @@ namespace flopse
 
 		glm::vec3 getPoint(float distance);
 
-		void createDikstrasPath(PointCollection collection, int start);
-
 		float getMaxDistance();
 	};
 }

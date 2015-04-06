@@ -35,7 +35,8 @@ namespace flopse
 		while (std::getline(in, line))
 		{
 			//fullPath.append(line);
-			tokens[a] = split(line, " ,");
+			std::vector<std::string> tempTokens = split(line, " ,");
+			tokens.push_back(tempTokens);
 			assert(tokens[a].size() % 2 == 0);
 			a += 1;
 		}

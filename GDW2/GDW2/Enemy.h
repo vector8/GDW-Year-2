@@ -58,6 +58,8 @@ namespace flopse
 		std::shared_ptr<Animation> runAnimation = nullptr;
 		std::shared_ptr<Animation> attackAnimation = nullptr;
 
+		std::vector<glm::vec3> createDijkstrasPath(PointCollection collection, int start);
+
 		static Enemy createEnemy(const EnemyType &t, const glm::vec3 &pos, std::shared_ptr<Path> path = nullptr)
 		{
 			static std::vector<Keyframe> goblinRunFrames;
@@ -214,4 +216,5 @@ namespace flopse
 		
 		virtual void updateLocalTransform(const sf::RenderWindow &window, const sf::Time &dt);
 	};
+
 }
