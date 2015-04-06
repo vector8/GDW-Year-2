@@ -23,6 +23,7 @@ namespace flopse
 		bool wireframe = false;
 		bool placingTower = false;
 		std::shared_ptr<Tower> tempTower = nullptr;
+		std::shared_ptr<Entity> ballistaRange = nullptr, mageRange = nullptr, catapultRange = nullptr;
 
 		TowerType currentTower = TowerType::Arrow;
 
