@@ -290,7 +290,7 @@ namespace flopse
 				lvl->createColliders("levels/Level3Colliders.txt");
 				lvl->createTowerBlockers("levels/Level3Colliders.txt");
 				lvl->createEnemies("levels/Level3Enemies.txt");
-				//lvl->pointGraph.createCollection("levels/Level3Points");
+				lvl->pointGraph.createCollection("levels/Level3Points.txt");
 
 				p->setPosition(glm::vec3(0.f, 300.f, 100.f));
 				p->gold = 300;

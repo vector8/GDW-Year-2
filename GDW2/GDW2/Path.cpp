@@ -107,17 +107,4 @@ namespace flopse
 			return 0.f;
 		}
 	}
-
-	void Path::createDikstrasPath(PointCollection graph, int start)
-	{
-		std::vector<std::vector<glm::vec3>> table;
-		for (int i = 0; i < graph.collection[start]->neighbours.size(); i++)
-		{
-			std::vector<glm::vec3> firstStep;
-			firstStep.push_back(graph.collection[start]->location);
-			firstStep.push_back(graph.collection[start]->neighbours[i]->location);		
-		}
-
-	}
-
 }
