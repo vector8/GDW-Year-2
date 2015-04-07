@@ -371,7 +371,6 @@ namespace flopse
 				this->gameplayState->levelNumber++;
 				if (this->gameplayState->levelNumber > 5)
 				{
-					// TODO: set credits state
 					shouldDeleteGameplayState = true;
 					setCreditsState();
 				}

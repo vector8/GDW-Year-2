@@ -168,7 +168,7 @@ namespace flopse
 		
 		if (xScale != bgSprite->getScale().x || yScale != bgSprite->getScale().y)
 		{
-			buttonSprite.setScale(SCALE_CONSTANT * (window->getSize().x / 1920), SCALE_CONSTANT * (window->getSize().y / 1080));
+			buttonSprite.setScale(SCALE_CONSTANT * ((float)window->getSize().x / 1920.f), SCALE_CONSTANT * ((float)window->getSize().y / 1080.f));
 			this->bgSprite->setScale(sf::Vector2f(xScale, yScale));
 			this->buttons.clear();	// TODO maybe not clear?
 			this->createButtons();
@@ -310,6 +310,6 @@ namespace flopse
 		}
 
 		bgSprite->setScale(sf::Vector2f(xScale, yScale));
-		buttonSprite.setScale(SCALE_CONSTANT * (window->getSize().x / 1920), SCALE_CONSTANT * (window->getSize().y / 1080));
+		buttonSprite.setScale(SCALE_CONSTANT * ((float)window->getSize().x / 1920.f), SCALE_CONSTANT * ((float)window->getSize().y / 1080.f));
 	}
 }
