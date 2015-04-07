@@ -53,12 +53,12 @@ namespace flopse
 			frames.push_back(frame);
 		}
 		runAnimation = std::make_shared<Animation>(frames);
-		frames.clear();
+		mesh = runAnimation->getCurrentMesh();
 
 		// Idle animation
 		for (int i = 1; i <= 5; i++)
 		{
-			std::string filename = "meshes/PlayerIdle" + std::to_string(i) + ".bmf";
+			std::string filename = "meshes/idle" + std::to_string(i) + ".bmf";
 			Keyframe frame;
 			frame.mesh = std::make_shared<Mesh>(filename, s);
 			frame.mesh->setDiffuseMap("textures/PlayerDiffuse.png");
@@ -69,7 +69,71 @@ namespace flopse
 			frames.push_back(frame);
 		}
 		idleAnimation = std::make_shared<Animation>(frames);
-		mesh = idleAnimation->getCurrentMesh();
+		mesh = idleAnimation->getCurrentMesh(); frames.clear();
+
+		//strafe left
+		for (int i = 1; i <= 5; i++)
+		{
+			std::string filename = "meshes/strafeleft" + std::to_string(i) + ".bmf";
+			Keyframe frame;
+			frame.mesh = std::make_shared<Mesh>(filename, s);
+			frame.mesh->setDiffuseMap("textures/PlayerDiffuse.png");
+			frame.mesh->setSpecularMap("textures/BlankSpecular.png");
+
+			frame.duration = sf::seconds(0.5f);
+
+			frames.push_back(frame);
+		}
+		strafeLeftAnimation = std::make_shared<Animation>(frames);
+		mesh = strafeLeftAnimation->getCurrentMesh();
+
+		//strafe right
+		for (int i = 1; i <= 5; i++)
+		{
+			std::string filename = "meshes/straferight" + std::to_string(i) + ".bmf";
+			Keyframe frame;
+			frame.mesh = std::make_shared<Mesh>(filename, s);
+			frame.mesh->setDiffuseMap("textures/PlayerDiffuse.png");
+			frame.mesh->setSpecularMap("textures/BlankSpecular.png");
+
+			frame.duration = sf::seconds(0.5f);
+
+			frames.push_back(frame);
+		}
+		strafeRightAnimation = std::make_shared<Animation>(frames);
+		mesh = strafeRightAnimation->getCurrentMesh();
+
+		//backwards
+		/*for (int i = 5; i >= 1; i--)
+		{
+			std::string filename = "meshes/PlayerRun" + std::to_string(i) + ".bmf";
+			Keyframe frame;
+			frame.mesh = std::make_shared<Mesh>(filename, s);
+			frame.mesh->setDiffuseMap("textures/PlayerDiffuse.png");
+			frame.mesh->setSpecularMap("textures/BlankSpecular.png");
+
+			frame.duration = sf::seconds(0.22f);
+
+			frames.push_back(frame);
+		}
+		backAnimation = std::make_shared<Animation>(frames);
+		frames.clear();*/
+
+		//cast
+		for (int i = 1; i <= 5; i++)
+		{
+			std::string filename = "meshes/cast" + std::to_string(i) + ".bmf";
+			Keyframe frame;
+			frame.mesh = std::make_shared<Mesh>(filename, s);
+			frame.mesh->setDiffuseMap("textures/PlayerDiffuse.png");
+			frame.mesh->setSpecularMap("textures/BlankSpecular.png");
+
+			frame.duration = sf::seconds(0.5f);
+
+			frames.push_back(frame);
+		}
+		castAnimation = std::make_shared<Animation>(frames);
+		mesh = castAnimation->getCurrentMesh();
 	}
 
 	void Player::attachCam(const std::shared_ptr<SceneNode> &n)
@@ -117,14 +181,20 @@ namespace flopse
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 		{
 			newPos -= speed * dt.asSeconds() * glm::normalize(glm::cross(localTransform.getUp(), glm::cross(localTransform.getFront(), localTransform.getUp())));
+			//backAnimation->update(dt);
+			//mesh = backAnimation->getCurrentMesh();
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 		{
 			newPos -= speed * dt.asSeconds() * glm::normalize(glm::cross(localTransform.getFront(), localTransform.getUp()));
+			strafeLeftAnimation->update(dt);
+			mesh = strafeLeftAnimation->getCurrentMesh();
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 		{
 			newPos += speed * dt.asSeconds() * glm::normalize(glm::cross(localTransform.getFront(), localTransform.getUp()));
+			strafeRightAnimation->update(dt);
+			mesh = strafeRightAnimation->getCurrentMesh();
 		}
 
 		if (abs(dy) > 0.1f)
