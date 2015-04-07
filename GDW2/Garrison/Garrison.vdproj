@@ -1383,6 +1383,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_D31294B2BFAD4D93906900AF45B8013F"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_D428465BC4D446DF8DC5ED80F8B40467"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -6236,6 +6242,26 @@
             "TargetName" = "8:smallTrees.bmf"
             "Tag" = "8:"
             "Folder" = "8:_34C7D996B5E54B6DA3BAEE6B737F71CD"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D31294B2BFAD4D93906900AF45B8013F"
+            {
+            "SourcePath" = "8:..\\GDW2\\sounds\\fart.wav"
+            "TargetName" = "8:fart.wav"
+            "Tag" = "8:"
+            "Folder" = "8:_7E916C2A807E43CBBDAA775A24A5784B"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
