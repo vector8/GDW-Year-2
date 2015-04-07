@@ -53,7 +53,7 @@ namespace flopse
 			frames.push_back(frame);
 		}
 		runAnimation = std::make_shared<Animation>(frames);
-		mesh = runAnimation->getCurrentMesh();
+		frames.clear();
 
 		// Idle animation
 		for (int i = 1; i <= 5; i++)
@@ -69,7 +69,8 @@ namespace flopse
 			frames.push_back(frame);
 		}
 		idleAnimation = std::make_shared<Animation>(frames);
-		mesh = idleAnimation->getCurrentMesh(); frames.clear();
+		mesh = idleAnimation->getCurrentMesh(); 
+		frames.clear();
 
 		//strafe left
 		for (int i = 1; i <= 5; i++)
@@ -85,7 +86,7 @@ namespace flopse
 			frames.push_back(frame);
 		}
 		strafeLeftAnimation = std::make_shared<Animation>(frames);
-		mesh = strafeLeftAnimation->getCurrentMesh();
+		frames.clear();
 
 		//strafe right
 		for (int i = 1; i <= 5; i++)
@@ -101,7 +102,7 @@ namespace flopse
 			frames.push_back(frame);
 		}
 		strafeRightAnimation = std::make_shared<Animation>(frames);
-		mesh = strafeRightAnimation->getCurrentMesh();
+		frames.clear();
 
 		//backwards
 		/*for (int i = 5; i >= 1; i--)
@@ -122,7 +123,7 @@ namespace flopse
 		//cast
 		for (int i = 1; i <= 5; i++)
 		{
-			std::string filename = "meshes/cast" + std::to_string(i) + ".bmf";
+			std::string filename = "meshes/cast " + std::to_string(i) + ".bmf";
 			Keyframe frame;
 			frame.mesh = std::make_shared<Mesh>(filename, s);
 			frame.mesh->setDiffuseMap("textures/PlayerDiffuse.png");
@@ -133,7 +134,7 @@ namespace flopse
 			frames.push_back(frame);
 		}
 		castAnimation = std::make_shared<Animation>(frames);
-		mesh = castAnimation->getCurrentMesh();
+		frames.clear();
 	}
 
 	void Player::attachCam(const std::shared_ptr<SceneNode> &n)
