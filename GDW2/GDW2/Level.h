@@ -40,7 +40,7 @@ namespace flopse
 		{
 			std::shared_ptr<Level> lvl = std::make_shared<Level>(p);
 
-			//levelNumber = 2;
+			//levelNumber = 3;
 			lvl->levelNumber = levelNumber;
 			switch (levelNumber)
 			{
@@ -274,7 +274,7 @@ namespace flopse
 				lvl->mesh->setSpecularMap("textures/BlankSpecular.png");
 				lvl->mesh->acceptShadow = true;
 
-				std::shared_ptr<Mesh> castleMesh = std::make_shared<Mesh>("meshes/Level4castle.bmf", Shader::getStandardShader(StandardShaders::Phong));
+				std::shared_ptr<Mesh> castleMesh = std::make_shared<Mesh>("meshes/Castle3.bmf", Shader::getStandardShader(StandardShaders::Phong));
 				std::shared_ptr<Entity> castle = std::make_shared<Entity>(castleMesh);
 				castle->mesh->setDiffuseMap("textures/castleTexture.png");
 				castle->mesh->setSpecularMap("textures/BlankSpecular.png");
