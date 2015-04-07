@@ -156,46 +156,62 @@ namespace flopse
 		glm::vec3 position = localTransform.getPosition();
 		glm::vec3 newPos(position);
 
-		// update position
+		// Update position
+		bool forward = false, left = false, right = false;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 		{
 			newPos += speed * dt.asSeconds() * glm::normalize(glm::cross(localTransform.getUp(), glm::cross(localTransform.getFront(), localTransform.getUp())));
-
-			if (!jumping)
-			{
-				footsteps->play();
-				runAnimation->update(dt);
-			}
-			else
-			{
-				footsteps->setPaused(true);
-			}
-			mesh = runAnimation->getCurrentMesh();
-		}
-		else
-		{
-			footsteps->setPaused(true);
-			idleAnimation->update(dt);
-			mesh = idleAnimation->getCurrentMesh();
+			forward = true;
 		}
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 		{
 			newPos -= speed * dt.asSeconds() * glm::normalize(glm::cross(localTransform.getUp(), glm::cross(localTransform.getFront(), localTransform.getUp())));
+			forward = true;
 			//backAnimation->update(dt);
 			//mesh = backAnimation->getCurrentMesh();
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 		{
 			newPos -= speed * dt.asSeconds() * glm::normalize(glm::cross(localTransform.getFront(), localTransform.getUp()));
-			strafeLeftAnimation->update(dt);
-			mesh = strafeLeftAnimation->getCurrentMesh();
+			left = true;
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 		{
 			newPos += speed * dt.asSeconds() * glm::normalize(glm::cross(localTransform.getFront(), localTransform.getUp()));
-			strafeRightAnimation->update(dt);
-			mesh = strafeRightAnimation->getCurrentMesh();
+			right = true;
+		}
+
+		// Update animation
+		if (!jumping)
+		{
+			footsteps->play();
+
+			if (forward)
+			{
+				runAnimation->update(dt);
+				mesh = runAnimation->getCurrentMesh();
+			}
+			else if (left && !right)
+			{
+				strafeLeftAnimation->update(dt);
+				mesh = strafeLeftAnimation->getCurrentMesh();
+			}
+			else if (right && !left)
+			{
+				strafeRightAnimation->update(dt);
+				mesh = strafeRightAnimation->getCurrentMesh();
+			}
+			else
+			{
+				footsteps->setPaused(true);
+				idleAnimation->update(dt);
+				mesh = idleAnimation->getCurrentMesh();
+			}
+		}
+		else
+		{
+			footsteps->setPaused(true);
 		}
 
 		if (abs(dy) > 0.1f)
