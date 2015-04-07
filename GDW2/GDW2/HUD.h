@@ -15,6 +15,7 @@ namespace flopse
 		sf::Vector2f scale;
 
 		std::vector<UIElement> staticElements;
+		std::vector<UIElement> towerInfos;
 		UIElement castleHealthBar;
 
 		// Tower selectors
