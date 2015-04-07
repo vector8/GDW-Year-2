@@ -40,7 +40,7 @@ namespace flopse
 		{
 			std::shared_ptr<Level> lvl = std::make_shared<Level>(p);
 
-			//levelNumber = 2;
+			//levelNumber = 1;
 			lvl->levelNumber = levelNumber;
 			switch (levelNumber)
 			{
@@ -191,7 +191,7 @@ namespace flopse
 
 				std::shared_ptr<Mesh> skyboxMesh = std::make_shared<Mesh>("meshes/Skybox.bmf", Shader::getStandardShader(StandardShaders::AmbientTexture));
 				std::shared_ptr<Entity> skybox = std::make_shared<Entity>(skyboxMesh);
-				skybox->mesh->setDiffuseMap("textures/Skybox.png");
+				skybox->mesh->setDiffuseMap("textures/L2Skybox.png");
 				skybox->mesh->setSpecularMap("textures/BlankSpecular.png");
 				skybox->mesh->acceptShadow = false;
 				skybox->mesh->castShadow = false;
@@ -238,6 +238,13 @@ namespace flopse
 				lvl->shadowCamera->globalTransform = lvl->shadowCamera->localTransform.getTransformMatrix();
 				lvl->shadowCamera->recalculateView();
 
+				lvl->minimapCamera = std::make_shared<Camera>();
+				lvl->minimapCamera->localTransform.rotate(90.f, glm::vec3(1.f, 0.f, 0.f));
+				lvl->minimapCamera->localTransform.rotate(180.f, glm::vec3(0.f, 1.f, 0.f));
+				float lvlWidth = lvl->mesh->getWidth() / 2.f, lvlDepth = lvl->mesh->getDepth() / 2.f;
+				lvl->minimapCamera->projection = glm::ortho(-lvlWidth, lvlWidth, -lvlDepth, lvlDepth, -castleMesh->getHeight(), castleMesh->getHeight());
+				lvl->attach(lvl->minimapCamera);
+
 				//lvl->mesh->overlayColour = Colour(0.2f, 0.2f, 0.2f, 1.f);
 
 			}
@@ -259,7 +266,7 @@ namespace flopse
 
 				std::shared_ptr<Mesh> skyboxMesh = std::make_shared<Mesh>("meshes/Skybox.bmf", Shader::getStandardShader(StandardShaders::AmbientTexture));
 				std::shared_ptr<Entity> skybox = std::make_shared<Entity>(skyboxMesh);
-				skybox->mesh->setDiffuseMap("textures/Skybox.png");
+				skybox->mesh->setDiffuseMap("textures/L3Skybox.png");
 				skybox->mesh->setSpecularMap("textures/BlankSpecular.png");
 				skybox->mesh->acceptShadow = false;
 				skybox->mesh->castShadow = false;
@@ -304,6 +311,13 @@ namespace flopse
 				lvl->shadowCamera->globalTransform = lvl->shadowCamera->localTransform.getTransformMatrix();
 				lvl->shadowCamera->recalculateView();
 
+				lvl->minimapCamera = std::make_shared<Camera>();
+				lvl->minimapCamera->localTransform.rotate(90.f, glm::vec3(1.f, 0.f, 0.f));
+				lvl->minimapCamera->localTransform.rotate(180.f, glm::vec3(0.f, 1.f, 0.f));
+				float lvlWidth = lvl->mesh->getWidth() / 2.f, lvlDepth = lvl->mesh->getDepth() / 2.f;
+				lvl->minimapCamera->projection = glm::ortho(-lvlWidth, lvlWidth, -lvlDepth, lvlDepth, -castleMesh->getHeight(), castleMesh->getHeight());
+				lvl->attach(lvl->minimapCamera);
+
 				//lvl->mesh->overlayColour = Colour(0.2f, 0.2f, 0.2f, 1.f);
 
 				//lvl 3
@@ -327,7 +341,7 @@ namespace flopse
 
 				std::shared_ptr<Mesh> skyboxMesh = std::make_shared<Mesh>("meshes/Skybox.bmf", Shader::getStandardShader(StandardShaders::AmbientTexture));
 				std::shared_ptr<Entity> skybox = std::make_shared<Entity>(skyboxMesh);
-				skybox->mesh->setDiffuseMap("textures/Skybox.png");
+				skybox->mesh->setDiffuseMap("textures/L4Skybox.png");
 				skybox->mesh->setSpecularMap("textures/BlankSpecular.png");
 				skybox->mesh->acceptShadow = false;
 				skybox->mesh->castShadow = false;
@@ -369,6 +383,13 @@ namespace flopse
 				lvl->shadowCamera->globalTransform = lvl->shadowCamera->localTransform.getTransformMatrix();
 				lvl->shadowCamera->recalculateView();
 
+				lvl->minimapCamera = std::make_shared<Camera>();
+				lvl->minimapCamera->localTransform.rotate(90.f, glm::vec3(1.f, 0.f, 0.f));
+				lvl->minimapCamera->localTransform.rotate(180.f, glm::vec3(0.f, 1.f, 0.f));
+				float lvlWidth = lvl->mesh->getWidth() / 2.f, lvlDepth = lvl->mesh->getDepth() / 2.f;
+				lvl->minimapCamera->projection = glm::ortho(-lvlWidth, lvlWidth, -lvlDepth, lvlDepth, -castleMesh->getHeight(), castleMesh->getHeight());
+				lvl->attach(lvl->minimapCamera);
+
 				//lvl->mesh->overlayColour = Colour(0.2f, 0.2f, 0.2f, 1.f);
 				lvl->startBackgroundMusic();
 				
@@ -386,7 +407,7 @@ namespace flopse
 
 				std::shared_ptr<Mesh> skyboxMesh = std::make_shared<Mesh>("meshes/Skybox.bmf", Shader::getStandardShader(StandardShaders::AmbientTexture));
 				std::shared_ptr<Entity> skybox = std::make_shared<Entity>(skyboxMesh);
-				skybox->mesh->setDiffuseMap("textures/Skybox.png");
+				skybox->mesh->setDiffuseMap("textures/L5Skybox.png");
 				skybox->mesh->setSpecularMap("textures/BlankSpecular.png");
 				skybox->mesh->acceptShadow = false;
 				skybox->mesh->castShadow = false;
@@ -427,6 +448,13 @@ namespace flopse
 				lvl->shadowCamera->projection = glm::ortho(-4500.f, 4500.f, -4500.f, 4500.f, -3300.0f, 4600.f);
 				lvl->shadowCamera->globalTransform = lvl->shadowCamera->localTransform.getTransformMatrix();
 				lvl->shadowCamera->recalculateView();
+
+				lvl->minimapCamera = std::make_shared<Camera>();
+				lvl->minimapCamera->localTransform.rotate(90.f, glm::vec3(1.f, 0.f, 0.f));
+				lvl->minimapCamera->localTransform.rotate(180.f, glm::vec3(0.f, 1.f, 0.f));
+				float lvlWidth = lvl->mesh->getWidth() / 2.f, lvlDepth = lvl->mesh->getDepth() / 2.f;
+				lvl->minimapCamera->projection = glm::ortho(-lvlWidth, lvlWidth, -lvlDepth, lvlDepth);
+				lvl->attach(lvl->minimapCamera);
 
 				//lvl->mesh->overlayColour = Colour(0.2f, 0.2f, 0.2f, 1.f);
 				lvl->startBackgroundMusic();
