@@ -1,0 +1,27 @@
+import pdb
+for x in range(1, 4):
+    readstring = "Level5Path" + str(x) + ".txt"
+    writestring = "Level5Path" + str(x) + "Test.txt"
+    r = open(readstring, 'r')
+    w = open(writestring, 'w')
+    last = []
+    current = []
+    for line in r:
+        current = line.split(',')
+        if last != []:
+            #pdb.set_trace()
+            w.write(str(float(last[0]) + (float(current[0])-float(last[0]))/4.0))
+            w.write(',0.0,')
+            w.write(str(float(last[2]) + (float(current[2])-float(last[2]))/4.0))
+            w.write(',\n')
+            w.write(str(float(last[0]) + (float(current[0])-float(last[0]))/2.0))
+            w.write(',0.0,')
+            w.write(str(float(last[2]) + (float(current[2])-float(last[2]))/2.0))
+            w.write(',\n')
+            w.write(str(float(last[0]) + (float(float(current[0])-float(last[0]))*0.75)))
+            w.write(',0.0,')
+            w.write(str(float(last[2]) + (float(float(current[2])-float(last[2]))*0.75)))
+            w.write(',\n')
+        w.write(current[0] +',0.0,'+current[2]+',\n')
+        last = current
+        

@@ -120,8 +120,10 @@ namespace flopse
 			if (Game::getGame()->getPlayer()->jumping)
 			{
 				mesh->validPlacement = false;
-			}
-			else
+			} else if (std::abs(this->getGlobalPosition().y - Game::getGame()->getCurrentLevel()->groundLevel) >= 20.0)
+			{
+				mesh->validPlacement = false;
+			} else
 			{
 				bool collided = false;
 				boundingBox.position = this->getGlobalPosition();
