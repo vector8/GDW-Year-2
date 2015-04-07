@@ -143,6 +143,39 @@ namespace flopse
 		tower4Btn.pressedName = currentFrame.name;
 		tower4Btn.pos = sf::Vector2i(50.f + 3.f * width, window->getSize().y - 50.f - height);
 		buttons.push_back(tower4Btn);
+		
+		/// Tower Info ///
+		// Ballista
+		currentFrame = hudSprite.getFrame("BallistaInfo.png");
+		currentElement.rect = currentFrame.rect;
+		currentElement.name = currentFrame.name;
+		currentElement.pos = sf::Vector2i(window->getSize().x - currentElement.rect.width * scale.x - 50.f, window->getSize().y - currentElement.rect.height * scale.y - 50.f);
+		currentElement.visible = true;
+		towerInfos.push_back(currentElement);
+
+		// Frost Tower
+		currentFrame = hudSprite.getFrame("IceTowerInfo.png");
+		currentElement.rect = currentFrame.rect;
+		currentElement.name = currentFrame.name;
+		currentElement.pos = sf::Vector2i(window->getSize().x - currentElement.rect.width * scale.x - 50.f, window->getSize().y - currentElement.rect.height * scale.y - 50.f);
+		currentElement.visible = false;
+		towerInfos.push_back(currentElement);
+
+		// Fire Tower
+		currentFrame = hudSprite.getFrame("FireTowerInfo.png");
+		currentElement.rect = currentFrame.rect;
+		currentElement.name = currentFrame.name;
+		currentElement.pos = sf::Vector2i(window->getSize().x - currentElement.rect.width * scale.x - 50.f, window->getSize().y - currentElement.rect.height * scale.y - 50.f);
+		currentElement.visible = false;
+		towerInfos.push_back(currentElement);
+
+		// Catapult
+		currentFrame = hudSprite.getFrame("CatapultInfo.png");
+		currentElement.rect = currentFrame.rect;
+		currentElement.name = currentFrame.name;
+		currentElement.pos = sf::Vector2i(window->getSize().x - currentElement.rect.width * scale.x - 50.f, window->getSize().y - currentElement.rect.height * scale.y - 50.f);
+		currentElement.visible = false;
+		towerInfos.push_back(currentElement);
 	}
 
 	void HUD::update(const sf::Time &dt)
@@ -285,6 +318,17 @@ namespace flopse
 			window->draw(*s);
 		}
 
+		// Tower infos
+		for (int i = 0; i < towerInfos.size(); i++)
+		{
+			if (towerInfos[i].visible)
+			{
+				hudSprite.setToFrame(towerInfos[i].name);
+				hudSprite.setPosition(towerInfos[i].pos);
+				window->draw(*s);
+			}
+		}
+
 		window->draw(crossHairVert);
 		window->draw(crossHairHoriz);
 
@@ -308,6 +352,10 @@ namespace flopse
 			buttons[1].state = ButtonState::Normal;
 			buttons[2].state = ButtonState::Normal;
 			buttons[3].state = ButtonState::Normal;
+			towerInfos[0].visible = true;
+			towerInfos[1].visible = false;
+			towerInfos[2].visible = false;
+			towerInfos[3].visible = false;
 			break;
 		case sf::Keyboard::Num2:
 			currentTower = 1; //FrostTower
@@ -315,6 +363,10 @@ namespace flopse
 			buttons[1].state = ButtonState::Pressed;
 			buttons[2].state = ButtonState::Normal;
 			buttons[3].state = ButtonState::Normal;
+			towerInfos[0].visible = false;
+			towerInfos[1].visible = true;
+			towerInfos[2].visible = false;
+			towerInfos[3].visible = false;
 			break;
 		case sf::Keyboard::Num3:
 			currentTower = 2; //FireTower
@@ -322,6 +374,10 @@ namespace flopse
 			buttons[1].state = ButtonState::Normal;
 			buttons[2].state = ButtonState::Pressed;
 			buttons[3].state = ButtonState::Normal;
+			towerInfos[0].visible = false;
+			towerInfos[1].visible = false;
+			towerInfos[2].visible = true;
+			towerInfos[3].visible = false;
 			break;
 		case sf::Keyboard::Num4:
 			currentTower = 3; //Catapult
@@ -329,6 +385,10 @@ namespace flopse
 			buttons[1].state = ButtonState::Normal;
 			buttons[2].state = ButtonState::Normal;
 			buttons[3].state = ButtonState::Pressed;
+			towerInfos[0].visible = false;
+			towerInfos[1].visible = false;
+			towerInfos[2].visible = false;
+			towerInfos[3].visible = true;
 			break;
 		//case sf::Keyboard::Num5:
 		//	currentTower = 4; //Barricade
