@@ -15,6 +15,7 @@
 #include "OptionsMenuState.h"
 #include "LoadingState.h"
 #include "LevelTransitionState.h"
+#include "CreditsState.h"
 
 namespace flopse
 {
@@ -33,13 +34,12 @@ namespace flopse
 		OptionsMenuState* optionsMenuState = nullptr;
 		GameOverState* gameOverState = nullptr;
 		LevelTransitionState* levelTransitionState = nullptr;
+		CreditsState* creditsState = nullptr;
 
 		int frames;
 		bool running;
 		bool fullscreen;
-		bool shouldDeleteGameplayState = false;
 		float fov = 45.f;
-		bool nextLevel = false;
 		int loadedLevelNumber = 0;
 
 	public:
@@ -53,6 +53,8 @@ namespace flopse
 		}
 
 		sf::RenderWindow* window;
+		bool shouldDeleteGameplayState = false;
+		bool nextLevel = false;
 
 		std::shared_ptr<Player> getPlayer() const;
 		std::shared_ptr<Level> getCurrentLevel() const;
@@ -74,6 +76,7 @@ namespace flopse
 		void setOptionsMenuState();
 		void setGameOverState();
 		void setLevelTransitionState();
+		void setCreditsState();
 
 		void exit();
 		void checkGameOver();

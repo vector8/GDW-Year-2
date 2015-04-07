@@ -4,7 +4,6 @@
 #include <string>
 #include "UIElement.h"
 #include "SpriteWithAtlas.h"
-#include "SoundManager.h"
 
 namespace flopse
 {
@@ -35,8 +34,5 @@ namespace flopse
 		void mouseMoved(sf::Event::MouseMoveEvent e);
 
 		void scaleChanged();
-
-		void startBackgroundMusic();
-		void stopBackgroundMusic();
 	};
 }

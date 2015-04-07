@@ -1,5 +1,7 @@
 #pragma once
 #include "State.h"
+#include "UIElement.h"
+#include "SpriteWithAtlas.h"
 
 namespace flopse
 {
@@ -9,6 +11,13 @@ namespace flopse
 		sf::RenderWindow* window;
 		sf::Texture bgTexture;
 		sf::Sprite* bgSprite;
+		SpriteWithAtlas buttonSprite;
+		std::vector<Button> buttons;
+		Button mainMenuBtn;
+		Button retryBtn;
+
+		void createButtons();
+		void buttonClicked(const std::string &name);
 
 	public:
 		GameOverState(sf::RenderWindow* window);
@@ -21,5 +30,7 @@ namespace flopse
 		void mouseButtonPressed(sf::Event::MouseButtonEvent e);
 		void mouseButtonReleased(sf::Event::MouseButtonEvent e);
 		void mouseMoved(sf::Event::MouseMoveEvent e);
+
+		void scaleChanged();
 	};
 }
