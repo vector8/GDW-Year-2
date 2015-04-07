@@ -123,6 +123,10 @@ namespace flopse
 		{
 			Game::getGame()->newGame();
 		}
+		else if (name == loadBtn.name)
+		{
+			Game::getGame()->loadGame();
+		}
 		else if (name == optionsBtn.name)
 		{
 			Game::getGame()->setOptionsMenuState();
