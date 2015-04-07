@@ -27,10 +27,10 @@ namespace flopse
 
 		Sound *bgMusic = nullptr;
 
-		void createPath(const std::string &filename);
-		void createColliders(const std::string &filename);
+		void createPath(const std::vector<std::string> &files);
+		void createColliders(const std::vector<std::string> &files);
 		void createEnemies(const std::string &filename);
-		void createTowerBlockers(const std::string &filename);
+		void createTowerBlockers(const std::vector<std::string> &files);
 
 	public:
 		Level(const std::shared_ptr<Player> &p);
@@ -40,7 +40,7 @@ namespace flopse
 		{
 			std::shared_ptr<Level> lvl = std::make_shared<Level>(p);
 
-			//levelNumber = 1;
+			//levelNumber = 2;
 			lvl->levelNumber = levelNumber;
 			switch (levelNumber)
 			{
@@ -125,13 +125,21 @@ namespace flopse
 				attach(fogEffect);
 				attach(sparkleEffect);*/
 
-				lvl->createPath("levels/Level1Path.txt");
-				lvl->createColliders("levels/Level1Colliders.txt");
-				lvl->createTowerBlockers("levels/Level1Colliders.txt");
+				std::vector<std::string> pathFiles;
+				pathFiles.push_back("levels/Level1Path.txt");
+				lvl->createPath(pathFiles);
+				std::vector<std::string> colliders;
+				colliders.push_back("levels/Level1Colliders.txt");
+				//colliders.push_back("levels/Level1Colliders(Path).txt");
+				lvl->createColliders(colliders);
+				std::vector<std::string> towerBlockers;
+				towerBlockers.push_back("levels/Level1Colliders.txt");
+				towerBlockers.push_back("levels/Level1Colliders(Path).txt");
+				lvl->createTowerBlockers(towerBlockers);
 				lvl->createEnemies("levels/Level1Enemies.txt");
 
 				p->setPosition(glm::vec3(0.f, 145.f, 100.f));
-				p->gold = 50;
+				p->gold = 100;
 				lvl->attach(p);
 
 				//ParticleSystem* s = particleManager->createParticleSystem(ParticleSystemBehaviour::Emit, 4, 1000, glm::vec3(0.f, player->mesh->getHeight(), 0.f));
@@ -221,13 +229,21 @@ namespace flopse
 				lvl->attach(largeTrees);
 				lvl->attach(skybox);
 
-				lvl->createPath("levels/Level2Path.txt");
-				lvl->createColliders("levels/Level2Colliders.txt");
-				lvl->createTowerBlockers("levels/Level2Colliders.txt");
+				std::vector<std::string> pathFiles;
+				pathFiles.push_back("levels/Level2Path.txt");
+				lvl->createPath(pathFiles);
+				std::vector<std::string> colliders;
+				colliders.push_back("levels/Level2Colliders.txt");
+				colliders.push_back("levels/Level2Colliders(Path).txt");
+				lvl->createColliders(colliders);
+				std::vector<std::string> towerBlockers;
+				towerBlockers.push_back("levels/Level2Colliders.txt");
+				//towerBlockers.push_back("levels/Level1Colliders(Path).txt");
+				lvl->createTowerBlockers(towerBlockers);
 				lvl->createEnemies("levels/Level2Enemies.txt");
 
 				p->setPosition(glm::vec3(0.f, 145.f, 100.f));
-				p->gold = 200;
+				p->gold = 150;
 				lvl->attach(p);
 
 				lvl->shadowCamera = std::make_shared<Camera>();
@@ -293,14 +309,39 @@ namespace flopse
 				lvl->attach(castle);
 				lvl->attach(skybox);
 
-				lvl->createPath("levels/Level3Path.txt");
-				lvl->createColliders("levels/Level3Colliders.txt");
-				lvl->createTowerBlockers("levels/Level3Colliders.txt");
+				std::vector<std::string> pathFiles;
+				pathFiles.push_back("levels/Level3Paths/Test/Level3Path1Test.txt");
+				pathFiles.push_back("levels/Level3Paths/Test/Level3Path2Test.txt");
+				pathFiles.push_back("levels/Level3Paths/Test/Level3Path3Test.txt");
+				pathFiles.push_back("levels/Level3Paths/Test/Level3Path4Test.txt");
+				pathFiles.push_back("levels/Level3Paths/Test/Level3Path5Test.txt");
+				pathFiles.push_back("levels/Level3Paths/Test/Level3Path6Test.txt");
+				pathFiles.push_back("levels/Level3Paths/Test/Level3Path7Test.txt");
+				pathFiles.push_back("levels/Level3Paths/Test/Level3Path8Test.txt");
+				pathFiles.push_back("levels/Level3Paths/Test/Level3Path9Test.txt");
+				pathFiles.push_back("levels/Level3Paths/Test/Level3Path10Test.txt");
+				pathFiles.push_back("levels/Level3Paths/Test/Level3Path11Test.txt");
+				pathFiles.push_back("levels/Level3Paths/Test/Level3Path12Test.txt");
+				pathFiles.push_back("levels/Level3Paths/Test/Level3Path13Test.txt");
+				pathFiles.push_back("levels/Level3Paths/Test/Level3Path14Test.txt");
+				pathFiles.push_back("levels/Level3Paths/Test/Level3Path15Test.txt");
+				pathFiles.push_back("levels/Level3Paths/Test/Level3Path16Test.txt");
+				lvl->createPath(pathFiles);
+				std::vector<std::string> colliders;
+				colliders.push_back("levels/Level3Colliders.txt");
+				//colliders.push_back("levels/Level1Colliders(Path).txt");
+				lvl->createColliders(colliders);
+				std::vector<std::string> towerBlockers;
+				towerBlockers.push_back("levels/Level3Colliders.txt");
+				towerBlockers.push_back("levels/Level3Colliders(Path).txt");
+				lvl->createTowerBlockers(towerBlockers);
 				lvl->createEnemies("levels/Level3Enemies.txt");
 				lvl->pointGraph.createCollection("levels/Level3Points.txt");
 
+				lvl->groundLevel = 100.0;
+
 				p->setPosition(glm::vec3(0.f, 300.f, 100.f));
-				p->gold = 300;
+				p->gold = 200;
 				lvl->attach(p);
 
 				lvl->shadowCamera = std::make_shared<Camera>();
@@ -366,13 +407,24 @@ namespace flopse
 				lvl->attach(lvl->dirLight);
 				lvl->attach(skybox);
 
-				lvl->createPath("levels/Level1Path.txt");
-				lvl->createColliders("levels/Level3Colliders.txt");
-				lvl->createTowerBlockers("levels/Level3Colliders.txt");
+				std::vector<std::string> pathFiles;
+				pathFiles.push_back("levels/Level4Path1Test.txt");
+				pathFiles.push_back("levels/Level4Path2Test.txt");
+				lvl->createPath(pathFiles);
+				std::vector<std::string> colliders;
+				colliders.push_back("levels/Level4Colliders.txt");
+				//colliders.push_back("levels/Level1Colliders(Path).txt");
+				lvl->createColliders(colliders);
+				std::vector<std::string> towerBlockers;
+				towerBlockers.push_back("levels/Level3Colliders.txt");
+				//towerBlockers.push_back("levels/Level1Colliders(Path).txt");
+				lvl->createTowerBlockers(towerBlockers);
 				lvl->createEnemies("levels/Level4Enemies.txt");
 
-				p->setPosition(glm::vec3(0.f, 100.f, 0.f));
-				p->gold = 400;
+				lvl->groundLevel = 155.0;
+
+				p->setPosition(glm::vec3(0.f, 155.f, -2500.f));
+				p->gold = 250;
 				lvl->attach(p);
 
 				lvl->shadowCamera = std::make_shared<Camera>();
@@ -432,13 +484,23 @@ namespace flopse
 				lvl->attach(lvl->dirLight);
 				lvl->attach(skybox);
 
-				lvl->createPath("levels/Level1Path.txt");
-				lvl->createColliders("levels/Level3Colliders.txt");
-				lvl->createTowerBlockers("levels/Level3Colliders.txt");
+				std::vector<std::string> pathFiles;
+				pathFiles.push_back("levels/Level5Path1Test.txt");
+				pathFiles.push_back("levels/Level5Path2Test.txt");
+				pathFiles.push_back("levels/Level5Path3Test.txt");
+				lvl->createPath(pathFiles);
+				std::vector<std::string> colliders;
+				colliders.push_back("levels/Level5Colliders.txt");
+				//colliders.push_back("levels/Level1Colliders(Path).txt");
+				lvl->createColliders(colliders);
+				std::vector<std::string> towerBlockers;
+				towerBlockers.push_back("levels/Level5Colliders.txt");
+				//towerBlockers.push_back("levels/Level1Colliders(Path).txt");
+				lvl->createTowerBlockers(towerBlockers);
 				lvl->createEnemies("levels/Level5Enemies.txt");
 
 				p->setPosition(glm::vec3(0.f, 100.f, 0.f));
-				p->gold = 500;
+				p->gold = 300;
 				lvl->attach(p);
 
 				lvl->shadowCamera = std::make_shared<Camera>();
@@ -475,7 +537,7 @@ namespace flopse
 		std::shared_ptr<Camera> minimapCamera = nullptr;
 		float fogFactor = 0.0f;
 
-		std::shared_ptr<Path> path = nullptr;
+		std::vector<std::shared_ptr<Path>> paths;
 
 		void startBackgroundMusic();
 		void stopBackgroundMusic();
@@ -485,6 +547,7 @@ namespace flopse
 		int gateHealth = 200;
 		int maxGateHealth = 200;
 		int enemyCount = 0;
+		float groundLevel = 0.0;
 		
 		int levelNumber = 0;
 

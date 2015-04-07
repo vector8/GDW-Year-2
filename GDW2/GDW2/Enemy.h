@@ -164,19 +164,19 @@ namespace flopse
 			{
 			case EnemyType::Orc:
 				e = new Enemy(pos, orcRunFrames[0].mesh, 100, 5, 400.f, path);
-				e->value = 10;
+				e->value = 5;
 				e->attackDelay = sf::seconds(1.f);
 				e->runAnimation = std::make_shared<Animation>(orcRunFrames);
 				break;
 			case EnemyType::Elf:
 				e = new Enemy(pos, elfRunFrames[0].mesh, 80, 5, 600.f, path);
-				e->value = 10;
+				e->value = 5;
 				e->attackDelay = sf::seconds(1.f);
 				e->runAnimation = std::make_shared<Animation>(elfRunFrames);
 				break;
 			case EnemyType::Goblin:
 				e = new Enemy(pos, goblinRunFrames[0].mesh, 40, 2.5f, 400.f, path);
-				e->value = 10;
+				e->value = 2;
 				e->attackDelay = sf::seconds(1.f);
 				e->runAnimation = std::make_shared<Animation>(goblinRunFrames);
 				break;
@@ -193,7 +193,7 @@ namespace flopse
 				break;
 			case EnemyType::Golem:
 				e = new Enemy(pos, golemRunFrames[0].mesh, 1800, 40, 320.f, path);
-				e->value = 10;
+				e->value = 50;
 				e->attackDelay = sf::seconds(1.f);
 				e->runAnimation = std::make_shared<Animation>(golemRunFrames);
 				break;
