@@ -11,6 +11,10 @@ namespace flopse
 		float dy = 0.f;
 		std::shared_ptr<Animation> runAnimation;
 		std::shared_ptr<Animation> idleAnimation;
+		std::shared_ptr<Animation> strafeLeftAnimation;
+		std::shared_ptr<Animation> strafeRightAnimation;
+		std::shared_ptr<Animation> backAnimation;
+		std::shared_ptr<Animation> castAnimation;
 		Sound* footsteps;
 		std::shared_ptr<SceneNode> camJoint = nullptr;
 

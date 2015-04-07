@@ -99,7 +99,7 @@ namespace flopse
 				// Elf Walk Animation
 				for (int i = 1; i <= 6; i++)
 				{
-					std::string filename = "meshes/ElfArmorWalkFrame" + std::to_string(i) + ".bmf";
+					std::string filename = "meshes/ElfWalkFrame" + std::to_string(i) + ".bmf";
 					Keyframe frame;
 					frame.mesh = std::make_shared<Mesh>(filename, s);
 					frame.mesh->setDiffuseMap("textures/elfTexture.png");
@@ -113,7 +113,7 @@ namespace flopse
 				// Armor Elf Walk Animation
 				for (int i = 1; i <= 6; i++)
 				{
-					std::string filename = "meshes/ElfWalkFrame" + std::to_string(i) + ".bmf";
+					std::string filename = "meshes/ElfArmorWalkFrame" + std::to_string(i) + ".bmf";
 					Keyframe frame;
 					frame.mesh = std::make_shared<Mesh>(filename, s);
 					frame.mesh->setDiffuseMap("textures/elfArmorTexture.png");
