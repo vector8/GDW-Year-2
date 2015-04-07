@@ -29,18 +29,18 @@ namespace flopse
 	void OptionsMenuState::createButtons()
 	{
 		int x = 256 * buttonSprite.getSprite()->getScale().x;
-		int y = 300 * buttonSprite.getSprite()->getScale().y;
-		int yOffset = 10;
+		int y = 600 * buttonSprite.getSprite()->getScale().y;
+		int yOffset = 100;
 		int xOffset = 50 * buttonSprite.getSprite()->getScale().x;
 		SpriteFrame currentFrame;
 
-		UIElement keyMapping;
+		/*UIElement keyMapping;
 		currentFrame = buttonSprite.getFrame("KeyMapping.png");
-		keyMapping.rect = currentFrame.rect;
+		/*keyMapping.rect = currentFrame.rect;
 		keyMapping.name = currentFrame.name;
 		keyMapping.pos = sf::Vector2i(x, y);
 		staticElements.push_back(keyMapping);
-		y += currentFrame.rect.height * buttonSprite.getSprite()->getScale().y + yOffset;
+		y += currentFrame.rect.height * buttonSprite.getSprite()->getScale().y + yOffset;*/
 
 		UIElement volume;
 		currentFrame = buttonSprite.getFrame("MasterVolume.png");
@@ -94,13 +94,13 @@ namespace flopse
 		fullscreenOff.visible = !Game::getGame()->isFullscreen();
 		buttons.push_back(fullscreenOff);*/
 
-		UIElement mouseSensitivity;
+		/*UIElement mouseSensitivity;
 		currentFrame = buttonSprite.getFrame("MouseSensitivity.png");
 		mouseSensitivity.rect = currentFrame.rect;
 		mouseSensitivity.name = currentFrame.name;
 		mouseSensitivity.pos = sf::Vector2i(x, y);
 		staticElements.push_back(mouseSensitivity);
-		y += currentFrame.rect.height * buttonSprite.getSprite()->getScale().y + yOffset;
+		y += currentFrame.rect.height * buttonSprite.getSprite()->getScale().y + yOffset;*/
 
 		UIElement fov;
 		currentFrame = buttonSprite.getFrame("FOV.png");
@@ -161,7 +161,7 @@ namespace flopse
 
 		if (xScale != bgSprite->getScale().x || yScale != bgSprite->getScale().y)
 		{
-			buttonSprite.setScale(SCALE_CONSTANT * (window->getSize().x / 1920), SCALE_CONSTANT * (window->getSize().y / 1080));
+			buttonSprite.setScale(SCALE_CONSTANT * ((float)window->getSize().x / 1920.f), SCALE_CONSTANT * ((float)window->getSize().y / 1080.f));
 			this->bgSprite->setScale(sf::Vector2f(xScale, yScale));
 			this->buttons.clear();	// TODO maybe not clear?
 			this->staticElements.clear();
@@ -404,6 +404,6 @@ namespace flopse
 		}
 
 		bgSprite->setScale(sf::Vector2f(xScale, yScale));
-		buttonSprite.setScale(SCALE_CONSTANT * (window->getSize().x / 1920), SCALE_CONSTANT * (window->getSize().y / 1080));
+		buttonSprite.setScale(SCALE_CONSTANT * ((float)window->getSize().x / 1920.f), SCALE_CONSTANT * ((float)window->getSize().y / 1080.f));
 	}
 }
