@@ -14,6 +14,7 @@
 #include "GameOverState.h"
 #include "OptionsMenuState.h"
 #include "LoadingState.h"
+#include "LevelTransitionState.h"
 
 namespace flopse
 {
@@ -31,6 +32,7 @@ namespace flopse
 		MainMenuState* mainMenuState = nullptr;
 		OptionsMenuState* optionsMenuState = nullptr;
 		GameOverState* gameOverState = nullptr;
+		LevelTransitionState* levelTransitionState = nullptr;
 
 		int frames;
 		bool running;
@@ -38,6 +40,7 @@ namespace flopse
 		bool shouldDeleteGameplayState = false;
 		float fov = 45.f;
 		bool nextLevel = false;
+		int loadedLevelNumber = 0;
 
 	public:
 		virtual ~Game();
@@ -61,11 +64,17 @@ namespace flopse
 		void run();
 
 		void newGame();
+
+		void saveGame();
+		void loadGame();
+
 		void setGameplayState();
 		void setLoadingState();
 		void setMainMenuState();
 		void setOptionsMenuState();
 		void setGameOverState();
+		void setLevelTransitionState();
+
 		void exit();
 		void checkGameOver();
 

@@ -171,6 +171,7 @@
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="ICollidable.cpp" />
     <ClCompile Include="Level.cpp" />
+    <ClCompile Include="LevelTransitionState.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MainMenuState.cpp" />
@@ -198,6 +199,7 @@
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="BoundingBox.h" />
+    <ClInclude Include="LevelTransitionState.h" />
     <ClInclude Include="LoadingState.h" />
     <ClInclude Include="UIElement.h" />
     <ClInclude Include="Camera.h" />

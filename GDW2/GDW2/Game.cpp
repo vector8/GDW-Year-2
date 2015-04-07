@@ -5,6 +5,8 @@
 #include <iostream>
 #include <chrono>
 #include <thread>
+#include <fstream>
+#include <sstream>
 
 #include "SoundManager.h"
 #include "Utilities.h"
@@ -184,6 +186,53 @@ namespace flopse
 		setLoadingState();
 	}
 
+	void Game::saveGame()
+	{
+		if (this->gameplayState != nullptr)
+		{
+			std::ofstream out("saves/game.save", std::ios::out | std::ios::trunc);
+
+			if (!out)
+			{
+				std::cout << "Cannot open " << "saves/game.save" << std::endl;
+				assert(false);
+			}
+
+			out << this->gameplayState->levelNumber;
+		}
+	}
+
+	void Game::loadGame()
+	{
+		std::ifstream in("saves/game.save", std::ios::in);
+
+		if (!in)
+		{
+			std::cout << "Cannot open " << "saves/game.save" << std::endl;
+			assert(false);
+		}
+
+		std::string line;
+		std::istringstream ss;
+		if (std::getline(in, line))
+		{
+			ss.str(line);
+			ss.clear();
+			assert(ss >> loadedLevelNumber);
+		}
+
+		in.close();
+
+		if (loadedLevelNumber < 1 || loadedLevelNumber > 5)
+		{
+			loadedLevelNumber = 1;
+		}
+
+		nextLevel = true;
+
+		setLoadingState();
+	}
+
 	void Game::setGameplayState()
 	{
 		if (this->currentState != nullptr && (this->currentState == this->loadingState || this->currentState == this->mainMenuState))
@@ -205,6 +254,12 @@ namespace flopse
 
 		if (nextLevel)
 		{
+			if (loadedLevelNumber > 0)
+			{
+				this->gameplayState->levelNumber = loadedLevelNumber;
+				loadedLevelNumber = 0;
+			}
+
 			this->gameplayState->currentLevel = Level::createLevel(this->gameplayState->levelNumber, this->gameplayState->player);
 			this->gameplayState->root = this->gameplayState->currentLevel;
 			nextLevel = false;
@@ -258,7 +313,6 @@ namespace flopse
 	{
 		if (this->currentState != nullptr && this->currentState == this->gameplayState)
 		{
-
 			this->gameplayState->currentLevel->stopBackgroundMusic();
 		}
 
@@ -268,6 +322,21 @@ namespace flopse
 		}
 
 		this->currentState = this->gameOverState;
+	}
+
+	void Game::setLevelTransitionState()
+	{
+		if (this->currentState != nullptr && this->currentState == this->gameplayState)
+		{
+			this->gameplayState->currentLevel->stopBackgroundMusic();
+		}
+
+		if (this->levelTransitionState == nullptr)
+		{
+			this->levelTransitionState = new LevelTransitionState(window);
+		}
+
+		this->currentState = this->levelTransitionState;
 	}
 
 	void Game::exit()
@@ -290,13 +359,14 @@ namespace flopse
 				this->gameplayState->levelNumber++;
 				if (this->gameplayState->levelNumber > 5)
 				{
+					// TODO: set credits state
 					shouldDeleteGameplayState = true;
 					setMainMenuState();
 				}
 				else
 				{
 					nextLevel = true;
-					setLoadingState();
+					setLevelTransitionState();
 				}
 				clock.restart();
 			}

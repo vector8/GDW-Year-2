@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:6e498864a30b27b471ea09c868923d41:c50843f8b9dfc8ba3f91b732fa0edc5d:30b52f0a39ff121f1ba502489bc0e3ca$ -->
+<!-- $TexturePacker:SmartUpdate:03479978c32cb0bd0ad5cfdd1526cc2f:57b9004aab21c871ad47e623fed2a0b4:30b52f0a39ff121f1ba502489bc0e3ca$ -->
 <!--Format:
 n  => name of the sprite
 x  => sprite x pos in texture
@@ -15,7 +15,7 @@ oW => sprite's original width (only available if trimmed)
 oH => sprite's original height (only available if trimmed)
 r => 'y' only set if sprite is rotated
 -->
-<TextureAtlas imagePath="MenuButtons.png" width="3092" height="2846">
+<TextureAtlas imagePath="MenuButtons.png" width="3092" height="3320">
     <sprite n="ContinueButton.png" x="2" y="2" w="1028" h="472" pX="0.5" pY="0.5"/>
     <sprite n="ContinuePressed.png" x="1032" y="2" w="1028" h="472" pX="0.5" pY="0.5"/>
     <sprite n="ContinueSelected.png" x="2062" y="2" w="1028" h="472" pX="0.5" pY="0.5"/>
@@ -34,4 +34,7 @@ r => 'y' only set if sprite is rotated
     <sprite n="OptionsButton.png" x="2" y="2372" w="1028" h="472" pX="0.5" pY="0.5"/>
     <sprite n="OptionsPressed.png" x="1032" y="2372" w="1028" h="472" pX="0.5" pY="0.5"/>
     <sprite n="OptionsSelected.png" x="2062" y="2372" w="1028" h="472" pX="0.5" pY="0.5"/>
+    <sprite n="SaveButton.png" x="2" y="2846" w="1028" h="472" pX="0.5" pY="0.5"/>
+    <sprite n="SavePressed.png" x="1032" y="2846" w="1028" h="472" pX="0.5" pY="0.5"/>
+    <sprite n="SaveSelected.png" x="2062" y="2846" w="1028" h="472" pX="0.5" pY="0.5"/>
 </TextureAtlas>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:0476017a6e38737cf292b4c797730827:25de91aaa1c62fd9bac400963d3aa2f6:bdba087b8d2b57dbb1a4cb91c2719734$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+-->
+<TextureAtlas imagePath="LevelTransitionText.png" width="439" height="95">
+    <sprite n="NextLevelSelected.png" x="2" y="2" w="212" h="46" pX="0.5" pY="0.5"/>
+    <sprite n="NextLevelText.png" x="216" y="2" w="221" h="46" pX="0.5" pY="0.5"/>
+    <sprite n="MenuSelected.png" x="2" y="50" w="207" h="42" pX="0.5" pY="0.5"/>
+    <sprite n="Menu.png" x="211" y="50" w="207" h="43" pX="0.5" pY="0.5"/>
+</TextureAtlas>
