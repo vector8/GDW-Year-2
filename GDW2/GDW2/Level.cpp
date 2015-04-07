@@ -17,154 +17,166 @@ namespace flopse
 		delete bgMusic;
 	}
 
-	void Level::createPath(const std::string &filename)
+	void Level::createPath(const std::vector<std::string> &files)
 	{
-		std::vector<glm::vec3> points;
-		std::ifstream in(filename, std::ios::in);
-		std::string fullPath = "";
-
-		if (!in)
+		for (int i = 0; i < files.size(); i++)
 		{
-			std::cout << "Cannot open " << filename << std::endl;
-			assert(false);
-		}
+			std::vector<glm::vec3> points;
+			std::string filename = files[i];
+			std::ifstream in(filename, std::ios::in);
+			std::string fullPath = "";
 
-		std::string line;
-		while (std::getline(in, line))
-		{
-			fullPath.append(line);
-		}
+			if (!in)
+			{
+				std::cout << "Cannot open " << filename << std::endl;
+				assert(false);
+			}
 
-		std::vector<std::string> tokens = split(fullPath, " ,");
-		assert(tokens.size() % 3 == 0);
+			std::string line;
+			while (std::getline(in, line))
+			{
+				fullPath.append(line);
+			}
 
-		glm::vec3 currPoint;
-		std::istringstream ss;
-		for (int i = 0; i < tokens.size(); i += 3)
-		{
-			ss.str(tokens[i]);
-			ss.clear();
-			assert(ss >> currPoint.x);
+			std::vector<std::string> tokens = split(fullPath, " ,");
+			assert(tokens.size() % 3 == 0);
 
-			ss.str(tokens[i + 1]);
-			ss.clear();
-			assert(ss >> currPoint.y);
+			glm::vec3 currPoint;
+			std::istringstream ss;
+			for (int i = 0; i < tokens.size(); i += 3)
+			{
+				ss.str(tokens[i]);
+				ss.clear();
+				assert(ss >> currPoint.x);
 
-			ss.str(tokens[i + 2]);
-			ss.clear();
-			assert(ss >> currPoint.z);
+				ss.str(tokens[i + 1]);
+				ss.clear();
+				assert(ss >> currPoint.y);
 
-			points.push_back(currPoint);
-		}
+				ss.str(tokens[i + 2]);
+				ss.clear();
+				assert(ss >> currPoint.z);
 
-		path = std::make_shared<Path>(points);
-	}
+				points.push_back(currPoint);
+			}
 
-	void Level::createColliders(const std::string &filename)
-	{
-		std::ifstream in(filename, std::ios::in);
-
-		if (!in)
-		{
-			std::cout << "Cannot open " << filename << std::endl;
-			assert(false);
-		}
-
-		std::string line;
-		std::istringstream ss;
-		while (std::getline(in, line))
-		{
-			std::vector<std::string> tokens = split(line, " ,");
-			assert(tokens.size() == 6);
-
-			glm::vec3 p1, p2;
-
-			ss.str(tokens[0]);
-			ss.clear();
-			assert(ss >> p1.x);
-			ss.str(tokens[1]);
-			ss.clear();
-			assert(ss >> p1.y);
-			ss.str(tokens[2]);
-			ss.clear();
-			assert(ss >> p1.z);
-
-			ss.str(tokens[3]);
-			ss.clear();
-			assert(ss >> p2.x);
-			ss.str(tokens[4]);
-			ss.clear();
-			assert(ss >> p2.y);
-			ss.str(tokens[5]);
-			ss.clear();
-			assert(ss >> p2.z);
-
-			glm::vec3 pos;
-			float width, height, depth;
-
-			pos.x = (p1.x + p2.x) / 2.f;
-			pos.y = p1.y;
-			pos.z = (p1.z + p2.z) / 2.f;
-
-			width = abs(p2.x - p1.x);
-			height = abs(p2.y - p1.y);
-			depth = abs(p2.z - p1.z);
-
-			this->colliders.push_back(BoundingBox(pos, width, height, depth));
+			paths.push_back(std::make_shared<Path>(points));
 		}
 	}
 
-	void Level::createTowerBlockers(const std::string &filename)
+	void Level::createColliders(const std::vector<std::string> &files)
 	{
-		std::ifstream in(filename, std::ios::in);
-
-		if (!in)
+		for (int i = 0; i < files.size(); i++)
 		{
-			std::cout << "Cannot open " << filename << std::endl;
-			assert(false);
+			std::string filename = files[i];
+			std::ifstream in(filename, std::ios::in);
+
+			if (!in)
+			{
+				std::cout << "Cannot open " << filename << std::endl;
+				assert(false);
+			}
+
+			std::string line;
+			std::istringstream ss;
+			while (std::getline(in, line))
+			{
+				std::vector<std::string> tokens = split(line, " ,");
+				assert(tokens.size() == 6);
+
+				glm::vec3 p1, p2;
+
+				ss.str(tokens[0]);
+				ss.clear();
+				assert(ss >> p1.x);
+				ss.str(tokens[1]);
+				ss.clear();
+				assert(ss >> p1.y);
+				ss.str(tokens[2]);
+				ss.clear();
+				assert(ss >> p1.z);
+
+				ss.str(tokens[3]);
+				ss.clear();
+				assert(ss >> p2.x);
+				ss.str(tokens[4]);
+				ss.clear();
+				assert(ss >> p2.y);
+				ss.str(tokens[5]);
+				ss.clear();
+				assert(ss >> p2.z);
+
+				glm::vec3 pos;
+				float width, height, depth;
+
+				pos.x = (p1.x + p2.x) / 2.f;
+				pos.y = p1.y;
+				pos.z = (p1.z + p2.z) / 2.f;
+
+				width = abs(p2.x - p1.x);
+				height = abs(p2.y - p1.y);
+				depth = abs(p2.z - p1.z);
+
+				this->colliders.push_back(BoundingBox(pos, width, height, depth));
+			}
 		}
+	}
 
-		std::string line;
-		std::istringstream ss;
-		while (std::getline(in, line))
+	void Level::createTowerBlockers(const std::vector<std::string> &files)
+	{
+		for (int i = 0; i < files.size(); i++)
 		{
-			std::vector<std::string> tokens = split(line, " ,");
-			assert(tokens.size() == 6);
+			std::string filename = files[i];
+			std::ifstream in(filename, std::ios::in);
 
-			glm::vec3 p1, p2;
+			if (!in)
+			{
+				std::cout << "Cannot open " << filename << std::endl;
+				assert(false);
+			}
 
-			ss.str(tokens[0]);
-			ss.clear();
-			assert(ss >> p1.x);
-			ss.str(tokens[1]);
-			ss.clear();
-			assert(ss >> p1.y);
-			ss.str(tokens[2]);
-			ss.clear();
-			assert(ss >> p1.z);
+			std::string line;
+			std::istringstream ss;
+			while (std::getline(in, line))
+			{
+				std::vector<std::string> tokens = split(line, " ,");
+				assert(tokens.size() == 6);
 
-			ss.str(tokens[3]);
-			ss.clear();
-			assert(ss >> p2.x);
-			ss.str(tokens[4]);
-			ss.clear();
-			assert(ss >> p2.y);
-			ss.str(tokens[5]);
-			ss.clear();
-			assert(ss >> p2.z);
+				glm::vec3 p1, p2;
 
-			glm::vec3 pos;
-			float width, height, depth;
+				ss.str(tokens[0]);
+				ss.clear();
+				assert(ss >> p1.x);
+				ss.str(tokens[1]);
+				ss.clear();
+				assert(ss >> p1.y);
+				ss.str(tokens[2]);
+				ss.clear();
+				assert(ss >> p1.z);
 
-			pos.x = (p1.x + p2.x) / 2.f;
-			pos.y = p1.y;
-			pos.z = (p1.z + p2.z) / 2.f;
+				ss.str(tokens[3]);
+				ss.clear();
+				assert(ss >> p2.x);
+				ss.str(tokens[4]);
+				ss.clear();
+				assert(ss >> p2.y);
+				ss.str(tokens[5]);
+				ss.clear();
+				assert(ss >> p2.z);
 
-			width = abs(p2.x - p1.x);
-			height = abs(p2.y - p1.y);
-			depth = abs(p2.z - p1.z);
+				glm::vec3 pos;
+				float width, height, depth;
 
-			this->towerBlockers.push_back(BoundingBox(pos, width, height, depth));
+				pos.x = (p1.x + p2.x) / 2.f;
+				pos.y = p1.y;
+				pos.z = (p1.z + p2.z) / 2.f;
+
+				width = abs(p2.x - p1.x);
+				height = abs(p2.y - p1.y);
+				depth = abs(p2.z - p1.z);
+
+				this->towerBlockers.push_back(BoundingBox(pos, width, height, depth));
+			}
 		}
 	}
 
@@ -200,8 +212,10 @@ namespace flopse
 				ss.str(tokens[1]);
 				ss.clear();
 				assert(ss >> spawnTime);
-
-				es.enemy = std::make_shared<Enemy>(Enemy::createEnemy(static_cast<EnemyType>(enemyType), path->getPoint(0.f), path));
+				
+				int randomPath = rand() % paths.size();
+				
+				es.enemy = std::make_shared<Enemy>(Enemy::createEnemy(static_cast<EnemyType>(enemyType), paths[randomPath]->getPoint(0.f), paths[randomPath]));
 				es.spawnTime = sf::seconds(spawnTime);
 
 				enemySpawns.push_back(es);
