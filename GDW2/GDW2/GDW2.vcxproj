@@ -161,6 +161,7 @@
     <ClCompile Include="BoundingBox.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Colour.cpp" />
+    <ClCompile Include="CreditsState.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="FirstPersonCamera.cpp" />
@@ -199,6 +200,7 @@
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="BoundingBox.h" />
+    <ClInclude Include="CreditsState.h" />
     <ClInclude Include="LevelTransitionState.h" />
     <ClInclude Include="LoadingState.h" />
     <ClInclude Include="UIElement.h" />

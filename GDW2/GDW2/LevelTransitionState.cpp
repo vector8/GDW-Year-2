@@ -44,7 +44,7 @@ namespace flopse
 		currentFrame = buttonSprite.getFrame("NextLevelSelected.png");
 		nextLevelBtn.pressedRect = currentFrame.rect;
 		nextLevelBtn.pressedName = currentFrame.name;
-		nextLevelBtn.pos = sf::Vector2i((window->getSize().x * 2.f / 3.f - mainMenuBtn.rect.width / 2.f), window->getSize().y * 2.f / 3.f);
+		nextLevelBtn.pos = sf::Vector2i((window->getSize().x * 2.f / 3.f - nextLevelBtn.rect.width / 2.f), window->getSize().y * 2.f / 3.f);
 		buttons.push_back(nextLevelBtn);
 	}
 

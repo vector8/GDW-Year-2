@@ -36,6 +36,8 @@ namespace flopse
 		delete mainMenuState;
 		delete optionsMenuState;
 		delete gameOverState;
+		delete levelTransitionState;
+		delete creditsState;
 		delete window;
 	}
 
@@ -70,17 +72,13 @@ namespace flopse
 					switch (event.key.code)
 					{
 					case sf::Keyboard::Escape:
-						if (currentState == gameplayState)
+						if (currentState == gameplayState || currentState == optionsMenuState || currentState == creditsState)
 						{
 							setMainMenuState();
 						}
 						else if (currentState == mainMenuState)
 						{
-							setGameplayState();
-						}
-						else if (currentState == optionsMenuState)
-						{
-							setMainMenuState();
+							setLoadingState();
 						}
 						break;
 					case sf::Keyboard::F4:
@@ -339,6 +337,21 @@ namespace flopse
 		this->currentState = this->levelTransitionState;
 	}
 
+	void Game::setCreditsState()
+	{
+		if (this->currentState != nullptr && this->currentState == this->gameplayState)
+		{
+			this->gameplayState->currentLevel->stopBackgroundMusic();
+		}
+
+		if (this->creditsState == nullptr)
+		{
+			this->creditsState = new CreditsState(window);
+		}
+
+		this->currentState = this->creditsState;
+	}
+
 	void Game::exit()
 	{
 		window->close();
@@ -351,7 +364,6 @@ namespace flopse
 		{
 			if (gameplayState->currentLevel->gateHealth <= 0)
 			{
-				shouldDeleteGameplayState = true;
 				this->setGameOverState();
 			}
 			else if (gameplayState->currentLevel->enemyCount < 1)
@@ -361,7 +373,7 @@ namespace flopse
 				{
 					// TODO: set credits state
 					shouldDeleteGameplayState = true;
-					setMainMenuState();
+					setCreditsState();
 				}
 				else
 				{

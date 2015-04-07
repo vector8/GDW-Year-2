@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:d0d4759e40401afaa80095259335905b:13e2597fb4b8188f2abcafb19a8faea4:0d61b88211d7fbb94d779c8e6cc88a9d$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+-->
+<TextureAtlas imagePath="GameOverText.png" width="297" height="187">
+    <sprite n="Menu.png" x="2" y="2" w="207" h="43" pX="0.5" pY="0.5"/>
+    <sprite n="MenuSelected.png" x="2" y="47" w="210" h="41" pX="0.5" pY="0.5"/>
+    <sprite n="Restart.png" x="2" y="90" w="293" h="47" pX="0.5" pY="0.5"/>
+    <sprite n="RestartSelected.png" x="2" y="139" w="293" h="46" pX="0.5" pY="0.5"/>
+</TextureAtlas>

@@ -2,7 +2,7 @@
 #include "Game.h"
 #include <iostream>
 
-#define SCALE_CONSTANT 0.75f
+#define SCALE_CONSTANT 0.28f
 
 namespace flopse
 {
@@ -29,10 +29,6 @@ namespace flopse
 
 	void MainMenuState::createButtons()
 	{
-		int x = 3000 * bgSprite->getScale().x;
-		int exitX = 3310 * bgSprite->getScale().x;
-		int y = 300 * bgSprite->getScale().y;
-		int yOffset = 10;
 		SpriteFrame currentFrame;
 
 		currentFrame = buttonSprite.getFrame("ContinueButton.png");
@@ -44,6 +40,11 @@ namespace flopse
 		currentFrame = buttonSprite.getFrame("ContinuePressed.png");
 		contBtn.pressedRect = currentFrame.rect;
 		contBtn.pressedName = currentFrame.name;
+
+		int x = window->getSize().x - currentFrame.rect.width * buttonSprite.getSprite()->getScale().x - 100;
+		int y = 50;
+		int yOffset = 10;
+
 		contBtn.pos = sf::Vector2i(x, y);
 		buttons.push_back(contBtn);
 		y += currentFrame.rect.height * buttonSprite.getSprite()->getScale().y + yOffset;
@@ -148,6 +149,10 @@ namespace flopse
 		{
 			Game::getGame()->setOptionsMenuState();
 		}
+		else if (name == creditsBtn.name)
+		{
+			Game::getGame()->setCreditsState();
+		}
 		else if (name == exitBtn.name)
 		{
 			Game::getGame()->exit();
@@ -163,7 +168,7 @@ namespace flopse
 		
 		if (xScale != bgSprite->getScale().x || yScale != bgSprite->getScale().y)
 		{
-			this->buttonSprite.setScale(SCALE_CONSTANT * xScale, SCALE_CONSTANT * yScale);
+			this->buttonSprite.setScale(SCALE_CONSTANT, SCALE_CONSTANT);
 			this->bgSprite->setScale(sf::Vector2f(xScale, yScale));
 			this->buttons.clear();	// TODO maybe not clear?
 			this->createButtons();
@@ -305,6 +310,6 @@ namespace flopse
 		}
 
 		bgSprite->setScale(sf::Vector2f(xScale, yScale));
-		buttonSprite.setScale(SCALE_CONSTANT * xScale, SCALE_CONSTANT * yScale);
+		buttonSprite.setScale(SCALE_CONSTANT, SCALE_CONSTANT);
 	}
 }

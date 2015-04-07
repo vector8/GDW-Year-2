@@ -3,13 +3,15 @@
 #include <iostream>
 #include "SoundManager.h"
 
+#define SCALE_CONSTANT 0.4f
+
 namespace flopse
 {
 	OptionsMenuState::OptionsMenuState(sf::RenderWindow* window) : window(window), buttonSprite("Options")
 	{
 		if (!bgTexture.loadFromFile("textures/MenuBackGround.png"))
 		{
-			std::cout << "ERROR LOADING textures/MainMenuBackground.png" << std::endl;
+			std::cout << "ERROR LOADING textures/MenuBackGround.png" << std::endl;
 		}
 
 		bgSprite = new sf::Sprite(bgTexture);
@@ -142,7 +144,7 @@ namespace flopse
 	{
 		if (name == "KeyMapping.png")
 		{
-			// have a keymapping state later..
+			// TODO have a keymapping state later..
 		}
 		else if (name == "backbutton.png")
 		{
@@ -157,9 +159,9 @@ namespace flopse
 		float xScale = (float)(window->getSize().x) / (float)(bgTexture.getSize().x);
 		float yScale = (float)(window->getSize().y) / (float)(bgTexture.getSize().y);
 
-		if (xScale != buttonSprite.getSprite()->getScale().x || yScale != buttonSprite.getSprite()->getScale().y)
+		if (xScale != bgSprite->getScale().x || yScale != bgSprite->getScale().y)
 		{
-			this->buttonSprite.setScale(xScale, yScale);
+			this->buttonSprite.setScale(SCALE_CONSTANT, SCALE_CONSTANT);
 			this->bgSprite->setScale(sf::Vector2f(xScale, yScale));
 			this->buttons.clear();	// TODO maybe not clear?
 			this->staticElements.clear();
@@ -402,6 +404,6 @@ namespace flopse
 		}
 
 		bgSprite->setScale(sf::Vector2f(xScale, yScale));
-		buttonSprite.setScale(xScale, yScale);
+		buttonSprite.setScale(SCALE_CONSTANT, SCALE_CONSTANT);
 	}
 }
