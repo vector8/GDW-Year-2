@@ -374,7 +374,7 @@ namespace flopse
 				lvl->mesh->setSpecularMap("textures/BlankSpecular.png");
 				lvl->mesh->acceptShadow = true;
 
-				std::shared_ptr<Mesh> castleMesh = std::make_shared<Mesh>("meshes/Castle.bmf", Shader::getStandardShader(StandardShaders::Phong));
+				std::shared_ptr<Mesh> castleMesh = std::make_shared<Mesh>("meshes/level 4 castle.bmf", Shader::getStandardShader(StandardShaders::Phong));
 				std::shared_ptr<Entity> castle = std::make_shared<Entity>(castleMesh);
 				castle->mesh->setDiffuseMap("textures/castleTexture.png");
 				castle->mesh->setSpecularMap("textures/BlankSpecular.png");
@@ -406,6 +406,7 @@ namespace flopse
 				lvl->attach(lvl->pointLights[0]);
 				lvl->attach(lvl->dirLight);
 				lvl->attach(skybox);
+				lvl->attach(castle);
 
 				std::vector<std::string> pathFiles;
 				pathFiles.push_back("levels/Level4Path1Test.txt");
@@ -514,8 +515,8 @@ namespace flopse
 				lvl->minimapCamera = std::make_shared<Camera>();
 				lvl->minimapCamera->localTransform.rotate(90.f, glm::vec3(1.f, 0.f, 0.f));
 				lvl->minimapCamera->localTransform.rotate(180.f, glm::vec3(0.f, 1.f, 0.f));
-				float lvlWidth = lvl->mesh->getWidth() / 2.f, lvlDepth = lvl->mesh->getDepth() / 2.f;
-				lvl->minimapCamera->projection = glm::ortho(-lvlWidth, lvlWidth, -lvlDepth, lvlDepth);
+				float lvlWidth = lvl->mesh->getWidth() / 2.f, lvlDepth = lvl->mesh->getDepth() / 2.f, lvlHeight = lvl->mesh->getHeight() / 2.f;
+				lvl->minimapCamera->projection = glm::ortho(-lvlWidth, lvlWidth, -lvlDepth, lvlDepth, -lvlHeight, lvlHeight);
 				lvl->attach(lvl->minimapCamera);
 
 				//lvl->mesh->overlayColour = Colour(0.2f, 0.2f, 0.2f, 1.f);
