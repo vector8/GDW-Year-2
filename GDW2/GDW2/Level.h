@@ -234,11 +234,11 @@ namespace flopse
 				lvl->createPath(pathFiles);
 				std::vector<std::string> colliders;
 				colliders.push_back("levels/Level2Colliders.txt");
-				colliders.push_back("levels/Level2Colliders(Path).txt");
+				//colliders.push_back("levels/Level2Colliders(Path).txt");
 				lvl->createColliders(colliders);
 				std::vector<std::string> towerBlockers;
 				towerBlockers.push_back("levels/Level2Colliders.txt");
-				//towerBlockers.push_back("levels/Level1Colliders(Path).txt");
+				towerBlockers.push_back("levels/Level2Colliders(Path).txt");
 				lvl->createTowerBlockers(towerBlockers);
 				lvl->createEnemies("levels/Level2Enemies.txt");
 
