@@ -67,6 +67,7 @@ namespace flopse
 			static std::vector<Keyframe> elfRunFrames;
 			static std::vector<Keyframe> armorElfRunFrames;
 			static std::vector<Keyframe> orcRunFrames;
+			static std::vector<Keyframe> heavyOrcRunFrames;
 			static std::vector<Keyframe> golemRunFrames;
 			static std::vector<Keyframe> golemAttackFrames;
 			
@@ -140,6 +141,20 @@ namespace flopse
 					orcRunFrames.push_back(frame);
 				}
 
+				// Heavy Orc run animation
+				for (int i = 1; i <= 5; i++)
+				{
+					std::string filename = "meshes/heavy orc run " + std::to_string(i) + ".bmf";
+					Keyframe frame;
+					frame.mesh = std::make_shared<Mesh>(filename, s);
+					frame.mesh->setDiffuseMap("textures/heavy orc uv.png");
+					frame.mesh->setSpecularMap("textures/BlankSpecular.png");
+
+					frame.duration = sf::seconds(0.1);
+
+					heavyOrcRunFrames.push_back(frame);
+				}
+
 				// Golem Run Animation
 				for (int i = 1; i <= 6; i++)
 				{
@@ -181,9 +196,10 @@ namespace flopse
 				e->runAnimation = std::make_shared<Animation>(goblinRunFrames);
 				break;
 			case EnemyType::E_ORC:
-				e = new Enemy(pos, goblinRunFrames[0].mesh, 250, 10, 320.f, path);
+				e = new Enemy(pos, heavyOrcRunFrames[0].mesh, 250, 10, 320.f, path);
 				e->value = 10;
 				e->attackDelay = sf::seconds(1.f);
+				e->runAnimation = std::make_shared<Animation>(heavyOrcRunFrames);
 				break;
 			case EnemyType::E_ELF:
 				e = new Enemy(pos, armorElfRunFrames[0].mesh, 150, 7.5f, 720.f, path);
