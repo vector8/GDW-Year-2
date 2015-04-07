@@ -218,7 +218,14 @@ namespace flopse
 	{
 		if (!jumping)
 		{
-			dy = 375.f;
+			if (Game::getGame()->getCurrentLevel()->levelNumber != 4)
+			{
+				dy = 375.f;
+			}
+			else
+			{
+				dy = 500.f;
+			}
 			jumping = true;
 		}
 	}
