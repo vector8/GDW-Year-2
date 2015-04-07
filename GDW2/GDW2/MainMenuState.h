@@ -19,6 +19,7 @@ namespace flopse
 		Button contBtn;
 		Button newBtn;
 		Button loadBtn;
+		Button saveBtn;
 		Button optionsBtn;
 		Button creditsBtn;
 		Button exitBtn;

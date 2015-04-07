@@ -61,6 +61,19 @@ namespace flopse
 		buttons.push_back(newBtn);
 		y += currentFrame.rect.height * buttonSprite.getSprite()->getScale().y + yOffset;
 
+		currentFrame = buttonSprite.getFrame("SaveButton.png");
+		saveBtn.rect = currentFrame.rect;
+		saveBtn.name = currentFrame.name;
+		currentFrame = buttonSprite.getFrame("SaveSelected.png");
+		saveBtn.hoverRect = currentFrame.rect;
+		saveBtn.hoverName = currentFrame.name;
+		currentFrame = buttonSprite.getFrame("SavePressed.png");
+		saveBtn.pressedRect = currentFrame.rect;
+		saveBtn.pressedName = currentFrame.name;
+		saveBtn.pos = sf::Vector2i(x, y);
+		buttons.push_back(saveBtn);
+		y += currentFrame.rect.height * buttonSprite.getSprite()->getScale().y + yOffset;
+
 		currentFrame = buttonSprite.getFrame("LoadGameButton.png");
 		loadBtn.rect = currentFrame.rect;
 		loadBtn.name = currentFrame.name;
@@ -122,6 +135,10 @@ namespace flopse
 		else if (name == newBtn.name)
 		{
 			Game::getGame()->newGame();
+		}
+		else if (name == saveBtn.name)
+		{
+			Game::getGame()->saveGame();
 		}
 		else if (name == loadBtn.name)
 		{
