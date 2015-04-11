@@ -36,19 +36,8 @@ namespace flopse
 			frame.mesh = std::make_shared<Mesh>(filename, s);
 			frame.mesh->setDiffuseMap("textures/PlayerDiffuse.png");
 			frame.mesh->setSpecularMap("textures/BlankSpecular.png");
-			/*frame.mesh->setDiffuseMap("textures/GoblinTexture.png");
-			frame.mesh->setSpecularMap("textures/GoblinSpecularMap.png");*/
 
 			frame.duration = sf::seconds(0.22f);
-
-			/*if (i == 8)
-			{
-				frame.duration = sf::seconds(0.033);
-			}
-			else
-			{
-				frame.duration = sf::seconds(0.1);
-			}*/
 
 			frames.push_back(frame);
 		}
@@ -104,22 +93,6 @@ namespace flopse
 		strafeRightAnimation = std::make_shared<Animation>(frames);
 		frames.clear();
 
-		//backwards
-		/*for (int i = 5; i >= 1; i--)
-		{
-			std::string filename = "meshes/PlayerRun" + std::to_string(i) + ".bmf";
-			Keyframe frame;
-			frame.mesh = std::make_shared<Mesh>(filename, s);
-			frame.mesh->setDiffuseMap("textures/PlayerDiffuse.png");
-			frame.mesh->setSpecularMap("textures/BlankSpecular.png");
-
-			frame.duration = sf::seconds(0.22f);
-
-			frames.push_back(frame);
-		}
-		backAnimation = std::make_shared<Animation>(frames);
-		frames.clear();*/
-
 		//cast
 		for (int i = 1; i <= 5; i++)
 		{
@@ -168,8 +141,6 @@ namespace flopse
 		{
 			newPos -= speed * dt.asSeconds() * glm::normalize(glm::cross(localTransform.getUp(), glm::cross(localTransform.getFront(), localTransform.getUp())));
 			forward = true;
-			//backAnimation->update(dt);
-			//mesh = backAnimation->getCurrentMesh();
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 		{
@@ -298,7 +269,6 @@ namespace flopse
 	void Player::postUpdate(const sf::RenderWindow &window, const sf::Time &dt)
 	{
 		footsteps->setPosition(this->getGlobalPosition());
-		//std::cout << this->getGlobalPosition().x << ", " << this->getGlobalPosition().y << ", " << this->getGlobalPosition().z << std::endl;
 	}
 
 	void Player::jump()

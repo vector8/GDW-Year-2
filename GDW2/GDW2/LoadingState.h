@@ -12,8 +12,6 @@ namespace flopse
 
 		bool firstPass = true;
 
-		//Sound *bgMusic = nullptr;
-
 	public:
 		LoadingState(sf::RenderWindow* window);
 		virtual ~LoadingState();
@@ -25,8 +23,5 @@ namespace flopse
 		void mouseButtonPressed(sf::Event::MouseButtonEvent e);
 		void mouseButtonReleased(sf::Event::MouseButtonEvent e);
 		void mouseMoved(sf::Event::MouseMoveEvent e);
-
-		/*void startBackgroundMusic();
-		void stopBackgroundMusic();*/
 	};
 }

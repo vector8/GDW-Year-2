@@ -126,16 +126,6 @@ namespace flopse
 				}
 				else
 				{
-					//if (Game::getGame()->getCurrentLevel()->levelNumber == 3 || Game::getGame()->getCurrentLevel()->levelNumber == 4)
-					//{
-					//	for (int i = 0; i < Game::getGame()->getCurrentLevel()->pointGraph.collection.size(); i++)
-					//	{
-					//		if (glm::distance(this->localTransform.getPosition(), Game::getGame()->getCurrentLevel()->pointGraph.collection[i]->location) <= 50 )
-					//		{
-					//			this->path = std::make_shared<Path>(createDijkstrasPath(Game::getGame()->getCurrentLevel()->pointGraph, i));
-					//		}
-					//	}
-					//}
 					this->localTransform.setPosition(path->getPoint(distance));
 					this->boundingBox.position = this->getGlobalPosition();
 
@@ -194,7 +184,6 @@ namespace flopse
 			{
 				bool pathExists = false;
 				float currentDistance = distance[currentPath] + glm::distance(tempPoint->location, tempPoint->neighbours[i]->location);
-				//TODO: add barricade distance checker as well
 				for (int j = 0; j < table.size(); j++)
 				{
 					if (table[j].back() == tempPoint->neighbours[i] && distance[j] <= currentDistance)

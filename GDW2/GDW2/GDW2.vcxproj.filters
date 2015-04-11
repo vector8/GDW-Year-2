@@ -93,9 +93,6 @@
     <ClCompile Include="Particle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ParticleManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ParticleSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -221,9 +218,6 @@
     <ClInclude Include="Particle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ParticleManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ParticleSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -319,19 +313,10 @@
     <None Include="shaders\bloom\BloomHighPass.frag">
       <Filter>Shaders\Bloom</Filter>
     </None>
-    <None Include="shaders\bloom\BlurHorizontal.frag">
-      <Filter>Shaders\Blur</Filter>
-    </None>
-    <None Include="shaders\bloom\BlurVertical.frag">
-      <Filter>Shaders\Blur</Filter>
-    </None>
     <None Include="shaders\DoNothing.frag">
       <Filter>Shaders</Filter>
     </None>
     <None Include="shaders\DrawFullScreenQuad.frag">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="shaders\FogPost.frag">
       <Filter>Shaders</Filter>
     </None>
     <None Include="shaders\shadowmapping\GenerateShadows.frag">
@@ -372,6 +357,12 @@
     </None>
     <None Include="shaders\particles\Billboard.vert">
       <Filter>Shaders\Particles</Filter>
+    </None>
+    <None Include="shaders\blur\BlurHorizontal.frag">
+      <Filter>Shaders\Blur</Filter>
+    </None>
+    <None Include="shaders\blur\BlurVertical.frag">
+      <Filter>Shaders\Blur</Filter>
     </None>
   </ItemGroup>
 </Project>

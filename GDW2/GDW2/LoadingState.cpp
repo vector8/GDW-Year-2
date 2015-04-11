@@ -8,8 +8,6 @@ namespace flopse
 {
 	LoadingState::LoadingState(sf::RenderWindow* window) : window(window)
 	{
-		//bgMusic = new Sound("sounds/Level Music/Teller of the Tales.wav", true, false);
-
 		if (!bgTexture.loadFromFile("textures/LoadingScreen.png"))
 		{
 			std::cout << "ERROR LOADING textures/LoadingScreen.png" << std::endl;
@@ -71,20 +69,4 @@ namespace flopse
 	void LoadingState::mouseMoved(sf::Event::MouseMoveEvent e)
 	{
 	}
-
-	/*void LoadingState::startBackgroundMusic()
-	{
-		if (bgMusic != nullptr)
-		{
-			bgMusic->play();
-		}
-	}
-
-	void LoadingState::stopBackgroundMusic()
-	{
-		if (bgMusic != nullptr)
-		{
-			bgMusic->setPaused(true);
-		}
-	}*/
 }

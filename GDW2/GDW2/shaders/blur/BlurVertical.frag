@@ -13,23 +13,13 @@ void main()
 	// the weights add up to 1
 	outColor = vec3(0.0, 0.0, 0.0);
 
-	//outColor += 0.06 * texture(uTex, vec2(texCoord.x, texCoord.y - 4.0 * uPixelSize)).rgb;
-	//outColor += 0.09 * texture(uTex, vec2(texCoord.x, texCoord.y - 3.0 * uPixelSize)).rgb;
-	//outColor += 0.12 * texture(uTex, vec2(texCoord.x, texCoord.y - 2.0 * uPixelSize)).rgb;
-	//outColor += 0.15 * texture(uTex, vec2(texCoord.x, texCoord.y - uPixelSize)).rgb;
-	//outColor += 0.16 * texture(uTex, vec2(texCoord.x, texCoord.y)).rgb;
-	//outColor += 0.15 * texture(uTex, vec2(texCoord.x, texCoord.y + uPixelSize)).rgb;
-	//outColor += 0.12 * texture(uTex, vec2(texCoord.x, texCoord.y + 2.0 * uPixelSize)).rgb;
-	//outColor += 0.09 * texture(uTex, vec2(texCoord.x, texCoord.y + 3.0 * uPixelSize)).rgb;
-	//outColor += 0.06 * texture(uTex, vec2(texCoord.x, texCoord.y + 4.0 * uPixelSize)).rgb;
-
-	outColor += 0.091637 * texture(uTex, vec2(texCoord.x, texCoord.y - 4.0 * uPixelSize)).rgb;
-	outColor += 0.105358 * texture(uTex, vec2(texCoord.x, texCoord.y - 3.0 * uPixelSize)).rgb;
-	outColor += 0.116400 * texture(uTex, vec2(texCoord.x, texCoord.y - 2.0 * uPixelSize)).rgb;
-	outColor += 0.123573 * texture(uTex, vec2(texCoord.x, texCoord.y - uPixelSize)).rgb;
-	outColor += 0.126061 * texture(uTex, vec2(texCoord.x, texCoord.y)).rgb;
-	outColor += 0.123573 * texture(uTex, vec2(texCoord.x, texCoord.y + uPixelSize)).rgb;
-	outColor += 0.116400 * texture(uTex, vec2(texCoord.x, texCoord.y + 2.0 * uPixelSize)).rgb;
-	outColor += 0.105358 * texture(uTex, vec2(texCoord.x, texCoord.y + 3.0 * uPixelSize)).rgb;
-	outColor += 0.091637 * texture(uTex, vec2(texCoord.x, texCoord.y + 4.0 * uPixelSize)).rgb;
+	outColor += 0.06 * texture(uTex, vec2(texCoord.x, texCoord.y - 4.0 * uPixelSize)).rgb;
+	outColor += 0.09 * texture(uTex, vec2(texCoord.x, texCoord.y - 3.0 * uPixelSize)).rgb;
+	outColor += 0.12 * texture(uTex, vec2(texCoord.x, texCoord.y - 2.0 * uPixelSize)).rgb;
+	outColor += 0.15 * texture(uTex, vec2(texCoord.x, texCoord.y - uPixelSize)).rgb;
+	outColor += 0.16 * texture(uTex, vec2(texCoord.x, texCoord.y)).rgb;
+	outColor += 0.15 * texture(uTex, vec2(texCoord.x, texCoord.y + uPixelSize)).rgb;
+	outColor += 0.12 * texture(uTex, vec2(texCoord.x, texCoord.y + 2.0 * uPixelSize)).rgb;
+	outColor += 0.09 * texture(uTex, vec2(texCoord.x, texCoord.y + 3.0 * uPixelSize)).rgb;
+	outColor += 0.06 * texture(uTex, vec2(texCoord.x, texCoord.y + 4.0 * uPixelSize)).rgb;
 }
