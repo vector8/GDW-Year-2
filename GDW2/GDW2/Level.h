@@ -32,6 +32,8 @@ namespace flopse
 		void createEnemies(const std::string &filename);
 		void createTowerBlockers(const std::vector<std::string> &files);
 
+		std::vector<glm::vec3> createDijkstrasPath(PointCollection collection);
+
 	public:
 		Level(const std::shared_ptr<Player> &p);
 		virtual ~Level();
@@ -269,6 +271,8 @@ namespace flopse
 			{
 				lvl->bgMusic = new Sound("sounds/Level Music/Stoneworld Battle.wav", true, false);
 
+				lvl->pointGraph.createCollection("levels/Level3Points.txt");
+
 				lvl->mesh = std::make_shared<Mesh>("meshes/Level3.bmf", Shader::getStandardShader(StandardShaders::Phong));
 				lvl->mesh->setDiffuseMap("textures/level3Texture.png");
 				lvl->mesh->setSpecularMap("textures/BlankSpecular.png");
@@ -336,7 +340,6 @@ namespace flopse
 				towerBlockers.push_back("levels/Level3Colliders(Path).txt");
 				lvl->createTowerBlockers(towerBlockers);
 				lvl->createEnemies("levels/Level3Enemies.txt");
-				lvl->pointGraph.createCollection("levels/Level3Points.txt");
 
 				lvl->groundLevel = 100.0;
 
@@ -425,7 +428,7 @@ namespace flopse
 				lvl->groundLevel = 155.0;
 
 				p->setPosition(glm::vec3(0.f, 155.f, -2500.f));
-				p->gold = 250;
+				p->gold = 400;
 				lvl->attach(p);
 
 				lvl->shadowCamera = std::make_shared<Camera>();
@@ -501,7 +504,7 @@ namespace flopse
 				lvl->createEnemies("levels/Level5Enemies.txt");
 
 				p->setPosition(glm::vec3(0.f, 100.f, 0.f));
-				p->gold = 300;
+				p->gold = 600;
 				lvl->attach(p);
 
 				lvl->shadowCamera = std::make_shared<Camera>();
