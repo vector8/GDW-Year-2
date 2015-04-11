@@ -24,11 +24,9 @@ namespace flopse
 		cam = std::make_shared<ThirdPersonCamera>();
 		cam->localTransform.translate(glm::vec3(-80.f, (player->mesh->getHeight() / 2.f) + 30.f, -250.f));
 		cam->projection = glm::perspective(Game::getGame()->getFieldOfView(), (float)window->getSize().x / (float)window->getSize().y, 0.1f, 100000.0f);
-		//cam->projection = glm::ortho(-512.0f, 512.0f, -384.0f, 384.0f, -1000.f, 1000.f);
-		//cam->projection = glm::ortho(-350.f, 350.f, -350.f, 350.f, -10.f, 10000.f);
 		player->attachCam(cam);
 
-		currentLevel = Level::createLevel(1, player);//std::make_shared<Level>(player);
+		currentLevel = Level::createLevel(1, player);
 		root = currentLevel;
 
 		SoundManager::getSoundManager()->setListener(player);
@@ -291,7 +289,6 @@ namespace flopse
 
 		// Render the scene
 		glViewport(0, 0, window->getSize().x, window->getSize().y);
-		//glViewport(0, 0, window->getSize().x / 2, window->getSize().y / 2);
 		mainBuffer.bind();
 		draw(root, cam, currentLevel);
 		mainBuffer.unbind();
@@ -316,37 +313,16 @@ namespace flopse
 		drawShadows(root, cam);
 		fullscaleBuffer1.unbind();
 
-		// Blur shadows
-		//applyBlur(fullscaleBuffer1, fullscaleBuffer2, 100);
-
 		// Composite shadows and scene.
 		applyShadows(fullscaleBuffer3, fullscaleBuffer1, fullscaleBuffer2);
 
 		fullscaleBuffer1.clear();
 
-		//applyPixelationEffect(fullscaleBuffer2, fullscaleBuffer3);
-
+		// Apply bloom effect.
 		applyBloomEffect(fullscaleBuffer2, fullscaleBuffer1);
-		//applyGrayscaleEffect(fullscaleBuffer1, fullscaleBuffer2);
 
-		/*Shader s("shaders/PosUVStraightPassThrough.vert", "shaders/DrawFullScreenQuad.frag");
-		s.bind();
-		glBindTexture(GL_TEXTURE_2D, shadowMapBuffer.getDepthHandle());
-		fullscaleBuffer1.bind();
-		drawFullScreenQuad();
-		fullscaleBuffer1.unbind();
-		glBindTexture(GL_TEXTURE_2D, GL_NONE);
-		s.unbind();*/
-
+		// Move everything to the back buffer.
 		fullscaleBuffer1.moveToBackBuffer(0, 0, window->getSize().x, window->getSize().y, 0, 0, window->getSize().x, window->getSize().y);
-		//fullscaleBuffer3.moveToBackBuffer(0, 0, window->getSize().x, window->getSize().y, 0, 0, window->getSize().x, window->getSize().y);
-		//fullscaleBuffer2.moveToBackBuffer(0, 0, window->getSize().x, window->getSize().y, 0, 0, window->getSize().x, window->getSize().y);
-		//fullscaleBuffer2.moveToBackBuffer(0, 0, window->getSize().x, window->getSize().y, 0, window->getSize().y / 2, window->getSize().x / 2, window->getSize().y);
-		//mainBuffer.moveToBackBuffer(0, 0, window->getSize().x, window->getSize().y, 0, 0, window->getSize().x / 2, window->getSize().y / 2);
-		//shadowMapBuffer.moveToBackBuffer(SHADOW_RESOLUTION, SHADOW_RESOLUTION, window->getSize().x, window->getSize().y);
-		//fullscaleBuffer1.moveToBackBuffer(0, 0, window->getSize().x, window->getSize().y, window->getSize().x / 2, window->getSize().y / 2, window->getSize().x, window->getSize().y);
-		//shadowMapBuffer.moveToBackBuffer(0, 0, SHADOW_RESOLUTION, SHADOW_RESOLUTION, window->getSize().x / 2, window->getSize().y / 2, window->getSize().x, window->getSize().y);
-		//fullscaleBuffer1.moveToBackBuffer(window->getSize().x / 2, window->getSize().y / 2, window->getSize().x, window->getSize().y, window->getSize().x / 2, window->getSize().y / 2, window->getSize().x, window->getSize().y);
 
 		if (currentLevel->minimapCamera != nullptr)
 		{
@@ -433,7 +409,6 @@ namespace flopse
 			glUniform3f(shader->directionalLightLocs.diffuse, lvl->dirLight->diffuse.r, lvl->dirLight->diffuse.g, lvl->dirLight->diffuse.b);
 			glUniform3f(shader->directionalLightLocs.specular, lvl->dirLight->specular.r, lvl->dirLight->specular.g, lvl->dirLight->specular.b);
 
-
 			// Diffuse map
 			glActiveTexture(GL_TEXTURE0);
 			std::shared_ptr<sf::Texture> t = node->mesh->getDiffuseMap();
@@ -450,17 +425,11 @@ namespace flopse
 				sf::Texture::bind(&(*t));
 			}
 
-			/* Shadow map
-			glActiveTexture(GL_TEXTURE2);
-			glBindTexture(GL_TEXTURE_2D, shadowMap);*/
-
 			glBindVertexArray(node->mesh->VAO);
 			glDrawArrays(GL_TRIANGLES, 0, node->mesh->getNumberOfVertices());
 			glBindVertexArray(GL_NONE);
 
 			// Unbind the texture and shader.
-			//glBindTexture(GL_TEXTURE_2D, GL_NONE);
-			//glActiveTexture(GL_TEXTURE1);
 			glBindTexture(GL_TEXTURE_2D, GL_NONE);
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, GL_NONE);
@@ -485,8 +454,7 @@ namespace flopse
 		if (node->mesh)
 		{
 			// Set the shader
-			std::shared_ptr<Shader> shader = node->mesh->shader;
-			//std::shared_ptr<Shader> shadowMapShader = Shader::getStandardShader(StandardShaders::ShadowMap);
+			std::shared_ptr<Shader> shader = Shader::getStandardShader(StandardShaders::ShadowMap);
 			shader->bind();
 
 			glUniformMatrix4fv(shader->modelLoc, 1, GL_FALSE, glm::value_ptr(node->globalTransform));
@@ -567,17 +535,6 @@ namespace flopse
 	{
 		switch (e.code)
 		{
-		case sf::Keyboard::Comma:
-			/*wireframe = !wireframe;
-			if (wireframe)
-			{
-				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-			}
-			else
-			{
-				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-			}*/
-			break;
 		case sf::Keyboard::Space:
 			player->jump();
 			break;
@@ -621,9 +578,6 @@ namespace flopse
 			}
 			currentTower = TowerType::Catapult; //
 			break;
-		//case sf::Keyboard::Num5:
-		//	currentTower = TowerType::Barricade;
-		//	break;
 		case sf::Keyboard::E:
 		{
 			if (!placingTower)
@@ -653,7 +607,6 @@ namespace flopse
 				}
 				else
 				{
-					// TODO flash gold on ui
 					SoundManager::playSound(DefaultSounds::Error);
 				}
 			}

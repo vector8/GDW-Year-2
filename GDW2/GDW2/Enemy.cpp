@@ -126,16 +126,6 @@ namespace flopse
 				}
 				else
 				{
-					//if (Game::getGame()->getCurrentLevel()->levelNumber == 3 || Game::getGame()->getCurrentLevel()->levelNumber == 4)
-					//{
-					//	for (int i = 0; i < Game::getGame()->getCurrentLevel()->pointGraph.collection.size(); i++)
-					//	{
-					//		if (glm::distance(this->localTransform.getPosition(), Game::getGame()->getCurrentLevel()->pointGraph.collection[i]->location) <= 50 )
-					//		{
-					//			this->path = std::make_shared<Path>(createDijkstrasPath(Game::getGame()->getCurrentLevel()->pointGraph, i));
-					//		}
-					//	}
-					//}
 					this->localTransform.setPosition(path->getPoint(distance));
 					this->boundingBox.position = this->getGlobalPosition();
 

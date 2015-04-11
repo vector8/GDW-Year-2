@@ -19,7 +19,6 @@ namespace flopse
 		glm::vec3 getGlobalPosition() const;
 
 		void setPosition(const glm::vec3 &pos);
-		void lookAt(const glm::vec3 &target);
 
 		void recalculateView();
 

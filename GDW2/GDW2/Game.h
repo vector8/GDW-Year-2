@@ -38,7 +38,6 @@ namespace flopse
 
 		int frames;
 		bool running;
-		bool fullscreen;
 		float fov = 45.f;
 		int loadedLevelNumber = 0;
 

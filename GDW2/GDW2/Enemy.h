@@ -172,7 +172,6 @@ namespace flopse
 
 			Enemy* e = nullptr;
 
-			//TODO: Update Enemy Meshes
 			switch (t)
 			{
 			case EnemyType::Orc:

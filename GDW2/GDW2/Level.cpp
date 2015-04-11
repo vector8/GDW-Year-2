@@ -222,7 +222,7 @@ namespace flopse
 				}
 				else
 				{
-				es.enemy = std::make_shared<Enemy>(Enemy::createEnemy(static_cast<EnemyType>(enemyType), paths[randomPath]->getPoint(0.f), paths[randomPath]));
+					es.enemy = std::make_shared<Enemy>(Enemy::createEnemy(static_cast<EnemyType>(enemyType), paths[randomPath]->getPoint(0.f), paths[randomPath]));
 				}
 
 				es.spawnTime = sf::seconds(spawnTime);
