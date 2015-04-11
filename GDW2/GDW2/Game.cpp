@@ -13,11 +13,8 @@
 
 namespace flopse
 {
-	Game::Game() : window(new sf::RenderWindow(sf::VideoMode::getDesktopMode(), "Garrison", sf::Style::Fullscreen)), running(true), frames(0), fullscreen(false)
+	Game::Game() : window(new sf::RenderWindow(sf::VideoMode::getDesktopMode(), "Garrison", sf::Style::Fullscreen)), running(true), frames(0)
 	{
-		//window->setVerticalSyncEnabled(true);		// These seem to reduce framerate dramatically after several minutes, even though nothing actually changes in the scene.
-		//window->setFramerateLimit(60);			// Not really sure why...
-
 		glewExperimental = GL_TRUE;
 		glewInit();
 		glViewport(0, 0, window->getSize().x, window->getSize().y);
@@ -88,21 +85,6 @@ namespace flopse
 							running = false;
 						}
 						break;
-					case sf::Keyboard::Return:
-						if (event.key.alt)
-						{
-							/*if (fullscreen)
-							{
-								window->create(sf::VideoMode(1024, 768), "Garrison");
-								fullscreen = false;
-							}
-							else
-							{
-								window->create(sf::VideoMode::getDesktopMode(), "Garrison", sf::Style::Fullscreen);
-								fullscreen = true;
-							}*/
-						}
-						break;
 					default:
 						break;
 					}
@@ -138,12 +120,6 @@ namespace flopse
 
 				// Swap the buffers
 				window->display();
-
-				// Sleep if less than 1/60 second
-				/*if (elapsed.asSeconds() < (1.f / 60.f))
-				{
-				std::this_thread::sleep_for(std::chrono::milliseconds((long)(((1.f/60.f) - elapsed.asSeconds()) * 1000.f)));
-				}*/
 			}
 		}
 	}
@@ -382,35 +358,6 @@ namespace flopse
 				clock.restart();
 			}
 		}
-	}
-
-	void Game::toggleFullscreen()
-	{
-		/*if (fullscreen)
-		{
-			window->create(sf::VideoMode(1024, 768), "Garrison");
-
-			glewExperimental = GL_TRUE;
-			glewInit();
-			glViewport(0, 0, window->getSize().x, window->getSize().y);
-			glEnable(GL_DEPTH_TEST);
-			fullscreen = false;
-		}
-		else
-		{
-			window->create(sf::VideoMode::getDesktopMode(), "Garrison", sf::Style::Fullscreen);
-
-			glewExperimental = GL_TRUE;
-			glewInit();
-			glViewport(0, 0, window->getSize().x, window->getSize().y);
-			glEnable(GL_DEPTH_TEST);
-			fullscreen = true;
-		}*/
-	}
-
-	bool Game::isFullscreen()
-	{
-		return fullscreen;
 	}
 
 	void Game::setFieldOfView(float degrees)

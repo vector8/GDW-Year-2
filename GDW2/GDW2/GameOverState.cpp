@@ -73,7 +73,7 @@ namespace flopse
 		{
 			this->buttonSprite.setScale(SCALE_CONSTANT * xScale, SCALE_CONSTANT * yScale);
 			this->bgSprite->setScale(sf::Vector2f(xScale, yScale));
-			this->buttons.clear();	// TODO maybe not clear?
+			this->buttons.clear();	
 			this->createButtons();
 		}
 	}
@@ -162,21 +162,6 @@ namespace flopse
 
 	void GameOverState::mouseMoved(sf::Event::MouseMoveEvent e)
 	{
-		/*for (int i = 0; i < buttons.size(); i++)
-		{
-		if (e.x > buttons[i].pos.x && e.x < buttons[i].pos.x + (buttons[i].rect.width * buttonSprite.getSprite()->getScale().x) &&
-		e.y > buttons[i].pos.y && e.y < buttons[i].pos.y + (buttons[i].rect.height * buttonSprite.getSprite()->getScale().y))
-		{
-		if (buttons[i].state == ButtonState::Normal)
-		{
-		buttons[i].state = ButtonState::Hover;
-		}
-		}
-		else if (buttons[i].state == ButtonState::Hover)
-		{
-		buttons[i].state = ButtonState::Normal;
-		}
-		}*/
 	}
 
 	void GameOverState::scaleChanged()

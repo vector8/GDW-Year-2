@@ -9,8 +9,10 @@ out vec3 outColor;
 
 void main()
 {
+	// Sample the scene for the current fragment.
 	vec3 color = texture(scene, texCoord).rgb;
 
+	// Calculate the luminance of the sample.
 	float luminance = (color.r + color.g + color.b) / 3.0;
 
 	if(luminance > threshold)

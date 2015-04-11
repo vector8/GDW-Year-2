@@ -34,14 +34,6 @@ namespace flopse
 		int xOffset = 50 * buttonSprite.getSprite()->getScale().x;
 		SpriteFrame currentFrame;
 
-		/*UIElement keyMapping;
-		currentFrame = buttonSprite.getFrame("KeyMapping.png");
-		/*keyMapping.rect = currentFrame.rect;
-		keyMapping.name = currentFrame.name;
-		keyMapping.pos = sf::Vector2i(x, y);
-		staticElements.push_back(keyMapping);
-		y += currentFrame.rect.height * buttonSprite.getSprite()->getScale().y + yOffset;*/
-
 		UIElement volume;
 		currentFrame = buttonSprite.getFrame("MasterVolume.png");
 		volume.rect = currentFrame.rect;
@@ -65,42 +57,6 @@ namespace flopse
 		volumeSliderTab.name = currentFrame.name;
 		volumeSliderTab.pos = sf::Vector2i(x2 + ((volumeSlider.rect.width * SoundManager::getSoundManager()->getMasterVolume()) - (volumeSliderTab.rect.width / 2)) * buttonSprite.getSprite()->getScale().x, 
 			y2 + ((tempHeight / 2) - (currentFrame.rect.height / 2)) * buttonSprite.getSprite()->getScale().y);
-
-		/*Button fullscreen;
-		currentFrame = buttonSprite.getFrame("FullScreen.png");
-		fullscreen.rect = currentFrame.rect;
-		fullscreen.name = currentFrame.name;
-		fullscreen.pos = sf::Vector2i(x, y);
-		buttons.push_back(fullscreen);
-
-		tempY = y;
-		tempHeight = currentFrame.rect.height;
-		y += currentFrame.rect.height * buttonSprite.getSprite()->getScale().y + yOffset;
-
-		Button fullscreenOn;
-		currentFrame = buttonSprite.getFrame("FullScreenOn.png");
-		fullscreenOn.rect = currentFrame.rect;
-		fullscreenOn.name = currentFrame.name;
-		y2 = tempY + ((tempHeight / 2) - (currentFrame.rect.height / 2)) * buttonSprite.getSprite()->getScale().y;
-		fullscreenOn.pos = sf::Vector2i(x2, y2);
-		fullscreenOn.visible = Game::getGame()->isFullscreen();
-		buttons.push_back(fullscreenOn);
-
-		Button fullscreenOff;
-		currentFrame = buttonSprite.getFrame("FullScreenOff.png");
-		fullscreenOff.rect = currentFrame.rect;
-		fullscreenOff.name = currentFrame.name;
-		fullscreenOff.pos = sf::Vector2i(x2, y2);
-		fullscreenOff.visible = !Game::getGame()->isFullscreen();
-		buttons.push_back(fullscreenOff);*/
-
-		/*UIElement mouseSensitivity;
-		currentFrame = buttonSprite.getFrame("MouseSensitivity.png");
-		mouseSensitivity.rect = currentFrame.rect;
-		mouseSensitivity.name = currentFrame.name;
-		mouseSensitivity.pos = sf::Vector2i(x, y);
-		staticElements.push_back(mouseSensitivity);
-		y += currentFrame.rect.height * buttonSprite.getSprite()->getScale().y + yOffset;*/
 
 		UIElement fov;
 		currentFrame = buttonSprite.getFrame("FOV.png");
@@ -142,11 +98,7 @@ namespace flopse
 
 	void OptionsMenuState::buttonClicked(std::string name)
 	{
-		if (name == "KeyMapping.png")
-		{
-			// TODO have a keymapping state later..
-		}
-		else if (name == "backbutton.png")
+		if (name == "backbutton.png")
 		{
 			Game::getGame()->setMainMenuState();
 		}
@@ -163,7 +115,7 @@ namespace flopse
 		{
 			buttonSprite.setScale(SCALE_CONSTANT * ((float)window->getSize().x / 1920.f), SCALE_CONSTANT * ((float)window->getSize().y / 1080.f));
 			this->bgSprite->setScale(sf::Vector2f(xScale, yScale));
-			this->buttons.clear();	// TODO maybe not clear?
+			this->buttons.clear();	
 			this->staticElements.clear();
 			this->createButtons();
 		}

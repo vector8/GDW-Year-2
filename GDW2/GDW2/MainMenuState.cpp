@@ -170,7 +170,7 @@ namespace flopse
 		{
 			buttonSprite.setScale(SCALE_CONSTANT * ((float)window->getSize().x / 1920.f), SCALE_CONSTANT * ((float)window->getSize().y / 1080.f));
 			this->bgSprite->setScale(sf::Vector2f(xScale, yScale));
-			this->buttons.clear();	// TODO maybe not clear?
+			this->buttons.clear();	
 			this->createButtons();
 		}
 	}

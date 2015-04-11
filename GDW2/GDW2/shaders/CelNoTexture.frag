@@ -90,7 +90,6 @@ vec3 calculateDirectionalLight(DirectionalLight light, vec3 normal, vec3 viewDir
 	{
 		diffuse = 0.1 * diffuse;
 	}
-	//diffuse = round(diff * 5) / 5 * diffuse;
 
 	// Specular
 	vec3 reflectDir = reflect(-lightDir, normal);
@@ -156,5 +155,4 @@ vec3 calculatePointLight(PointLight light, vec3 normal, vec3 fragmentPos, vec3 v
 	}
 
 	return ambient + diffuse + specular;
-	//return vec3(0.0);
 }

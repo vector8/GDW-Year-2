@@ -6,12 +6,12 @@
 
 namespace flopse
 {
-	Transform::Transform() : pitch(0.f), yaw(0.f), translationMatrix(glm::mat4()), rotationMatrix(glm::mat4())//, scaleMatrix(glm::mat4())
+	Transform::Transform() : pitch(0.f), yaw(0.f), translationMatrix(glm::mat4()), rotationMatrix(glm::mat4())
 	{
 
 	}
 
-	Transform::Transform(const glm::vec3 &position) : pitch(0.f), yaw(0.f), translationMatrix(glm::mat4()), rotationMatrix(glm::mat4())//, scaleMatrix(glm::mat4())
+	Transform::Transform(const glm::vec3 &position) : pitch(0.f), yaw(0.f), translationMatrix(glm::mat4()), rotationMatrix(glm::mat4())
 	{
 		setPosition(position);
 	}
@@ -42,16 +42,9 @@ namespace flopse
 		rotationMatrix = temp * rotationMatrix;
 	}
 
-	/*void Transform::scale(const glm::vec3 &s)
-	{
-		glm::mat4 temp;
-		temp = glm::scale(temp, s);
-		scaleMatrix = temp * scaleMatrix;
-	}*/
-
 	glm::mat4 Transform::getTransformMatrix() const
 	{
-		return (translationMatrix * rotationMatrix);// *scaleMatrix;
+		return (translationMatrix * rotationMatrix);
 	}
 
 	glm::vec3 Transform::getFront() const
@@ -65,12 +58,6 @@ namespace flopse
 
 	glm::vec3 Transform::getUp() const
 	{
-		/*glm::vec4 up(0.f, 1.f, 0.f, 1.f);
-
-		up = rotationMatrix * up;
-
-		return glm::vec3(up.x, up.y, up.z);*/
-
 		return glm::vec3(0.f, 1.f, 0.f);
 	}
 
