@@ -23,6 +23,10 @@ namespace flopse
 		std::ifstream in(filename, std::ios::in);
 		std::string fullPath = "";
 
+		begin.push_back(0); //TODO: make these values no longer hardcoded
+		begin.push_back(1);
+		begin.push_back(2);
+
 		if (!in)
 		{
 			std::cout << "Cannot open " << filename << std::endl;
@@ -58,7 +62,7 @@ namespace flopse
 				glm::vec3 tempLocation = { stof(tokens[i][j]), 0.0f, stof(tokens[i][j+1]) };
 				for (int k = 0; k < collection.size(); k++)
 				{
-					if (tempLocation == collection[i]->location)
+					if (tempLocation.x == collection[k]->location.x && tempLocation.z == collection[k]->location.z)
 					{
 						collection[i]->neighbours.push_back(collection[k]);
 					}

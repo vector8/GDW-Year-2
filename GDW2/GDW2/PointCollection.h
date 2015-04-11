@@ -31,6 +31,8 @@ namespace flopse
 
 		glm::vec3 getPoint(float distance);
 
+		std::vector<int> begin;
+
 		void createCollection(const std::string &filename);
 
 		float getMaxDistance();
