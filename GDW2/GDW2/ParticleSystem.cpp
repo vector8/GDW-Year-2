@@ -98,86 +98,49 @@ namespace flopse
 
 	void ParticleSystem::updateLocalTransform(const sf::RenderWindow &window, const sf::Time &dt)
 	{
-		int numToSpawn = 0;
-		
-		//if (behaviour == ParticleSystemBehaviour::Emit)
-		//{
-			numToSpawn = rate;
+		int numToSpawn = rate;
 
-			// Generate new particles
-			while (numToSpawn > 0 && numCurrentParticles < maxParticles)
+		// Generate new particles
+		while (numToSpawn > 0 && numCurrentParticles < maxParticles)
+		{
+			particles.alphas[numCurrentParticles] = lerpAlpha.x;
+			particles.ages[numCurrentParticles] = 0.f;
+			particles.lifetimes[numCurrentParticles] = randomRangef(rangeLifetime.x, rangeLifetime.y);
+			particles.sizes[numCurrentParticles] = lerpSize.x;
+			particles.positions[numCurrentParticles] = glm::vec3(randomRangef(rangeX.x, rangeX.y), randomRangef(rangeY.x, rangeY.y), randomRangef(rangeZ.x, rangeZ.y));
+
+			// Send the particle in a random direction, with a velocity between our range.
+			particles.velocities[numCurrentParticles] = randomRangef(rangeVelocity.x, rangeVelocity.y) * glm::normalize(glm::vec3(randomRangef(-1.f, 1.f), randomRangef(-1.f, 1.f), randomRangef(-1.f, 1.f)));
+
+			numCurrentParticles++;
+			numToSpawn--;
+		}
+
+		// update existing particles
+		for (int i = 0; i < numCurrentParticles; i++)
+		{
+			particles.ages[i] += dt.asSeconds();
+
+			if (particles.ages[i] > particles.lifetimes[i])
 			{
-				particles.alphas[numCurrentParticles] = lerpAlpha.x;
-				particles.ages[numCurrentParticles] = 0.f;
-				particles.lifetimes[numCurrentParticles] = randomRangef(rangeLifetime.x, rangeLifetime.y);
-				particles.sizes[numCurrentParticles] = lerpSize.x;
-				particles.positions[numCurrentParticles] = glm::vec3(randomRangef(rangeX.x, rangeX.y), randomRangef(rangeY.x, rangeY.y), randomRangef(rangeZ.x, rangeZ.y));
+				// remove the particle by replacing it with the one at the top of the stack.
+				particles.alphas[i] = particles.alphas[numCurrentParticles - 1];
+				particles.ages[i] = particles.ages[numCurrentParticles - 1];
+				particles.lifetimes[i] = particles.lifetimes[numCurrentParticles - 1];
+				particles.sizes[i] = particles.sizes[numCurrentParticles - 1];
+				particles.positions[i] = particles.positions[numCurrentParticles - 1];
+				particles.velocities[i] = particles.velocities[numCurrentParticles - 1];
 
-				// Send the particle in a random direction, with a velocity between our range.
-				particles.velocities[numCurrentParticles] = randomRangef(rangeVelocity.x, rangeVelocity.y) * glm::normalize(glm::vec3(randomRangef(-1.f, 1.f), randomRangef(-1.f, 1.f), randomRangef(-1.f, 1.f)));
-
-				numCurrentParticles++;
-				numToSpawn--;
+				numCurrentParticles--;
 			}
 
-			// update existing particles
-			for (int i = 0; i < numCurrentParticles; i++)
-			{
-				particles.ages[i] += dt.asSeconds();
+			particles.positions[i] += particles.velocities[i] * dt.asSeconds();
 
-				if (particles.ages[i] > particles.lifetimes[i])
-				{
-					// remove the particle by replacing it with the one at the top of the stack.
-					particles.alphas[i] = particles.alphas[numCurrentParticles - 1];
-					particles.ages[i] = particles.ages[numCurrentParticles - 1];
-					particles.lifetimes[i] = particles.lifetimes[numCurrentParticles - 1];
-					particles.sizes[i] = particles.sizes[numCurrentParticles - 1];
-					particles.positions[i] = particles.positions[numCurrentParticles - 1];
-					particles.velocities[i] = particles.velocities[numCurrentParticles - 1];
+			float interp = particles.ages[i] / particles.lifetimes[i];
 
-					numCurrentParticles--;
-				}
-
-				particles.positions[i] += particles.velocities[i] * dt.asSeconds();
-
-				float interp = particles.ages[i] / particles.lifetimes[i];
-
-				particles.alphas[i] = lerp(interp, lerpAlpha.x, lerpAlpha.y);
-				particles.sizes[i] = lerp(interp, lerpSize.x, lerpSize.y);
-			}
-		//}
-		//else if (behaviour == ParticleSystemBehaviour::Swarm)
-		//{
-		//	numToSpawn = maxParticles;
-
-		//	// Generate new particles
-		//	while (numToSpawn > 0 && particles.size() < maxParticles)
-		//	{
-		//		Particle* p = new Particle();
-		//		p->position = glm::vec3(randomRangef(-1.f, 1.f) + this->position.x, randomRangef(-1.f, 1.f) + this->position.y, randomRangef(-1.f, 1.f) + this->position.z);
-		//		p->minSpeed = randomRangef(0.1f, 0.5f);
-		//		p->maxSpeed = randomRangef(3.f, 5.f);
-
-		//		particles.push_back(p);
-
-		//		numToSpawn--;
-		//	}
-
-		//	// update existing particles
-		//	for (std::vector<Particle*>::iterator it = particles.begin(); it != particles.end(); it++)
-		//	{
-		//		// create impulse force to cause the particle to move towards the centre of the swarm in a natural-looking way.
-		//		glm::vec3 direction;
-
-		//		direction = (position - (*it)->position) + glm::cross((*it)->velocity, position - (*it)->position);
-
-		//		//direction = glm::normalize(direction);
-
-		//		(*it)->impulseForces.push_back(direction);
-		//		
-		//		(*it)->update(dt);
-		//	}
-		//}
+			particles.alphas[i] = lerp(interp, lerpAlpha.x, lerpAlpha.y);
+			particles.sizes[i] = lerp(interp, lerpSize.x, lerpSize.y);
+		}
 
 		// Update OpenGL on the changes
 		glBindBuffer(GL_ARRAY_BUFFER, vboPosition);

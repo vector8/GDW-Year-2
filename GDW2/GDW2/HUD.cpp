@@ -51,10 +51,6 @@ namespace flopse
 		currentElement.name = currentFrame.name;
 		currentElement.pos = sf::Vector2i(window->getSize().x - 245, prevDimension + 280);
 		staticElements.push_back(currentElement);
-		/*UIElement enemyCountBG(3446, 962, 358, 85);
-		staticElements.push_back(enemyCountBG);
-		UIElement goldBG(3455, 1072, 356, 67);
-		staticElements.push_back(goldBG);*/
 		// Castle Icon
 		currentFrame = hudSprite.getFrame("CastleHealthIcon.png");
 		currentElement.rect = currentFrame.rect;
@@ -312,7 +308,6 @@ namespace flopse
 		}
 		else if (!lMouseButtonPressed && tutorialTimer > mouseButtonDelay)
 		{
-			// TODO have some elaborate code to detect if an enemy is nearby?
 			hudSprite.setToFrame(mouseButtonAnimation.frames[mouseButtonAnimation.frameIndex].first.name);
 			hudSprite.setPosition(mouseButtonAnimation.frames[mouseButtonAnimation.frameIndex].first.pos);
 			window->draw(*s);
@@ -390,9 +385,6 @@ namespace flopse
 			towerInfos[2].visible = false;
 			towerInfos[3].visible = true;
 			break;
-		//case sf::Keyboard::Num5:
-		//	currentTower = 4; //Barricade
-		//	break;
 		default:
 			break;
 		}
@@ -415,17 +407,6 @@ namespace flopse
 
 	void HUD::scaleChanged()
 	{
-		/*if (window->getSize().x <= window->getSize().y)
-		{
-			scale.x = 0.5f * (float)(window->getSize().x) / (float)(hudSprite.getSprite()->getTexture()->getSize().x);
-			scale.y = scale.x;
-		}
-		else
-		{
-			scale.y = 0.5f * (float)(window->getSize().y) / (float)(hudSprite.getSprite()->getTexture()->getSize().y);
-			scale.x = scale.y;
-		}*/
-
 		scale.x = 0.25f;
 		scale.y = 0.25f;
 

@@ -179,7 +179,6 @@
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="OptionsMenuState.cpp" />
     <ClCompile Include="Particle.cpp" />
-    <ClCompile Include="ParticleManager.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
     <ClCompile Include="Path.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -224,7 +223,6 @@
     <ClInclude Include="Node.h" />
     <ClInclude Include="OptionsMenuState.h" />
     <ClInclude Include="Particle.h" />
-    <ClInclude Include="ParticleManager.h" />
     <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="Path.h" />
     <ClInclude Include="Player.h" />
@@ -250,14 +248,13 @@
     <None Include="shaders\Animation.vert" />
     <None Include="shaders\bloom\BloomComposite.frag" />
     <None Include="shaders\bloom\BloomHighPass.frag" />
-    <None Include="shaders\bloom\BlurHorizontal.frag" />
-    <None Include="shaders\bloom\BlurVertical.frag" />
+    <None Include="shaders\blur\BlurHorizontal.frag" />
+    <None Include="shaders\blur\BlurVertical.frag" />
     <None Include="shaders\CelNoTexture.frag" />
     <None Include="shaders\CelShader.frag" />
     <None Include="shaders\DoNothing.frag" />
     <None Include="shaders\DrawFullScreenQuad.frag" />
     <None Include="shaders\EdgeOutliner.frag" />
-    <None Include="shaders\FogPost.frag" />
     <None Include="shaders\GrayscalePost.frag" />
     <None Include="shaders\particles\Billboard.frag" />
     <None Include="shaders\particles\Billboard.geom" />

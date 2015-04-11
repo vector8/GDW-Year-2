@@ -16,12 +16,13 @@ void main()
 
 	if(drawShadow)
 	{
-		// Shadow Map
+		// Determine if this fragment is in shadow.
 		vec4 shadowCoord = worldToShadowMap * vec4(Position, 1.0);
 		float shadowDepth = texture(shadowMapDepth, shadowCoord.xy).r;
 
 		if(shadowDepth < shadowCoord.z - 0.001)
 		{
+			// The fragment is in shadow.
 			result *= 0.5;
 		}
 	}

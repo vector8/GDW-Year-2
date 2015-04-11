@@ -63,7 +63,7 @@ namespace flopse
 		{
 			this->buttonSprite.setScale(SCALE_CONSTANT, SCALE_CONSTANT);
 			this->bgSprite->setScale(sf::Vector2f(xScale, yScale));
-			this->buttons.clear();	// TODO maybe not clear?
+			this->buttons.clear();	
 			this->createButtons();
 		}
 	}
